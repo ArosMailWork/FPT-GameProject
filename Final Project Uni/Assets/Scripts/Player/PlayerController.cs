@@ -1,0 +1,218 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Runtime.InteropServices.ComTypes;
+using Cysharp.Threading.Tasks;
+using Sirenix.OdinInspector;
+using UnityEngine;
+using UnityEngine.InputSystem;
+
+[Serializable]
+public enum PlayerState
+{
+    Idle, Running, Stunning, Rolling
+}
+
+public class PlayerController : MonoBehaviour
+{
+    #region Variables
+    
+    [FoldoutGroup("Stats")]
+    public bool isAlive = true;
+    [FoldoutGroup("Stats")]
+    public float speed, rotationSpeed;
+    [FoldoutGroup("Stats/Roll")]
+    public float rollSpeed, rollCD, rollTime;
+
+    
+    [FoldoutGroup("Debug/Setup")] 
+    public Rigidbody PlayerRB;
+    [FoldoutGroup("Debug/Setup")] 
+    public PlayerAnimController _playerAnimController;
+    [FoldoutGroup("Debug")] 
+    public PlayerState currentState;
+    [FoldoutGroup("Debug")] 
+    [SerializeField, ReadOnly] private Vector2 moveInput;
+    [FoldoutGroup("Debug")] 
+    [SerializeField, ReadOnly] private float currentAccel;
+    [FoldoutGroup("Debug/Roll")] 
+    [SerializeField, ReadOnly] private bool canRoll;
+    [FoldoutGroup("Debug/Roll")] 
+    [SerializeField, ReadOnly] private float currentRollCD;
+    [FoldoutGroup("Debug/Roll")] 
+    [SerializeField, ReadOnly] private Vector3 RollDirect;
+
+    #region Calculate
+
+    //Calculate
+    private Vector3 calculateMove;
+    private Vector3 cameraForward;
+    private Vector3 cameraRight;
+    private Vector3 moveDirection;
+
+    #endregion
+    
+    
+    #endregion
+    
+    #region Unity Methods
+    private void Awake()
+    {
+        PlayerRB = GetComponent<Rigidbody>();
+    }
+
+    private void FixedUpdate()
+    {
+        SpeedCheck();
+    }
+
+    private void Update()
+    {
+        UpdateRollCDTimer();
+        
+        Move(moveInput);
+        RollApply();
+    }
+
+    private void OnDrawGizmos()
+    {
+        
+    }
+
+    #endregion
+
+    #region Input
+    
+    void UpdateInput()
+    {
+        //do Update Input from here
+    }
+    
+    public void InputMove(InputAction.CallbackContext ctx)
+    {
+        if (!isAlive) return ;
+        moveInput = ctx.ReadValue<Vector2>();
+    }
+    
+    public void InputRoll(InputAction.CallbackContext ctx)
+    {
+        if (!isAlive) return ;
+        Roll();
+    }
+    
+    #endregion
+
+    #region Movement
+    
+    public void Move(Vector2 input)
+    {
+        if (currentState == PlayerState.Stunning || currentState == PlayerState.Rolling) return;
+        
+        // Calculate camera forward direction
+        cameraForward = Camera.main.transform.forward.normalized;
+        cameraRight = Camera.main.transform.right.normalized;
+        
+        // Calculate the move direction based on input and camera orientation
+        moveDirection = (cameraRight * input.x + cameraForward * input.y).normalized;
+        moveDirection.y = 0;
+        
+        // Debugging: Draw a ray in the direction of movement
+        //Debug.DrawRay(PlayerRB.transform.position, moveDirection, Color.blue, 0.2f);
+        
+        // Move the Rigidbody
+        if (currentState != PlayerState.Rolling)
+            //PlayerRB.AddForce(moveDirection * speed, ForceMode.Acceleration);
+            PlayerRB.AddForce(moveDirection * speed, ForceMode.VelocityChange);
+        
+        RotatePlayer(moveDirection);
+    }
+
+    //do Roll, call by input
+    public void Roll()
+    {
+        if(currentState == PlayerState.Rolling) return;
+        doRollingMove(moveInput);
+    }
+
+    void RotatePlayer(Vector3 moveDirection)
+    {
+        if(moveDirection == Vector3.zero) return;
+        Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
+        PlayerRB.rotation = Quaternion.Slerp(PlayerRB.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+    }
+
+    #endregion
+
+    #region Stats
+
+    public void Hurt()
+    {
+        Debug.Log("Player: ouch");
+    }
+    
+    //TEST
+    public void ReceiveKnockback(DataPack dp)
+    {
+        Debug.Log("Player: KNOCK dp test");
+    }
+
+    #endregion
+
+    #region Calculate
+
+    void UpdateRollCDTimer()
+    {
+        if (currentRollCD > 0)
+            currentRollCD -= Time.deltaTime;
+        else
+            canRoll = true;
+    }
+    void AddRollCD(float time)
+    {
+        currentRollCD += time;
+    }
+
+    public async UniTaskVoid doRollingMove(Vector2 input)
+    {
+        //prevent spam in the middle
+        if(!canRoll) return;
+        
+        //add CD
+        AddRollCD(rollCD + rollTime);
+        canRoll = false; //just want to save calculate so I place here, hehe
+
+        //this lead to the Roll Apply do non-stop
+        currentState = PlayerState.Rolling; 
+        
+        Debug.DrawRay(PlayerRB.transform.position, moveDirection, Color.blue, 0.2f);
+
+        //roll done ? okay cool
+        await UniTask.Delay(TimeSpan.FromSeconds(rollTime));
+        currentState = PlayerState.Idle;
+        //Might add some event here to activate particle or anything
+    }
+
+    void RollApply()
+    {
+        if (currentState == PlayerState.Rolling)
+        {
+            //implement Roll Logic here
+            RollDirect.x = moveDirection.x;
+            RollDirect.z = moveDirection.z;
+            PlayerRB.velocity = RollDirect.normalized * rollSpeed;
+            //PlayerRB.AddForce(RollDirect * rollSpeed, ForceMode.Acceleration);
+            //PlayerRB.AddForce(RollDirect * rollSpeed, ForceMode.VelocityChange);
+        }
+    }
+
+    #endregion
+
+    #region Debug
+
+    void SpeedCheck()
+    {
+        currentAccel = PlayerRB.velocity.magnitude;
+    }
+
+    #endregion
+}
