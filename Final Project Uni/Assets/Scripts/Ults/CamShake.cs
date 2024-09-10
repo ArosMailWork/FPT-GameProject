@@ -8,7 +8,7 @@ using UnityEngine;
 public class CamShake : MonoBehaviour
 {
     #region Variables
-    public bool camShakeAcive = true; //on or off
+    public bool camShakeActive = true; //on or off
     public bool Shaking; //on or off
     [Range(0, 1)]
     [SerializeField] float trauma;
@@ -17,7 +17,7 @@ public class CamShake : MonoBehaviour
     [SerializeField] float traumaRotMag = 17f; //the rotational power
     [SerializeField] float traumaDepthMag = 0.6f; //the depth multiplier
     [SerializeField] float traumaDecay = 1.3f; //how quickly the shake falls off
-    [SerializeField] float extraAdd = 0f; //extra when stack
+    //[SerializeField] float extraAdd = 0f; //extra when stack
 
     float timeCounter = 0; //counter stored for smooth transition
     public static CamShake Instance { get; private set; }
@@ -62,7 +62,7 @@ public class CamShake : MonoBehaviour
 
     private void Update()
     {
-        if (camShakeAcive && Trauma > 0)
+        if (camShakeActive && Trauma > 0)
         {
             //increase the time counter (how fast the position changes) based off the traumaMult and some root of the Trauma
             timeCounter += Time.deltaTime * Mathf.Pow(Trauma, 0.3f) * traumaMult;
