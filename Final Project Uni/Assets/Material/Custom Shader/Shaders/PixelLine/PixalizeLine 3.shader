@@ -153,7 +153,7 @@ Shader "Custom/EnhancedPixelizeShader"
 		    if (edgeDepth > 0.0)
 		        finalColor = lerp(finalColor, _Color, edgeDepth * 1.5);
 		    else
-			    finalColor = lerp(finalColor, _NormalColor, normal_diff * 0.4);
+			    finalColor = lerp(finalColor, _NormalColor, normal_diff * 0.2);
 
 		    return finalColor;
 		}
