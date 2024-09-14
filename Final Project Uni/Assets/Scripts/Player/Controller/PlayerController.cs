@@ -16,7 +16,7 @@ public enum PlayerState
 public class PlayerController : MonoBehaviour
 {
     #region Variables
-    
+
     [FoldoutGroup("Stats")]
     public bool isAlive = true;
     [FoldoutGroup("Stats")]
@@ -24,23 +24,23 @@ public class PlayerController : MonoBehaviour
     [FoldoutGroup("Stats/Roll")]
     public float rollSpeed, rollCD, rollTime;
 
-    
-    [FoldoutGroup("Debug")] 
+
+    [FoldoutGroup("Debug")]
     public PlayerState currentState;
-    [FoldoutGroup("Debug")] 
+    [FoldoutGroup("Debug")]
     [ReadOnly] public Vector2 moveInput;
-    [FoldoutGroup("Debug")] 
+    [FoldoutGroup("Debug")]
     [SerializeField, ReadOnly] private float currentAccel;
-    [FoldoutGroup("Debug/Roll")] 
+    [FoldoutGroup("Debug/Roll")]
     [SerializeField, ReadOnly] private bool canRoll;
-    [FoldoutGroup("Debug/Roll")] 
+    [FoldoutGroup("Debug/Roll")]
     [SerializeField, ReadOnly] private float currentRollCD;
-    [FoldoutGroup("Debug/Roll")] 
+    [FoldoutGroup("Debug/Roll")]
     [SerializeField, ReadOnly] private Vector3 RollDirect;
-    
-    [FoldoutGroup("Setup")] 
+
+    [FoldoutGroup("Setup")]
     public Rigidbody PlayerRB;
-    [FoldoutGroup("Setup")] 
+    [FoldoutGroup("Setup")]
     public PlayerAnimController _playerAnimController;
 
     #region Calculate
@@ -52,13 +52,14 @@ public class PlayerController : MonoBehaviour
     private Vector3 cameraForward;
     private Vector3 cameraRight;
     private Vector3 moveDirection;
+    private StaminaSystem staminaSystem;
 
     #endregion
-    
+
     #endregion
-    
-    
-    
+
+
+
     #region Unity Methods
     private void Awake()
     {
@@ -66,74 +67,78 @@ public class PlayerController : MonoBehaviour
 
         if (Instance != this || Instance != null) Destroy(Instance);
         Instance = this;
-        
+        staminaSystem = new StaminaSystem(100, 10);
     }
 
     private void FixedUpdate()
     {
         SpeedCheck();
+        staminaSystem.RegenerateStamina();
     }
 
     private void Update()
     {
         UpdateRollCDTimer();
-        
+
         Move(moveInput);
         RollApply();
     }
 
     private void OnDrawGizmos()
     {
-        
+
     }
 
     #endregion
 
     #region Input
-    
+
     void UpdateInput()
     {
         //do Update Input from here
     }
-    
+
     public void InputMove(InputAction.CallbackContext ctx)
     {
-        if (!isAlive) return ;
+        if (!isAlive) return;
         moveInput = ctx.ReadValue<Vector2>();
     }
-    
+
     public void InputRoll(InputAction.CallbackContext ctx)
     {
-        if (!isAlive) return ;
-        Roll();
+        if (!isAlive) return;
+        if (staminaSystem.ConsumeStamina(PlayerAction.Roll))
+        {
+            Roll();
+        }
     }
-    
+
     #endregion
 
     #region Movement
-    
+
     public void Move(Vector2 input)
     {
-        if (currentState == PlayerState.Stunning || 
+        if (currentState == PlayerState.Stunning ||
             currentState == PlayerState.Rolling ||
             currentState == PlayerState.Recalling) return;
-        
+
         // Calculate camera forward direction
         cameraForward = Camera.main.transform.forward.normalized;
         cameraRight = Camera.main.transform.right.normalized;
-        
+
         // Calculate the move direction based on input and camera orientation
         moveDirection = (cameraRight * input.x + cameraForward * input.y).normalized;
         moveDirection.y = 0;
-        
+
         // Debugging: Draw a ray in the direction of movement
         //Debug.DrawRay(PlayerRB.transform.position, moveDirection, Color.blue, 0.2f);
-        
+
         // Move the Rigidbody
         if (currentState != PlayerState.Rolling)
             //PlayerRB.AddForce(moveDirection * speed, ForceMode.Acceleration);
             PlayerRB.AddForce(moveDirection * speed, ForceMode.VelocityChange);
-        
+
         RotatePlayer(moveDirection);
 
         LimitSpeed();
@@ -142,13 +147,13 @@ public class PlayerController : MonoBehaviour
     //do Roll, call by input
     public void Roll()
     {
-        if(currentState == PlayerState.Rolling) return;
+        if (currentState == PlayerState.Rolling) return;
         doRollingMove(moveInput);
     }
 
     void RotatePlayer(Vector3 moveDirection)
     {
-        if(moveDirection == Vector3.zero) return;
+        if (moveDirection == Vector3.zero) return;
         Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
         PlayerRB.rotation = Quaternion.Slerp(PlayerRB.rotation, targetRotation, rotationSpeed * Time.deltaTime);
     }
@@ -161,7 +166,7 @@ public class PlayerController : MonoBehaviour
     {
         Debug.Log("Player: ouch");
     }
-    
+
     //TEST
     public void ReceiveKnockback(DataPack dp)
     {
@@ -187,15 +192,15 @@ public class PlayerController : MonoBehaviour
     public async UniTaskVoid doRollingMove(Vector2 input)
     {
         //prevent spam in the middle
-        if(!canRoll) return;
-        
+        if (!canRoll) return;
+
         //add CD
         AddRollCD(rollCD + rollTime);
         canRoll = false; //just want to save calculate so I place here, hehe
 
         //this lead to the Roll Apply do non-stop
-        currentState = PlayerState.Rolling; 
-        
+        currentState = PlayerState.Rolling;
+
         Debug.DrawRay(PlayerRB.transform.position, moveDirection, Color.blue, 0.2f);
 
         //roll done ? okay cool
