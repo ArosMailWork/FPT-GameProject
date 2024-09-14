@@ -18,7 +18,7 @@ public class Arrow : MonoBehaviour
     [FoldoutGroup("Stats")]
     public Vector3 AccelDirect;
     [FoldoutGroup("Stats")]
-    public float lifeTime, recallSpeed, recallRotTime = 0.1f, MaxSpeed;
+    public float lifeTime, recallSpeed, rotSpeed = 10, MaxSpeed;
     [FoldoutGroup("Stats/Hover")]
     public float hoverSpeed = 2.0f;
     
@@ -59,6 +59,13 @@ public class Arrow : MonoBehaviour
         {
             currentHoverHeight = 0;
         }
+        
+        // Rotate the arrow to point in the direction of its velocity
+        if (arrowRb.velocity.magnitude > 0)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(arrowRb.velocity.normalized);
+            arrowRb.rotation = Quaternion.Slerp(arrowRb.rotation, targetRotation, Time.deltaTime * rotSpeed); // Adjust the speed of rotation here
+        }
     }
 
     #endregion
@@ -79,27 +86,9 @@ public class Arrow : MonoBehaviour
     public void Recall()
     {
         RecallDirect = _playerController.transform.position - transform.position;
-        StartCoroutine(RotateArrowCoroutine(RecallDirect));
         DragArrow();
     }
     
-    private IEnumerator RotateArrowCoroutine(Vector3 moveDirection)
-    {
-        // Calculate the target rotation based only on the Y and Z axes
-        Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
-        // Preserve the current X rotation
-        targetRotation = Quaternion.Euler(0, targetRotation.eulerAngles.y, 0);
-        float elapsedTime = 0f;
-        Quaternion initialRotation = arrowRb.rotation;
-        while (elapsedTime < recallRotTime)
-        {
-            elapsedTime += Time.deltaTime;
-            arrowRb.rotation = Quaternion.Slerp(initialRotation, targetRotation, elapsedTime / recallRotTime);
-            yield return null; // Wait until the next frame
-        }
-        // Ensure the final rotation is set to the target rotation
-        arrowRb.rotation = targetRotation;
-    }
     void DragArrow()
     {
         arrowRb.AddForce(RecallDirect.normalized * recallSpeed, ForceMode.Acceleration);
