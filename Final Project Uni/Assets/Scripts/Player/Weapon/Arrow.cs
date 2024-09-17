@@ -91,7 +91,7 @@ public class Arrow : MonoBehaviour
     
     void DragArrow()
     {
-        arrowRb.AddForce(RecallDirect.normalized * recallSpeed, ForceMode.Acceleration);
+        arrowRb.AddForce(RecallDirect.normalized * (recallSpeed * Time.fixedDeltaTime * 240), ForceMode.Acceleration);
         LimitSpeed();
     }
     

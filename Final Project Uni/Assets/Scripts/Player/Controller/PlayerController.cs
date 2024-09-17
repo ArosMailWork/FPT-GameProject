@@ -28,7 +28,7 @@ public class PlayerController : MonoBehaviour
     [FoldoutGroup("Debug")]
     public PlayerState currentState;
     [FoldoutGroup("Debug")]
-    [ReadOnly] public Vector2 moveInput;
+    [ReadOnly] public Vector2 moveInput, moveBuffer;
     [FoldoutGroup("Debug")]
     [SerializeField, ReadOnly] private float currentAccel;
     [FoldoutGroup("Debug/Roll")]
@@ -52,7 +52,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 cameraForward;
     private Vector3 cameraRight;
     private Vector3 moveDirection;
-    private StaminaSystem staminaSystem;
+    //private StaminaSystem staminaSystem;
 
     #endregion
 
@@ -67,13 +67,13 @@ public class PlayerController : MonoBehaviour
 
         if (Instance != this || Instance != null) Destroy(Instance);
         Instance = this;
-        staminaSystem = new StaminaSystem(100, 10);
+        //staminaSystem = new StaminaSystem(100, 10);
     }
 
     private void FixedUpdate()
     {
         SpeedCheck();
-        staminaSystem.RegenerateStamina();
+        //staminaSystem.RegenerateStamina();
     }
 
     private void Update()
@@ -93,24 +93,18 @@ public class PlayerController : MonoBehaviour
 
     #region Input
 
-    void UpdateInput()
-    {
-        //do Update Input from here
-    }
-
     public void InputMove(InputAction.CallbackContext ctx)
     {
         if (!isAlive) return;
         moveInput = ctx.ReadValue<Vector2>();
+
+        if (moveInput != Vector2.zero && moveInput != moveBuffer) moveBuffer = moveInput;
     }
 
     public void InputRoll(InputAction.CallbackContext ctx)
     {
         if (!isAlive) return;
-        if (staminaSystem.ConsumeStamina(PlayerAction.Roll))
-        {
-            Roll();
-        }
+        Roll();
     }
 
     #endregion
@@ -137,7 +131,7 @@ public class PlayerController : MonoBehaviour
         // Move the Rigidbody
         if (currentState != PlayerState.Rolling)
             //PlayerRB.AddForce(moveDirection * speed, ForceMode.Acceleration);
-            PlayerRB.AddForce(moveDirection * speed, ForceMode.VelocityChange);
+            PlayerRB.AddForce(moveDirection * (Time.deltaTime * 240 * speed), ForceMode.VelocityChange);
 
         RotatePlayer(moveDirection);
 
@@ -147,8 +141,9 @@ public class PlayerController : MonoBehaviour
     //do Roll, call by input
     public void Roll()
     {
-        if (currentState == PlayerState.Rolling) return;
-        doRollingMove(moveInput);
+        if (currentState == PlayerState.Rolling || moveBuffer == Vector2.zero) return;
+        //if (!staminaSystem.CheckEnoughStamina) return;
+        doRollingMove(moveBuffer);
     }
 
     void RotatePlayer(Vector3 moveDirection)
@@ -200,8 +195,8 @@ public class PlayerController : MonoBehaviour
 
         //this lead to the Roll Apply do non-stop
         currentState = PlayerState.Rolling;
-
         Debug.DrawRay(PlayerRB.transform.position, moveDirection, Color.blue, 0.2f);
+        //consume Stamina here
 
         //roll done ? okay cool
         await UniTask.Delay(TimeSpan.FromSeconds(rollTime));
@@ -216,7 +211,7 @@ public class PlayerController : MonoBehaviour
             //implement Roll Logic here
             RollDirect.x = moveDirection.x;
             RollDirect.z = moveDirection.z;
-            PlayerRB.velocity = RollDirect.normalized * rollSpeed;
+            PlayerRB.velocity = RollDirect.normalized * (rollSpeed * Time.fixedDeltaTime * 240);
         }
     }
 
