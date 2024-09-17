@@ -134,6 +134,8 @@ public class PlayerController : MonoBehaviour
             PlayerRB.AddForce(moveDirection * (Time.deltaTime * 240 * speed), ForceMode.VelocityChange);
 
         RotatePlayer(moveDirection);
+        
+        _playerAnimController.UpdateRunInput(moveInput); //test
 
         LimitSpeed();
     }

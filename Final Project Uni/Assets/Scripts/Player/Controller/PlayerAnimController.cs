@@ -10,13 +10,14 @@ public class PlayerAnimController : MonoBehaviour
 
     private void Awake()
     {
-        playerAnimator = GetComponent<Animator>();
+        playerAnimator = GetComponentInChildren<Animator>();
     }
 
     public void UpdateRunInput(Vector2 moveVec)
     {
         playerAnimator.SetFloat("Move_X", moveVec.x);
         playerAnimator.SetFloat("Move_Y", moveVec.y);
+        playerAnimator.SetBool("RunTest", (moveVec != Vector2.zero)); // test
     }
 
     public async UniTaskVoid DebuffStun(float time)
