@@ -52,7 +52,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 calculateMove;
     private Vector3 cameraForward;
     private Vector3 cameraRight;
-    private Vector3 moveDirection;
+    public Vector3 moveDirection;
     public StaminaSystem staminaSystem;
 
     public UltimateJoystick JoystickPA;

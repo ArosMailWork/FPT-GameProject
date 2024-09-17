@@ -8,36 +8,28 @@ using UnityEngine.Events;
 [Serializable]
 public enum ArrowState
 {
-    Idle, Shooting, Recalling
+    Idle,
+    Shooting,
+    Recalling
 }
 
 public class Arrow : MonoBehaviour
 {
     public ArrowState currentArrowState;
 
-    [FoldoutGroup("Stats")]
-    public Vector3 AccelDirect;
-    [FoldoutGroup("Stats")]
-    public float lifeTime, recallSpeed, rotSpeed = 10, MaxSpeed;
-    [FoldoutGroup("Stats/Hover")]
-    public float hoverSpeed = 2.0f;
-    
-    [FoldoutGroup("Debug")]
-    [ReadOnly] public float currentLifeTime;
-    [FoldoutGroup("Debug")]
-    public Vector3 RecallDirect;
-    [FoldoutGroup("Debug/Hover")]
-    public float currentHoverHeight; 
+    [FoldoutGroup("Stats")] public Vector3 AccelDirect;
+    [FoldoutGroup("Stats")] public float lifeTime, recallSpeed, rotSpeed = 10, MaxSpeed;
+    [FoldoutGroup("Stats/Hover")] public float hoverSpeed = 2.0f;
 
-    [FoldoutGroup("Setup")] 
-    public Rigidbody arrowRb;
-    [FoldoutGroup("Setup")] 
-    [ReadOnly] public ArrowController _arrowController;
-    [FoldoutGroup("Setup")] 
-    [ReadOnly] public PlayerController _playerController;
-    [FoldoutGroup("Setup/Events")]
-    public UnityEvent StartRecallEvent, StopRecallEvent, FinishRecallEvent;
-    
+    [FoldoutGroup("Debug")] [ReadOnly] public float currentLifeTime;
+    [FoldoutGroup("Debug")] public Vector3 RecallDirect;
+    [FoldoutGroup("Debug/Hover")] public float currentHoverHeight;
+
+    [FoldoutGroup("Setup")] public Rigidbody arrowRb;
+    [FoldoutGroup("Setup")] [ReadOnly] public ArrowController _arrowController;
+    [FoldoutGroup("Setup")] [ReadOnly] public PlayerController _playerController;
+    [FoldoutGroup("Setup/Events")] public UnityEvent StartRecallEvent, StopRecallEvent, FinishRecallEvent;
+
 
     #region Unity Methods
 
@@ -59,48 +51,62 @@ public class Arrow : MonoBehaviour
         {
             currentHoverHeight = 0;
         }
+
         //todo: maybe do shoot for windows input
-        
+        // if (currentArrowState == ArrowState.Shooting)
+        // {
+        //     Shoot(_arrowController.shootDirection);
+        // }
+  
         // Rotate the arrow to point in the direction of its velocity
         if (arrowRb.velocity.magnitude > 0)
         {
             Quaternion targetRotation = Quaternion.LookRotation(arrowRb.velocity.normalized);
-            arrowRb.rotation = Quaternion.Slerp(arrowRb.rotation, targetRotation, Time.deltaTime * rotSpeed); // Adjust the speed of rotation here
+            arrowRb.rotation =
+                Quaternion.Slerp(arrowRb.rotation, targetRotation,
+                    Time.deltaTime * rotSpeed); // Adjust the speed of rotation here
         }
     }
 
     #endregion
+
     public void AssignController()
     {
         _arrowController = ArrowController.Instance;
         _playerController = PlayerController.Instance;
     }
-    
 
+    [Button]
     public void Shoot(Vector3 inputDirect)
     {
         AccelDirect = inputDirect;
         currentArrowState = ArrowState.Shooting;
-        arrowRb.AddForce(AccelDirect, ForceMode.Acceleration);
+        arrowRb.AddForce(_playerController.moveDirection * _arrowController.ShootForce, ForceMode.Impulse);
+    }
+    
+    public float force = 10;
+    [Button]
+    public void AddForce()
+    {
+        arrowRb.AddForce(transform.up*force, ForceMode.Impulse);
     }
 
     #region Recalling
-    
+
     public void Recall()
     {
         RecallDirect = _playerController.transform.position - transform.position;
         DragArrow();
     }
-    
+
     void DragArrow()
     {
         arrowRb.AddForce(RecallDirect.normalized * recallSpeed, ForceMode.Acceleration);
         LimitSpeed();
     }
-    
-    
+
     #endregion
-    
+
     void LimitSpeed()
     {
         Mathf.Clamp(arrowRb.velocity.magnitude, 0, MaxSpeed);

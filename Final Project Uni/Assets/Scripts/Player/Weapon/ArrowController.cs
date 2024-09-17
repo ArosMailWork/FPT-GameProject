@@ -74,7 +74,7 @@ public class ArrowController : MonoBehaviour
     #endregion
 
     #region Shoot
-
+   
     void UpdateCharging()
     {
         //check to charge, if release charge input 
@@ -97,7 +97,7 @@ public class ArrowController : MonoBehaviour
     }
 
     [Button]
-    public async void Shoot()
+    public void Shoot()
     {
         Debug.Log("reset Time");
         haveArrow = false;
@@ -105,8 +105,10 @@ public class ArrowController : MonoBehaviour
 
         foreach (var arrow in arrowsList)
         {
-            arrow.Shoot(shootDirection);
-            await UniTask.Delay(TimeSpan.FromSeconds(0.1f));
+            print("Shoot");
+            arrow.Shoot(_playerController.moveDirection);
+            print($"arrow: {arrow} and force: {ShootForce} and direction: {_playerController.moveDirection}");
+           // await UniTask.Delay(TimeSpan.FromSeconds(0.1f));
         }
         //spawn prefab then add to list
     }
