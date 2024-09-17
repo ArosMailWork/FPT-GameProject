@@ -1,3 +1,4 @@
+using PA;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -30,12 +31,14 @@ public class GameManager : MonoBehaviour
         // LoadPlayerData();
         // SetupAudio();
         // InitializeUI();
+        UIManager.Instance.ShowSystemUI();
+        PlayerUI.Instance.HidePlayerUI();
     }
 
     public void StartNewGame()
     {
-        // Logic for starting a new game
-        //SceneManager.LoadScene("MainGameScene");
+        UIManager.Instance.HideSystemUI();
+        PlayerUI.Instance.ShowPlayerUI();
     }
 
     public void LoadGame()

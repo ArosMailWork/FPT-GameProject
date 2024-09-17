@@ -10,38 +10,39 @@ using UnityEngine.InputSystem;
 [Serializable]
 public enum PlayerState
 {
-    Idle, Running, Recalling, Stunning, Rolling
+    Idle,
+    Running,
+    Recalling,
+    Stunning,
+    Rolling
 }
 
 public class PlayerController : MonoBehaviour
 {
     #region Variables
 
-    [FoldoutGroup("Stats")]
-    public bool isAlive = true;
-    [FoldoutGroup("Stats")]
-    public float speed, rotationSpeed, MaxSpeed = 20;
-    [FoldoutGroup("Stats/Roll")]
-    public float rollSpeed, rollCD, rollTime;
+    [FoldoutGroup("Stats")] public bool isAlive = true;
+    [FoldoutGroup("Stats")] public float speed, rotationSpeed, MaxSpeed = 20;
+    [FoldoutGroup("Stats/Roll")] public float rollSpeed, rollCD, rollTime;
 
 
-    [FoldoutGroup("Debug")]
-    public PlayerState currentState;
-    [FoldoutGroup("Debug")]
-    [ReadOnly] public Vector2 moveInput;
-    [FoldoutGroup("Debug")]
-    [SerializeField, ReadOnly] private float currentAccel;
-    [FoldoutGroup("Debug/Roll")]
-    [SerializeField, ReadOnly] private bool canRoll;
-    [FoldoutGroup("Debug/Roll")]
-    [SerializeField, ReadOnly] private float currentRollCD;
-    [FoldoutGroup("Debug/Roll")]
-    [SerializeField, ReadOnly] private Vector3 RollDirect;
+    [FoldoutGroup("Debug")] public PlayerState currentState;
+    [FoldoutGroup("Debug")] [ReadOnly] public Vector2 moveInput, moveBuffer;
 
-    [FoldoutGroup("Setup")]
-    public Rigidbody PlayerRB;
-    [FoldoutGroup("Setup")]
-    public PlayerAnimController _playerAnimController;
+    [FoldoutGroup("Debug")] [SerializeField, ReadOnly]
+    private float currentAccel;
+
+    [FoldoutGroup("Debug/Roll")] [SerializeField, ReadOnly]
+    private bool canRoll;
+
+    [FoldoutGroup("Debug/Roll")] [SerializeField, ReadOnly]
+    private float currentRollCD;
+
+    [FoldoutGroup("Debug/Roll")] [SerializeField, ReadOnly]
+    private Vector3 RollDirect;
+
+    [FoldoutGroup("Setup")] public Rigidbody PlayerRB;
+    [FoldoutGroup("Setup")] public PlayerAnimController _playerAnimController;
 
     #region Calculate
 
@@ -52,15 +53,19 @@ public class PlayerController : MonoBehaviour
     private Vector3 cameraForward;
     private Vector3 cameraRight;
     private Vector3 moveDirection;
-    private StaminaSystem staminaSystem;
+    public StaminaSystem staminaSystem;
+
+    public UltimateJoystick JoystickPA;
+    public Vector3 joyStickInput;
+    public bool isJoystickInput;
 
     #endregion
 
     #endregion
-
 
 
     #region Unity Methods
+
     private void Awake()
     {
         PlayerRB = GetComponent<Rigidbody>();
@@ -79,38 +84,39 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         UpdateRollCDTimer();
-
+        JoyStickInput();
         Move(moveInput);
         RollApply();
     }
 
     private void OnDrawGizmos()
     {
-
     }
 
     #endregion
 
     #region Input
 
-    void UpdateInput()
-    {
-        //do Update Input from here
-    }
-
     public void InputMove(InputAction.CallbackContext ctx)
     {
         if (!isAlive) return;
         moveInput = ctx.ReadValue<Vector2>();
+
+        if (moveInput != Vector2.zero && moveInput != moveBuffer) moveBuffer = moveInput;
     }
 
     public void InputRoll(InputAction.CallbackContext ctx)
     {
         if (!isAlive) return;
-        if (staminaSystem.ConsumeStamina(PlayerAction.Roll))
-        {
-            Roll();
-        }
+        Roll();
+    }
+
+    void JoyStickInput()
+    {
+        float horizontal = JoystickPA.GetHorizontalAxis();
+        float vertical = JoystickPA.GetVerticalAxis();
+        joyStickInput.x = -horizontal;
+        joyStickInput.z = -vertical;
     }
 
     #endregion
@@ -128,16 +134,15 @@ public class PlayerController : MonoBehaviour
         cameraRight = Camera.main.transform.right.normalized;
 
         // Calculate the move direction based on input and camera orientation
-        moveDirection = (cameraRight * input.x + cameraForward * input.y).normalized;
+        moveDirection = isJoystickInput ? joyStickInput :(cameraRight * input.x + cameraForward * input.y).normalized;
         moveDirection.y = 0;
-
-        // Debugging: Draw a ray in the direction of movement
-        //Debug.DrawRay(PlayerRB.transform.position, moveDirection, Color.blue, 0.2f);
 
         // Move the Rigidbody
         if (currentState != PlayerState.Rolling)
-            //PlayerRB.AddForce(moveDirection * speed, ForceMode.Acceleration);
-            PlayerRB.AddForce(moveDirection * speed, ForceMode.VelocityChange);
+        {
+            var force = (isJoystickInput ? joyStickInput : moveDirection) * 120 * speed * Time.deltaTime;
+            PlayerRB.AddForce(force, ForceMode.VelocityChange);
+        }
 
         RotatePlayer(moveDirection);
 
@@ -147,8 +152,9 @@ public class PlayerController : MonoBehaviour
     //do Roll, call by input
     public void Roll()
     {
-        if (currentState == PlayerState.Rolling) return;
-        doRollingMove(moveInput);
+        if (currentState == PlayerState.Rolling || moveBuffer == Vector2.zero) return;
+        //if (!staminaSystem.CheckEnoughStamina) return;
+        doRollingMove(moveBuffer);
     }
 
     void RotatePlayer(Vector3 moveDirection)
@@ -184,6 +190,7 @@ public class PlayerController : MonoBehaviour
         else
             canRoll = true;
     }
+
     void AddRollCD(float time)
     {
         currentRollCD += time;
@@ -200,8 +207,8 @@ public class PlayerController : MonoBehaviour
 
         //this lead to the Roll Apply do non-stop
         currentState = PlayerState.Rolling;
-
         Debug.DrawRay(PlayerRB.transform.position, moveDirection, Color.blue, 0.2f);
+        //consume Stamina here
 
         //roll done ? okay cool
         await UniTask.Delay(TimeSpan.FromSeconds(rollTime));
@@ -216,7 +223,7 @@ public class PlayerController : MonoBehaviour
             //implement Roll Logic here
             RollDirect.x = moveDirection.x;
             RollDirect.z = moveDirection.z;
-            PlayerRB.velocity = RollDirect.normalized * rollSpeed;
+            PlayerRB.velocity = RollDirect.normalized * (rollSpeed * Time.fixedDeltaTime * 240);
         }
     }
 
@@ -237,4 +244,13 @@ public class PlayerController : MonoBehaviour
     }
 
     #endregion
+
+    public void Shoot()
+    {
+    }
+
+    public void MeleeAttack()
+    {
+        
+    }
 }

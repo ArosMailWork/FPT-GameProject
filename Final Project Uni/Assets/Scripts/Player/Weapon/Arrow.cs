@@ -59,6 +59,7 @@ public class Arrow : MonoBehaviour
         {
             currentHoverHeight = 0;
         }
+        //todo: maybe do shoot for windows input
         
         // Rotate the arrow to point in the direction of its velocity
         if (arrowRb.velocity.magnitude > 0)
@@ -79,6 +80,8 @@ public class Arrow : MonoBehaviour
     public void Shoot(Vector3 inputDirect)
     {
         AccelDirect = inputDirect;
+        currentArrowState = ArrowState.Shooting;
+        arrowRb.AddForce(AccelDirect, ForceMode.Acceleration);
     }
 
     #region Recalling

@@ -260,5 +260,14 @@ namespace PA
             //     GameSettings.Instance.isBloomEnabled
             // );
         }
+
+        public void ShowSystemUI()
+        {
+            transform.gameObject.SetActive(true);
+        }
+        public void HideSystemUI()
+        {
+            transform.gameObject.SetActive(false);
+        }
     }
 }
