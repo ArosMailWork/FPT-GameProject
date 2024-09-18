@@ -17,7 +17,6 @@ public class Arrow : MonoBehaviour
 {
     public ArrowState currentArrowState;
 
-    [FoldoutGroup("Stats")] public Vector3 AccelDirect;
     [FoldoutGroup("Stats")] public float lifeTime, recallSpeed, rotSpeed = 10, MaxSpeed;
     [FoldoutGroup("Stats/Hover")] public float hoverSpeed = 2.0f;
 
@@ -77,18 +76,10 @@ public class Arrow : MonoBehaviour
     }
 
     [Button]
-    public void Shoot(Vector3 inputDirect)
+    public void Shoot(float changredTime)
     {
-        AccelDirect = inputDirect;
-        currentArrowState = ArrowState.Shooting;
-        arrowRb.AddForce(_playerController.moveDirection * _arrowController.ShootForce, ForceMode.Impulse);
-    }
-    
-    public float force = 10;
-    [Button]
-    public void AddForce()
-    {
-        arrowRb.AddForce(transform.up*force, ForceMode.Impulse);
+        print("Force: " + _playerController.transform.forward*(changredTime * _arrowController.ShootForce));
+        arrowRb.AddForce(_playerController.transform.forward*(changredTime * _arrowController.ShootForce), ForceMode.Impulse);
     }
 
     #region Recalling
@@ -116,10 +107,35 @@ public class Arrow : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Player")
+        if (other.gameObject.CompareTag("Player"))
         {
             Debug.Log("Recover");
             _playerController.currentState = PlayerState.Idle;
+            _arrowController.haveArrow = true;
+            _arrowController.isRecalling = false;
+            currentArrowState = ArrowState.Idle;
+            arrowRb.velocity = Vector3.zero;
+            
+            // transform.position = _playerController.transform.position + Vector3.up;
+            
         }
     }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+           _arrowController.haveArrow = false;
+        }
+    }
+
+    // private void OnTriggerStay(Collider other)
+    // {
+    //     if (other.gameObject.CompareTag("Player"))
+    //     {
+    //         _playerController.currentState = PlayerState.Idle;
+    //         _arrowController.haveArrow = true;
+    //         _arrowController.isRecalling = false;
+    //     }
+    // }
 }

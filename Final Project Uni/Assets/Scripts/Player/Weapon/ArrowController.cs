@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 public class ArrowController : MonoBehaviour
@@ -11,7 +12,6 @@ public class ArrowController : MonoBehaviour
     private PlayerController _playerController;
 
     [FoldoutGroup("Stats")] public float ShootForce, currentChargedTime, chargedTime = 2f;
-    [FoldoutGroup("Stats")] public Vector3 shootDirection;
 
     [FoldoutGroup("Debug")] [SerializeField]
     List<Arrow> arrowsList;
@@ -65,7 +65,7 @@ public class ArrowController : MonoBehaviour
         StartRecall(isRecalling);
     }
 
-    public void Recall()
+    public void Recall(BaseEventData data)
     {
         if (haveArrow || !_playerController.isAlive) return;
         StartRecall(true);
@@ -74,43 +74,50 @@ public class ArrowController : MonoBehaviour
     #endregion
 
     #region Shoot
-   
+
     void UpdateCharging()
     {
         //check to charge, if release charge input 
-        if (ChargingInput && !IsCharging)
-            StartCharge();
-        else if (!ChargingInput && IsCharging)
+        if (ChargingInput && IsCharging)
         {
-            //stop input while already charge = shoot
-            Shoot();
-            return;
+            if (currentChargedTime <= chargedTime)
+            {
+                currentChargedTime += Time.deltaTime;
+            }
+            else
+            {
+                IsCharging = false;
+                Shoot( null);
+            }
         }
     }
-
-    void StartCharge()
+    
+    public void ChargeShoot(BaseEventData data)
     {
+        //have arrow and alive ? cool
+        if (!haveArrow || !_playerController.isAlive) return;
+        ChargingInput = true;
         IsCharging = true;
-        if (currentChargedTime <= chargedTime) currentChargedTime += Time.deltaTime;
-
-        //might have more
-    }
+    } 
 
     [Button]
-    public void Shoot()
+    public void Shoot(BaseEventData data)
     {
-        Debug.Log("reset Time");
+        if (!haveArrow) return;
+        //beacuse button up
+        ChargingInput = false;
+        IsCharging = false;
         haveArrow = false;
-        currentChargedTime = 0;
-
+        
         foreach (var arrow in arrowsList)
         {
-            print("Shoot");
-            arrow.Shoot(_playerController.moveDirection);
-            print($"arrow: {arrow} and force: {ShootForce} and direction: {_playerController.moveDirection}");
-           // await UniTask.Delay(TimeSpan.FromSeconds(0.1f));
+            arrow.Shoot(currentChargedTime);
+            print("SHOOT");
+            //actually don't need change state here
+            arrow.currentArrowState = ArrowState.Shooting;
+            // await UniTask.Delay(TimeSpan.FromSeconds(0.1f));
         }
-        //spawn prefab then add to list
+        currentChargedTime = 0;
     }
 
     #endregion
@@ -134,5 +141,18 @@ public class ArrowController : MonoBehaviour
         }
     }
 
+    public void OffRecall(BaseEventData data)
+    {
+        StartRecall(false);
+    }
+
+    
+    public void HideArrow()
+    {
+        foreach (var arrow in arrowsList)
+        {
+            arrow.gameObject.SetActive(false);
+        }
+    }
     #endregion
 }

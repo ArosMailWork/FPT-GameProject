@@ -152,9 +152,12 @@ public class PlayerController : MonoBehaviour
     //do Roll, call by input
     public void Roll()
     {
+        print("Rolling");
         if (currentState == PlayerState.Rolling || moveBuffer == Vector2.zero) return;
         //if (!staminaSystem.CheckEnoughStamina) return;
-        doRollingMove(moveBuffer);
+        print($"moveBuffer: {moveBuffer}");
+        print($"joyStickInput: {joyStickInput}");
+        doRollingMove(isJoystickInput ? joyStickInput : moveBuffer);
     }
 
     void RotatePlayer(Vector3 moveDirection)
@@ -198,6 +201,8 @@ public class PlayerController : MonoBehaviour
 
     public async UniTaskVoid doRollingMove(Vector2 input)
     {
+        print("Rolling 2");
+
         //prevent spam in the middle
         if (!canRoll) return;
 

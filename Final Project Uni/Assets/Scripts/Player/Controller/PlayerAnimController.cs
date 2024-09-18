@@ -24,7 +24,7 @@ public class PlayerAnimController : MonoBehaviour
         playerAnimator.SetBool("Stun", true);
 
         await UniTask.Delay(TimeSpan.FromSeconds(time));
-        
+
         playerAnimator.SetBool("Stun", false);
     }
 }
