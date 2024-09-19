@@ -11,7 +11,7 @@ public class RoomGen : MonoBehaviour
 {
     // The size of our world in grid cells.
     private int GridSize = 1;
-    private int Size = 100;
+    //private int Size = 100;
     private int MainPathLength = 4;
     private int Width;
     private int Height;
@@ -66,7 +66,7 @@ public class RoomGen : MonoBehaviour
         Debug.Log(origin.ConnectedPos.Count);
         GameObject o = GameObject.Instantiate(origin.room.Prefab, new Vector3(origin.currentPos.x * GridSize, 0f, origin.currentPos.y * GridSize), Quaternion.identity);
         o.GetComponent<RoomController>().SetConnector(origin.ConnectedPos);
-        //o.transform.localScale = new Vector3(Size, Size, Size);
+        //o.transform.localScale = new Vector3(Size, 1, Size);
         o.transform.SetParent(this.transform);
         allRoom.Add(o);
         //Second Pass
@@ -78,7 +78,7 @@ public class RoomGen : MonoBehaviour
             GameObject g = GameObject.Instantiate(n.room.Prefab, new Vector3(n.currentPos.x * GridSize, 0f, n.currentPos.y * GridSize), Quaternion.identity);
             g.GetComponent<RoomController>().SetConnector(n.ConnectedPos);
             g.transform.SetParent(this.transform);
-            //g.transform.localScale = new Vector3(Size, Size, Size);
+            //g.transform.localScale = new Vector3(Size, 1, Size);
             allRoom.Add(g);
             if (n.nodes.Count > 0)
             {
@@ -138,8 +138,8 @@ public class RoomGen : MonoBehaviour
     private void GenerateMainPath()
     {
         origin.nodes.Clear();
-        Vector2Int pointer = new Vector2Int(Width / 2, Height / 2);
-        //Vector2Int pointer = new Vector2Int(0, 0);
+        //Vector2Int pointer = new Vector2Int(Width / 2, Height / 2);
+        Vector2Int pointer = new Vector2Int(0, 0);
         origin.currentPos = pointer;
         origin.room = StartRoom;
         _grid[pointer.x, pointer.y] = origin;
@@ -231,14 +231,14 @@ public class RoomGen : MonoBehaviour
         for (int i = ValidDir.Count - 1; i >= 0; i--)
         {
             Vector2Int neighbour = new Vector2Int(v2int.x + ValidDir[i].x, v2int.y + ValidDir[i].y);
-            if (IsInsideGrid(neighbour) && _grid[neighbour.x, neighbour.y] == null)
-            {
-                ValidDir.RemoveAt(i);
-            }
-            // if (!IsInsideGrid(neighbour) || _grid[neighbour.x, neighbour.y] == null)
+            // if (IsInsideGrid(neighbour) && _grid[neighbour.x, neighbour.y] == null)
             // {
             //     ValidDir.RemoveAt(i);
             // }
+            if (!IsInsideGrid(neighbour) || _grid[neighbour.x, neighbour.y] == null)
+            {
+                ValidDir.RemoveAt(i);
+            }
         }
         //Debug.Log(ValidDir.Count);
         return ValidDir;
