@@ -79,6 +79,9 @@ public class Arrow : MonoBehaviour
         _playerController = PlayerController.Instance;
     }
 
+    
+    //forgot to adjust rotation before shoot 
+    //also adjust the charge value with anim curve for procedural (sandwich from 0 to 1 in x)
     [Button]
     public void Shoot(float chargedTime)
     {
@@ -87,6 +90,7 @@ public class Arrow : MonoBehaviour
         // Set the arrow's Rigidbody back to non-kinematic
         arrowRb.isKinematic = false;
 
+        // Temporary right ?????? also no note ?
         if (arrowMeshRenderer.enabled == false)
         {
             arrowMeshRenderer.enabled = true;
@@ -122,6 +126,8 @@ public class Arrow : MonoBehaviour
     bool isAttached = false;
     private void OnTriggerEnter(Collider other)
     {
+        //so the player wont pick this up even it launched from body
+        if (currentArrowState == ArrowState.Shooting) return;
         if (other.gameObject.CompareTag("Player"))
         {
             Debug.Log("Recover");
@@ -130,7 +136,7 @@ public class Arrow : MonoBehaviour
             _arrowController.isRecalling = false;
             currentArrowState = ArrowState.Idle;
             arrowRb.velocity = Vector3.zero;
-            arrowMeshRenderer.enabled = false;
+            arrowMeshRenderer.enabled = false; //once again, dont forget to make object pooling here
          
             isAttached = true;
            
