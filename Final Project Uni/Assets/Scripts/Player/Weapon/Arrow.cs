@@ -16,7 +16,7 @@ public enum ArrowState
 public class Arrow : MonoBehaviour
 {
     public ArrowState currentArrowState;
-
+    public MeshRenderer arrowMeshRenderer;
     [FoldoutGroup("Stats")] public float lifeTime, recallSpeed, rotSpeed = 10, MaxSpeed;
     [FoldoutGroup("Stats/Hover")] public float hoverSpeed = 2.0f;
 
@@ -28,7 +28,6 @@ public class Arrow : MonoBehaviour
     [FoldoutGroup("Setup")] [ReadOnly] public ArrowController _arrowController;
     [FoldoutGroup("Setup")] [ReadOnly] public PlayerController _playerController;
     [FoldoutGroup("Setup/Events")] public UnityEvent StartRecallEvent, StopRecallEvent, FinishRecallEvent;
-
 
     #region Unity Methods
 
@@ -56,7 +55,12 @@ public class Arrow : MonoBehaviour
         // {
         //     Shoot(_arrowController.shootDirection);
         // }
-  
+
+
+        if (isAttached)
+        {
+            transform.position = _playerController.transform.position;
+        }
         // Rotate the arrow to point in the direction of its velocity
         if (arrowRb.velocity.magnitude > 0)
         {
@@ -76,10 +80,20 @@ public class Arrow : MonoBehaviour
     }
 
     [Button]
-    public void Shoot(float changredTime)
+    public void Shoot(float chargedTime)
     {
-        print("Force: " + _playerController.transform.forward*(changredTime * _arrowController.ShootForce));
-        arrowRb.AddForce(_playerController.transform.forward*(changredTime * _arrowController.ShootForce), ForceMode.Impulse);
+        isAttached = false;
+
+        // Set the arrow's Rigidbody back to non-kinematic
+        arrowRb.isKinematic = false;
+
+        if (arrowMeshRenderer.enabled == false)
+        {
+            arrowMeshRenderer.enabled = true;
+        }
+
+        arrowRb.AddForce(_playerController.transform.forward * (chargedTime * _arrowController.ShootForce),
+            ForceMode.Impulse);
     }
 
     #region Recalling
@@ -105,6 +119,7 @@ public class Arrow : MonoBehaviour
             arrowRb.velocity = arrowRb.velocity.normalized * MaxSpeed;
     }
 
+    bool isAttached = false;
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
@@ -115,9 +130,10 @@ public class Arrow : MonoBehaviour
             _arrowController.isRecalling = false;
             currentArrowState = ArrowState.Idle;
             arrowRb.velocity = Vector3.zero;
-            
-            // transform.position = _playerController.transform.position + Vector3.up;
-            
+            arrowMeshRenderer.enabled = false;
+         
+            isAttached = true;
+           
         }
     }
 
@@ -125,7 +141,8 @@ public class Arrow : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-           _arrowController.haveArrow = false;
+            _arrowController.haveArrow = false;
+            isAttached = false;
         }
     }
 
