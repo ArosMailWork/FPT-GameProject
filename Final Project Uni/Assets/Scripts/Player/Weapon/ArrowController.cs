@@ -79,6 +79,9 @@ public class ArrowController : MonoBehaviour
     void UpdateCharging()
     {
         //check to charge, if release charge input 
+        
+        //fix this part allow hold, also recommend to add a cancel boolean to check
+        //If it true, even release wont shoot - Duck 
         if (ChargingInput && IsCharging)
         {
             if (currentChargedTime <= chargedTime)
@@ -116,6 +119,7 @@ public class ArrowController : MonoBehaviour
             arrow.Shoot(calForce * ShootForce);
             print("SHOOT");
             //actually don't need change state here
+            //(no actually it is, will relate to other stuffs like skills and not allow recall)
             arrow.currentArrowState = ArrowState.Shooting;
             // await UniTask.Delay(TimeSpan.FromSeconds(0.1f));
         }
