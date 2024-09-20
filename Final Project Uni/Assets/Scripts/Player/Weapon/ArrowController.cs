@@ -112,7 +112,7 @@ public class ArrowController : MonoBehaviour
         
         foreach (var arrow in arrowsList)
         {
-            if(arrow == null) return;
+            if(arrow == null || arrow.currentArrowState == ArrowState.Shooting) return;
         
             if (isRecalling)
                 arrow.currentArrowState = ArrowState.Recalling;

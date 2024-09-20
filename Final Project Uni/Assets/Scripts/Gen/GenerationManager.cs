@@ -23,7 +23,7 @@ public class GenerationManager : MonoBehaviour
     {
         LoadNewBiome();
         Gen.Generate();
-
+        transform.localScale = new Vector3(10,10,10); //test scale
     }
     public void LoadNewBiome()
     {
