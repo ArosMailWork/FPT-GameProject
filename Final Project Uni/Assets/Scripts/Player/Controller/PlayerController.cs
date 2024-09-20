@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices.ComTypes;
 using Cysharp.Threading.Tasks;
+using Enemy;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -24,10 +25,11 @@ public class PlayerController : MonoBehaviour
     [FoldoutGroup("Stats")] public bool isAlive = true;
     [FoldoutGroup("Stats")] public float speed, rotationSpeed, MaxSpeed = 20;
     [FoldoutGroup("Stats/Roll")] public float rollSpeed, rollCD, rollTime;
-
+    [FoldoutGroup("Stats/Roll")] public int staminaRollCost;
 
     [FoldoutGroup("Debug")] public PlayerState currentState;
     [FoldoutGroup("Debug")] [ReadOnly] public Vector2 moveInput, moveBuffer;
+    [FoldoutGroup("Debug")] [ReadOnly] [SerializeField] private int currentStamina;
 
     [FoldoutGroup("Debug")] [SerializeField, ReadOnly]
     private float currentAccel;
@@ -40,9 +42,17 @@ public class PlayerController : MonoBehaviour
 
     [FoldoutGroup("Debug/Roll")] [SerializeField, ReadOnly]
     private Vector3 RollDirect;
+    
 
     [FoldoutGroup("Setup")] public Rigidbody PlayerRB;
     [FoldoutGroup("Setup")] public PlayerAnimController _playerAnimController;
+    [FoldoutGroup("Setup/Stamina")] public StaminaSystem staminaSystem;
+    [FoldoutGroup("Setup/Stamina")] public int staminaRegenRate = 10;
+    [FoldoutGroup("Setup/Stamina")] public int staminaMax = 100;
+
+    [FoldoutGroup("Setup/Health")] public HealthSystem healthSystem;
+    [FoldoutGroup("Setup/Health")] public int healthMax = 100;
+
 
     #region Calculate
 
@@ -53,7 +63,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 cameraForward;
     private Vector3 cameraRight;
     public Vector3 moveDirection;
-    public StaminaSystem staminaSystem;
+
 
     public UltimateJoystick JoystickPA;
     public Vector3 joyStickInput;
@@ -72,13 +82,21 @@ public class PlayerController : MonoBehaviour
 
         if (Instance != this || Instance != null) Destroy(Instance);
         Instance = this;
-        staminaSystem = new StaminaSystem(100, 10);
+        staminaSystem = new StaminaSystem(staminaMax, staminaRegenRate);
+        healthSystem = new HealthSystem(healthMax);
+        healthSystem.OnDeath += Die;
+        // healthSystem.OnValueChange += OnHealthChanged;
     }
+
+    // private void OnHealthChanged(object sender)
+    // {
+    //     throw new NotImplementedException();
+    // }
 
     private void FixedUpdate()
     {
         SpeedCheck();
-        staminaSystem.RegenerateStamina();
+        
     }
 
     private void Update()
@@ -87,6 +105,8 @@ public class PlayerController : MonoBehaviour
         JoyStickInput();
         Move(moveInput);
         RollApply();
+        staminaSystem.RegenerateStamina();
+        currentStamina = staminaSystem.Value; // Update the field
     }
 
     private void OnDrawGizmos()
@@ -121,6 +141,57 @@ public class PlayerController : MonoBehaviour
 
     #endregion
 
+    #region Damage
+
+    public int BaseDamage { get; private set; } = 10;
+    public bool isAttack = false;
+
+    //Dealing damage trigger by input
+    public void Attack()
+    {
+        //play animation, sount, etc
+    }
+
+    #region AnimationEvent
+
+    public void ActiveAttack()
+    {
+        isAttack = true;
+    }
+
+    public void CompleteAttack()
+    {
+        isAttack = false;
+    }
+    #endregion
+
+    //Receive damage from Enemy or Trap
+    private void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.CompareTag("Enemy"))
+        {
+            var enemy = other.gameObject.GetComponent<EnemyController>();
+            if (enemy.isAttack == true)
+            {
+                healthSystem.ReceiveDamage(enemy.BaseDamage);
+                // _playerAnimController.GetHit();
+            }
+        }
+        else if (other.gameObject.CompareTag("Trap"))
+        {
+            // healthSystem.Damage(20);
+            // _playerAnimController.GetHit();
+        }
+    }
+
+    public void Die(object sender)
+    {
+        print("Player: Die");
+    }
+
+
+    #endregion
+
     #region Movement
 
     public void Move(Vector2 input)
@@ -134,7 +205,7 @@ public class PlayerController : MonoBehaviour
         cameraRight = Camera.main.transform.right.normalized;
 
         // Calculate the move direction based on input and camera orientation
-        moveDirection = isJoystickInput ? joyStickInput :(cameraRight * input.x + cameraForward * input.y).normalized;
+        moveDirection = isJoystickInput ? joyStickInput : (cameraRight * input.x + cameraForward * input.y).normalized;
         moveDirection.y = 0;
 
         // Move the Rigidbody
@@ -152,11 +223,15 @@ public class PlayerController : MonoBehaviour
     //do Roll, call by input
     public void Roll()
     {
-        print("Rolling");
+        if (!staminaSystem.HasEnoughStamina(staminaRollCost))
+        {
+            //maybe blink stamina slider or something
+            return;
+        }
         if (currentState == PlayerState.Rolling || moveBuffer == Vector2.zero) return;
-        //if (!staminaSystem.CheckEnoughStamina) return;
-        print($"moveBuffer: {moveBuffer}");
-        print($"joyStickInput: {joyStickInput}");
+        staminaSystem.Consume(staminaRollCost);
+        // print($"moveBuffer: {moveBuffer}");
+        // print($"joyStickInput: {joyStickInput}");
         doRollingMove(isJoystickInput ? joyStickInput : moveBuffer);
     }
 
@@ -177,10 +252,10 @@ public class PlayerController : MonoBehaviour
     }
 
     //TEST
-    public void ReceiveKnockback(DataPack dp)
-    {
-        Debug.Log("Player: KNOCK dp test");
-    }
+    // public void ReceiveKnockback(DataPack dp)
+    // {
+    //     Debug.Log("Player: KNOCK dp test");
+    // }
 
     #endregion
 
@@ -256,6 +331,5 @@ public class PlayerController : MonoBehaviour
 
     public void MeleeAttack()
     {
-        
     }
 }

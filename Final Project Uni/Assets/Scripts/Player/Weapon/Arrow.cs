@@ -61,6 +61,7 @@ public class Arrow : MonoBehaviour
         {
             transform.position = _playerController.transform.position;
         }
+
         // Rotate the arrow to point in the direction of its velocity
         if (arrowRb.velocity.magnitude > 0)
         {
@@ -79,8 +80,10 @@ public class Arrow : MonoBehaviour
         _playerController = PlayerController.Instance;
     }
 
+    #region Shooting
+
     [Button]
-    public void Shoot(float chargedTime)
+    public void Shoot(float force)
     {
         isAttached = false;
 
@@ -92,9 +95,37 @@ public class Arrow : MonoBehaviour
             arrowMeshRenderer.enabled = true;
         }
 
-        arrowRb.AddForce(_playerController.transform.forward * (chargedTime * _arrowController.ShootForce),
-            ForceMode.Impulse);
+        arrowRb.AddForce(_playerController.transform.forward * force, ForceMode.Impulse);
     }
+
+    bool isAttached = false;
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            Debug.Log("Recover");
+            _playerController.currentState = PlayerState.Idle;
+            _arrowController.haveArrow = true;
+            _arrowController.isRecalling = false;
+            currentArrowState = ArrowState.Idle;
+            arrowRb.velocity = Vector3.zero;
+            arrowMeshRenderer.enabled = false;
+
+            isAttached = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            _arrowController.haveArrow = false;
+            isAttached = false;
+        }
+    }
+
+    #endregion
 
     #region Recalling
 
@@ -118,41 +149,4 @@ public class Arrow : MonoBehaviour
         if (arrowRb.velocity.magnitude > MaxSpeed)
             arrowRb.velocity = arrowRb.velocity.normalized * MaxSpeed;
     }
-
-    bool isAttached = false;
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.CompareTag("Player"))
-        {
-            Debug.Log("Recover");
-            _playerController.currentState = PlayerState.Idle;
-            _arrowController.haveArrow = true;
-            _arrowController.isRecalling = false;
-            currentArrowState = ArrowState.Idle;
-            arrowRb.velocity = Vector3.zero;
-            arrowMeshRenderer.enabled = false;
-         
-            isAttached = true;
-           
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.CompareTag("Player"))
-        {
-            _arrowController.haveArrow = false;
-            isAttached = false;
-        }
-    }
-
-    // private void OnTriggerStay(Collider other)
-    // {
-    //     if (other.gameObject.CompareTag("Player"))
-    //     {
-    //         _playerController.currentState = PlayerState.Idle;
-    //         _arrowController.haveArrow = true;
-    //         _arrowController.isRecalling = false;
-    //     }
-    // }
 }

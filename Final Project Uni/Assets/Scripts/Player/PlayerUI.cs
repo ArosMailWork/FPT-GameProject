@@ -38,11 +38,23 @@ public class PlayerUI : MonoBehaviour
             Destroy(gameObject);
         }
     }
+    
+    void SetUpStaminaUI()
+    {
+        staminaSlider.maxValue = playerController.staminaSystem.MaxStamina;
+        staminaSlider.value = playerController.staminaSystem.MaxStamina;
+    }
+    void SetUpHealthUI()
+    {
+        healthSlider.maxValue = playerController.healthSystem.MaxHealth;
+        healthSlider.value = playerController.healthSystem.MaxHealth;
+    }
 
     private void Start()
     {
         playerController = PlayerController.Instance;
         playerController.staminaSystem.OnValueChange += UpdateStaminaUI;
+        playerController.healthSystem.OnValueChange += UpdateHealthUI;
 
         RollButton.onClick.AddListener(playerController.Roll);
         
@@ -58,6 +70,9 @@ public class PlayerUI : MonoBehaviour
 
 
         forceSlider.maxValue = ArrowController.Instance.chargedTime;
+        
+        SetUpStaminaUI();
+        SetUpHealthUI();
     }
 
     private void Update()
@@ -116,10 +131,10 @@ public class PlayerUI : MonoBehaviour
         trigger.triggers.Add(entry);
     }
 
-    private void UpdateHealthUI(float health)
+    private void UpdateHealthUI(object health)
     {
-        healthSlider.value = health;
-        healthText.text = health.ToString();
+        healthSlider.value = playerController.healthSystem.Value;
+        healthText.text = playerController.healthSystem.Value.ToString();
     }
 
     private void UpdateStaminaUI(object stamina)

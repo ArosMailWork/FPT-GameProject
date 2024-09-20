@@ -10,6 +10,7 @@ using UnityEngine.InputSystem;
 public class ArrowController : MonoBehaviour
 {
     private PlayerController _playerController;
+    public AnimationCurve forceCurve;
 
     [FoldoutGroup("Stats")] public float ShootForce, currentChargedTime, chargedTime = 2f;
 
@@ -87,18 +88,18 @@ public class ArrowController : MonoBehaviour
             else
             {
                 IsCharging = false;
-                Shoot( null);
+                //Shoot( null);
             }
         }
     }
-    
+
     public void ChargeShoot(BaseEventData data)
     {
         //have arrow and alive ? cool
         if (!haveArrow || !_playerController.isAlive) return;
         ChargingInput = true;
         IsCharging = true;
-    } 
+    }
 
     [Button]
     public void Shoot(BaseEventData data)
@@ -108,15 +109,17 @@ public class ArrowController : MonoBehaviour
         ChargingInput = false;
         IsCharging = false;
         haveArrow = false;
-        
+
         foreach (var arrow in arrowsList)
         {
-            arrow.Shoot(currentChargedTime);
+            float calForce = forceCurve.Evaluate(currentChargedTime / chargedTime);
+            arrow.Shoot(calForce * ShootForce);
             print("SHOOT");
             //actually don't need change state here
             arrow.currentArrowState = ArrowState.Shooting;
             // await UniTask.Delay(TimeSpan.FromSeconds(0.1f));
         }
+
         currentChargedTime = 0;
     }
 
@@ -146,7 +149,7 @@ public class ArrowController : MonoBehaviour
         StartRecall(false);
     }
 
-    
+
     public void HideArrow()
     {
         foreach (var arrow in arrowsList)
@@ -154,5 +157,6 @@ public class ArrowController : MonoBehaviour
             arrow.gameObject.SetActive(false);
         }
     }
+
     #endregion
 }

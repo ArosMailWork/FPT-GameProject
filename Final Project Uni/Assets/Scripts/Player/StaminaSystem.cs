@@ -7,12 +7,20 @@ public class StaminaSystem
     public int RegenRate { get; set; }
 
     private int value;
+
     public int Value
     {
         get { return value; }
-        set { OnValueChanged(); }
+        set
+        {
+            if (this.value != value)
+            {
+                this.value = value;
+                // Khi giá trị thay đổi, phát ra sự kiện
+                OnValueChanged();
+            }
+        }
     }
-
     public StaminaSystem(int maxStamina, int regenRate)
     {
         MaxStamina = maxStamina;
@@ -28,18 +36,18 @@ public class StaminaSystem
         OnValueChange?.Invoke(this);
     }
 
-    public void SubtractStamina(int amount)
+    public void Consume(int amount)
     {
-        value = Mathf.Max(value - amount, 0);
+        Value = Mathf.Max(value - amount, 0);
     }
 
     public bool HasEnoughStamina(int amount)
     {
-        return value >= amount;
+        return Value >= amount;
     }
 
     public void RegenerateStamina()
     {
-        value = Mathf.Min(Value + Mathf.FloorToInt(RegenRate * Time.deltaTime), MaxStamina);
+        Value = Mathf.Min(Value + Mathf.FloorToInt(RegenRate * Time.deltaTime), MaxStamina);
     }
 }
