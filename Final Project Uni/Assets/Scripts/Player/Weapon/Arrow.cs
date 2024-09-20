@@ -85,11 +85,13 @@ public class Arrow : MonoBehaviour
     [Button]
     public void Shoot(float force)
     {
+        //todo: maybe rotate with player
         isAttached = false;
 
         // Set the arrow's Rigidbody back to non-kinematic
         arrowRb.isKinematic = false;
 
+        //just disable visibilty
         if (arrowMeshRenderer.enabled == false)
         {
             arrowMeshRenderer.enabled = true;
@@ -101,7 +103,8 @@ public class Arrow : MonoBehaviour
     bool isAttached = false;
 
     private void OnTriggerEnter(Collider other)
-    {
+    {        
+        if (currentArrowState == ArrowState.Shooting) return;
         if (other.gameObject.CompareTag("Player"))
         {
             Debug.Log("Recover");
