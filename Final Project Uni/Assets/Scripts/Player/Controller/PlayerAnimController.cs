@@ -15,8 +15,8 @@ public class PlayerAnimController : MonoBehaviour
 
     public void UpdateRunInput(Vector2 moveVec)
     {
-        playerAnimator.SetFloat("Move_X", moveVec.x);
-        playerAnimator.SetFloat("Move_Y", moveVec.y);
+        //playerAnimator.SetFloat("Move_X", moveVec.x);
+        //playerAnimator.SetFloat("Move_Y", moveVec.y);
         playerAnimator.SetBool("RunTest", (moveVec != Vector2.zero)); // test
     }
 

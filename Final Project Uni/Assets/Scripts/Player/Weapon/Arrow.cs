@@ -18,7 +18,7 @@ public class Arrow : MonoBehaviour
     [FoldoutGroup("Stats")]
     public Vector3 AccelDirect;
     [FoldoutGroup("Stats")]
-    public float lifeTime, recallSpeed, rotSpeed = 10, MaxSpeed;
+    public float lifeTime, recallSpeed, rotSpeed = 10, MaxSpeed, minShootingSpeed = 0.1f;
     [FoldoutGroup("Stats/Hover")]
     public float hoverSpeed = 2.0f;
     
@@ -53,15 +53,15 @@ public class Arrow : MonoBehaviour
 
     private void Update()
     {
+        if (currentArrowState == ArrowState.Shooting && arrowRb.velocity.magnitude <= minShootingSpeed)
+            currentArrowState = ArrowState.Idle;
         if (currentArrowState == ArrowState.Recalling)
             Recall();
         else if (currentArrowState == ArrowState.Idle)
-        {
             currentHoverHeight = 0;
-        }
-        
+
         // Rotate the arrow to point in the direction of its velocity
-        if (arrowRb.velocity.magnitude > 0)
+        if (arrowRb.velocity.magnitude > 0 && arrowRb.velocity != Vector3.zero)
         {
             Quaternion targetRotation = Quaternion.LookRotation(arrowRb.velocity.normalized);
             arrowRb.rotation = Quaternion.Slerp(arrowRb.rotation, targetRotation, Time.deltaTime * rotSpeed); // Adjust the speed of rotation here
@@ -112,5 +112,10 @@ public class Arrow : MonoBehaviour
             Debug.Log("Recover");
             _playerController.currentState = PlayerState.Idle;
         }
+    }
+
+    private void OnCollisionEnter(Collision other)
+    {
+        if (currentArrowState == ArrowState.Shooting) currentArrowState = ArrowState.Idle;
     }
 }

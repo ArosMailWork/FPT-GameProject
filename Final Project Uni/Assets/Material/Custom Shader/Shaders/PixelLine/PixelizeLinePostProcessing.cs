@@ -31,7 +31,6 @@ public sealed class PixelizeLinePostProcessing : PostProcessEffectSettings
     [Tooltip("Scale the strength of how much the depthNormalThreshold affects the depth threshold.")]
     public FloatParameter depthNormalThresholdScale = new FloatParameter { value = 7 };
     public BoolParameter Highlight = new BoolParameter { value = true };  
-    [Range(0, 3)]public IntParameter Type = new IntParameter { value = 3 };  
 }
 
 public sealed class PostProcessPixelizeLine : PostProcessEffectRenderer<PixelizeLinePostProcessing>
@@ -41,25 +40,8 @@ public sealed class PostProcessPixelizeLine : PostProcessEffectRenderer<Pixelize
     
     public override void Render(PostProcessRenderContext context)
     {
-        switch (settings.Type)
-        {
-            case 0:
-                ShaderType = "Hidden/PixelizeLine";
-                break;
-            case 1:
-                ShaderType = "Hidden/PixelizeLine1";
-                break;
-            case 2:
-                ShaderType = "Hidden/PixelizeLine2";
-                break;
-            case 3:
-                ShaderType = "Custom/EnhancedPixelizeShader";
-                break;
-            default:
-                ShaderType = "Hidden/PixelizeLine2";
-                break;
-        }
-        
+        ShaderType = "Custom/EnhancedPixelizeShader";
+
         PropertySheet sheet = context.propertySheets.Get(Shader.Find(ShaderType));
 
         sheet.properties.SetFloat("_PixelSample", settings._PixelSample);
@@ -71,7 +53,7 @@ public sealed class PostProcessPixelizeLine : PostProcessEffectRenderer<Pixelize
         sheet.properties.SetColor("_Color", settings.color);
         sheet.properties.SetColor("_NormalColor", settings.normalColor);
 
-        if (settings.Type == 3)
+        //if (settings.Type == 3)
         {
             // Calculate and set the inverse projection matrix
             Matrix4x4 invProjectionMatrix = context.camera.projectionMatrix.inverse;
