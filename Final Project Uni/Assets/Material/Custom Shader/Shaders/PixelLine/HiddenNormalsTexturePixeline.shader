@@ -9,6 +9,11 @@
 		{ 
 			"RenderType" = "Opaque" 
 		}
+        
+        Stencil {
+			Ref 1
+			Comp less
+		}
 
         Pass
         {
