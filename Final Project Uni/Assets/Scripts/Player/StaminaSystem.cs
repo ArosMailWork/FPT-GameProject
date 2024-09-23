@@ -26,7 +26,10 @@ public class StaminaSystem : MonoBehaviour
                 OnValueChanged(); // Trigger value change event
 
                 // If stamina is full, stop regenerating
-                isRegen = (!fulled);
+                if (fulled)
+                {
+                    isRegen = false;
+                }
             }
         }
     }
@@ -71,6 +74,12 @@ public class StaminaSystem : MonoBehaviour
     public void Consume(int amount)
     {
         CurrentValue -= amount;  // Reduce stamina by the consumed amount
+
+        if (fulled)
+        {
+            fulled = false;       // Mark stamina as no longer full
+        }
+
         if (!isRegen)             // If not already regenerating, start the regeneration process
         {
             StartStaminaRegeneration();
