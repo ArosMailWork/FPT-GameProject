@@ -10,7 +10,7 @@ using UnityEngine.InputSystem;
 [Serializable]
 public enum PlayerState
 {
-    Idle, Running, Recalling, Stunning, Rolling
+    Idle, Running, Recalling, Stunning, Rolling 
 }
 
 public class PlayerController : MonoBehaviour
@@ -23,12 +23,18 @@ public class PlayerController : MonoBehaviour
     public float speed, rotationSpeed, MaxSpeed = 20;
     [FoldoutGroup("Stats/Roll")]
     public float rollSpeed, rollCD, rollTime;
+    [FoldoutGroup("Setup/Stamina")] 
+    public int staminaRollCost;
 
 
     [FoldoutGroup("Debug")]
     public PlayerState currentState;
     [FoldoutGroup("Debug")]
     [ReadOnly] public Vector2 moveInput, moveBuffer;
+    [FoldoutGroup("Debug")]
+    public Vector2 joyStickInput;
+    [FoldoutGroup("Debug")]
+    public bool isJoystickInput;
     [FoldoutGroup("Debug")]
     [SerializeField, ReadOnly] private float currentAccel;
     [FoldoutGroup("Debug/Roll")]
@@ -42,6 +48,9 @@ public class PlayerController : MonoBehaviour
     public Rigidbody PlayerRB;
     [FoldoutGroup("Setup")]
     public PlayerAnimController _playerAnimController;
+    [FoldoutGroup("Setup")]
+    public UltimateJoystick JoystickPA;
+    [FoldoutGroup("Setup/Stamina")] public StaminaSystem staminaSystem;
 
     #region Calculate
 
@@ -59,7 +68,6 @@ public class PlayerController : MonoBehaviour
     #endregion
 
 
-
     #region Unity Methods
     private void Awake()
     {
@@ -72,6 +80,7 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        JoyStickInput();
         SpeedCheck();
         //staminaSystem.RegenerateStamina();
     }
@@ -106,6 +115,17 @@ public class PlayerController : MonoBehaviour
         if (!isAlive) return;
         Roll();
     }
+    
+    void JoyStickInput()
+    {
+        joyStickInput.x = JoystickPA.GetHorizontalAxis();
+        joyStickInput.y = JoystickPA.GetVerticalAxis();
+        
+        isJoystickInput = (joyStickInput != Vector2.zero);
+        
+        if (joyStickInput != Vector2.zero && joyStickInput != moveBuffer) 
+            moveBuffer = joyStickInput;
+    }
 
     #endregion
 
@@ -117,11 +137,14 @@ public class PlayerController : MonoBehaviour
             currentState == PlayerState.Rolling ||
             currentState == PlayerState.Recalling) return;
 
+        if (isJoystickInput) input = joyStickInput;
+
         // Calculate camera forward direction
         cameraForward = Camera.main.transform.forward.normalized;
         cameraRight = Camera.main.transform.right.normalized;
 
         // Calculate the move direction based on input and camera orientation
+        
         moveDirection = (cameraRight * input.x + cameraForward * input.y).normalized;
         moveDirection.y = 0;
 
@@ -135,7 +158,7 @@ public class PlayerController : MonoBehaviour
 
         RotatePlayer(moveDirection);
         
-        _playerAnimController.UpdateRunInput(moveInput); //test
+        _playerAnimController.UpdateRunInput(input); //test
 
         LimitSpeed();
     }
@@ -144,7 +167,8 @@ public class PlayerController : MonoBehaviour
     public void Roll()
     {
         if (currentState == PlayerState.Rolling || moveBuffer == Vector2.zero) return;
-        //if (!staminaSystem.CheckEnoughStamina) return;
+        if (!staminaSystem.HasEnoughStamina(staminaRollCost)) return;
+        staminaSystem.Consume(staminaRollCost);
         doRollingMove(moveBuffer);
     }
 
