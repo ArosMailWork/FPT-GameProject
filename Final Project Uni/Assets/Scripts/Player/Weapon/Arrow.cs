@@ -61,7 +61,7 @@ public class Arrow : MonoBehaviour
             currentHoverHeight = 0;
 
         // Rotate the arrow to point in the direction of its velocity
-        if (arrowRb.velocity.magnitude > 0)
+        if (arrowRb.velocity.magnitude > 0 && arrowRb.velocity != Vector3.zero)
         {
             Quaternion targetRotation = Quaternion.LookRotation(arrowRb.velocity.normalized);
             arrowRb.rotation = Quaternion.Slerp(arrowRb.rotation, targetRotation, Time.deltaTime * rotSpeed); // Adjust the speed of rotation here
