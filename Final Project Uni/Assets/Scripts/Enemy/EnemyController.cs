@@ -14,7 +14,8 @@ namespace Enemy
 
         private void Awake()
         {
-            healthSystem = new HealthSystem(maxHealth);
+           
+            
         }
 
         private void OnCollisionEnter(Collision other)
