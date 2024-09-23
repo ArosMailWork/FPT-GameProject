@@ -10,6 +10,9 @@ public class ArrowController : MonoBehaviour
     private PlayerController _playerController;
     
     [FoldoutGroup("Stats")]
+    public AnimationCurve forceCurve;
+    
+    [FoldoutGroup("Stats")]
     public float ShootForce, currentChargedTime, chargedTime = 2f;
 
     [FoldoutGroup("Debug")]
@@ -61,6 +64,19 @@ public class ArrowController : MonoBehaviour
         isRecalling = ctx.performed;
         StartRecall(isRecalling);
     }
+    
+    public void ChargeShoot()
+    {
+        //have arrow and alive ? cool
+        if (!haveArrow || !_playerController.isAlive) return;
+        ChargingInput = true;
+        IsCharging = true;
+    }
+    
+    public void OffRecall()
+    {
+        StartRecall(false);
+    }
 
     #endregion
 
@@ -69,13 +85,20 @@ public class ArrowController : MonoBehaviour
     void UpdateCharging()
     {
         //check to charge, if release charge input 
-        if(ChargingInput && !IsCharging) 
-            StartCharge();
-        else if (!ChargingInput && IsCharging)
+        
+        //fix this part allow hold, also recommend to add a cancel boolean to check
+        //If it true, even release wont shoot - Duck 
+        if (ChargingInput && IsCharging)
         {
-            //stop input while already charge = shoot
-            Shoot();
-            return;
+            if (currentChargedTime <= chargedTime)
+            {
+                currentChargedTime += Time.deltaTime;
+            }
+            else
+            {
+                IsCharging = false;
+                //Shoot( null);
+            }
         }
     }
     void StartCharge()
@@ -89,13 +112,27 @@ public class ArrowController : MonoBehaviour
     [Button]
     public void Shoot()
     {
-        Debug.Log("reset Time");
+        if (!haveArrow) return;
+        //beacuse button up
+        ChargingInput = false;
+        IsCharging = false;
         haveArrow = false;
-        currentChargedTime = 0;
-        
-        //spawn prefab then add to list
 
-        
+        foreach (var arrow in arrowsList)
+        {
+            float calForce = forceCurve.Evaluate(currentChargedTime / chargedTime) * ShootForce;
+            Vector3 ShootDir = _playerController.transform.forward;
+            ShootDir.y = 0;
+            
+            //Test (pooling replace)
+            arrow.gameObject.SetActive(true);
+            arrow.transform.position = _playerController.transform.position;
+            
+            arrow.Shoot(ShootDir.normalized);
+            arrow.currentArrowState = ArrowState.Shooting;
+        }
+
+        currentChargedTime = 0;
     }
     
     #endregion
@@ -113,13 +150,16 @@ public class ArrowController : MonoBehaviour
         foreach (var arrow in arrowsList)
         {
             if(arrow == null || arrow.currentArrowState == ArrowState.Shooting) return;
-        
+
             if (isRecalling)
-                arrow.currentArrowState = ArrowState.Recalling;
+            {
+                //cant call while shooting
+                if(arrow.currentArrowState != ArrowState.Shooting) 
+                    arrow.currentArrowState = ArrowState.Recalling;
+            }
             else
                 arrow.currentArrowState = ArrowState.Idle;
         }
     }
-
     #endregion
 }

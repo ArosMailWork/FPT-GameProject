@@ -55,8 +55,10 @@ public class Arrow : MonoBehaviour
     {
         if (currentArrowState == ArrowState.Shooting && arrowRb.velocity.magnitude <= minShootingSpeed)
             currentArrowState = ArrowState.Idle;
+        
         if (currentArrowState == ArrowState.Recalling)
             Recall();
+        
         else if (currentArrowState == ArrowState.Idle)
             currentHoverHeight = 0;
 
@@ -111,11 +113,27 @@ public class Arrow : MonoBehaviour
         {
             Debug.Log("Recover");
             _playerController.currentState = PlayerState.Idle;
+            
+            _arrowController.haveArrow = true;
+            _arrowController.isRecalling = false;
+            currentArrowState = ArrowState.Idle;
+            
+            //hide it with pooling
+            arrowRb.velocity = Vector3.zero;
+            gameObject.SetActive(false);
         }
     }
 
     private void OnCollisionEnter(Collision other)
     {
+        //hit anything -> allow recall
         if (currentArrowState == ArrowState.Shooting) currentArrowState = ArrowState.Idle;
     }
+    
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+            _arrowController.haveArrow = false;
+    }
+
 }

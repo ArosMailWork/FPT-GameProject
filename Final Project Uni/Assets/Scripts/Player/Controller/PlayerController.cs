@@ -167,8 +167,6 @@ public class PlayerController : MonoBehaviour
     public void Roll()
     {
         if (currentState == PlayerState.Rolling || moveBuffer == Vector2.zero) return;
-        if (!staminaSystem.HasEnoughStamina(staminaRollCost)) return;
-        staminaSystem.Consume(staminaRollCost);
         doRollingMove(moveBuffer);
     }
 
@@ -213,7 +211,7 @@ public class PlayerController : MonoBehaviour
     public async UniTaskVoid doRollingMove(Vector2 input)
     {
         //prevent spam in the middle
-        if (!canRoll) return;
+        if (!canRoll || !staminaSystem.HasEnoughStamina(staminaRollCost) || moveBuffer == Vector2.zero) return;
 
         //add CD
         AddRollCD(rollCD + rollTime);
@@ -221,8 +219,9 @@ public class PlayerController : MonoBehaviour
 
         //this lead to the Roll Apply do non-stop
         currentState = PlayerState.Rolling;
-        Debug.DrawRay(PlayerRB.transform.position, moveDirection, Color.blue, 0.2f);
+        //Debug.DrawRay(PlayerRB.transform.position, moveDirection, Color.blue, 0.2f);
         //consume Stamina here
+        staminaSystem.Consume(staminaRollCost);
 
         //roll done ? okay cool
         await UniTask.Delay(TimeSpan.FromSeconds(rollTime));
@@ -234,6 +233,9 @@ public class PlayerController : MonoBehaviour
     {
         if (currentState == PlayerState.Rolling)
         {
+            //take from buffer
+            moveDirection = (cameraRight * moveBuffer.x + cameraForward * moveBuffer.y).normalized;
+            
             //implement Roll Logic here
             RollDirect.x = moveDirection.x;
             RollDirect.z = moveDirection.z;
