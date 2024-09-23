@@ -5,10 +5,10 @@ using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-public class HealthSystem
+public class HealthSystem: MonoBehaviour
 {
     [FoldoutGroup("Stats")]public int MaxHealth { get; private set; }
-    [FoldoutGroup("Stats")]public int Value
+    [FoldoutGroup("Stats")]public int Value       
     {
         get { return value; }
         set
@@ -21,13 +21,18 @@ public class HealthSystem
     //float invincibleTime = 0;
     private int value;
 
-    public HealthSystem(int maxHealth)
+    [FoldoutGroup("Debug")] public PlayerController playerController;
+
+    private void Awake()
     {
-        MaxHealth = maxHealth;
+        MaxHealth = playerController.healthMax;
         Value = MaxHealth;
     }
 
-    
+    private void Start()
+    {
+        playerController.healthSystem = this;
+    }
     
     public delegate void ValueChangeHandler(object sender);
     public event ValueChangeHandler OnValueChange;

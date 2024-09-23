@@ -83,7 +83,6 @@ public class PlayerController : MonoBehaviour
         if (Instance != this || Instance != null) Destroy(Instance);
         Instance = this;
         staminaSystem = new StaminaSystem(staminaMax, staminaRegenRate);
-        healthSystem = new HealthSystem(healthMax);
         healthSystem.OnDeath += Die;
         // healthSystem.OnValueChange += OnHealthChanged;
     }
