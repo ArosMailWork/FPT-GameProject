@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
@@ -33,19 +34,24 @@ using UnityEngine;
         HitCheck(hitting);
     }
 
-    public void HitCheck(bool hitting)
+    public async UniTaskVoid HitCheck(bool hitting)
     {
         if (hitting)
         {
-            Debug.Log("Hit: " + hit.collider.gameObject.name);
+            //Debug.Log("Hit: " + hit.collider.gameObject.name);
+            isShrinking = false;
             if (!hit.collider.gameObject.CompareTag("StencilMask"))
+            {
                 target.transform.DOScale(seeThroughSize, MaskTime);
+            }
         }
-        else
+        else if (!isShrinking)
         {
-            Debug.Log("No Hit");
+            //Debug.Log("No Hit");
             target.transform.DOScale(0, unMaskTime);
-            
+            isShrinking = true;
+            await UniTask.Delay(TimeSpan.FromSeconds(unMaskTime));
+            isShrinking = false;
         }
     }
     
