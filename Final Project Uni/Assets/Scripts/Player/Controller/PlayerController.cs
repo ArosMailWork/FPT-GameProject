@@ -25,6 +25,8 @@ public class PlayerController : MonoBehaviour
     public float rollSpeed, rollCD, rollTime;
     [FoldoutGroup("Setup/Stamina")] 
     public int staminaRollCost;
+    [FoldoutGroup("Setup/Guard")] 
+    public float guardTime;
 
 
     [FoldoutGroup("Debug")]
@@ -66,8 +68,7 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #endregion
-
-
+    
     #region Unity Methods
     private void Awake()
     {
@@ -96,6 +97,65 @@ public class PlayerController : MonoBehaviour
     private void OnDrawGizmos()
     {
 
+    }
+
+    #endregion
+    
+    #region Calculate
+
+    void UpdateRollCDTimer()
+    {
+        if (currentRollCD > 0)
+            currentRollCD -= Time.deltaTime;
+        else
+            canRoll = true;
+    }
+    void AddRollCD(float time)
+    {
+        currentRollCD += time;
+    }
+
+    public async UniTaskVoid doRollingMove(Vector2 input)
+    {
+        //prevent spam in the middle
+        if (!canRoll || !staminaSystem.HasEnoughStamina(staminaRollCost) || moveBuffer == Vector2.zero) return;
+
+        //add CD
+        AddRollCD(rollCD + rollTime);
+        canRoll = false; //just want to save calculate so I place here, hehe
+
+        //this lead to the Roll Apply do non-stop
+        
+        currentState = PlayerState.Rolling;
+        _playerAnimController.DodgeAnim();
+        //consume Stamina here
+        staminaSystem.Consume(staminaRollCost);
+
+        //roll done ? okay cool
+        await UniTask.Delay(TimeSpan.FromSeconds(rollTime));
+        currentState = PlayerState.Idle;
+        //Might add some event here to activate particle or anything
+    }
+
+    void RollApply()
+    {
+        if (currentState == PlayerState.Rolling)
+        {
+            //take from buffer
+            moveDirection = (cameraRight * moveBuffer.x + cameraForward * moveBuffer.y).normalized;
+            
+            //implement Roll Logic here
+            RollDirect.x = moveDirection.x;
+            RollDirect.z = moveDirection.z;
+            PlayerRB.velocity = RollDirect.normalized * (rollSpeed * Time.fixedDeltaTime * 240);
+        }
+    }
+
+    void LimitSpeed()
+    {
+        Mathf.Clamp(PlayerRB.velocity.magnitude, 0, MaxSpeed);
+        if (PlayerRB.velocity.magnitude > MaxSpeed)
+            PlayerRB.velocity = PlayerRB.velocity.normalized * MaxSpeed;
     }
 
     #endregion
@@ -179,79 +239,48 @@ public class PlayerController : MonoBehaviour
 
     #endregion
 
-    #region Stats
-
-    public void Hurt()
-    {
-        Debug.Log("Player: ouch");
-    }
+    #region Special Move
 
     //TEST
-    public void ReceiveKnockback(DataPack dp)
+    public void GuardDebug()
     {
-        Debug.Log("Player: KNOCK dp test");
+        Guard();
     }
-
+    
+    public async UniTaskVoid Guard()
+    {
+        _playerAnimController.GuardAnim(true);
+        await UniTask.Delay(TimeSpan.FromSeconds(guardTime));
+        _playerAnimController.GuardAnim(false);
+    }
+    
+    
     #endregion
 
-    #region Calculate
+    #region Event
 
-    void UpdateRollCDTimer()
+    [Button]
+    public void Hurt(Vector3 KnockDirect, float Damage)
     {
-        if (currentRollCD > 0)
-            currentRollCD -= Time.deltaTime;
-        else
-            canRoll = true;
+        _playerAnimController.DamagedAnim();
+        ReceiveKnockback(KnockDirect);
     }
-    void AddRollCD(float time)
+    
+    public void ReceiveKnockback(Vector3 KnockDirect)
     {
-        currentRollCD += time;
-    }
-
-    public async UniTaskVoid doRollingMove(Vector2 input)
-    {
-        //prevent spam in the middle
-        if (!canRoll || !staminaSystem.HasEnoughStamina(staminaRollCost) || moveBuffer == Vector2.zero) return;
-
-        //add CD
-        AddRollCD(rollCD + rollTime);
-        canRoll = false; //just want to save calculate so I place here, hehe
-
-        //this lead to the Roll Apply do non-stop
-        currentState = PlayerState.Rolling;
-        //Debug.DrawRay(PlayerRB.transform.position, moveDirection, Color.blue, 0.2f);
-        //consume Stamina here
-        staminaSystem.Consume(staminaRollCost);
-
-        //roll done ? okay cool
-        await UniTask.Delay(TimeSpan.FromSeconds(rollTime));
-        currentState = PlayerState.Idle;
-        //Might add some event here to activate particle or anything
+        Debug.Log("Player: ouch");
+        //Implement Knockback shiet here
     }
 
-    void RollApply()
+    public void Die()
     {
-        if (currentState == PlayerState.Rolling)
-        {
-            //take from buffer
-            moveDirection = (cameraRight * moveBuffer.x + cameraForward * moveBuffer.y).normalized;
-            
-            //implement Roll Logic here
-            RollDirect.x = moveDirection.x;
-            RollDirect.z = moveDirection.z;
-            PlayerRB.velocity = RollDirect.normalized * (rollSpeed * Time.fixedDeltaTime * 240);
-        }
+        _playerAnimController.DieAnim(true);
     }
-
-    void LimitSpeed()
-    {
-        Mathf.Clamp(PlayerRB.velocity.magnitude, 0, MaxSpeed);
-        if (PlayerRB.velocity.magnitude > MaxSpeed)
-            PlayerRB.velocity = PlayerRB.velocity.normalized * MaxSpeed;
-    }
+    
+    public
 
     #endregion
-
+    
     #region Debug
 
     void SpeedCheck()
