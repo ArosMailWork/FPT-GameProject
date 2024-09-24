@@ -7,6 +7,8 @@ using UnityEngine.InputSystem;
 
 public class ArrowController : MonoBehaviour
 {
+    #region Variables
+    
     private PlayerController _playerController;
     
     [FoldoutGroup("Stats")]
@@ -20,13 +22,13 @@ public class ArrowController : MonoBehaviour
     [FoldoutGroup("Debug/States")]
     [ReadOnly] public bool ChargingInput;
     [FoldoutGroup("Debug/States")]
-    public bool IsCharging, FullyCharged, isRecalling, haveArrow;
+    public bool IsCharging, FullyCharged, isRecalling, isCanceling, haveArrow;
 
     [FoldoutGroup("Debug/Setup")] public GameObject ArrowPrefab;
     
-    
-    //Calculate
     public static ArrowController Instance;
+    
+    #endregion
 
     #region Unity Event
 
@@ -56,7 +58,6 @@ public class ArrowController : MonoBehaviour
         
         ChargingInput = ctx.performed;
     }
-    
     public void Recall(InputAction.CallbackContext ctx)
     {
         if(haveArrow || !_playerController.isAlive) return;
@@ -65,17 +66,12 @@ public class ArrowController : MonoBehaviour
         StartRecall(isRecalling);
     }
     
-    public void ChargeShoot()
+    //Mobile Input
+    public void ChargeShoot(bool charge)
     {
         //have arrow and alive ? cool
         if (!haveArrow || !_playerController.isAlive) return;
-        ChargingInput = true;
-        IsCharging = true;
-    }
-    
-    public void OffRecall()
-    {
-        StartRecall(false);
+        ChargingInput = charge;
     }
 
     #endregion
@@ -84,29 +80,12 @@ public class ArrowController : MonoBehaviour
 
     void UpdateCharging()
     {
-        //check to charge, if release charge input 
-        
-        //fix this part allow hold, also recommend to add a cancel boolean to check
-        //If it true, even release wont shoot - Duck 
-        if (ChargingInput && IsCharging)
+        //if holding charge 
+        if (ChargingInput && IsCharging && !isCanceling)
         {
             if (currentChargedTime <= chargedTime)
-            {
                 currentChargedTime += Time.deltaTime;
-            }
-            else
-            {
-                IsCharging = false;
-                //Shoot( null);
-            }
         }
-    }
-    void StartCharge()
-    {
-        IsCharging = true;
-        if(currentChargedTime <= chargedTime) currentChargedTime += Time.deltaTime;
-        
-        //might have more
     }
     
     [Button]
