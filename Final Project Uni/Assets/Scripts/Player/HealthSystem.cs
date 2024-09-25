@@ -54,6 +54,20 @@ public class HealthSystem: MonoBehaviour
         }
     }
 
+    public void DoT(float time, int Damage)
+    {
+        StartCoroutine(DoTTimer(time, Damage));
+    }
+
+    private IEnumerator DoTTimer(float time, int Damage)
+    {   
+        while (true)
+        {
+            ReceiveDamage(Damage);
+            yield return new WaitForSeconds(time);
+        }
+    }
+    
     public void Heal(int amount)
     {
         Value = Mathf.Min(value + amount, MaxHealth);
