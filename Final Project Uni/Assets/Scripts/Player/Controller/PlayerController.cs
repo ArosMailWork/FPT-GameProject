@@ -91,6 +91,7 @@ public class PlayerController : MonoBehaviour
         UpdateRollCDTimer();
 
         Move(moveInput);
+        RotatePlayer(moveDirection);
         RollApply();
     }
 
@@ -216,8 +217,6 @@ public class PlayerController : MonoBehaviour
             //PlayerRB.AddForce(moveDirection * speed, ForceMode.Acceleration);
             PlayerRB.AddForce(moveDirection * (Time.deltaTime * 240 * speed), ForceMode.VelocityChange);
 
-        RotatePlayer(moveDirection);
-        
         _playerAnimController.UpdateRunInput(input); //test
 
         LimitSpeed();
