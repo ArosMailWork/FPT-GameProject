@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public class PlayAnimation : Node
 {
     private Animator animator;
@@ -12,7 +14,7 @@ public class PlayAnimation : Node
     public override NodeState Evaluate()
     {
         animator.Play(animationName);
-        state = NodeState.SUCCESS;
+        state = NodeState.Success;
         return state;
 
     }
