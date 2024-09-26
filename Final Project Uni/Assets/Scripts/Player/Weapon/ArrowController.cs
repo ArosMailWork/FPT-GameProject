@@ -54,13 +54,13 @@ public class ArrowController : MonoBehaviour
     public void ChargeShoot(InputAction.CallbackContext ctx)
     {
         //have arrow and alive ? cool
-        if (!haveArrow || !_playerController.isAlive) return;
+        if (!haveArrow || !_playerController.PlayerHealth.isAlive) return;
         
         ChargingInput = ctx.performed;
     }
     public void Recall(InputAction.CallbackContext ctx)
     {
-        if(haveArrow || !_playerController.isAlive) return;
+        if(haveArrow || !_playerController.PlayerHealth.isAlive) return;
         
         isRecalling = ctx.performed;
         StartRecall(isRecalling);
@@ -70,7 +70,7 @@ public class ArrowController : MonoBehaviour
     public void ChargeShoot(bool charge)
     {
         //have arrow and alive ? cool
-        if (!haveArrow || !_playerController.isAlive) return;
+        if (!haveArrow || !_playerController.PlayerHealth.isAlive) return;
         ChargingInput = charge;
     }
 
@@ -121,7 +121,7 @@ public class ArrowController : MonoBehaviour
     [Button]
     public void StartRecall(bool isRecalling)
     {
-        if(!_playerController.isAlive || _playerController.currentState == PlayerState.Stunning) return;
+        if(!_playerController.PlayerHealth.isAlive || _playerController.currentState == PlayerState.Stunning) return;
 
         if (isRecalling) _playerController.currentState = PlayerState.Recalling;
         else _playerController.currentState = PlayerState.Idle;

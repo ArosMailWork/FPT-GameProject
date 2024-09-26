@@ -17,8 +17,8 @@ public class PlayerController : MonoBehaviour
 {
     #region Variables
 
-    [FoldoutGroup("Stats")]
-    public bool isAlive = true;
+    [FoldoutGroup("Stats")] 
+    public Health PlayerHealth;
     [FoldoutGroup("Stats")]
     public float speed, rotationSpeed, MaxSpeed = 20;
     [FoldoutGroup("Stats/Roll")]
@@ -72,18 +72,17 @@ public class PlayerController : MonoBehaviour
     #region Unity Methods
     private void Awake()
     {
+        if (PlayerHealth == null) PlayerHealth = GetComponent<Health>();
         PlayerRB = GetComponent<Rigidbody>();
 
         if (Instance != this || Instance != null) Destroy(Instance);
         Instance = this;
-        //staminaSystem = new StaminaSystem(100, 10);
     }
 
     private void FixedUpdate()
     {
         JoyStickInput();
         SpeedCheck();
-        //staminaSystem.RegenerateStamina();
     }
 
     private void Update()
@@ -165,7 +164,7 @@ public class PlayerController : MonoBehaviour
 
     public void InputMove(InputAction.CallbackContext ctx)
     {
-        if (!isAlive) return;
+        if (!PlayerHealth.isAlive) return;
         moveInput = ctx.ReadValue<Vector2>();
 
         if (moveInput != Vector2.zero && moveInput != moveBuffer) moveBuffer = moveInput;
@@ -173,7 +172,7 @@ public class PlayerController : MonoBehaviour
 
     public void InputRoll(InputAction.CallbackContext ctx)
     {
-        if (!isAlive) return;
+        if (!PlayerHealth.isAlive) return;
         Roll();
     }
     
@@ -273,6 +272,7 @@ public class PlayerController : MonoBehaviour
 
     public void Die()
     {
+        Debug.Log("Ded");
         _playerAnimController.DieAnim(true);
     }
     

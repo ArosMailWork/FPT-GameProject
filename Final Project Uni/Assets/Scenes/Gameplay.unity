@@ -16804,6 +16804,7 @@ GameObject:
   - component: {fileID: 2007329778}
   - component: {fileID: 2007329777}
   - component: {fileID: 2007329782}
+  - component: {fileID: 2007329785}
   - component: {fileID: 2007329776}
   - component: {fileID: 2007329775}
   - component: {fileID: 2007329783}
@@ -17153,6 +17154,32 @@ MonoBehaviour:
   currentValue: 0
   fulled: 0
   isRegen: 0
+--- !u!114 &2007329785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2007329774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3dcc7b43304a9d046a62b617c407873c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthState: 0
+  maxHealth: 10
+  health: 0
+  overHeal: 0
+  fillOnStart: 1
+  HpValueChange:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  OnKnockback:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &6035735335720412290
 PrefabInstance:
   m_ObjectHideFlags: 0
