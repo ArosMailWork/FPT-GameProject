@@ -13,11 +13,9 @@ public class PlayerAnimController : MonoBehaviour
         playerAnimator = GetComponentInChildren<Animator>();
     }
 
-    public void UpdateRunInput(Vector2 moveVec)
+    public void UpdateRunInput(bool moving)
     {
-        //playerAnimator.SetFloat("Move_X", moveVec.x);
-        //playerAnimator.SetFloat("Move_Y", moveVec.y);
-        playerAnimator.SetBool("Moving", (moveVec != Vector2.zero)); // test
+        playerAnimator.SetBool("Moving", moving); // test
     }
 
     public void GuardAnim(bool guard)

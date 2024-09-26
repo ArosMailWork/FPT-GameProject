@@ -63,7 +63,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 cameraForward;
     private Vector3 cameraRight;
     private Vector3 moveDirection;
-    //private StaminaSystem staminaSystem;
+    private Quaternion targetRotation;
 
     #endregion
 
@@ -90,6 +90,7 @@ public class PlayerController : MonoBehaviour
         UpdateRollCDTimer();
 
         Move(moveInput);
+        
         RotatePlayer(moveDirection);
         RollApply();
     }
@@ -189,6 +190,22 @@ public class PlayerController : MonoBehaviour
 
     #endregion
 
+    #region Animation
+
+    void UpdateAnimState()
+    {
+        _playerAnimController.UpdateRunInput(currentState == PlayerState.Running);
+    }
+    
+    public async UniTaskVoid GuardAnim()
+    {
+        _playerAnimController.GuardAnim(true);
+        await UniTask.Delay(TimeSpan.FromSeconds(guardTime));
+        _playerAnimController.GuardAnim(false);
+    }
+
+    #endregion
+
     #region Movement
 
     public void Move(Vector2 input)
@@ -216,22 +233,17 @@ public class PlayerController : MonoBehaviour
             //PlayerRB.AddForce(moveDirection * speed, ForceMode.Acceleration);
             PlayerRB.AddForce(moveDirection * (Time.deltaTime * 240 * speed), ForceMode.VelocityChange);
 
-        _playerAnimController.UpdateRunInput(input); //test
+        currentState = PlayerState.Running;
 
         LimitSpeed();
-    }
-
-    //do Roll, call by input
-    public void Roll()
-    {
-        if (currentState == PlayerState.Rolling || moveBuffer == Vector2.zero) return;
-        doRollingMove(moveBuffer);
     }
 
     void RotatePlayer(Vector3 moveDirection)
     {
         if (moveDirection == Vector3.zero) return;
-        Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
+        targetRotation = Quaternion.LookRotation(moveDirection);
+        // Create a new rotation with X set to 0
+        targetRotation = Quaternion.Euler(0, targetRotation.eulerAngles.y, 0);
         PlayerRB.rotation = Quaternion.Slerp(PlayerRB.rotation, targetRotation, rotationSpeed * Time.deltaTime);
     }
 
@@ -239,20 +251,17 @@ public class PlayerController : MonoBehaviour
 
     #region Special Move
 
-    //TEST
-    public void GuardDebug()
+    public void Roll()
     {
-        Guard();
+        if (currentState == PlayerState.Rolling || moveBuffer == Vector2.zero) return;
+        doRollingMove(moveBuffer);
     }
     
-    public async UniTaskVoid Guard()
+    public void Guard()
     {
-        _playerAnimController.GuardAnim(true);
-        await UniTask.Delay(TimeSpan.FromSeconds(guardTime));
-        _playerAnimController.GuardAnim(false);
+        GuardAnim();
     }
-    
-    
+
     #endregion
 
     #region Event
