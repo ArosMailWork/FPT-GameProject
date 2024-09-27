@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices.ComTypes;
 using Cysharp.Threading.Tasks;
+using OpenCover.Framework.Model;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -51,6 +52,8 @@ public class PlayerController : MonoBehaviour
     [FoldoutGroup("Setup")]
     public PlayerAnimController _playerAnimController;
     [FoldoutGroup("Setup")]
+    public ArrowController _ArrowController;
+    [FoldoutGroup("Setup")]
     public UltimateJoystick JoystickPA;
     [FoldoutGroup("Setup/Stamina")] public StaminaSystem staminaSystem;
 
@@ -90,7 +93,7 @@ public class PlayerController : MonoBehaviour
         UpdateRollCDTimer();
 
         Move(moveInput);
-        
+        UpdateAnimState();
         RotatePlayer(moveDirection);
         RollApply();
     }
@@ -194,7 +197,15 @@ public class PlayerController : MonoBehaviour
 
     void UpdateAnimState()
     {
+        if(currentState == PlayerState.Stunning || currentState == PlayerState.Rolling) goto Skip;
+        
+        currentState = PlayerState.Idle;
+        if(moveDirection != Vector3.zero) currentState = PlayerState.Running;
+        if (_ArrowController.isRecalling) currentState = PlayerState.Recalling;
+        
         _playerAnimController.UpdateRunInput(currentState == PlayerState.Running);
+
+        Skip:;
     }
     
     public async UniTaskVoid GuardAnim()
@@ -230,10 +241,7 @@ public class PlayerController : MonoBehaviour
 
         // Move the Rigidbody
         if (currentState != PlayerState.Rolling)
-            //PlayerRB.AddForce(moveDirection * speed, ForceMode.Acceleration);
             PlayerRB.AddForce(moveDirection * (Time.deltaTime * 240 * speed), ForceMode.VelocityChange);
-
-        currentState = PlayerState.Running;
 
         LimitSpeed();
     }
