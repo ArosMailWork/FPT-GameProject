@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using JetBrains.Annotations;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Events;
@@ -23,7 +24,9 @@ public class Health : MonoBehaviour
     [FoldoutGroup("Stats")]
     [ReadOnly, SerializeField] private int health, overHeal;
 
-    
+
+    [FoldoutGroup("Setup")] 
+    [SerializeField, CanBeNull] private StatSliderUI StatUI;
     [FoldoutGroup("Setup")]
     public bool fillOnStart = true;
     [FoldoutGroup("Setup/Event")]
@@ -54,6 +57,11 @@ public class Health : MonoBehaviour
 
     #region Unity Method
 
+    private void Awake()
+    {
+        if (TryGetComponent<StatSliderUI>(out StatSliderUI ui)) StatUI = ui;
+    }
+
     private void Start()
     {
         if(fillOnStart) currentHealth = maxHealth;
@@ -66,6 +74,7 @@ public class Health : MonoBehaviour
     public void HPUpdate()
     {
         Debug.Log(this.gameObject.name + " HP Update");
+        if (StatUI != null) StatUI.UpdateHP(health, maxHealth);
         HpValueChange.Invoke();
     }
     public void DeathEvent()

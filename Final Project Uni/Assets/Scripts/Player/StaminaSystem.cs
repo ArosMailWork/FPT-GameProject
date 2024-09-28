@@ -8,6 +8,7 @@ public class StaminaSystem : MonoBehaviour
     public int RegenRate;       // Stamina regeneration rate (how fast it regenerates per second)
     public int currentValue;    // Current stamina value
     public bool fulled, isRegen; // Flags for full stamina and ongoing regeneration
+    public StatSliderUI StatUI;
 
     public delegate void ValueChangeHandler(object sender);
     public event ValueChangeHandler OnValueChange;
@@ -41,6 +42,7 @@ public class StaminaSystem : MonoBehaviour
 
     protected virtual void OnValueChanged()
     {
+        if (StatUI != null) StatUI.UpdateHP(currentValue, MaxStamina);
         OnValueChange?.Invoke(this);
     }
 
@@ -65,6 +67,10 @@ public class StaminaSystem : MonoBehaviour
         }
     }
 
+    private void Awake()
+    {
+        if (TryGetComponent<StatSliderUI>(out StatSliderUI ui)) StatUI = ui;
+    }
     private void Start()
     {
         currentValue = MaxStamina; // Initialize stamina as full at the start
