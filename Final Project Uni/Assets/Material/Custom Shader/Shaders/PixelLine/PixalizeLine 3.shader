@@ -140,13 +140,13 @@ Shader "Custom/EnhancedPixelizeShader"
 			
 		     // Get normal value for the pixelized UV coordinates
 		    float3 normal = GetNormal(pixeledUV).rgb * 2.0 - 1.0;
-		    //normal += GetNormalPlayer2(pixeledUV).rgb * 2.0 - 1.0;
 		     // Calculate normal differences for the outline
 		    float normal_diff = 0.0;
+		    float normal2_diff = 0.0;
 		    for (int i = 0; i < 4; i++)
 		    {
 		        float3 n = GetNormal(pixeledUVOffset[i]).rgb * 2.0 - 1.0;
-		    	//n += GetNormalPlayer2(pixeledUVOffset[i]).rgb * 2.0 - 1.0;
+		        float3 n2 = GetNormalPlayer2(pixeledUVOffset[i]).rgb * 2.0 - 1.0;
 		        normal_diff += normalIndicator(normal_edge_bias, normal, n, depth_diff);
 		    }
 		    normal_diff = smoothstep(0.15, 0.75, normal_diff);

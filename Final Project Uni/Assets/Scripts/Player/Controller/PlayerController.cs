@@ -39,7 +39,7 @@ public class PlayerController : MonoBehaviour
     [FoldoutGroup("Debug")]
     public bool isJoystickInput;
     [FoldoutGroup("Debug")]
-    [SerializeField, ReadOnly] private float currentAccel;
+    [SerializeField, ReadOnly] private float currentAccel, controlRollDirect = 0.2f;
     [FoldoutGroup("Debug/Roll")]
     [SerializeField, ReadOnly] private bool canRoll;
     [FoldoutGroup("Debug/Roll")]
@@ -145,12 +145,16 @@ public class PlayerController : MonoBehaviour
     {
         if (currentState == PlayerState.Rolling)
         {
-            //take from buffer
+            // Take from buffer
             moveDirection = (cameraRight * moveBuffer.x + cameraForward * moveBuffer.y).normalized;
-            
-            //implement Roll Logic here
-            RollDirect.x = moveDirection.x;
-            RollDirect.z = moveDirection.z;
+
+            // Mix the directions
+            Vector3 mixedDirection = Vector3.Lerp(transform.forward.normalized, moveDirection, controlRollDirect).normalized;
+
+            // Implement Roll Logic here
+            RollDirect.x = mixedDirection.x;
+            RollDirect.z = mixedDirection.z;
+
             PlayerRB.velocity = RollDirect.normalized * (rollSpeed * Time.fixedDeltaTime * 240);
         }
     }
