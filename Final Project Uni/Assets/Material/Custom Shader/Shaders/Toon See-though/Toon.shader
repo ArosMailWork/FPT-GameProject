@@ -21,6 +21,11 @@
 	}
 	SubShader
 	{
+		Tags
+		{
+			"RenderType" = "Opaque"
+		}
+		LOD 100
 		
 		Stencil {
 			Ref[_StencilMask]
@@ -44,8 +49,6 @@
 			#pragma multi_compile_fwdbase
 			
 			#include "UnityCG.cginc"
-			// Files below include macros and functions to assist
-			// with lighting and shadows.
 			#include "Lighting.cginc"
 			#include "AutoLight.cginc"
 
@@ -61,10 +64,9 @@
 				float4 pos : SV_POSITION;
 				float3 worldNormal : NORMAL;
 				float2 uv : TEXCOORD0;
-				float3 viewDir : TEXCOORD1;	
-				// Macro found in Autolight.cginc. Declares a vector4
-				// into the TEXCOORD2 semantic with varying precision 
-				// depending on platform target.
+				float3 viewDir : TEXCOORD1;
+				float3 normal : TEXCOORD3;
+				
 				SHADOW_COORDS(2)
 			};
 
@@ -78,8 +80,8 @@
 				o.worldNormal = UnityObjectToWorldNormal(v.normal);		
 				o.viewDir = WorldSpaceViewDir(v.vertex);
 				o.uv = TRANSFORM_TEX(v.uv, _MainTex);
-				// Defined in Autolight.cginc. Assigns the above shadow coordinate
-				// by transforming the vertex from world space to shadow-map space.
+
+				o.normal = v.normal;
 				TRANSFER_SHADOW(o)
 				return o;
 			}
@@ -137,6 +139,7 @@
 
 				float4 sample = tex2D(_MainTex, i.uv);
 
+				
 				return (light + _AmbientColor + specular + rim) * _Color * sample;
 			}
 			ENDCG

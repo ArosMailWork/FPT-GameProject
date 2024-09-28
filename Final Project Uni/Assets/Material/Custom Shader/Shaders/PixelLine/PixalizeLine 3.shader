@@ -106,6 +106,7 @@ Shader "Custom/EnhancedPixelizeShader"
 	        return SAMPLE_TEXTURE2D(_CameraNormalsTexture2, sampler_CameraNormalsTexture2, uv).rgb;
         }
     
+        
         float4 Frag(v2f input) : SV_Target
 		{
 		     // Pixelize the UV coordinates
@@ -139,13 +140,13 @@ Shader "Custom/EnhancedPixelizeShader"
 			
 		     // Get normal value for the pixelized UV coordinates
 		    float3 normal = GetNormal(pixeledUV).rgb * 2.0 - 1.0;
-			normal += GetNormalPlayer2(pixeledUV).rgb * 2.0 - 1.0;
+		    //normal += GetNormalPlayer2(pixeledUV).rgb * 2.0 - 1.0;
 		     // Calculate normal differences for the outline
 		    float normal_diff = 0.0;
 		    for (int i = 0; i < 4; i++)
 		    {
 		        float3 n = GetNormal(pixeledUVOffset[i]).rgb * 2.0 - 1.0;
-		    	n += GetNormalPlayer2(pixeledUVOffset[i]).rgb * 2.0 - 1.0;
+		    	//n += GetNormalPlayer2(pixeledUVOffset[i]).rgb * 2.0 - 1.0;
 		        normal_diff += normalIndicator(normal_edge_bias, normal, n, depth_diff);
 		    }
 		    normal_diff = smoothstep(0.15, 0.75, normal_diff);
@@ -161,7 +162,7 @@ Shader "Custom/EnhancedPixelizeShader"
 		    if (edgeDepth > 0.0)
 		        finalColor = lerp(finalColor, _Color, edgeDepth * 1.5);
 		    else
-			    finalColor = lerp(finalColor, _NormalColor, normal_diff * 0.4);
+			    finalColor = lerp(finalColor, _NormalColor, normal_diff * 0.3);
 
 		    return finalColor;
 		}

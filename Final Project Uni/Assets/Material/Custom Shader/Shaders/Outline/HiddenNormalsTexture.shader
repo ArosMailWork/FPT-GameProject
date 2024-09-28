@@ -1,4 +1,4 @@
-﻿Shader "Hidden/Sora/Normals Texture"
+﻿Shader "Hidden/Roystan/Normals Texture"
 {
     Properties
     {
@@ -9,13 +9,6 @@
 		{ 
 			"RenderType" = "Opaque" 
 		}
-        
-        /*
-        Stencil {
-			Ref 1
-			Comp less
-		}
-        */
 
         Pass
         {

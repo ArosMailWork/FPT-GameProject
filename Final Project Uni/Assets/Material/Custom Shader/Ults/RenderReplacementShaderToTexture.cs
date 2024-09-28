@@ -34,6 +34,7 @@ public class RenderReplacementShaderToTexture : MonoBehaviour
         }
 
         Camera thisCamera = GetComponent<Camera>();
+        thisCamera.depthTextureMode = DepthTextureMode.DepthNormals;
 
         // Create a render texture matching the main camera's current dimensions.
         renderTexture = new RenderTexture(thisCamera.pixelWidth, thisCamera.pixelHeight, renderTextureDepth, renderTextureFormat);
