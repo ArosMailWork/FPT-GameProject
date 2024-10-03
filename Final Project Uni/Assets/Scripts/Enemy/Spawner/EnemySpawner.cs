@@ -6,22 +6,13 @@ using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
 
-[Serializable]
-public enum EnemyDifficulty
-{
-    Easy, Normal, Hard, Special, Bosses
-}
-[Serializable]
-public struct EnemySpawn
-{
-    public EnemyDifficulty enemyDifficulty;
-    public GameObject EnemyPrefab;
-}
+
+
 
 public class EnemySpawner : MonoBehaviour
 {
     [FoldoutGroup("Stats")]
-    public List<EnemySpawn> enemyPool;
+    public EnemyBiomePool enemyPool;
     [FoldoutGroup("Stats")]
     public EnemySpawnSettings spawnSettings;
     [FoldoutGroup("Stats")]
@@ -102,7 +93,7 @@ public class EnemySpawner : MonoBehaviour
     {
         matchingPrefabs.Clear();
         // Collect all prefabs of the specified difficulty
-        foreach (var enemySpawn in enemyPool)
+        foreach (var enemySpawn in enemyPool.enemyPool)
         {
             if (enemySpawn.enemyDifficulty == difficulty)
                 matchingPrefabs.Add(enemySpawn.EnemyPrefab);
