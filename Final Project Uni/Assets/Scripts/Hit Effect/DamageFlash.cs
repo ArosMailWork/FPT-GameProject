@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -15,11 +16,11 @@ public class DamageFlash : MonoBehaviour
     private List<Material[]> _oldMaterials = new List<Material[]>();
     private Coroutine _damageFlashCoroutine;
 
+    [SerializeField, CanBeNull] private HitStop _hitStop;
 
     #endregion
 
-
-
+    
     #region UnityMethods
 
     private void Awake()
@@ -73,14 +74,14 @@ public class DamageFlash : MonoBehaviour
     {
         foreach (SkinnedMeshRenderer skinnedMeshRenderer in _meshRenderers)
         {
-            var flashMaterials = skinnedMeshRenderer.materials;
+            Material[] flashMaterials = skinnedMeshRenderer.materials;
             for (int i = 0; i < flashMaterials.Length; i++)
             {
                 flashMaterials[i] = FlashMaterial;
             }
             skinnedMeshRenderer.materials = flashMaterials;
         }
-        Debug.Log("Flashed");
+        //Debug.Log("Flashed");
     }
 
     public void RevertMaterial()
@@ -89,7 +90,7 @@ public class DamageFlash : MonoBehaviour
         {
             _meshRenderers[i].materials = _oldMaterials[i];
         }
-        Debug.Log("Reverted");
+        //Debug.Log("Reverted");
 
     }
 
@@ -102,6 +103,8 @@ public class DamageFlash : MonoBehaviour
     public void DoDamageFlash()
     {
         CallDamageFlash();
+        
+        if(_hitStop != null) _hitStop.Stop();
     }
 
     #endregion
