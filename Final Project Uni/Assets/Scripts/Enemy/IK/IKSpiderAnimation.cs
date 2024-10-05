@@ -95,7 +95,9 @@ public class IKSpiderAnimation : MonoBehaviour
             legTargets[index].position = nextPos + transform.up * yOffset;
 
             elapsedTime += Time.fixedDeltaTime;
-            yield return null; // Wait for the next frame
+            
+            yield return new WaitForFixedUpdate();
+            //yield return null; // Wait for the next frame
         }
 
         elapsedTime = 0f;
@@ -106,7 +108,9 @@ public class IKSpiderAnimation : MonoBehaviour
             legTargets[index].position = nextPos;
             
             elapsedTime += Time.fixedDeltaTime;
-            yield return null;
+            
+            yield return new WaitForFixedUpdate();
+            //yield return null;
         }
 
         legTargets[index].position = targetPoint;
@@ -128,14 +132,15 @@ public class IKSpiderAnimation : MonoBehaviour
         while (elapsedTime < totalDuration)
         {
             elapsedTime += Time.deltaTime;
-            float t = elapsedTime / totalDuration * 1.5f;
+            float t = elapsedTime / totalDuration;// * 1.5f;
 
             for (int i = 0; i < nbLegs; i++)
             {
                 legTargets[i].position = Vector3.Lerp(startPositions[i], transform.TransformPoint(defaultLegPositions[i]), t);
             }
 
-            yield return null;
+            yield return new WaitForFixedUpdate();
+            //yield return null;
         }
 
         // Ensure the legs reach the final default positions

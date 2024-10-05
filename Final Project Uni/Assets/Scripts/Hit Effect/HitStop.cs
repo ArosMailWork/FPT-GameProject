@@ -9,14 +9,14 @@ public class HitStop : MonoBehaviour
 
     public void Stop()
     {
-        if (waiting)
-            return;
-        Time.timeScale = 0f;
+        if (waiting) return;
+        
         StartCoroutine(Wait(stopDuration));
     }
 
     public IEnumerator Wait(float duration)
     {
+        Time.timeScale = 0f;
         waiting = true;
         yield return new WaitForSecondsRealtime(duration);
         Time.timeScale = 1f;
