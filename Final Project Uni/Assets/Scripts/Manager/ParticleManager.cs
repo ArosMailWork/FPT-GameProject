@@ -62,12 +62,12 @@ public class ParticleManager : MonoBehaviour
     }
     [FoldoutGroup("Event Test")]
     [Button]
-    public GameObject SpawnOppositeParticle(GameObject particlePrefab, Vector3 bulletDirection)
+    public GameObject SpawnOppositeParticle(GameObject particlePrefab, Vector3 position, Quaternion rotation)
     {
-     
-        Vector3 oppositeDirection = -bulletDirection.normalized;
 
-        return SpawnParticle(particlePrefab, oppositeDirection, Quaternion.identity);
+        rotation.x += 180;
+
+        return SpawnParticle(particlePrefab, position, rotation);
     }
     #endregion
 

@@ -18,7 +18,7 @@ public class HitEnemyTest : MonoBehaviour
     {
         ContactPoint contact = objectWeHit.contacts[0];
 
-        GameObject particlePrefab = ParticleManager.Instance.SpawnParticle
+        GameObject particlePrefab = ParticleManager.Instance.SpawnOppositeParticle
                 (ParticleManager.Instance.prefab, contact.point, Quaternion.LookRotation(contact.normal));
 
         particlePrefab.transform.SetParent(objectWeHit.gameObject.transform);
