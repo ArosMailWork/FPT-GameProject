@@ -1,8 +1,6 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class GenerationManager : MonoBehaviour
 {
@@ -14,9 +12,14 @@ public class GenerationManager : MonoBehaviour
     [SerializeField] private int SideRoomChance;
     [SerializeField] private Biome biome;
     [SerializeField] private String BiomeName;
+    [SerializeField] private int MinPuzzleRoom;
+    [SerializeField] private int MaxPuzzleRoom;
+    [SerializeField] private int MinRewardRoom;
+    [SerializeField] private int MaxRewardRoom;
     private List<Room> GenericRoom;
     private List<Room> RewardRoom;
     private List<Room> PuzzleRoom;
+
 
     private Room StartRoom;
     private Room EndRoom;
@@ -25,7 +28,7 @@ public class GenerationManager : MonoBehaviour
     {
         LoadNewBiome();
         Gen.Generate();
-        transform.localScale = new Vector3(10, 10, 10); //test scale
+        //transform.localScale = new Vector3(10, 10, 10); //test scale
     }
     public void LoadNewBiome()
     {
@@ -35,6 +38,6 @@ public class GenerationManager : MonoBehaviour
         PuzzleRoom = biome.PuzzleRoom;
         StartRoom = biome.startRoom;
         EndRoom = biome.endRoom;
-        Gen.AssignData(GridSize, MainPathLength, Width, Height, GenericRoom, RewardRoom, PuzzleRoom, StartRoom, EndRoom);
+        Gen.AssignData(GridSize, MainPathLength, Width, Height, UnityEngine.Random.Range(MinPuzzleRoom, MaxPuzzleRoom), UnityEngine.Random.Range(MinRewardRoom, MaxRewardRoom), GenericRoom, RewardRoom, PuzzleRoom, StartRoom, EndRoom);
     }
 }

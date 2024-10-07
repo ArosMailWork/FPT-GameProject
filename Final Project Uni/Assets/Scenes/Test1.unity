@@ -276,12 +276,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Gen: {fileID: 1088060709}
   GridSize: 20
-  MainPathLength: 4
+  MainPathLength: 7
   Width: 20
   Height: 20
   SideRoomChance: 5
   biome: {fileID: 11400000, guid: 926402d6ad7475f4aaa9a2b53370a012, type: 2}
   BiomeName: 
+  MinPuzzleRoom: 0
+  MaxPuzzleRoom: 0
+  MinRewardRoom: 0
+  MaxRewardRoom: 0
 --- !u!1 &1875816686 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 7bdc719d48f237146837bf1315422d80, type: 3}
@@ -449,6 +453,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 146d118f5e5068140bf4e7dd726412fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  forceCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   ShootForce: 100
   currentChargedTime: 0
   chargedTime: 2
@@ -458,6 +468,7 @@ MonoBehaviour:
   IsCharging: 0
   FullyCharged: 0
   isRecalling: 0
+  isCanceling: 0
   haveArrow: 0
   ArrowPrefab: {fileID: 0}
 --- !u!114 &2328450969235940253
@@ -879,7 +890,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &5316902365376865404
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1198,22 +1209,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dbfd82078156464aa55b21f0d43a427, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isAlive: 1
+  PlayerHealth: {fileID: 0}
   speed: 0.7
   rotationSpeed: 10
   MaxSpeed: 20
   rollSpeed: 13
   rollCD: 0.6
   rollTime: 0.2
+  staminaRollCost: 0
+  guardTime: 0
   currentState: 0
   moveInput: {x: 0, y: 0}
   moveBuffer: {x: 0, y: 0}
+  joyStickInput: {x: 0, y: 0}
+  isJoystickInput: 0
   currentAccel: 0
+  controlRollDirect: 0.2
   canRoll: 0
   currentRollCD: 0
   RollDirect: {x: 0, y: 0, z: 0}
   PlayerRB: {fileID: 5341463807018626384}
   _playerAnimController: {fileID: 1339300496586709857}
+  _ArrowController: {fileID: 0}
+  JoystickPA: {fileID: 0}
+  staminaSystem: {fileID: 0}
 --- !u!114 &7174802372095843980
 MonoBehaviour:
   m_ObjectHideFlags: 0

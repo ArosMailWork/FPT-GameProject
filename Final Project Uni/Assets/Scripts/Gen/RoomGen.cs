@@ -44,12 +44,14 @@ public class RoomGen : MonoBehaviour
         new Vector2Int(1,0), //Right
         //new Vector2Int(-1,0) //Left
     };
-    public void AssignData(int GridSize, int MainPathLength, int Width, int Height, List<Room> genericRoom, List<Room> rewardRoom, List<Room> puzzleRoom, Room StartRoom, Room EndRoom)
+    public void AssignData(int GridSize, int MainPathLength, int Width, int Height, int TotalPuzzleRoom, int TotalRewardRoom, List<Room> genericRoom, List<Room> rewardRoom, List<Room> puzzleRoom, Room StartRoom, Room EndRoom)
     {
         this.GridSize = GridSize;
         this.MainPathLength = MainPathLength;
         this.Width = Width;
         this.Height = Height;
+        this.TotalPuzzleRoom = TotalPuzzleRoom;
+        this.TotalRewardRoom = TotalRewardRoom;
         this.GenericRoom = genericRoom;
         this.RewardRoom = rewardRoom;
         this.PuzzleRoom = puzzleRoom;
@@ -221,8 +223,10 @@ public class RoomGen : MonoBehaviour
     private void RoomPlace(int TotalRoom, List<Room> rooms)
     {
         int count = 0;
-        while (count < TotalRoom)
+        int itr = 0;
+        while (count < TotalRoom && itr <= 5)
         {
+            itr++;
             foreach (Node n in origin.nodes)
             {
                 if (count >= TotalRoom)
