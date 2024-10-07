@@ -29,7 +29,8 @@ public class SpiderIKController : MonoBehaviour
 
     void GroundCheck()
     {
-        if (Physics.Raycast(SpiderCenter.position, -transform.up, out hit, groundDetectDistance, groundLayer))
+        //if (Physics.Raycast(SpiderCenter.position, -transform.up, out hit, groundDetectDistance, groundLayer))
+        if (Physics.Raycast(SpiderCenter.position, new Vector3(0,-1,0), out hit, groundDetectDistance, groundLayer))
         {
             GroundSurfaceNormal = hit.normal;
             isGrounded = true;
