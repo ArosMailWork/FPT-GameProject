@@ -14,8 +14,10 @@ public class GenerationManager : MonoBehaviour
     [SerializeField] private int SideRoomChance;
     [SerializeField] private Biome biome;
     [SerializeField] private String BiomeName;
-    private List<Room> MainPath;
-    private List<Room> SidePath;
+    private List<Room> GenericRoom;
+    private List<Room> RewardRoom;
+    private List<Room> PuzzleRoom;
+
     private Room StartRoom;
     private Room EndRoom;
 
@@ -23,15 +25,16 @@ public class GenerationManager : MonoBehaviour
     {
         LoadNewBiome();
         Gen.Generate();
-        transform.localScale = new Vector3(10,10,10); //test scale
+        transform.localScale = new Vector3(10, 10, 10); //test scale
     }
     public void LoadNewBiome()
     {
         BiomeName = biome.biomeName;
-        MainPath = biome.mainPath;
-        SidePath = biome.sidePath;
+        GenericRoom = biome.GenericRoom;
+        RewardRoom = biome.RewardRoom;
+        PuzzleRoom = biome.PuzzleRoom;
         StartRoom = biome.startRoom;
         EndRoom = biome.endRoom;
-        Gen.AssignData(GridSize, MainPathLength, Width, Height, MainPath, SidePath, StartRoom, EndRoom);
+        Gen.AssignData(GridSize, MainPathLength, Width, Height, GenericRoom, RewardRoom, PuzzleRoom, StartRoom, EndRoom);
     }
 }

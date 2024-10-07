@@ -8,8 +8,9 @@ using UnityEngine;
 public class Biome : ScriptableObject
 {
     public String biomeName;
-    public List<Room> mainPath;
-    public List<Room> sidePath;
+    public List<Room> GenericRoom;
+    public List<Room> RewardRoom;
+    public List<Room> PuzzleRoom;
     public Room startRoom;
     public Room endRoom;
 }
