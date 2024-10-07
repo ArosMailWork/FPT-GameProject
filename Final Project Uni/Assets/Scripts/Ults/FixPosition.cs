@@ -23,7 +23,7 @@ public class FixPosition : MonoBehaviour
     }
 
     // Update is called once per frame
-    void LateUpdate()
+    void Update()
     {
         transform.position = initialPosition;
         debugPosition = transform.position;
