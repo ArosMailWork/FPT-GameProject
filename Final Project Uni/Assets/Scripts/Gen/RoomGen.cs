@@ -20,6 +20,8 @@ public class RoomGen : MonoBehaviour
     private List<Room> SidePath;
     private Room StartRoom;
     private Room EndRoom;
+    private int TotalSpRoom = 5;
+    private int CurrentSpRoom = 0;
     // A 2D array that will store our collapsed tiles so we can reference them later.
     private Node[,] _grid;
     //List containing all possible nodes
@@ -60,8 +62,12 @@ public class RoomGen : MonoBehaviour
         //First Pass 
         GenerateMainPath();
         //Instantiate the origin point
-
         GenerateSidePath();
+        //Place room
+        while (CurrentSpRoom < TotalSpRoom)
+        {
+            RoomPlace();
+        }
         origin.ConnectedPos = CheckConnectedDirection(origin.currentPos, sideOffsets);
         Debug.Log(origin.ConnectedPos.Count);
         GameObject o = GameObject.Instantiate(origin.room.Prefab, new Vector3(origin.currentPos.x * GridSize, 0f, origin.currentPos.y * GridSize), Quaternion.identity);
@@ -78,7 +84,6 @@ public class RoomGen : MonoBehaviour
             GameObject g = GameObject.Instantiate(n.room.Prefab, new Vector3(n.currentPos.x * GridSize, 0f, n.currentPos.y * GridSize), Quaternion.identity);
             g.GetComponent<RoomController>().SetConnector(n.ConnectedPos);
             g.transform.SetParent(this.transform);
-            //g.transform.localScale = new Vector3(Size, 1, Size);
             allRoom.Add(g);
             if (n.nodes.Count > 0)
             {
@@ -87,7 +92,6 @@ public class RoomGen : MonoBehaviour
                     s.ConnectedPos = CheckConnectedDirection(s.currentPos, sideOffsets);
                     GameObject g1 = GameObject.Instantiate(s.room.Prefab, new Vector3(s.currentPos.x * GridSize, 0f, s.currentPos.y * GridSize), Quaternion.identity);
                     g1.GetComponent<RoomController>().SetConnector(s.ConnectedPos);
-                    //g1.transform.localScale = new Vector3(Size, 1, Size);
                     g1.transform.SetParent(this.transform);
                     allRoom.Add(g1);
                 }
@@ -142,6 +146,7 @@ public class RoomGen : MonoBehaviour
         Vector2Int pointer = new Vector2Int(0, 0);
         origin.currentPos = pointer;
         origin.room = StartRoom;
+        origin.IsSpecialRoom = true;
         _grid[pointer.x, pointer.y] = origin;
         for (int i = 1; i <= MainPathLength; i++)
         {
@@ -152,14 +157,17 @@ public class RoomGen : MonoBehaviour
                 pointer.x += rV.x;
                 pointer.y += rV.y;
                 Room p = MainPath[Random.Range(0, MainPath.Count)];
+                bool sr = false;
                 if (i == MainPathLength)
                 {
                     p = EndRoom;
+                    sr = true;
                 }
                 Node n = new Node()
                 {
                     currentPos = pointer,
-                    room = p
+                    room = p,
+                    IsSpecialRoom = sr
                 };
                 _grid[pointer.x, pointer.y] = n;
                 origin.nodes.Add(n);
@@ -192,14 +200,11 @@ public class RoomGen : MonoBehaviour
                     Node s = new Node()
                     {
                         currentPos = pointer,
-                        room = SidePath[Random.Range(0, SidePath.Count)]
+                        room = MainPath[Random.Range(0, MainPath.Count)]
 
-
-                        //Prefab = SidePrefab
                     };
                     _grid[pointer.x, pointer.y] = s;
                     n.nodes.Add(s);
-                    //Debug.Log("Chances :" + chances);
                 }
                 else
                 {
@@ -211,9 +216,37 @@ public class RoomGen : MonoBehaviour
 
         }
     }
-    private void GenerateConnector()
+    private void RoomPlace()
     {
-
+        foreach (Node n in origin.nodes)
+        {
+            if (CurrentSpRoom >= TotalSpRoom)
+            {
+                break;
+            }
+            if (n.IsSpecialRoom == false && Random.Range(0, 3) > 1)
+            {
+                n.room = SidePath[Random.Range(0, SidePath.Count)];
+                n.IsSpecialRoom = true;
+                CurrentSpRoom++;
+            }
+            if (n.nodes.Count > 0)
+            {
+                foreach (Node s in n.nodes)
+                {
+                    if (CurrentSpRoom >= TotalSpRoom)
+                    {
+                        break;
+                    }
+                    if (s.IsSpecialRoom == false && Random.Range(0, 3) > 1)
+                    {
+                        s.room = SidePath[Random.Range(0, SidePath.Count)];
+                        s.IsSpecialRoom = true;
+                        CurrentSpRoom++;
+                    }
+                }
+            }
+        }
     }
     private bool IsInsideGrid(Vector2Int v2int)
     {
