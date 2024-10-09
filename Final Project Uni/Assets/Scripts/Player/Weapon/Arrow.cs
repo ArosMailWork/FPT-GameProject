@@ -18,7 +18,7 @@ public class Arrow : MonoBehaviour
     [FoldoutGroup("Stats")]
     public Vector3 AccelDirect;
     [FoldoutGroup("Stats")]
-    public float lifeTime, recallSpeed, rotSpeed = 10, MaxSpeed, minShootingSpeed = 0.5f;
+    public float lifeTime, recallSpeed, rotSpeed = 10, MaxSpeed, minShootingSpeed = 0.5f, MirageDelay = 0.5f;
     [FoldoutGroup("Stats/Hover")]
     public float hoverSpeed = 2.0f;
 
@@ -87,7 +87,7 @@ public class Arrow : MonoBehaviour
     {
         AccelDirect = inputDirect;
         //Debug.Log(AccelDirect);
-        arrowRb.velocity = AccelDirect * Time.fixedDeltaTime * 5;
+        arrowRb.velocity = AccelDirect;
     }
 
     #region Recalling
@@ -126,7 +126,9 @@ public class Arrow : MonoBehaviour
                 _playerController.currentState = PlayerState.Idle;
                 _arrowController.haveArrow = true;
                 _arrowController.isRecalling = false;
-                _arrowController.HideAllArrow();
+                _arrowController.arrowRecoverFlag = true;
+                
+                _arrowController.HideAllArrow(MirageDelay);
                 currentArrowState = ArrowState.Idle;
             }
             HideArrow();
@@ -148,7 +150,7 @@ public class Arrow : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Player") && IsMainArrow)
             _arrowController.haveArrow = false;
     }
 

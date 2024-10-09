@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -22,7 +23,7 @@ public class ArrowController : MonoBehaviour
     [FoldoutGroup("Debug/States")]
     [ReadOnly] public bool ChargingInput;
     [FoldoutGroup("Debug/States")]
-    public bool IsCharging, FullyCharged, isRecalling, isCanceling, haveArrow;
+    public bool FullyCharged, isRecalling, isCanceling, arrowRecoverFlag, haveArrow;
 
     [FoldoutGroup("Debug/Setup")] public GameObject ArrowPrefab;
     [FoldoutGroup("Debug/Setup")]
@@ -76,7 +77,7 @@ public class ArrowController : MonoBehaviour
         if (!haveArrow || !_playerController.PlayerHealth.isAlive) return;
         //if (haveArrow) return;
         ChargingInput = charge;
-        Debug.Log(ChargingInput);
+        //Debug.Log(ChargingInput);
     }
     public void Recall(bool recall)
     {
@@ -92,28 +93,17 @@ public class ArrowController : MonoBehaviour
 
     void UpdateCharging()
     {
-        //if holding charge 
-        // if (ChargingInput && IsCharging && !isCanceling)
-        // {
-        //     if (currentChargedTime <= chargedTime)
-        //     {
-        //         currentChargedTime += Time.deltaTime;
-        //         Debug.Log(currentChargedTime);
-        //     }
-        // }
-        //if holding charge 
-        if (ChargingInput)
+        if (ChargingInput && !isCanceling)
         {
             if (currentChargedTime <= chargedTime)
             {
                 currentChargedTime += Time.deltaTime;
-                Debug.Log(currentChargedTime);
+                //Debug.Log(currentChargedTime);
             }
         }
     }
     void ShootArrow(Arrow arrow)
     {
-
         float calForce = forceCurve.Evaluate(currentChargedTime / chargedTime) * ShootForce;
         Vector3 ShootDir = _playerController.transform.forward + new Vector3(arrow.offset, arrow.offset, arrow.offset);
         ShootDir.y = 0;
@@ -127,10 +117,14 @@ public class ArrowController : MonoBehaviour
     [Button]
     public void Shoot()
     {
-        if (!haveArrow) return;
-        //beacuse button up
+        if (!haveArrow || arrowRecoverFlag)
+        {
+            arrowRecoverFlag = false;
+            return;
+        }
+
+        //because button up
         ChargingInput = false;
-        IsCharging = false;
         haveArrow = false;
         ShootArrow(MainArrow);
         if (IsSplitShot)
@@ -148,8 +142,9 @@ public class ArrowController : MonoBehaviour
     #endregion
 
     #region Recall
-    public void HideAllArrow()
+    public async UniTaskVoid HideAllArrow(float time = 0)
     {
+        await UniTask.Delay(TimeSpan.FromSeconds(time));
         foreach (var arrow in arrowsList)
         {
             arrow.HideArrow();
@@ -172,9 +167,11 @@ public class ArrowController : MonoBehaviour
     public void StartRecall(bool isRecalling)
     {
         if (!_playerController.PlayerHealth.isAlive || _playerController.currentState == PlayerState.Stunning || haveArrow) return;
-        //if (_playerController.currentState == PlayerState.Stunning || haveArrow) return;
+        
         if (isRecalling) _playerController.currentState = PlayerState.Recalling;
         else _playerController.currentState = PlayerState.Idle;
+        
+        
         RecallArrow(MainArrow);
         if (IsSplitShot)
         {
