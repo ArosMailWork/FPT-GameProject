@@ -13,12 +13,12 @@ public class HitEnemyTest : MonoBehaviour
         if (objectWeHit.CompareTag("Target"))
         {
             Debug.Log("hit " + objectWeHit.gameObject.name + "!");
-            CreateParticle(objectWeHit);
+            StartCoroutine(CreateParticle(objectWeHit));
             //Destroy(gameObject);
         }
     }
 
-    private void CreateParticle(Collider objectWeHit)
+    public IEnumerator CreateParticle(Collider objectWeHit)
     {
         // Get the closest point of impact on the collider
         Vector3 hitPoint = objectWeHit.ClosestPoint(transform.position);
@@ -35,5 +35,9 @@ public class HitEnemyTest : MonoBehaviour
 
         // Offset the particle position slightly
         particlePrefab.transform.position = hitPoint + offset;
+        yield return new WaitForSecondsRealtime(2);
+         
+        ParticleManager.Instance.DespawnParticle(particlePrefab);
+
     }
 }

@@ -34,7 +34,9 @@ public class ParticleManager : MonoBehaviour
     #region Event
     public GameObject SpawnParticle(GameObject particleSystem, Vector3 position, Quaternion rotation)
     {
-        return PoolManager.Spawn(particleSystem, position, rotation);
+        GameObject obj =  PoolManager.Spawn(particleSystem, position, rotation);
+        Debug.Log("Object " + particleSystem.name + " count in pool: " + PoolManager.GetPoolCount(particleSystem));
+        return obj;
     }
 
     // Set the position of an existing particle system
@@ -68,6 +70,13 @@ public class ParticleManager : MonoBehaviour
         rotation.x += 180;
 
         return SpawnParticle(particlePrefab, position, rotation);
+    }
+
+    [FoldoutGroup("Event Test")]
+    [Button]
+    public void DespawnParticle(GameObject particlePrefab)
+    {
+        PoolManager.Despawn(particlePrefab);
     }
     #endregion
 
