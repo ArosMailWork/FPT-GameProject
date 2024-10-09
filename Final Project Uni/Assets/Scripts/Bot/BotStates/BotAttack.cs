@@ -40,6 +40,7 @@ public class BotAttack : BaseState
     public override void TriggerEnter(Collider other)
     {
         base.TriggerEnter(other);
+
         if (other.CompareTag("Unit"))
         {
             GameObject go = other.gameObject;

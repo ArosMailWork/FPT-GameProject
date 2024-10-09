@@ -6,6 +6,7 @@ public class GenerationManager : MonoBehaviour
 {
     [SerializeField] private RoomGen Gen;
     [SerializeField] private int GridSize = 1;
+    [SerializeField] private int MapScale_test = 15;
     [SerializeField] private int MainPathLength = 4;
     [SerializeField] private int Width;
     [SerializeField] private int Height;
@@ -28,7 +29,7 @@ public class GenerationManager : MonoBehaviour
     {
         LoadNewBiome();
         Gen.Generate();
-        //transform.localScale = new Vector3(10, 10, 10); //test scale
+        transform.localScale = new Vector3(MapScale_test, MapScale_test, MapScale_test); //test scale
     }
     public void LoadNewBiome()
     {
