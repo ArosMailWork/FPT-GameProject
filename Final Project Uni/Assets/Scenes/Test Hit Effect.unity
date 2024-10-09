@@ -16721,19 +16721,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 22420156, guid: 4adbe3ac910c42e4883b0170504cf426, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 292.68
+      value: 585.36
       objectReference: {fileID: 0}
     - target: {fileID: 22420156, guid: 4adbe3ac910c42e4883b0170504cf426, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 292.68
+      value: 585.36
       objectReference: {fileID: 0}
     - target: {fileID: 22420156, guid: 4adbe3ac910c42e4883b0170504cf426, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 1.4633789
+      value: 2.9267578
       objectReference: {fileID: 0}
     - target: {fileID: 22420156, guid: 4adbe3ac910c42e4883b0170504cf426, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 1.4633789
+      value: 2.9267578
       objectReference: {fileID: 0}
     - target: {fileID: 22464756, guid: 4adbe3ac910c42e4883b0170504cf426, type: 3}
       propertyPath: m_Pivot.x
@@ -16761,11 +16761,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 22464756, guid: 4adbe3ac910c42e4883b0170504cf426, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 295.60678
+      value: 591.21356
       objectReference: {fileID: 0}
     - target: {fileID: 22464756, guid: 4adbe3ac910c42e4883b0170504cf426, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 295.60678
+      value: 591.21356
       objectReference: {fileID: 0}
     - target: {fileID: 22464756, guid: 4adbe3ac910c42e4883b0170504cf426, type: 3}
       propertyPath: m_LocalPosition.x
@@ -16797,11 +16797,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 22464756, guid: 4adbe3ac910c42e4883b0170504cf426, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 63.629395
+      value: 127.25879
       objectReference: {fileID: 0}
     - target: {fileID: 22464756, guid: 4adbe3ac910c42e4883b0170504cf426, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 37.90262
+      value: 75.80524
       objectReference: {fileID: 0}
     - target: {fileID: 22464756, guid: 4adbe3ac910c42e4883b0170504cf426, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -17086,7 +17086,6 @@ GameObject:
   - component: {fileID: 1409330288}
   - component: {fileID: 1409330287}
   - component: {fileID: 1409330286}
-  - component: {fileID: 1409330291}
   m_Layer: 7
   m_Name: Cube
   m_TagString: Untagged
@@ -17107,7 +17106,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   offset: {x: 0, y: 0, z: 0}
-  rb: {fileID: 1409330291}
+  rb: {fileID: 0}
 --- !u!65 &1409330287
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -17194,33 +17193,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!54 &1409330291
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1409330285}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 1
 --- !u!1 &1414006396
 GameObject:
   m_ObjectHideFlags: 0
@@ -18899,6 +18871,7 @@ GameObject:
   - component: {fileID: 1962856959}
   - component: {fileID: 1962856958}
   - component: {fileID: 1962856957}
+  - component: {fileID: 1962856960}
   m_Layer: 0
   m_Name: Cube (3)
   m_TagString: Untagged
@@ -18992,6 +18965,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1962856955}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1962856960
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1962856955}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4eb88108dc56c3c4aaa42f45873ae21b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 1409330285}
+  time: 3
 --- !u!114 &1992230427 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 11428158, guid: 4adbe3ac910c42e4883b0170504cf426, type: 3}
