@@ -12,11 +12,12 @@ public class BotIdle : BaseState
 
     public override void Enter()
     {
+        Debug.Log("Idle");
         base.Enter();
         sm.currState = "Idle";
         //sm.nav.enabled = true;
         //sm.nav.isStopped = false;
-        //sm.ChangeState(sm.pushState);
+        sm.ChangeState(sm.chaseState);
 
     }
 }
