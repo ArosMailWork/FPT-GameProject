@@ -14,8 +14,6 @@ public class BotIdle : BaseState
     {
         base.Enter();
         sm.currState = "Idle";
-        //sm.nav.enabled = true;
-        //sm.nav.isStopped = false;
         //sm.ChangeState(sm.pushState);
 
     }
