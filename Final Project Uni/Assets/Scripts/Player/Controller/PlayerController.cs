@@ -11,22 +11,22 @@ using UnityEngine.InputSystem;
 [Serializable]
 public enum PlayerState
 {
-    Idle, Running, Recalling, Stunning, Rolling 
+    Idle, Running, Recalling, Stunning, Rolling
 }
 
 public class PlayerController : MonoBehaviour
 {
     #region Variables
 
-    [FoldoutGroup("Stats")] 
+    [FoldoutGroup("Stats")]
     public Health PlayerHealth;
     [FoldoutGroup("Stats")]
     public float speed, rotationSpeed, MaxSpeed = 20;
     [FoldoutGroup("Stats/Roll")]
     public float rollSpeed, rollCD, rollTime;
-    [FoldoutGroup("Setup/Stamina")] 
+    [FoldoutGroup("Setup/Stamina")]
     public int staminaRollCost;
-    [FoldoutGroup("Setup/Guard")] 
+    [FoldoutGroup("Setup/Guard")]
     public float guardTime;
 
 
@@ -71,7 +71,7 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #endregion
-    
+
     #region Unity Methods
     private void Awake()
     {
@@ -104,7 +104,7 @@ public class PlayerController : MonoBehaviour
     }
 
     #endregion
-    
+
     #region Calculate
 
     void UpdateRollCDTimer()
@@ -129,7 +129,7 @@ public class PlayerController : MonoBehaviour
         canRoll = false; //just want to save calculate so I place here, hehe
 
         //this lead to the Roll Apply do non-stop
-        
+
         currentState = PlayerState.Rolling;
         _playerAnimController.DodgeAnim();
         //consume Stamina here
@@ -183,15 +183,15 @@ public class PlayerController : MonoBehaviour
         if (!PlayerHealth.isAlive) return;
         Roll();
     }
-    
+
     void JoyStickInput()
     {
         joyStickInput.x = JoystickPA.GetHorizontalAxis();
         joyStickInput.y = JoystickPA.GetVerticalAxis();
-        
+
         isJoystickInput = (joyStickInput != Vector2.zero);
-        
-        if (joyStickInput != Vector2.zero && joyStickInput != moveBuffer) 
+
+        if (joyStickInput != Vector2.zero && joyStickInput != moveBuffer)
             moveBuffer = joyStickInput;
     }
 
@@ -201,17 +201,17 @@ public class PlayerController : MonoBehaviour
 
     void UpdateAnimState()
     {
-        if(currentState == PlayerState.Stunning || currentState == PlayerState.Rolling) goto Skip;
-        
+        if (currentState == PlayerState.Stunning || currentState == PlayerState.Rolling) goto Skip;
+
         currentState = PlayerState.Idle;
-        if(moveDirection != Vector3.zero) currentState = PlayerState.Running;
+        if (moveDirection != Vector3.zero) currentState = PlayerState.Running;
         if (_ArrowController.isRecalling) currentState = PlayerState.Recalling;
-        
+
         _playerAnimController.UpdateRunInput(currentState == PlayerState.Running);
 
-        Skip:;
+    Skip:;
     }
-    
+
     public async UniTaskVoid GuardAnim()
     {
         _playerAnimController.GuardAnim(true);
@@ -236,7 +236,7 @@ public class PlayerController : MonoBehaviour
         cameraRight = Camera.main.transform.right.normalized;
 
         // Calculate the move direction based on input and camera orientation
-        
+
         moveDirection = (cameraRight * input.x + cameraForward * input.y).normalized;
         moveDirection.y = 0;
 
@@ -268,7 +268,7 @@ public class PlayerController : MonoBehaviour
         if (currentState == PlayerState.Rolling || moveBuffer == Vector2.zero) return;
         doRollingMove(moveBuffer);
     }
-    
+
     public void Guard()
     {
         GuardAnim();
@@ -284,7 +284,7 @@ public class PlayerController : MonoBehaviour
         _playerAnimController.DamagedAnim();
         ReceiveKnockback(KnockDirect);
     }
-    
+
     public void ReceiveKnockback(Vector3 KnockDirect)
     {
         Debug.Log("Player: ouch");
@@ -296,11 +296,11 @@ public class PlayerController : MonoBehaviour
         Debug.Log("Ded");
         _playerAnimController.DieAnim(true);
     }
-    
+
     public
 
     #endregion
-    
+
     #region Debug
 
     void SpeedCheck()

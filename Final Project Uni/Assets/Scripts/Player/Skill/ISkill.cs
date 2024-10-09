@@ -10,7 +10,7 @@ public enum SkillType
 }
 public abstract class ISkill : MonoBehaviour
 {
-    [SerializeField] PlayerController _pc;
+    [SerializeField] public PlayerController _pc;
     public string Name;
     public float Cooldown;
     public float currentCD;

@@ -20,7 +20,7 @@ public class SkillHolder : MonoBehaviour
         AddSkill(skillPrefab1);
         AddSkill(skillPrefab2);
         SetActiveSkill(0);
-        activeSkill.GetComponent<ISkill>().Activate();
+        //activeSkill.GetComponent<ISkill>().Activate();
     }
     void SetActiveSkill(int slot)
     {
@@ -54,12 +54,12 @@ public class SkillHolder : MonoBehaviour
     public void ActivateSkill(InputAction.CallbackContext ctx)
     {
         activeSkill.GetComponent<ISkill>().Activate();
-        TimerAdd(activeSkill.GetComponent<ISkill>().Cooldown);
+        //TimerAdd(activeSkill.GetComponent<ISkill>().Cooldown);
     }
     public void ActivateSkill()
     {
         activeSkill.GetComponent<ISkill>().Activate();
-        TimerAdd(activeSkill.GetComponent<ISkill>().Cooldown);
+        //TimerAdd(activeSkill.GetComponent<ISkill>().Cooldown);
     }
     #endregion
 

@@ -8,12 +8,12 @@ using UnityEngine.InputSystem;
 public class ArrowController : MonoBehaviour
 {
     #region Variables
-    
+
     private PlayerController _playerController;
-    
+
     [FoldoutGroup("Stats")]
     public AnimationCurve forceCurve;
-    
+
     [FoldoutGroup("Stats")]
     public float ShootForce, currentChargedTime, chargedTime = 2f;
 
@@ -25,9 +25,12 @@ public class ArrowController : MonoBehaviour
     public bool IsCharging, FullyCharged, isRecalling, isCanceling, haveArrow;
 
     [FoldoutGroup("Debug/Setup")] public GameObject ArrowPrefab;
-    
+    [FoldoutGroup("Debug/Setup")]
+    public Arrow MainArrow;
+
     public static ArrowController Instance;
-    
+    [FoldoutGroup("Debug/Buff")] public bool IsSplitShot = false;
+
     #endregion
 
     #region Unity Event
@@ -55,23 +58,32 @@ public class ArrowController : MonoBehaviour
     {
         //have arrow and alive ? cool
         if (!haveArrow || !_playerController.PlayerHealth.isAlive) return;
-        
+        //if (!haveArrow) return;
         ChargingInput = ctx.performed;
     }
     public void Recall(InputAction.CallbackContext ctx)
     {
-        if(haveArrow || !_playerController.PlayerHealth.isAlive) return;
-        
+        //if (haveArrow || !_playerController.isAlive) return;
+        if (haveArrow) return;
         isRecalling = ctx.performed;
         StartRecall(isRecalling);
     }
-    
+
     //Mobile Input
     public void ChargeShoot(bool charge)
     {
         //have arrow and alive ? cool
         if (!haveArrow || !_playerController.PlayerHealth.isAlive) return;
+        //if (haveArrow) return;
         ChargingInput = charge;
+        Debug.Log(ChargingInput);
+    }
+    public void Recall(bool recall)
+    {
+        if (haveArrow || !_playerController.PlayerHealth.isAlive) return;
+        //if (haveArrow) return;
+        isRecalling = recall;
+        StartRecall(isRecalling);
     }
 
     #endregion
@@ -81,13 +93,37 @@ public class ArrowController : MonoBehaviour
     void UpdateCharging()
     {
         //if holding charge 
-        if (ChargingInput && IsCharging && !isCanceling)
+        // if (ChargingInput && IsCharging && !isCanceling)
+        // {
+        //     if (currentChargedTime <= chargedTime)
+        //     {
+        //         currentChargedTime += Time.deltaTime;
+        //         Debug.Log(currentChargedTime);
+        //     }
+        // }
+        //if holding charge 
+        if (ChargingInput)
         {
             if (currentChargedTime <= chargedTime)
+            {
                 currentChargedTime += Time.deltaTime;
+                Debug.Log(currentChargedTime);
+            }
         }
     }
-    
+    void ShootArrow(Arrow arrow)
+    {
+
+        float calForce = forceCurve.Evaluate(currentChargedTime / chargedTime) * ShootForce;
+        Vector3 ShootDir = _playerController.transform.forward + new Vector3(arrow.offset, arrow.offset, arrow.offset);
+        ShootDir.y = 0;
+        //Test (pooling replace)
+        arrow.gameObject.SetActive(true);
+        arrow.transform.position = _playerController.transform.position;
+        arrow.Shoot(ShootDir.normalized * calForce);
+        //arrow.Shoot(ShootDir.normalized);
+        arrow.currentArrowState = ArrowState.Shooting;
+    }
     [Button]
     public void Shoot()
     {
@@ -96,49 +132,58 @@ public class ArrowController : MonoBehaviour
         ChargingInput = false;
         IsCharging = false;
         haveArrow = false;
-
-        foreach (var arrow in arrowsList)
+        ShootArrow(MainArrow);
+        if (IsSplitShot)
         {
-            float calForce = forceCurve.Evaluate(currentChargedTime / chargedTime) * ShootForce;
-            Vector3 ShootDir = _playerController.transform.forward;
-            ShootDir.y = 0;
-            
-            //Test (pooling replace)
-            arrow.gameObject.SetActive(true);
-            arrow.transform.position = _playerController.transform.position;
-            
-            arrow.Shoot(ShootDir.normalized);
-            arrow.currentArrowState = ArrowState.Shooting;
+            foreach (var arrow in arrowsList)
+            {
+                ShootArrow(arrow);
+            }
         }
+
 
         currentChargedTime = 0;
     }
-    
+
     #endregion
 
     #region Recall
+    public void HideAllArrow()
+    {
+        foreach (var arrow in arrowsList)
+        {
+            arrow.HideArrow();
+        }
+    }
+    void RecallArrow(Arrow arrow)
+    {
+        if (arrow == null || arrow.currentArrowState == ArrowState.Shooting) return;
 
+        if (isRecalling)
+        {
+            //cant call while shooting
+            if (arrow.currentArrowState != ArrowState.Shooting)
+                arrow.currentArrowState = ArrowState.Recalling;
+        }
+        else
+            arrow.currentArrowState = ArrowState.Idle;
+    }
     [Button]
     public void StartRecall(bool isRecalling)
     {
-        if(!_playerController.PlayerHealth.isAlive || _playerController.currentState == PlayerState.Stunning) return;
-
+        if (!_playerController.PlayerHealth.isAlive || _playerController.currentState == PlayerState.Stunning || haveArrow) return;
+        //if (_playerController.currentState == PlayerState.Stunning || haveArrow) return;
         if (isRecalling) _playerController.currentState = PlayerState.Recalling;
         else _playerController.currentState = PlayerState.Idle;
-        
-        foreach (var arrow in arrowsList)
+        RecallArrow(MainArrow);
+        if (IsSplitShot)
         {
-            if(arrow == null || arrow.currentArrowState == ArrowState.Shooting) return;
-
-            if (isRecalling)
+            foreach (var arrow in arrowsList)
             {
-                //cant call while shooting
-                if(arrow.currentArrowState != ArrowState.Shooting) 
-                    arrow.currentArrowState = ArrowState.Recalling;
+                RecallArrow(arrow);
             }
-            else
-                arrow.currentArrowState = ArrowState.Idle;
         }
+
     }
     #endregion
 }

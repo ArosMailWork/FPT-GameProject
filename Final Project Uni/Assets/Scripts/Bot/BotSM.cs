@@ -17,27 +17,13 @@ public class BotSM : StateMachine
     [HideInInspector]
     public BotChase chaseState;
     [HideInInspector]
-    public BotPushing pushState;
-    [HideInInspector]
     public BotHit hitState;
-    [HideInInspector]
-    public BotSet setState;
+
     public void Awake()
     {
         idleState = new BotIdle(this);
-        pushState = new BotPushing(this);
         hitState = new BotHit(this);
         chaseState = new BotChase(this);
-        setState = new BotSet(this);
-        if (bot.Team == 0)
-        {
-            defaultDestination = GameObject.Find("CastleBlue").transform;
-        }
-        else
-        {
-            defaultDestination = GameObject.Find("CastleRed").transform;
-        }
-
         targets = new Queue<GameObject>();
 
     }

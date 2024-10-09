@@ -14,7 +14,7 @@ public class BotIdle : BaseState
     {
         base.Enter();
         sm.currState = "Idle";
-        //sm.ChangeState(sm.pushState);
+        sm.ChangeState(sm.chaseState);
 
     }
 }

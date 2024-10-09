@@ -18,26 +18,27 @@ public class Arrow : MonoBehaviour
     [FoldoutGroup("Stats")]
     public Vector3 AccelDirect;
     [FoldoutGroup("Stats")]
-    public float lifeTime, recallSpeed, rotSpeed = 10, MaxSpeed, minShootingSpeed = 0.1f;
+    public float lifeTime, recallSpeed, rotSpeed = 10, MaxSpeed, minShootingSpeed = 0.5f;
     [FoldoutGroup("Stats/Hover")]
     public float hoverSpeed = 2.0f;
-    
+
     [FoldoutGroup("Debug")]
     [ReadOnly] public float currentLifeTime;
     [FoldoutGroup("Debug")]
     public Vector3 RecallDirect;
     [FoldoutGroup("Debug/Hover")]
-    public float currentHoverHeight; 
+    public float currentHoverHeight;
 
-    [FoldoutGroup("Setup")] 
+    [FoldoutGroup("Setup")]
     public Rigidbody arrowRb;
-    [FoldoutGroup("Setup")] 
+    [FoldoutGroup("Setup")]
     [ReadOnly] public ArrowController _arrowController;
-    [FoldoutGroup("Setup")] 
+    [FoldoutGroup("Setup")]
     [ReadOnly] public PlayerController _playerController;
     [FoldoutGroup("Setup/Events")]
     public UnityEvent StartRecallEvent, StopRecallEvent, FinishRecallEvent;
-    
+    public float offset;
+    public bool IsMainArrow;
 
     #region Unity Methods
 
@@ -54,11 +55,15 @@ public class Arrow : MonoBehaviour
     private void Update()
     {
         if (currentArrowState == ArrowState.Shooting && arrowRb.velocity.magnitude <= minShootingSpeed)
+        {
+            //Debug.Log("Idle");
             currentArrowState = ArrowState.Idle;
-        
+        }
+
+
         if (currentArrowState == ArrowState.Recalling)
             Recall();
-        
+
         else if (currentArrowState == ArrowState.Idle)
             currentHoverHeight = 0;
 
@@ -76,30 +81,32 @@ public class Arrow : MonoBehaviour
         _arrowController = ArrowController.Instance;
         _playerController = PlayerController.Instance;
     }
-    
+
 
     public void Shoot(Vector3 inputDirect)
     {
         AccelDirect = inputDirect;
+        //Debug.Log(AccelDirect);
+        arrowRb.velocity = AccelDirect * Time.fixedDeltaTime * 5;
     }
 
     #region Recalling
-    
+
     public void Recall()
     {
         RecallDirect = _playerController.transform.position - transform.position;
         DragArrow();
     }
-    
+
     void DragArrow()
     {
         arrowRb.AddForce(RecallDirect.normalized * (recallSpeed * Time.fixedDeltaTime * 240), ForceMode.Acceleration);
         LimitSpeed();
     }
-    
-    
+
+
     #endregion
-    
+
     void LimitSpeed()
     {
         Mathf.Clamp(arrowRb.velocity.magnitude, 0, MaxSpeed);
@@ -109,19 +116,28 @@ public class Arrow : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+
+        //hit anything -> allow recall
+        if (currentArrowState == ArrowState.Shooting) return;
         if (other.gameObject.tag == "Player")
         {
-            Debug.Log("Recover");
-            _playerController.currentState = PlayerState.Idle;
-            
-            _arrowController.haveArrow = true;
-            _arrowController.isRecalling = false;
-            currentArrowState = ArrowState.Idle;
-            
-            //hide it with pooling
-            arrowRb.velocity = Vector3.zero;
-            gameObject.SetActive(false);
+            if (IsMainArrow)
+            {
+                _playerController.currentState = PlayerState.Idle;
+                _arrowController.haveArrow = true;
+                _arrowController.isRecalling = false;
+                _arrowController.HideAllArrow();
+                currentArrowState = ArrowState.Idle;
+            }
+            HideArrow();
+
         }
+    }
+    public void HideArrow()
+    {
+        //hide it with pooling
+        arrowRb.velocity = Vector3.zero;
+        gameObject.SetActive(false);
     }
 
     private void OnCollisionEnter(Collision other)
@@ -129,7 +145,7 @@ public class Arrow : MonoBehaviour
         //hit anything -> allow recall
         if (currentArrowState == ArrowState.Shooting) currentArrowState = ArrowState.Idle;
     }
-    
+
     private void OnTriggerExit(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
