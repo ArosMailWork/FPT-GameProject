@@ -19,8 +19,13 @@ public class LookAtCamera : MonoBehaviour
     {
         if (targetCamera != null)
         {
-            Vector3 directionToCamera = targetCamera.transform.position - transform.position;
-            transform.rotation = Quaternion.LookRotation(-directionToCamera);
+            // For orthographic camera, we use the forward direction of the camera
+            Vector3 cameraForward = targetCamera.transform.forward;
+
+            // Ensure the object always faces the camera's forward direction
+            transform.rotation = Quaternion.LookRotation(cameraForward);
+
+            // Apply the offset rotation
             transform.Rotate(offset);
         }
         else
