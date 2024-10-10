@@ -126,7 +126,9 @@ public class Arrow : MonoBehaviour
                 _playerController.currentState = PlayerState.Idle;
                 _arrowController.haveArrow = true;
                 _arrowController.isRecalling = false;
-                _arrowController.arrowRecoverFlag = true;
+                
+                if(_arrowController.ShootButtonPressing)
+                    _arrowController.arrowRecoverFlag = true;
                 
                 _arrowController.HideAllArrow(MirageDelay);
                 currentArrowState = ArrowState.Idle;
@@ -150,7 +152,7 @@ public class Arrow : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.CompareTag("Player") && IsMainArrow)
+        if (other.gameObject.CompareTag("Player"))
             _arrowController.haveArrow = false;
     }
 

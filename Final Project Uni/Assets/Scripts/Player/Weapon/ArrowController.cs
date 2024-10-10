@@ -24,6 +24,8 @@ public class ArrowController : MonoBehaviour
     [ReadOnly] public bool ChargingInput;
     [FoldoutGroup("Debug/States")]
     public bool FullyCharged, isRecalling, isCanceling, arrowRecoverFlag, haveArrow;
+    [FoldoutGroup("Debug/States")]
+    public bool ShootButtonPressing;
 
     [FoldoutGroup("Debug/Setup")] public GameObject ArrowPrefab;
     [FoldoutGroup("Debug/Setup")]
@@ -59,15 +61,13 @@ public class ArrowController : MonoBehaviour
     {
         //have arrow and alive ? cool
         if (!haveArrow || !_playerController.PlayerHealth.isAlive) return;
-        //if (!haveArrow) return;
         ChargingInput = ctx.performed;
     }
     public void Recall(InputAction.CallbackContext ctx)
     {
+        ShootButtonPressing = ctx.performed;
         //if (haveArrow || !_playerController.isAlive) return;
-        if (haveArrow) return;
-        isRecalling = ctx.performed;
-        StartRecall(isRecalling);
+        StartRecall(ctx.performed);
     }
 
     //Mobile Input
@@ -75,16 +75,14 @@ public class ArrowController : MonoBehaviour
     {
         //have arrow and alive ? cool
         if (!haveArrow || !_playerController.PlayerHealth.isAlive) return;
-        //if (haveArrow) return;
         ChargingInput = charge;
-        //Debug.Log(ChargingInput);
     }
     public void Recall(bool recall)
     {
+        ShootButtonPressing = recall;
         if (haveArrow || !_playerController.PlayerHealth.isAlive) return;
-        //if (haveArrow) return;
         isRecalling = recall;
-        StartRecall(isRecalling);
+        StartRecall(recall);
     }
 
     #endregion
@@ -164,11 +162,12 @@ public class ArrowController : MonoBehaviour
             arrow.currentArrowState = ArrowState.Idle;
     }
     [Button]
-    public void StartRecall(bool isRecalling)
+    public void StartRecall(bool recallBool)
     {
+        isRecalling = recallBool;
         if (!_playerController.PlayerHealth.isAlive || _playerController.currentState == PlayerState.Stunning || haveArrow) return;
         
-        if (isRecalling) _playerController.currentState = PlayerState.Recalling;
+        if (recallBool) _playerController.currentState = PlayerState.Recalling;
         else _playerController.currentState = PlayerState.Idle;
         
         

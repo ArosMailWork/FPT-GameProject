@@ -4,27 +4,22 @@ public class RenderReplacementShaderToTexture : MonoBehaviour
 {
     [SerializeField]
     Shader replacementShader;
-
     [SerializeField]
     RenderTextureFormat renderTextureFormat = RenderTextureFormat.ARGB32;
-
     [SerializeField]
     FilterMode filterMode = FilterMode.Point;
-
     [SerializeField]
     int renderTextureDepth = 24;
-
     [SerializeField]
     CameraClearFlags cameraClearFlags = CameraClearFlags.Color;
-
     [SerializeField]
     Color background = Color.black;
-
     [SerializeField]
     string targetTexture = "_RenderTexture";
 
     private RenderTexture renderTexture;
     private new Camera camera;
+    private Camera thisCamera;
 
     private void Start()
     {
@@ -33,7 +28,7 @@ public class RenderReplacementShaderToTexture : MonoBehaviour
             DestroyImmediate(t.gameObject);
         }
 
-        Camera thisCamera = GetComponent<Camera>();
+        thisCamera = GetComponent<Camera>();
         thisCamera.depthTextureMode = DepthTextureMode.DepthNormals;
 
         // Create a render texture matching the main camera's current dimensions.
@@ -53,4 +48,14 @@ public class RenderReplacementShaderToTexture : MonoBehaviour
         camera.clearFlags = cameraClearFlags;
         camera.backgroundColor = background;
     }
+    
+    private void Update()
+    {
+        if (camera.fieldOfView != thisCamera.fieldOfView)
+            camera.fieldOfView = thisCamera.fieldOfView;
+        
+        if (camera.orthographicSize != thisCamera.orthographicSize)
+            camera.orthographicSize = thisCamera.orthographicSize;
+    }
 }
+
