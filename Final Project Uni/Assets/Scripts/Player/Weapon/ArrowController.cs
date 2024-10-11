@@ -11,6 +11,7 @@ public class ArrowController : MonoBehaviour
     #region Variables
 
     private PlayerController _playerController;
+    private PlayerAnimController _playerAnimController;
 
     [FoldoutGroup("Stats")]
     public AnimationCurve forceCurve;
@@ -46,6 +47,7 @@ public class ArrowController : MonoBehaviour
     private void Start()
     {
         _playerController = PlayerController.Instance;
+        _playerAnimController = _playerController._playerAnimController;
     }
 
     private void Update()
@@ -66,7 +68,7 @@ public class ArrowController : MonoBehaviour
     public void Recall(InputAction.CallbackContext ctx)
     {
         ShootButtonPressing = ctx.performed;
-        //if (haveArrow || !_playerController.isAlive) return;
+        if (haveArrow || !_playerController.PlayerHealth.isAlive) return;
         StartRecall(ctx.performed);
     }
 
@@ -76,6 +78,8 @@ public class ArrowController : MonoBehaviour
         //have arrow and alive ? cool
         if (!haveArrow || !_playerController.PlayerHealth.isAlive) return;
         ChargingInput = charge;
+        
+        _playerAnimController.Draw(true, true);
     }
     public void Recall(bool recall)
     {
@@ -133,7 +137,8 @@ public class ArrowController : MonoBehaviour
             }
         }
 
-
+        //wear
+        _playerAnimController.Draw(false, true);
         currentChargedTime = 0;
     }
 

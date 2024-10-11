@@ -61,21 +61,26 @@ public class PlayerAnimController : MonoBehaviour
     #region Bow
 
     [Button]
-    public void Draw(bool bowShoot, bool changeDraw)
+    public async UniTaskVoid Draw(bool bowShoot, bool changeDraw)
     {
         if(bowPivotAnimator == null || bowAnimator == null) return;
         
         if(changeDraw) isDrawed = !isDrawed;
         bowPivotAnimator.SetBool("Charging", isDrawed);
+        bowAnimator.SetBool("Charging", isDrawed);
         bowPivotAnimator.SetTrigger("ShootTrigger");
         
         if(bowShoot) ShootBow();
     }
 
-    [Button]
-    public void ShootBow()
+    public async UniTaskVoid ShootBow()
     {
         bowAnimator.SetTrigger("ShootTrigger");
+    }
+
+    public void Slash()
+    {
+        bowPivotAnimator.SetTrigger("Slash");
     }
 
     #endregion
