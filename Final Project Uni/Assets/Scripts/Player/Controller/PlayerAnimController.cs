@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
 using Sirenix.OdinInspector;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerAnimController : MonoBehaviour
@@ -11,6 +12,8 @@ public class PlayerAnimController : MonoBehaviour
     public Animator playerAnimator;
     [CanBeNull] public Animator bowPivotAnimator;
     [CanBeNull] public Animator bowAnimator;
+
+    public bool isDrawed;
 
     private void Awake()
     {
@@ -58,14 +61,21 @@ public class PlayerAnimController : MonoBehaviour
     #region Bow
 
     [Button]
-    public void ChargeShoot(bool charging)
+    public void Draw(bool bowShoot, bool changeDraw)
     {
         if(bowPivotAnimator == null || bowAnimator == null) return;
-        bowPivotAnimator.SetBool("Charging", charging);
-        //bowAnimator.SetBool("Charging", charging);
+        
+        if(changeDraw) isDrawed = !isDrawed;
+        bowPivotAnimator.SetBool("Charging", isDrawed);
         bowPivotAnimator.SetTrigger("ShootTrigger");
         
-        if(charging) bowAnimator.SetTrigger("ShootTrigger");
+        if(bowShoot) ShootBow();
+    }
+
+    [Button]
+    public void ShootBow()
+    {
+        bowAnimator.SetTrigger("ShootTrigger");
     }
 
     #endregion
