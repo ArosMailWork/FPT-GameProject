@@ -73,7 +73,7 @@ public class Health : MonoBehaviour
 
     public void HPUpdate()
     {
-        Debug.Log(this.gameObject.name + " HP Update");
+        //Debug.Log(this.gameObject.name + " HP Update");
         if (StatUI != null) StatUI.UpdateHP(health, maxHealth);
         HpValueChange.Invoke();
     }
@@ -150,7 +150,7 @@ public class Health : MonoBehaviour
     }
     void DealDamage(int damage)
     {
-        Debug.Log("Hurt " + damage);
+        //Debug.Log("Hurt " + damage);
         currentHealth -= damage;
     }
     async UniTaskVoid DoT(int damage, float duration)

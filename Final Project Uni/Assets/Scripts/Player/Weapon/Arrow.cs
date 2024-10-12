@@ -125,6 +125,7 @@ public class Arrow : MonoBehaviour
             {
                 _playerController.currentState = PlayerState.Idle;
                 _arrowController.haveArrow = true;
+                _arrowController._playerAnimController.UpdateHaveArrow(true);
                 _arrowController.isRecalling = false;
                 
                 if(_arrowController.ShootButtonPressing)
@@ -139,7 +140,10 @@ public class Arrow : MonoBehaviour
     }
     public void HideArrow()
     {
-        //hide it with pooling
+        //can Play an Event here
+        
+        
+        //hide and deactivate it
         arrowRb.velocity = Vector3.zero;
         gameObject.SetActive(false);
     }

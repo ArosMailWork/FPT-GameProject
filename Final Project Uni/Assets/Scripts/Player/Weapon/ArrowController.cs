@@ -11,7 +11,7 @@ public class ArrowController : MonoBehaviour
     #region Variables
 
     private PlayerController _playerController;
-    private PlayerAnimController _playerAnimController;
+    public PlayerAnimController _playerAnimController;
 
     [FoldoutGroup("Stats")]
     public AnimationCurve forceCurve;
@@ -48,6 +48,9 @@ public class ArrowController : MonoBehaviour
     {
         _playerController = PlayerController.Instance;
         _playerAnimController = _playerController._playerAnimController;
+
+        haveArrow = true;
+        _playerAnimController.UpdateHaveArrow(true);
     }
 
     private void Update()
@@ -107,15 +110,21 @@ public class ArrowController : MonoBehaviour
     void ShootArrow(Arrow arrow)
     {
         float calForce = forceCurve.Evaluate(currentChargedTime / chargedTime) * ShootForce;
-        Vector3 ShootDir = _playerController.transform.forward + new Vector3(arrow.offset, arrow.offset, arrow.offset);
-        ShootDir.y = 0;
-        //Test (pooling replace)
+        Vector3 shootDir = _playerController.transform.forward + new Vector3(arrow.offset, arrow.offset, arrow.offset);
+        shootDir.y = 0;
+
+        // Activate the arrow game object
         arrow.gameObject.SetActive(true);
         arrow.transform.position = _playerController.transform.position;
-        arrow.Shoot(ShootDir.normalized * calForce);
-        //arrow.Shoot(ShootDir.normalized);
+
+        // Set the rotation so the Z-axis points in the shoot direction
+        arrow.transform.rotation = Quaternion.LookRotation(shootDir.normalized);
+
+        // Shoot the arrow
+        arrow.Shoot(shootDir.normalized * calForce);
         arrow.currentArrowState = ArrowState.Shooting;
     }
+
     [Button]
     public void Shoot()
     {
@@ -128,12 +137,13 @@ public class ArrowController : MonoBehaviour
         //because button up
         ChargingInput = false;
         haveArrow = false;
+        _playerAnimController.UpdateHaveArrow(haveArrow);
         ShootArrow(MainArrow);
         if (IsSplitShot)
         {
             foreach (var arrow in arrowsList)
             {
-                ShootArrow(arrow);
+                if(!arrow.IsMainArrow) ShootArrow(arrow);
             }
         }
 
@@ -150,7 +160,7 @@ public class ArrowController : MonoBehaviour
         await UniTask.Delay(TimeSpan.FromSeconds(time));
         foreach (var arrow in arrowsList)
         {
-            arrow.HideArrow();
+            if(!arrow.IsMainArrow) arrow.HideArrow();
         }
     }
     void RecallArrow(Arrow arrow)

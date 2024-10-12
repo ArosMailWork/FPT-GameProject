@@ -19,7 +19,7 @@ public class SkillHolder : MonoBehaviour
     {
         AddSkill(skillPrefab1);
         AddSkill(skillPrefab2);
-        SetActiveSkill(0);
+        SetActiveSkill(currentSkill);
         //activeSkill.GetComponent<ISkill>().Activate();
     }
     void SetActiveSkill(int slot)
@@ -47,6 +47,8 @@ public class SkillHolder : MonoBehaviour
     {
         GameObject g = Instantiate(skill);
         g.transform.SetParent(this.transform);
+        g.transform.localPosition = Vector3.zero;
+        g.transform.localRotation = Quaternion.identity;
         g.GetComponent<ISkill>().Assign(_pc);
         skillList.Add(g);
     }

@@ -11,7 +11,7 @@ using UnityEngine.InputSystem;
 [Serializable]
 public enum PlayerState
 {
-    Idle, Running, Recalling, Stunning, Rolling
+    Idle, Running, Recalling, Stunning, Rolling, Striking
 }
 
 public class PlayerController : MonoBehaviour
@@ -24,10 +24,10 @@ public class PlayerController : MonoBehaviour
     public float speed, rotationSpeed, MaxSpeed = 20;
     [FoldoutGroup("Stats/Roll")]
     public float rollSpeed, rollCD, rollTime;
-    [FoldoutGroup("Setup/Stamina")]
-    public int staminaRollCost;
-    [FoldoutGroup("Setup/Guard")]
+    [FoldoutGroup("Stats/Guard")]
     public float guardTime;
+    [FoldoutGroup("Stats/Stamina")]
+    public int staminaRollCost;
 
 
     [FoldoutGroup("Debug")]
@@ -46,6 +46,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField, ReadOnly] private float currentRollCD;
     [FoldoutGroup("Debug/Roll")]
     [SerializeField, ReadOnly] private Vector3 RollDirect;
+    [FoldoutGroup("Debug/Striking")]
+    [SerializeField, ReadOnly] public float strikeMultiplier;
 
     [FoldoutGroup("Setup")]
     public Rigidbody PlayerRB;
@@ -96,6 +98,7 @@ public class PlayerController : MonoBehaviour
         UpdateAnimState();
         RotatePlayer(moveDirection);
         RollApply();
+        StrikingMoveApply(strikeMultiplier);
     }
 
     private void OnDrawGizmos()
@@ -119,10 +122,10 @@ public class PlayerController : MonoBehaviour
         currentRollCD += time;
     }
 
-    public async UniTaskVoid doRollingMove(Vector2 input)
+    public async UniTaskVoid doRollingMove(Vector2 input, int staminaCost)
     {
         //prevent spam in the middle
-        if (!canRoll || !staminaSystem.HasEnoughStamina(staminaRollCost) || moveBuffer == Vector2.zero) return;
+        if (!canRoll || !staminaSystem.HasEnoughStamina(staminaCost) || moveBuffer == Vector2.zero) return;
 
         //add CD
         AddRollCD(rollCD + rollTime);
@@ -133,13 +136,14 @@ public class PlayerController : MonoBehaviour
         currentState = PlayerState.Rolling;
         _playerAnimController.DodgeAnim();
         //consume Stamina here
-        staminaSystem.Consume(staminaRollCost);
+        staminaSystem.Consume(staminaCost);
 
         //roll done ? okay cool
         await UniTask.Delay(TimeSpan.FromSeconds(rollTime));
         currentState = PlayerState.Idle;
         //Might add some event here to activate particle or anything
     }
+    
 
     void RollApply()
     {
@@ -156,6 +160,24 @@ public class PlayerController : MonoBehaviour
             RollDirect.z = mixedDirection.z;
 
             PlayerRB.velocity = RollDirect.normalized * (rollSpeed * Time.fixedDeltaTime * 240);
+        }
+    }
+    
+    public void StrikingMoveApply(float speedMultiplier = 2)
+    {
+        if (currentState == PlayerState.Striking)
+        {
+            // Take from buffer
+            moveDirection = (cameraRight * moveBuffer.x + cameraForward * moveBuffer.y).normalized;
+
+            // Mix the directions
+            Vector3 mixedDirection = Vector3.Lerp(transform.forward.normalized, moveDirection, controlRollDirect).normalized;
+
+            // Implement Roll Logic here
+            RollDirect.x = mixedDirection.x;
+            RollDirect.z = mixedDirection.z;
+
+            PlayerRB.velocity = RollDirect.normalized * (rollSpeed * speedMultiplier * Time.fixedDeltaTime * 240);
         }
     }
 
@@ -202,14 +224,16 @@ public class PlayerController : MonoBehaviour
     void UpdateAnimState()
     {
         if (currentState == PlayerState.Stunning || currentState == PlayerState.Rolling) goto Skip;
+        if (currentState == PlayerState.Striking) goto StrikingFlag;
 
         currentState = PlayerState.Idle;
         if (moveDirection != Vector3.zero) currentState = PlayerState.Running;
-        if (_ArrowController.isRecalling) currentState = PlayerState.Recalling;
-
         _playerAnimController.UpdateRunInput(currentState == PlayerState.Running);
-
-    Skip:;
+        
+        StrikingFlag:
+        if (_ArrowController.isRecalling) currentState = PlayerState.Recalling;
+        
+        Skip:;
     }
 
     public async UniTaskVoid GuardAnim()
@@ -225,9 +249,8 @@ public class PlayerController : MonoBehaviour
 
     public void Move(Vector2 input)
     {
-        if (currentState == PlayerState.Stunning ||
-            currentState == PlayerState.Rolling ||
-            currentState == PlayerState.Recalling) return;
+        if (currentState == PlayerState.Stunning || currentState == PlayerState.Rolling ||
+            currentState == PlayerState.Recalling || currentState == PlayerState.Striking) return;
 
         if (isJoystickInput) input = joyStickInput;
 
@@ -266,7 +289,7 @@ public class PlayerController : MonoBehaviour
     public void Roll()
     {
         if (currentState == PlayerState.Rolling || moveBuffer == Vector2.zero) return;
-        doRollingMove(moveBuffer);
+        doRollingMove(moveBuffer, staminaRollCost);
     }
 
     public void Guard()

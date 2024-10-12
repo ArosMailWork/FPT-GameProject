@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 [Serializable]
@@ -10,16 +11,16 @@ public enum SkillType
 }
 public abstract class ISkill : MonoBehaviour
 {
+    [FoldoutGroup("Base Skill")]
     [SerializeField] public PlayerController _pc;
+    [FoldoutGroup("Base Skill")]
     public string Name;
-    public float Cooldown;
-    public float currentCD;
+    [FoldoutGroup("Base Skill")]
+    public float Cooldown, currentCD;
+    [FoldoutGroup("Base Skill")]
     public SkillType type;
     // Start is called before the first frame update
-    public virtual void Activate()
-    {
-
-    }
+    public virtual void Activate() { }
     void Update()
     {
         Timer();

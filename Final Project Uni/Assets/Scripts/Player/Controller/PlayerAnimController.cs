@@ -38,6 +38,7 @@ public class PlayerAnimController : MonoBehaviour
     {
         playerAnimator.SetBool("Die", die);
     }
+    [Button]
     public void DamagedAnim()
     {
         playerAnimator.SetTrigger("Damaged");
@@ -60,6 +61,12 @@ public class PlayerAnimController : MonoBehaviour
 
     #region Bow
 
+    public void UpdateHaveArrow(bool haveArrow)
+    {
+        bowAnimator.SetBool("haveArrow", haveArrow);
+        bowPivotAnimator.SetBool("haveArrow", haveArrow);
+    }
+    
     [Button]
     public async UniTaskVoid Draw(bool bowShoot, bool changeDraw)
     {

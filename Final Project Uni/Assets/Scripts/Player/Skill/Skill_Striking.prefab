@@ -9,9 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6934445225197677926}
-  - component: {fileID: 5727097987914528892}
-  m_Layer: 8
-  m_Name: Skill_Test_1
+  - component: {fileID: 2275662744166169924}
+  - component: {fileID: 8084082190489155856}
+  m_Layer: 11
+  m_Name: Skill_Striking
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32,7 +33,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5727097987914528892
+--- !u!114 &2275662744166169924
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -44,5 +45,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3709b98234ea6f54e94595971ab7b5a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: test1
-  Cooldown: 2
+  _pc: {fileID: 0}
+  Name: Slashing Strike
+  Cooldown: 5
+  currentCD: 0
+  type: 1
+  Damage: 10
+  dotTime: 0.2
+  strikingTime: 0.3
+  strikingMultiplier: 3
+  staminaStrikeCost: 50
+  allowMark: 0
+  MarkedEnity: []
+--- !u!65 &8084082190489155856
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3204633484197432600}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 15, y: 5, z: 4.51}
+  m_Center: {x: 0, y: 1.41, z: 0.91}
