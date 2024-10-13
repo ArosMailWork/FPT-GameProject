@@ -40,16 +40,17 @@ public class BotAttack : BaseState
     public override void TriggerEnter(Collider other)
     {
         base.TriggerEnter(other);
-
-        if (other.CompareTag("Unit"))
+        Debug.Log("aaaaa");
+        if (other.CompareTag("Player"))
         {
             GameObject go = other.gameObject;
-            BotMain bot = go.GetComponent<BotMain>();
-            if ((int)bot.unitType <= 8 && bot.Team != sm.bot.Team)
-            {
-                sm.targets.Enqueue(go);
-                Debug.Log(sm.targets.Count);
-            }
+            sm.targets.Enqueue(go);
+            Debug.Log(sm.targets.Count);
+            // if ((int)bot.unitType <= 8 && bot.Team != sm.bot.Team)
+            // {
+            //     sm.targets.Enqueue(go);
+            //     Debug.Log(sm.targets.Count);
+            // }
         }
     }
     public void Rotate()

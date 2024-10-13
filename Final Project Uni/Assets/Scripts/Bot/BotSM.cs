@@ -18,22 +18,21 @@ public class BotSM : StateMachine
     public BotChase chaseState;
     [HideInInspector]
     public BotHit hitState;
+    [HideInInspector]
+    public BotPatrol patrolState;
 
     public void Awake()
     {
         idleState = new BotIdle(this);
         hitState = new BotHit(this);
         chaseState = new BotChase(this);
+        patrolState = new BotPatrol(this);
         targets = new Queue<GameObject>();
 
     }
     public void GoIdle()
     {
-        //ChangeState(idleState);
-    }
-    public void GoSet()
-    {
-        //ChangeState(setState);
+        ChangeState(idleState);
     }
     protected override BaseState GetInitialState()
     {
