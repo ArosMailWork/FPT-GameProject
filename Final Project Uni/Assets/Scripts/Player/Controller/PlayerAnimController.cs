@@ -47,6 +47,11 @@ public class PlayerAnimController : MonoBehaviour
     {
         playerAnimator.SetBool("Recalling", Recalling);
     }
+    
+    public void RecallAnimTrigger()
+    {
+        playerAnimator.SetTrigger("RecallingStart");
+    }
 
     public async UniTaskVoid DebuffStun(float time)
     {

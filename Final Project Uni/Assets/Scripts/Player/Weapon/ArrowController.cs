@@ -181,8 +181,12 @@ public class ArrowController : MonoBehaviour
     {
         isRecalling = recallBool;
         if (!_playerController.PlayerHealth.isAlive || _playerController.currentState == PlayerState.Stunning || haveArrow) return;
-        
-        if (recallBool) _playerController.currentState = PlayerState.Recalling;
+
+        if (recallBool)
+        {
+            _playerController.currentState = PlayerState.Recalling;
+            _playerAnimController.RecallAnimTrigger();
+        }
         else _playerController.currentState = PlayerState.Idle;
         
         

@@ -224,15 +224,14 @@ public class PlayerController : MonoBehaviour
     void UpdateAnimState()
     {
         if (currentState == PlayerState.Stunning || currentState == PlayerState.Rolling) goto Skip;
-        if (currentState == PlayerState.Striking) goto StrikingFlag;
+        if (currentState == PlayerState.Striking) goto Skip;
 
         currentState = PlayerState.Idle;
         if (moveDirection != Vector3.zero) currentState = PlayerState.Running;
         _playerAnimController.UpdateRunInput(currentState == PlayerState.Running);
-        
-        StrikingFlag:
+        _playerAnimController.RecallAnim(_ArrowController.isRecalling);
         if (_ArrowController.isRecalling) currentState = PlayerState.Recalling;
-        
+
         Skip:;
     }
 
