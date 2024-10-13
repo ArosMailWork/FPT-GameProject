@@ -110,8 +110,13 @@ public class ArrowController : MonoBehaviour
     void ShootArrow(Arrow arrow)
     {
         float calForce = forceCurve.Evaluate(currentChargedTime / chargedTime) * ShootForce;
-        Vector3 shootDir = _playerController.transform.forward + new Vector3(arrow.offset, arrow.offset, arrow.offset);
-        shootDir.y = 0;
+
+        // Calculate the rotation around the Y-axis based on the offset in degrees
+        Quaternion rotationOffset = Quaternion.Euler(0, arrow.offset, 0);
+
+        // Apply the rotation offset to the player's forward direction (ignore Y-axis for shooting)
+        Vector3 shootDir = rotationOffset * _playerController.transform.forward;
+        shootDir.y = 0; // Ensure no vertical component in the shooting direction
 
         // Activate the arrow game object
         arrow.gameObject.SetActive(true);
@@ -120,10 +125,11 @@ public class ArrowController : MonoBehaviour
         // Set the rotation so the Z-axis points in the shoot direction
         arrow.transform.rotation = Quaternion.LookRotation(shootDir.normalized);
 
-        // Shoot the arrow
+        // Shoot the arrow with the calculated force
         arrow.Shoot(shootDir.normalized * calForce);
         arrow.currentArrowState = ArrowState.Shooting;
     }
+
 
     [Button]
     public void Shoot()
@@ -165,7 +171,12 @@ public class ArrowController : MonoBehaviour
     }
     void RecallArrow(Arrow arrow)
     {
-        if (arrow == null || arrow.currentArrowState == ArrowState.Shooting) return;
+        if (arrow == null) return;
+        if (arrow.currentArrowState == ArrowState.Shooting)
+        {
+            arrow.RecallBuffer = true;
+            return;
+        }
 
         if (isRecalling)
         {

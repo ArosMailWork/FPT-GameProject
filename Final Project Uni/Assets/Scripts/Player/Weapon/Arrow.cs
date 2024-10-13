@@ -23,7 +23,9 @@ public class Arrow : MonoBehaviour
     public float hoverSpeed = 2.0f;
 
     [FoldoutGroup("Debug")]
-    [ReadOnly] public float currentLifeTime;
+    [ReadOnly] public bool RecallBuffer;
+    [FoldoutGroup("Debug")]
+    [ReadOnly] public float CurrentVelocity;
     [FoldoutGroup("Debug")]
     public Vector3 RecallDirect;
     [FoldoutGroup("Debug/Hover")]
@@ -52,6 +54,11 @@ public class Arrow : MonoBehaviour
         AssignController();
     }
 
+    private void FixedUpdate()
+    {
+        CurrentVelocity = arrowRb.velocity.magnitude;
+    }
+
     private void Update()
     {
         if (currentArrowState == ArrowState.Shooting && arrowRb.velocity.magnitude <= minShootingSpeed)
@@ -60,12 +67,14 @@ public class Arrow : MonoBehaviour
             currentArrowState = ArrowState.Idle;
         }
 
-
         if (currentArrowState == ArrowState.Recalling)
             Recall();
 
         else if (currentArrowState == ArrowState.Idle)
+        {
             currentHoverHeight = 0;
+            if (RecallBuffer) currentArrowState = ArrowState.Recalling;
+        }
 
         // Rotate the arrow to point in the direction of its velocity
         if (arrowRb.velocity.magnitude > 0 && arrowRb.velocity != Vector3.zero)
@@ -94,6 +103,7 @@ public class Arrow : MonoBehaviour
 
     public void Recall()
     {
+        RecallBuffer = false;
         RecallDirect = _playerController.transform.position - transform.position;
         DragArrow();
     }
