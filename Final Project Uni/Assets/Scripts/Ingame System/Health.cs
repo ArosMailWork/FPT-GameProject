@@ -138,7 +138,7 @@ public class Health : MonoBehaviour
     public void Knockback(Vector3 Dir, float knockForce)
     {
         //knockback Event
-        OnKnockback.Invoke(Dir, knockForce);
+        OnKnockback.Invoke(Dir.normalized, knockForce);
     }
 
 

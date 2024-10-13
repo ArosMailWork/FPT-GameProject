@@ -94,7 +94,7 @@ public class Skill_Striking : ISkill
             if (enemyMarked != null)
             {
                 MarkedEnity.Add(enemyMarked);
-                Debug.Log("added " + enemyMarked.gameObject.name);
+                Debug.Log("marked " + enemyMarked.gameObject.name);
             }
         }
     }
