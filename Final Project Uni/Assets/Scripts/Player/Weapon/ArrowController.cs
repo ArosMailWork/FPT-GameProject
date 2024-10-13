@@ -185,7 +185,10 @@ public class ArrowController : MonoBehaviour
                 arrow.currentArrowState = ArrowState.Recalling;
         }
         else
+        {
             arrow.currentArrowState = ArrowState.Idle;
+            arrow.RecallBuffer = false;
+        }
     }
     [Button]
     public void StartRecall(bool recallBool)
