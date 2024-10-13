@@ -242,6 +242,13 @@ public class PlayerController : MonoBehaviour
         _playerAnimController.GuardAnim(false);
     }
 
+    public void MeleeAnim()
+    {
+        if(currentState == PlayerState.Recalling || currentState == PlayerState.Stunning) return;
+        if(_ArrowController.ChargingInput) return;
+        _playerAnimController.Slash();
+    }
+
     #endregion
 
     #region Movement

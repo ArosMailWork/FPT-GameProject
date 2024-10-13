@@ -73,7 +73,7 @@ public class PlayerAnimController : MonoBehaviour
     }
     
     [Button]
-    public async UniTaskVoid Draw(bool bowShoot, bool changeDraw)
+    public void Draw(bool bowShoot, bool changeDraw)
     {
         if(bowPivotAnimator == null || bowAnimator == null) return;
         
@@ -90,9 +90,11 @@ public class PlayerAnimController : MonoBehaviour
         bowAnimator.SetTrigger("ShootTrigger");
     }
 
-    public void Slash()
+    public async UniTaskVoid Slash()
     {
         bowPivotAnimator.SetTrigger("Slash");
+        await UniTask.Delay(TimeSpan.FromSeconds(.01f));
+        bowPivotAnimator.ResetTrigger("Slash");
     }
 
     #endregion
