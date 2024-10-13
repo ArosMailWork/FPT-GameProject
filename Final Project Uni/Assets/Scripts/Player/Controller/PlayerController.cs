@@ -11,7 +11,7 @@ using UnityEngine.InputSystem;
 [Serializable]
 public enum PlayerState
 {
-    Idle, Running, Recalling, Stunning, Rolling, Striking
+    Idle, Running, Recalling, ReverseRecalling, Stunning, Rolling, Striking
 }
 
 public class PlayerController : MonoBehaviour
@@ -48,6 +48,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField, ReadOnly] private Vector3 RollDirect;
     [FoldoutGroup("Debug/Striking")]
     [SerializeField, ReadOnly] public float strikeMultiplier;
+    [FoldoutGroup("Debug/Reverse Recall")]
+    [SerializeField, ReadOnly] public float ReverseRecallMultiplier = 1;
 
     [FoldoutGroup("Setup")]
     public Rigidbody PlayerRB;
@@ -68,6 +70,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 cameraForward;
     private Vector3 cameraRight;
     private Vector3 moveDirection;
+    private Vector3 RecallDirect;
     private Quaternion targetRotation;
 
     #endregion
@@ -99,6 +102,7 @@ public class PlayerController : MonoBehaviour
         RotatePlayer(moveDirection);
         RollApply();
         StrikingMoveApply(strikeMultiplier);
+        ReverseRecall();
     }
 
     private void OnDrawGizmos()
@@ -181,7 +185,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void LimitSpeed()
+    void LimitSpeed(float MaxSpeed)
     {
         Mathf.Clamp(PlayerRB.velocity.magnitude, 0, MaxSpeed);
         if (PlayerRB.velocity.magnitude > MaxSpeed)
@@ -224,7 +228,7 @@ public class PlayerController : MonoBehaviour
     void UpdateAnimState()
     {
         if (currentState == PlayerState.Stunning || currentState == PlayerState.Rolling) goto Skip;
-        if (currentState == PlayerState.Striking) goto Skip;
+        if (currentState == PlayerState.Striking || currentState == PlayerState.ReverseRecalling) goto Skip;
 
         currentState = PlayerState.Idle;
         if (moveDirection != Vector3.zero) currentState = PlayerState.Running;
@@ -276,7 +280,7 @@ public class PlayerController : MonoBehaviour
         if (currentState != PlayerState.Rolling)
             PlayerRB.AddForce(moveDirection * (Time.deltaTime * 240 * speed), ForceMode.VelocityChange);
 
-        LimitSpeed();
+        LimitSpeed(MaxSpeed);
     }
 
     void RotatePlayer(Vector3 moveDirection)
@@ -297,10 +301,17 @@ public class PlayerController : MonoBehaviour
         if (currentState == PlayerState.Rolling || moveBuffer == Vector2.zero) return;
         doRollingMove(moveBuffer, staminaRollCost);
     }
-
     public void Guard()
     {
         GuardAnim();
+    }
+    
+    public void ReverseRecall()
+    {
+        if(currentState != PlayerState.ReverseRecalling || !_ArrowController.MainArrow.enabled) return;
+        RecallDirect = _ArrowController.MainArrow.transform.position - transform.position;
+        PlayerRB.AddForce(RecallDirect.normalized * (ReverseRecallMultiplier * (_ArrowController.MainArrow.recallSpeed * Time.fixedDeltaTime * 240)), ForceMode.Acceleration);
+        LimitSpeed(_ArrowController.MainArrow.MaxSpeed);
     }
 
     #endregion
@@ -335,6 +346,13 @@ public class PlayerController : MonoBehaviour
     void SpeedCheck()
     {
         currentAccel = PlayerRB.velocity.magnitude;
+    }
+
+    [FoldoutGroup("Debug")]
+    [Button]
+    public void forceChangeState(PlayerState state)
+    {
+        currentState = state;
     }
 
     #endregion

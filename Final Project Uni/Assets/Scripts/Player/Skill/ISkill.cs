@@ -21,6 +21,7 @@ public abstract class ISkill : MonoBehaviour
     public SkillType type;
     // Start is called before the first frame update
     public virtual void Activate() { }
+    public virtual void Deactivate() { }
     void Update()
     {
         Timer();

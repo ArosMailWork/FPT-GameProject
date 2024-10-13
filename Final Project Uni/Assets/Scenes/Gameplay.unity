@@ -2765,6 +2765,51 @@ MonoBehaviour:
     m_HintWeight: 1
     m_MaintainTargetPositionOffset: 1
     m_MaintainTargetRotationOffset: 0
+--- !u!1 &2141915336
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2141915338}
+  - component: {fileID: 2141915337}
+  m_Layer: 0
+  m_Name: Particle Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2141915337
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2141915336}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3257e11dba832949b805da31f81a997, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  particlePrefabs: []
+--- !u!4 &2141915338
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2141915336}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 18.27497, y: -2.2166946, z: 6.9257646}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &68424119280048035
 GameObject:
   m_ObjectHideFlags: 0
@@ -3381,6 +3426,18 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4560520797628526934, guid: af02e732aa36cb840b5b7f32de009197, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 8.195826
+      objectReference: {fileID: 0}
+    - target: {fileID: 4560520797628526934, guid: af02e732aa36cb840b5b7f32de009197, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -89.99937
+      objectReference: {fileID: 0}
+    - target: {fileID: 4560520797628526934, guid: af02e732aa36cb840b5b7f32de009197, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: -0.000012388384
+      objectReference: {fileID: 0}
     - target: {fileID: 7568043124624654608, guid: af02e732aa36cb840b5b7f32de009197, type: 3}
       propertyPath: Damage
       value: 2
@@ -3409,6 +3466,37 @@ PrefabInstance:
       propertyPath: serializationData.Prefab
       value: 
       objectReference: {fileID: 8832869493504122678, guid: af02e732aa36cb840b5b7f32de009197, type: 3}
+    - target: {fileID: 8832869493504122678, guid: af02e732aa36cb840b5b7f32de009197, type: 3}
+      propertyPath: serializationData.PrefabModifications.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8832869493504122678, guid: af02e732aa36cb840b5b7f32de009197, type: 3}
+      propertyPath: serializationData.PrefabModifications.Array.data[0]
+      value: '"path":"eventDic","add_keys":{"$id":0,"$type":"System.Object[], mscorlib","$rlength":2,"$rcontent":[{"$id":1,"$type":"System.String,
+        mscorlib","SlashParticle"},$iref:1]},"remove_keys":null'
+      objectReference: {fileID: 0}
+    - target: {fileID: 8832869493504122678, guid: af02e732aa36cb840b5b7f32de009197, type: 3}
+      propertyPath: serializationData.PrefabModifications.Array.data[1]
+      value: '"path":"eventDic.{\"SlashParticle\"}","value":{"$id":0,"$type":"UnityEngine.Events.UnityEvent,
+        UnityEngine.CoreModule","m_PersistentCalls":{"$id":1,"$type":"UnityEngine.Events.PersistentCallGroup,
+        UnityEngine.CoreModule","m_Calls":{"$id":2,"$type":"System.Collections.Generic.List`1[[UnityEngine.Events.PersistentCall,
+        UnityEngine.CoreModule]], mscorlib","$rlength":0,"$rcontent":[]}}}'
+      objectReference: {fileID: 0}
+    - target: {fileID: 8832869493504122678, guid: af02e732aa36cb840b5b7f32de009197, type: 3}
+      propertyPath: serializationData.PrefabModifications.Array.data[2]
+      value: '"path":"eventDic.{\"SlashParticle\"}.m_PersistentCalls","value":{"$id":0,"$type":"UnityEngine.Events.PersistentCallGroup,
+        UnityEngine.CoreModule","m_Calls":{"$id":1,"$type":"System.Collections.Generic.List`1[[UnityEngine.Events.PersistentCall,
+        UnityEngine.CoreModule]], mscorlib","$rlength":0,"$rcontent":[]}}'
+      objectReference: {fileID: 0}
+    - target: {fileID: 8832869493504122678, guid: af02e732aa36cb840b5b7f32de009197, type: 3}
+      propertyPath: serializationData.PrefabModifications.Array.data[3]
+      value: '"path":"eventDic.{\"SlashParticle\"}.m_PersistentCalls.m_Calls","value":{"$id":0,"$type":"System.Collections.Generic.List`1[[UnityEngine.Events.PersistentCall,
+        UnityEngine.CoreModule]], mscorlib","$rlength":0,"$rcontent":[]}'
+      objectReference: {fileID: 0}
+    - target: {fileID: 8832869493504122678, guid: af02e732aa36cb840b5b7f32de009197, type: 3}
+      propertyPath: serializationData.PrefabModificationsReferencedUnityObjects.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4011,3 +4099,4 @@ SceneRoots:
   - {fileID: 663837392}
   - {fileID: 3491785393233621275}
   - {fileID: 1365415533}
+  - {fileID: 2141915338}

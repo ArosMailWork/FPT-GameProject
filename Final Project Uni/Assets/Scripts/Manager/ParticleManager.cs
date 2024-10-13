@@ -1,5 +1,4 @@
 using Sirenix.OdinInspector;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,14 +7,13 @@ public class ParticleManager : MonoBehaviour
     #region Variables
     public static ParticleManager Instance { get; private set; }
 
-
-    [SerializeField] public GameObject prefab;
+    // Instead of a single prefab, use a list to store multiple particle prefabs.
+    [SerializeField] public List<GameObject> particlePrefabs;
     #endregion
 
     #region UnityMethod
     private void Awake()
     {
-
         if (Instance == null)
         {
             Instance = this;
@@ -29,12 +27,33 @@ public class ParticleManager : MonoBehaviour
     }
     #endregion
 
-
-
     #region Event
-    public GameObject SpawnParticle(GameObject particleSystem, Vector3 position, Quaternion rotation)
+    // Overload for spawning by prefab index
+    public GameObject SpawnParticle(int prefabIndex, Vector3 position, Quaternion rotation)
     {
-        return PoolManager.Spawn(particleSystem, position, rotation);
+        if (prefabIndex >= 0 && prefabIndex < particlePrefabs.Count)
+        {
+            return PoolManager.Spawn(particlePrefabs[prefabIndex], position, rotation);
+        }
+        else
+        {
+            Debug.LogError("Invalid prefab index.");
+            return null;
+        }
+    }
+
+    // Overload for spawning using a specific prefab from the list
+    public GameObject SpawnParticle(GameObject particlePrefab, Vector3 position, Quaternion rotation)
+    {
+        if (particlePrefabs.Contains(particlePrefab))
+        {
+            return PoolManager.Spawn(particlePrefab, position, rotation);
+        }
+        else
+        {
+            Debug.LogError("Particle prefab not found in the list.");
+            return null;
+        }
     }
 
     // Set the position of an existing particle system
@@ -44,31 +63,52 @@ public class ParticleManager : MonoBehaviour
     }
 
     // Rotate an existing particle system
-    public void RotateParticle(GameObject particleSystem, float rotateX, float rotateY, float RotateZ)
+    public void RotateParticle(GameObject particleSystem, float rotateX, float rotateY, float rotateZ)
     {
-        Quaternion rotation = Quaternion.Euler(rotateX, rotateY, RotateZ);
+        Quaternion rotation = Quaternion.Euler(rotateX, rotateY, rotateZ);
         particleSystem.transform.rotation = rotation;
     }
-
     #endregion
 
     #region Ults
     [FoldoutGroup("Event Test")]
     [Button]
-    public void setParticlePositionAndRotation(GameObject particleSystem, Vector3 newPosition, Quaternion newRotation)
+    public void SetParticlePositionAndRotation(GameObject particleSystem, Vector3 newPosition, Quaternion newRotation)
     {
         SetParticlePosition(particleSystem, newPosition);
-        RotateParticle(particleSystem, newRotation.x, newRotation.y, newRotation.z);
+        RotateParticle(particleSystem, newRotation.eulerAngles.x, newRotation.eulerAngles.y, newRotation.eulerAngles.z);
     }
+    
     [FoldoutGroup("Event Test")]
     [Button]
-    public GameObject SpawnOppositeParticle(GameObject particlePrefab, Vector3 bulletDirection)
+    public GameObject SpawnOppositeParticle(int prefabIndex, Vector3 bulletDirection)
     {
-     
-        Vector3 oppositeDirection = -bulletDirection.normalized;
-
-        return SpawnParticle(particlePrefab, oppositeDirection, Quaternion.identity);
+        if (prefabIndex >= 0 && prefabIndex < particlePrefabs.Count)
+        {
+            Vector3 oppositeDirection = -bulletDirection.normalized;
+            return SpawnParticle(prefabIndex, oppositeDirection, Quaternion.identity);
+        }
+        else
+        {
+            Debug.LogError("Invalid prefab index.");
+            return null;
+        }
     }
-    #endregion
 
+
+    //TEST ONLY
+    [FoldoutGroup("Event Test")]
+    [Button]
+    public void PlayAssignedParticle()
+    {
+        var particle = particlePrefabs[0].GetComponent<ParticleSystem>();
+        particle.Play();
+    }
+    
+    public void PlayAssignedParticleParam(string idInput, int intValue)
+    {
+        Debug.Log("ITS WORKED!!!! " + intValue);
+    }
+    
+    #endregion
 }

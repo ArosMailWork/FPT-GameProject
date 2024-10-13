@@ -63,6 +63,11 @@ public class SkillHolder : MonoBehaviour
         activeSkill.GetComponent<ISkill>().Activate();
         //TimerAdd(activeSkill.GetComponent<ISkill>().Cooldown);
     }
+
+    public void DeactivateSkill()
+    {
+        activeSkill.GetComponent<ISkill>().Deactivate();
+    }
     #endregion
 
     #region Timer
