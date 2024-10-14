@@ -54,8 +54,6 @@ public class Skill_Striking : ISkill
         //prevent spam in the middle
         if (!_pc.staminaSystem.HasEnoughStamina(staminaCost) || _pc.moveBuffer == Vector2.zero) return;
 
-        //add Skill CD
-        
         _pc.currentState = PlayerState.Striking;
         //_playerAnimController.StrikingAnim();
         allowMark = true;
@@ -64,7 +62,7 @@ public class Skill_Striking : ISkill
         _pc.staminaSystem.Consume(staminaCost);
 
         //roll done ? okay cool
-        await UniTask.Delay(TimeSpan.FromSeconds(_pc.rollTime));
+        await UniTask.Delay(TimeSpan.FromSeconds(_pc._stats.rollTime));
         _pc.currentState = PlayerState.Idle;
         allowMark = false;
         

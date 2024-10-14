@@ -38,19 +38,24 @@ public class PlayerAnimController : MonoBehaviour
     {
         playerAnimator.SetBool("Die", die);
     }
+    
     [Button]
     public void DamagedAnim()
     {
         playerAnimator.SetTrigger("Damaged");
     }
-    public void RecallAnim(bool Recalling)
+    public void RecallAnim(bool Recalling, bool ReverseRecalling = false)
     {
         playerAnimator.SetBool("Recalling", Recalling);
+        playerAnimator.SetBool("ReverseRecalling", ReverseRecalling);
     }
-    
     public void RecallAnimTrigger()
     {
         playerAnimator.SetTrigger("RecallingStart");
+    }
+    
+    public void StrikingAnim()
+    {
     }
 
     public async UniTaskVoid DebuffStun(float time)

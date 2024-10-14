@@ -7,7 +7,7 @@ public class StaminaSystem : MonoBehaviour
     public int MaxStamina;      // Maximum stamina
     public int RegenRate;       // Stamina regeneration rate (how fast it regenerates per second)
     public int currentValue;    // Current stamina value
-    public bool fulled, isRegen; // Flags for full stamina and ongoing regeneration
+    public bool fulled, isRegen, canRegen = true; // Flags for full stamina and ongoing regeneration
     public StatSliderUI StatUI;
 
     public delegate void ValueChangeHandler(object sender);
@@ -48,8 +48,7 @@ public class StaminaSystem : MonoBehaviour
 
     private async UniTaskVoid StartStaminaRegeneration()
     {
-        if (isRegen) // Prevent multiple regeneration processes from starting
-            return;
+        if (isRegen) return;
 
         isRegen = true;
 
@@ -80,20 +79,12 @@ public class StaminaSystem : MonoBehaviour
     public void Consume(int amount)
     {
         CurrentValue -= amount;  // Reduce stamina by the consumed amount
-
-        if (fulled)
-        {
-            fulled = false;       // Mark stamina as no longer full
-        }
-
-        if (!isRegen)             // If not already regenerating, start the regeneration process
-        {
-            StartStaminaRegeneration();
-        }
+        if (fulled) fulled = false;       // Mark stamina as no longer full
+        if (!isRegen)  StartStaminaRegeneration();
     }
 
     public void RegenerateStamina(int regenValue)
     {
-        CurrentValue += regenValue;  // Regenerate stamina by the specified value
+        if(canRegen) CurrentValue += regenValue;
     }
 }

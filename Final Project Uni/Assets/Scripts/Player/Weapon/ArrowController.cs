@@ -24,7 +24,7 @@ public class ArrowController : MonoBehaviour
     [FoldoutGroup("Debug/States")]
     [ReadOnly] public bool ChargingInput;
     [FoldoutGroup("Debug/States")]
-    public bool FullyCharged, isRecalling, isCanceling, arrowRecoverFlag, haveArrow;
+    public bool FullyCharged, isRecalling, arrowRecoverFlag, haveArrow;
     [FoldoutGroup("Debug/States")]
     public bool ShootButtonPressing;
 
@@ -64,15 +64,11 @@ public class ArrowController : MonoBehaviour
 
     public void ChargeShoot(InputAction.CallbackContext ctx)
     {
-        //have arrow and alive ? cool
-        if (!haveArrow || !_playerController.PlayerHealth.isAlive) return;
-        ChargingInput = ctx.performed;
+        ChargeShoot(ctx.performed);
     }
     public void Recall(InputAction.CallbackContext ctx)
     {
-        ShootButtonPressing = ctx.performed;
-        if (haveArrow || !_playerController.PlayerHealth.isAlive) return;
-        StartRecall(ctx.performed);
+        Recall(ctx.performed);
     }
 
     //Mobile Input
@@ -98,7 +94,7 @@ public class ArrowController : MonoBehaviour
 
     void UpdateCharging()
     {
-        if (ChargingInput && !isCanceling)
+        if (ChargingInput)
         {
             if (currentChargedTime <= chargedTime)
             {
@@ -161,7 +157,7 @@ public class ArrowController : MonoBehaviour
     #endregion
 
     #region Recall
-    public async UniTaskVoid HideAllArrow(float time = 0)
+    public async UniTaskVoid HideAllMirageArrow(float time = 0)
     {
         await UniTask.Delay(TimeSpan.FromSeconds(time));
         foreach (var arrow in arrowsList)
@@ -201,18 +197,33 @@ public class ArrowController : MonoBehaviour
             _playerController.currentState = PlayerState.Recalling;
             _playerAnimController.RecallAnimTrigger();
         }
-        else _playerController.currentState = PlayerState.Idle;
-        
+        else 
+            _playerController.currentState = PlayerState.Idle;
         
         RecallArrow(MainArrow);
-        if (IsSplitShot)
+        if (!IsSplitShot) return;
+        
+        foreach (var arrow in arrowsList)
         {
-            foreach (var arrow in arrowsList)
-            {
-                RecallArrow(arrow);
-            }
+            RecallArrow(arrow);
         }
 
     }
+    #endregion
+
+    #region Remote Recover
+
+    public void RemoteRecover()
+    {
+        Debug.Log("Remote Recover");
+        foreach (var arrow in arrowsList)
+        {
+            arrow.HideArrow();
+        }
+
+        haveArrow = true;
+        isRecalling = false;
+    }
+
     #endregion
 }

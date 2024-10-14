@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using Sirenix.OdinInspector;
 
-public class AnimationEventHub : MonoBehaviour
+public class AnimationEventHub : SerializedMonoBehaviour
 {
     [DictionaryDrawerSettings(DisplayMode = DictionaryDisplayOptions.ExpandedFoldout)]
     public Dictionary<string ,UnityEvent> eventDic;

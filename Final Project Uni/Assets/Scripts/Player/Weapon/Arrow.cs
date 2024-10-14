@@ -124,7 +124,7 @@ public class Arrow : MonoBehaviour
             arrowRb.velocity = arrowRb.velocity.normalized * MaxSpeed;
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
 
         //hit anything -> allow recall
@@ -141,7 +141,8 @@ public class Arrow : MonoBehaviour
                 if(_arrowController.ShootButtonPressing)
                     _arrowController.arrowRecoverFlag = true;
                 
-                _arrowController.HideAllArrow(MirageDelay);
+                if(_arrowController.IsSplitShot)
+                    _arrowController.HideAllMirageArrow(MirageDelay);
                 currentArrowState = ArrowState.Idle;
             }
             HideArrow();

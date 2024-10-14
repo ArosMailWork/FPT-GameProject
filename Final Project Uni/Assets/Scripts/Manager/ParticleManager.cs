@@ -2,113 +2,119 @@ using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ParticleManager : MonoBehaviour
+public class ParticleManager : SerializedMonoBehaviour
 {
     #region Variables
+    [DictionaryDrawerSettings(DisplayMode = DictionaryDisplayOptions.ExpandedFoldout)]
     public static ParticleManager Instance { get; private set; }
+    public bool PrefabManager;
 
-    // Instead of a single prefab, use a list to store multiple particle prefabs.
-    [SerializeField] public List<GameObject> particlePrefabs;
+    // Dictionary to map particle names to GameObject references (with ParticleSystem components).
+    [SerializeField] public Dictionary<string, GameObject> particleDictionary;
     #endregion
 
     #region UnityMethod
     private void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-            return;
-        }
+        if (Instance == null && !PrefabManager) Instance = this;
     }
     #endregion
 
-    #region Event
-    // Overload for spawning by prefab index
-    public GameObject SpawnParticle(int prefabIndex, Vector3 position, Quaternion rotation)
+    #region Set Transform
+    public GameObject SpawnParticle(string particleName, Vector3 position, Quaternion rotation)
     {
-        if (prefabIndex >= 0 && prefabIndex < particlePrefabs.Count)
-        {
-            return PoolManager.Spawn(particlePrefabs[prefabIndex], position, rotation);
-        }
-        else
-        {
-            Debug.LogError("Invalid prefab index.");
-            return null;
-        }
-    }
-
-    // Overload for spawning using a specific prefab from the list
-    public GameObject SpawnParticle(GameObject particlePrefab, Vector3 position, Quaternion rotation)
-    {
-        if (particlePrefabs.Contains(particlePrefab))
+        if (particleDictionary.TryGetValue(particleName, out GameObject particlePrefab))
         {
             return PoolManager.Spawn(particlePrefab, position, rotation);
         }
         else
         {
-            Debug.LogError("Particle prefab not found in the list.");
+            Debug.LogError($"Particle '{particleName}' not found in dictionary.");
             return null;
         }
     }
-
-    // Set the position of an existing particle system
-    public void SetParticlePosition(GameObject particleSystem, Vector3 newPosition)
+    
+    
+    
+    public void SetParticlePosition(GameObject particleObject, Vector3 newPosition)
     {
-        particleSystem.transform.position = newPosition;
+        if (particleObject == null) return;
+        particleObject.transform.position = newPosition;
     }
-
-    // Rotate an existing particle system
-    public void RotateParticle(GameObject particleSystem, float rotateX, float rotateY, float rotateZ)
+    public void RotateParticle(GameObject particleObject, float rotateX, float rotateY, float rotateZ)
     {
+        if (particleObject == null) return;
+        
         Quaternion rotation = Quaternion.Euler(rotateX, rotateY, rotateZ);
-        particleSystem.transform.rotation = rotation;
+        particleObject.transform.rotation = rotation;
     }
     #endregion
 
     #region Ults
-    [FoldoutGroup("Event Test")]
-    [Button]
-    public void SetParticlePositionAndRotation(GameObject particleSystem, Vector3 newPosition, Quaternion newRotation)
+    [FoldoutGroup("Event")] [Button]
+    public void SetParticlePositionAndRotation(GameObject particleObject, Vector3 newPosition, Quaternion newRotation)
     {
-        SetParticlePosition(particleSystem, newPosition);
-        RotateParticle(particleSystem, newRotation.eulerAngles.x, newRotation.eulerAngles.y, newRotation.eulerAngles.z);
+        SetParticlePosition(particleObject, newPosition);
+        RotateParticle(particleObject, newRotation.eulerAngles.x, newRotation.eulerAngles.y, newRotation.eulerAngles.z);
     }
-    
-    [FoldoutGroup("Event Test")]
-    [Button]
-    public GameObject SpawnOppositeParticle(int prefabIndex, Vector3 bulletDirection)
+    [FoldoutGroup("Event")] [Button]
+    public GameObject SpawnOppositeParticle(string particleName, Vector3 bulletDirection)
     {
-        if (prefabIndex >= 0 && prefabIndex < particlePrefabs.Count)
+        if (particleDictionary.TryGetValue(particleName, out GameObject particlePrefab))
         {
             Vector3 oppositeDirection = -bulletDirection.normalized;
-            return SpawnParticle(prefabIndex, oppositeDirection, Quaternion.identity);
+            return SpawnParticle(particleName, oppositeDirection, Quaternion.identity);
         }
         else
         {
-            Debug.LogError("Invalid prefab index.");
+            Debug.LogError($"Particle '{particleName}' not found in dictionary.");
             return null;
         }
     }
 
+    public ParticleSystem GetParticleSystem(string particleName)
+    {
+        if (particleDictionary.TryGetValue(particleName, out GameObject particlePrefab))
+        {
+            if (particlePrefab.TryGetComponent(out ParticleSystem particleSystem))
+            {
+                return particleSystem;
+            }
+            else
+            {
+                Debug.LogError($"No ParticleSystem component found on '{particleName}'.");
+                return null;
+            }
+        }
+        else
+        {
+            Debug.LogError($"Particle '{particleName}' not found in dictionary.");
+            return null;
+        }
+    }
 
+    
+    
     //TEST ONLY
-    [FoldoutGroup("Event Test")]
     [Button]
-    public void PlayAssignedParticle()
+    public void PlayAssignedParticle(string particleName)
     {
-        var particle = particlePrefabs[0].GetComponent<ParticleSystem>();
-        particle.Play();
+        if (particleDictionary.TryGetValue(particleName, out GameObject particlePrefab))
+        {
+            var particleSystem = particlePrefab.GetComponent<ParticleSystem>();
+            if (particleSystem != null)
+            {
+                particleSystem.Play();
+            }
+            else
+            {
+                Debug.LogError($"No ParticleSystem component found on '{particleName}'.");
+            }
+        }
+        else
+        {
+            Debug.LogError($"Particle '{particleName}' not found in dictionary.");
+        }
     }
-    
-    public void PlayAssignedParticleParam(string idInput, int intValue)
-    {
-        Debug.Log("ITS WORKED!!!! " + intValue);
-    }
-    
     #endregion
 }
