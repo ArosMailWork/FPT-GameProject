@@ -1,12 +1,11 @@
 using UnityEngine;
 
-public class BotAttack : BaseState
+public class BotAttack : BotActive
 {
-    protected BotSM sm;
-    protected Transform TF;
+
     public BotAttack(string name, BotSM stateMachine) : base("Attack", stateMachine)
     {
-        sm = (BotSM)this.stateMachine;
+
     }
     public override void Enter()
     {
@@ -14,7 +13,7 @@ public class BotAttack : BaseState
         sm.currState = "Attack";
         if (sm.target == null)
         {
-            sm.target = sm.targets.Dequeue();
+            sm.target = sm.targets[0];
         }
         TF = sm.bot.transform;
     }
@@ -28,7 +27,7 @@ public class BotAttack : BaseState
         }
         else if (sm.target == null)
         {
-            sm.target = sm.targets.Dequeue();
+            sm.target = sm.targets[0];
         }
         else
         {
@@ -37,22 +36,6 @@ public class BotAttack : BaseState
 
     }
 
-    public override void TriggerEnter(Collider other)
-    {
-        base.TriggerEnter(other);
-        Debug.Log("aaaaa");
-        if (other.CompareTag("Player"))
-        {
-            GameObject go = other.gameObject;
-            sm.targets.Enqueue(go);
-            Debug.Log(sm.targets.Count);
-            // if ((int)bot.unitType <= 8 && bot.Team != sm.bot.Team)
-            // {
-            //     sm.targets.Enqueue(go);
-            //     Debug.Log(sm.targets.Count);
-            // }
-        }
-    }
     public void Rotate()
     {
         // Determine which direction to rotate towards

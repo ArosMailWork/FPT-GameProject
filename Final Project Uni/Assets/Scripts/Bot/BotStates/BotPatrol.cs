@@ -2,29 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BotPatrol : BaseState
+public class BotPatrol : BotActive
 {
-    protected BotSM sm;
-    public BotPatrol(StateMachine stateMachine) : base("Patrol", stateMachine)
+    public BotPatrol(BotSM stateMachine) : base("Patrol", stateMachine)
     {
-        sm = (BotSM)this.stateMachine;
-    }
 
+    }
     public override void Enter()
     {
         base.Enter();
         sm.currState = "Patrol";
 
     }
-    public override void TriggerEnter(Collider other)
+    public override void UpdateLogic()
     {
-        base.TriggerEnter(other);
-        Debug.Log("aaaaa");
-        if (other.CompareTag("Player"))
+        base.UpdateLogic();
+        if (sm.targets.Count > 0)
         {
-            GameObject go = other.gameObject;
-            sm.targets.Enqueue(go);
-            Debug.Log(sm.targets.Count);
+            sm.ChangeState(sm.chaseState);
         }
     }
 }

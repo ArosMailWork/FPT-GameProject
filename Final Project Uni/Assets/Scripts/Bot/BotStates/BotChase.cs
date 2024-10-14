@@ -9,16 +9,15 @@ public class BotChase : BotAttack
     public override void Enter()
     {
         base.Enter();
-        sm.nav.SetDestination(sm.target.transform.position);
+        sm.nav.SetDestination(sm.target.position);
         sm.currState = "Chase";
-        //Debug.Log("Chase");
     }
     public override void UpdateLogic()
     {
         base.UpdateLogic();
-        if (Vector3.Distance(TF.position, sm.target.transform.position) > 2f)
+        if (Vector3.Distance(TF.position, sm.target.position) > 2f)
         {
-            sm.nav.SetDestination(sm.target.transform.position);
+            sm.nav.SetDestination(sm.target.position);
         }
         else
         {

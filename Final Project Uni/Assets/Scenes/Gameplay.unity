@@ -233,11 +233,7 @@ GameObject:
   - component: {fileID: 41602276}
   - component: {fileID: 41602275}
   - component: {fileID: 41602274}
-  - component: {fileID: 41602273}
-  - component: {fileID: 41602272}
   - component: {fileID: 41602271}
-  - component: {fileID: 41602280}
-  - component: {fileID: 41602279}
   m_Layer: 0
   m_Name: TestBotSpider
   m_TagString: Untagged
@@ -267,38 +263,6 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &41602272
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 41602270}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a14ae7b09d3937845b3b0723a642a04a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target: {fileID: 0}
-  nav: {fileID: 41602271}
-  defaultDestination: {fileID: 0}
-  bot: {fileID: 41602273}
-  currState: 
---- !u!114 &41602273
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 41602270}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 49a32b845fb7a964a8b57cf7659f29f5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  unitType: 0
-  Team: 0
-  material: {fileID: 0}
 --- !u!114 &41602274
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -421,59 +385,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 57602384}
-  - {fileID: 1953537300}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 35.861, z: 0}
---- !u!136 &41602279
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 41602270}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 1
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!54 &41602280
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 41602270}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!1 &54888324
 GameObject:
   m_ObjectHideFlags: 0
@@ -517,6 +430,8 @@ GameObject:
   - component: {fileID: 57602384}
   - component: {fileID: 57602386}
   - component: {fileID: 57602385}
+  - component: {fileID: 57602388}
+  - component: {fileID: 57602387}
   m_Layer: 7
   m_Name: Spider Bot
   m_TagString: Untagged
@@ -539,6 +454,7 @@ Transform:
   m_Children:
   - {fileID: 1382147643}
   - {fileID: 1501920267}
+  - {fileID: 1953537300}
   m_Father: {fileID: 41602278}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!136 &57602385
@@ -591,6 +507,38 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
+--- !u!114 &57602387
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 57602383}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49a32b845fb7a964a8b57cf7659f29f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unitType: 0
+  Team: 0
+  material: {fileID: 0}
+--- !u!114 &57602388
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 57602383}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a14ae7b09d3937845b3b0723a642a04a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  nav: {fileID: 41602271}
+  defaultDestination: {fileID: 0}
+  bot: {fileID: 57602387}
+  currState: 
 --- !u!1 &76851604
 GameObject:
   m_ObjectHideFlags: 0
@@ -20966,11 +20914,11 @@ Transform:
   m_GameObject: {fileID: 1953537299}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.0040131, y: 0.25306, z: -0.00080371}
   m_LocalScale: {x: 30, y: 6, z: 30}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 41602278}
+  m_Father: {fileID: 57602384}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!136 &1953537301
 CapsuleCollider:
