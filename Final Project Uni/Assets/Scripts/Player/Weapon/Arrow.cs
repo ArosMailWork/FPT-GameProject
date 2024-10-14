@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Events;
@@ -23,8 +24,6 @@ public class Arrow : MonoBehaviour
     public float hoverSpeed = 2.0f;
 
     [FoldoutGroup("Debug")]
-    [ReadOnly] public bool RecallBuffer;
-    [FoldoutGroup("Debug")]
     [ReadOnly] public float CurrentVelocity;
     [FoldoutGroup("Debug")]
     public Vector3 RecallDirect;
@@ -38,7 +37,7 @@ public class Arrow : MonoBehaviour
     [FoldoutGroup("Setup")]
     [ReadOnly] public PlayerController _playerController;
     [FoldoutGroup("Setup/Events")]
-    public UnityEvent StartRecallEvent, StopRecallEvent, FinishRecallEvent;
+    public UnityEvent StartRecallEvent, StopRecallEvent, RecoverEvent;
     public float offset;
     public bool IsMainArrow;
 
@@ -52,6 +51,7 @@ public class Arrow : MonoBehaviour
     private void Start()
     {
         AssignController();
+        RecoverEvent.Invoke();
     }
 
     private void FixedUpdate()
@@ -67,13 +67,17 @@ public class Arrow : MonoBehaviour
             currentArrowState = ArrowState.Idle;
         }
 
-        if (currentArrowState == ArrowState.Recalling)
-            Recall();
+        if (currentArrowState == ArrowState.Recalling) Recall();
 
         else if (currentArrowState == ArrowState.Idle)
         {
             currentHoverHeight = 0;
-            if (RecallBuffer) currentArrowState = ArrowState.Recalling;
+            
+            if (IsMainArrow && currentArrowState == ArrowState.Recalling)
+            {
+                _arrowController.prefabParticleManager.PlayAssignedParticle("RecallingMainArrowVFX");
+                _arrowController.prefabParticleManager.PlayAssignedParticle("RecallingVFX");
+            }
         }
 
         // Rotate the arrow to point in the direction of its velocity
@@ -103,13 +107,7 @@ public class Arrow : MonoBehaviour
 
     public void Recall()
     {
-        RecallBuffer = false;
         RecallDirect = _playerController.transform.position - transform.position;
-        DragArrow();
-    }
-
-    void DragArrow()
-    {
         arrowRb.AddForce(RecallDirect.normalized * (recallSpeed * Time.fixedDeltaTime * 240), ForceMode.Acceleration);
         LimitSpeed();
     }
@@ -126,7 +124,6 @@ public class Arrow : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-
         //hit anything -> allow recall
         if (currentArrowState == ArrowState.Shooting) return;
         if (other.gameObject.tag == "Player")
@@ -146,13 +143,12 @@ public class Arrow : MonoBehaviour
                 currentArrowState = ArrowState.Idle;
             }
             HideArrow();
-
         }
     }
     public void HideArrow()
     {
         //can Play an Event here
-        
+        RecoverEvent.Invoke();
         
         //hide and deactivate it
         arrowRb.velocity = Vector3.zero;

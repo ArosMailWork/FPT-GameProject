@@ -24,16 +24,16 @@ public class ArrowController : MonoBehaviour
     [FoldoutGroup("Debug/States")]
     [ReadOnly] public bool ChargingInput;
     [FoldoutGroup("Debug/States")]
-    public bool FullyCharged, isRecalling, arrowRecoverFlag, haveArrow;
+    public bool FullyCharged, isRecalling, RecallBuffer, arrowRecoverFlag, haveArrow;
     [FoldoutGroup("Debug/States")]
     public bool ShootButtonPressing;
 
     [FoldoutGroup("Debug/Setup")] public GameObject ArrowPrefab;
-    [FoldoutGroup("Debug/Setup")]
-    public Arrow MainArrow;
+    [FoldoutGroup("Debug/Setup")] public ParticleManager prefabParticleManager;
+    [FoldoutGroup("Debug/Setup")] public Arrow MainArrow;
+    [FoldoutGroup("Debug/Buff")] public bool IsSplitShot = false;
 
     public static ArrowController Instance;
-    [FoldoutGroup("Debug/Buff")] public bool IsSplitShot = false;
 
     #endregion
 
@@ -56,6 +56,18 @@ public class ArrowController : MonoBehaviour
     private void Update()
     {
         UpdateCharging();
+
+        if (RecallBuffer)
+        {
+            RecallArrow(MainArrow);
+            
+            if(!IsSplitShot) return;
+            foreach (var arrow in arrowsList)
+            {
+                if (!arrow.IsMainArrow) RecallArrow(arrow);
+            }
+        }
+
     }
 
     #endregion
@@ -170,20 +182,32 @@ public class ArrowController : MonoBehaviour
         if (arrow == null) return;
         if (arrow.currentArrowState == ArrowState.Shooting)
         {
-            arrow.RecallBuffer = true;
+            RecallBuffer = true;
             return;
         }
 
         if (isRecalling)
         {
+            RecallBuffer = false;
+            
+            
             //cant call while shooting
             if (arrow.currentArrowState != ArrowState.Shooting)
+            {
+                arrow.StartRecallEvent.Invoke();
+                
                 arrow.currentArrowState = ArrowState.Recalling;
+                if (arrow.IsMainArrow && arrow.currentArrowState == ArrowState.Recalling)
+                {
+                    prefabParticleManager.PlayAssignedParticle("RecallingMainArrowVFX");
+                    prefabParticleManager.PlayAssignedParticle("RecallingVFX");
+                }
+            }
         }
         else
         {
+            arrow.StopRecallEvent.Invoke();
             arrow.currentArrowState = ArrowState.Idle;
-            arrow.RecallBuffer = false;
         }
     }
     [Button]
@@ -216,6 +240,7 @@ public class ArrowController : MonoBehaviour
     public void RemoteRecover()
     {
         Debug.Log("Remote Recover");
+        prefabParticleManager.PlayAssignedParticle("RecallingMainArrowVFX");
         foreach (var arrow in arrowsList)
         {
             arrow.HideArrow();

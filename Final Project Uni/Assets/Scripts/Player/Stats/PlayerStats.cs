@@ -58,17 +58,22 @@ public class PlayerStats : MonoBehaviour
     //Arrow Controller
     public float ChargedTime => defaultChargedTime - bonusChargedTime;
     
+    //Physics
+    [ReadOnly] public float defautDrag, defaultMass;
+    
     #endregion
 
-    private PlayerController _playerController;
+    private PlayerController _pc;
     private StaminaSystem _staminaSystem;
     private ArrowController _arrowController;
 
     private void Start()
     {
-        _playerController = PlayerController.Instance;
-        _staminaSystem = _playerController.staminaSystem;
-        _arrowController = _playerController._arrowController;
+        _pc = PlayerController.Instance;
+        _staminaSystem = _pc.staminaSystem;
+        _arrowController = _pc._arrowController;
+        defautDrag = _pc.PlayerRB.drag;
+        defaultMass = _pc.PlayerRB.mass;
     }
 
     public void UpdateBonusValue()

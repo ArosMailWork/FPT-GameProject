@@ -5,24 +5,16 @@ using UnityEngine;
 public class Skill_ReverseRecall : ISkill
 {
     public float ReverseRecallMultiplier = 1;
-
-    private float defautDrag, defaultMass;
+    public float RRMass = 1, RRDrag = 2;
     
     private void Start()
     {
         _pc.ReverseRecallMultiplier = ReverseRecallMultiplier;
-        defautDrag = _pc.PlayerRB.drag;
-        defaultMass = _pc.PlayerRB.mass;
     }
     
     public override void Activate()
     {
-        if (currentCD <= 0)
-        {
-            Debug.Log(Name + " Activated");
-            ReverseRecall(true);
-            currentCD = Cooldown;
-        }
+        if (currentCD <= 0) ReverseRecall(true);
     }
 
     public override void Deactivate()
@@ -32,19 +24,21 @@ public class Skill_ReverseRecall : ISkill
 
     public void ReverseRecall(bool toggle)
     {
-        if (toggle)
+        if (toggle && !_pc._arrowController.haveArrow)
         {
+            Debug.Log(Name + " Activated");
+            currentCD = Cooldown;
             _pc.staminaSystem.canRegen = false;
             _pc.currentState = PlayerState.ReverseRecalling;
-            _pc.PlayerRB.drag = 2;
-            _pc.PlayerRB.mass = 1;
+            _pc.PlayerRB.drag = RRDrag;
+            _pc.PlayerRB.mass = RRMass;
         }
         else
         {
             _pc.staminaSystem.canRegen = true;
             _pc.currentState = PlayerState.Idle;
-            _pc.PlayerRB.drag = defautDrag;
-            _pc.PlayerRB.mass = defaultMass;
+            _pc.PlayerRB.drag = _pc._stats.defautDrag;
+            _pc.PlayerRB.mass = _pc._stats.defaultMass;
         }
     }
 }
