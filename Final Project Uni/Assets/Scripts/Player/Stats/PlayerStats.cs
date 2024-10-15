@@ -16,7 +16,13 @@ public class PlayerStats : MonoBehaviour
     public float defaultGuardTime = 2; //temp
     [FoldoutGroup("Default Stats/Stamina")]
     public int defaultMaxStamina = 100, defaultRegenRate = 10, defaultStaminaRollCost = 20;
-    
+
+    [FoldoutGroup("Default Stats/Arrow")] 
+    public float DynamicFriction = 0.05f, StaticFriction = 0.2f, bounciness = 1;
+    [FoldoutGroup("Default Stats/Arrow")] 
+    public PhysicMaterialCombine BounceCombine = PhysicMaterialCombine.Maximum, FrictionCombine = PhysicMaterialCombine.Average;
+
+
     #endregion
     
     #region Bonus
@@ -75,7 +81,7 @@ public class PlayerStats : MonoBehaviour
         defautDrag = _pc.PlayerRB.drag;
         defaultMass = _pc.PlayerRB.mass;
     }
-
+    
     public void UpdateBonusValue()
     {
         //Stamina

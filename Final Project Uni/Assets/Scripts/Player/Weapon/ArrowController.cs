@@ -21,6 +21,9 @@ public class ArrowController : MonoBehaviour
 
     [FoldoutGroup("Debug")]
     [SerializeField] List<Arrow> arrowsList;
+    [FoldoutGroup("Debug")]
+    public PhysicMaterial physicMat;
+    
     [FoldoutGroup("Debug/States")]
     [ReadOnly] public bool ChargingInput;
     [FoldoutGroup("Debug/States")]
@@ -120,7 +123,7 @@ public class ArrowController : MonoBehaviour
         float calForce = forceCurve.Evaluate(currentChargedTime / chargedTime) * ShootForce;
 
         // Calculate the rotation around the Y-axis based on the offset in degrees
-        Quaternion rotationOffset = Quaternion.Euler(0, arrow.offset, 0);
+        Quaternion rotationOffset = Quaternion.Euler(0, arrow.offsetDegree, 0);
 
         // Apply the rotation offset to the player's forward direction (ignore Y-axis for shooting)
         Vector3 shootDir = rotationOffset * _playerController.transform.forward;

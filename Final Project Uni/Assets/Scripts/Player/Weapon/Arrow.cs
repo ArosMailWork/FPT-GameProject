@@ -38,7 +38,7 @@ public class Arrow : MonoBehaviour
     [ReadOnly] public PlayerController _playerController;
     [FoldoutGroup("Setup/Events")]
     public UnityEvent StartRecallEvent, StopRecallEvent, RecoverEvent, HideEvent;
-    public float offset;
+    public float offsetDegree;
     public bool IsMainArrow;
 
     #region Unity Methods
