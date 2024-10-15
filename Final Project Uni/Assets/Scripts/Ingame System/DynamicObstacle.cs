@@ -2,19 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using Sirenix.OdinInspector;
 
 //Basic Move Object
 public class DynamicObstacle : MonoBehaviour
 {
+    [FoldoutGroup("Setup")]
     public Transform mesh;  // Transform of the obstacle to move
+    [FoldoutGroup("Setup")]
     public List<HurtBox> HurtBoxes;  // List of HurtBoxes to toggle
+    [FoldoutGroup("Setup")]
     public List<Transform> destinationList;  // List of destination positions
 
-    // Expose Ease to be set in the Inspector
-    public Ease moveEase = Ease.InOutQuad;  // Default ease set to InOutQuad
+    [FoldoutGroup("Animation")]
+    public Ease moveEase = Ease.InOutQuad;
+    [FoldoutGroup("Animation")]
     public float moveTime;
 
-    Vector3 defaultPos;  // Store the initial position
+    Vector3 defaultPos;
     
     private void Start()
     {
@@ -22,7 +27,6 @@ public class DynamicObstacle : MonoBehaviour
         defaultPos = mesh.position;
     }
 
-    // Toggle HurtBox activation
     public void ToggleHurtBox(bool toggle)
     {
         Debug.Log("yes ? " + toggle);
@@ -32,7 +36,7 @@ public class DynamicObstacle : MonoBehaviour
         }
     }
 
-    // Method to move the obstacle to a specific destination over 'moveTime'
+    [Button]
     public void MoveToDestination(int destinationIndex)
     {
         if (destinationIndex >= 0 && destinationIndex < destinationList.Count)
@@ -43,8 +47,7 @@ public class DynamicObstacle : MonoBehaviour
         else
             Debug.LogWarning("Invalid destination index");
     }
-
-    // Move back to the default position
+    [Button]
     public void MoveToDefault()
     {
         mesh.DOMove(defaultPos, moveTime).SetEase(moveEase);
