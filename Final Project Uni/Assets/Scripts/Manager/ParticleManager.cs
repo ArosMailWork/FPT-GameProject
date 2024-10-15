@@ -1,5 +1,6 @@
 using Sirenix.OdinInspector;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public class ParticleManager : SerializedMonoBehaviour
@@ -11,7 +12,6 @@ public class ParticleManager : SerializedMonoBehaviour
     [FoldoutGroup("Settings")]
     public bool PrefabManager;
 
-    // Reference to the EffectList ScriptableObject containing particle mappings.
     [FoldoutGroup("Settings")] 
     //[SerializeField] private EffectList effectList;
     [DictionaryDrawerSettings(DisplayMode = DictionaryDisplayOptions.ExpandedFoldout)]
@@ -34,9 +34,8 @@ public class ParticleManager : SerializedMonoBehaviour
             return null;
         }
 
-        // Pick a random prefab from the list to spawn
-        GameObject particlePrefab = particlePrefabs[Random.Range(0, particlePrefabs.Count)];
-        return PoolManager.Spawn(particlePrefab, position, rotation);
+        GameObject particlePrefab = particlePrefabs[0];
+        return PoolManager.Instance.Spawn(particlePrefab, position, rotation);
     }
 
     public void SetParticlePosition(GameObject particleObject, Vector3 newPosition)

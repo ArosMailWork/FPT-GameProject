@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Spawnner : MonoBehaviour
+public class Spawner : MonoBehaviour
 {
     public GameObject prefab;
     public float time;
@@ -17,8 +17,8 @@ public class Spawnner : MonoBehaviour
         time = time - Time.deltaTime;
         if (time <= 0)
         {
-            PoolManager.Spawn(prefab, this.transform.position, this.transform.rotation);
-            PoolManager.GetPoolCount(prefab);
+            PoolManager.Instance.Spawn(prefab, this.transform.position, this.transform.rotation);
+            //PoolManager.GetPoolCount(prefab);
             time = 2f;
         }
     }
