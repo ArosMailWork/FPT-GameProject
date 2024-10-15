@@ -129,10 +129,12 @@ public class PlayerController : MonoBehaviour
         AddRollCD(_stats.rollCD + _stats.rollTime);
         canRoll = false; //just want to save calculate so I place here, hehe
 
-        //this lead to the Roll Apply do non-stop
-
+        //this lead to the Roll Apply
         currentState = PlayerState.Rolling;
         _playerAnimController.DodgeAnim();
+
+        _arrowController.isRecalling = false;
+
         //consume Stamina here
         staminaSystem.Consume(staminaCost);
 

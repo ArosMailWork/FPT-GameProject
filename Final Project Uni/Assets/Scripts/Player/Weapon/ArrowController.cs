@@ -198,10 +198,7 @@ public class ArrowController : MonoBehaviour
                 
                 arrow.currentArrowState = ArrowState.Recalling;
                 if (arrow.IsMainArrow && arrow.currentArrowState == ArrowState.Recalling)
-                {
                     prefabParticleManager.PlayAssignedParticle("RecallingMainArrowVFX");
-                    prefabParticleManager.PlayAssignedParticle("RecallingVFX");
-                }
             }
         }
         else
@@ -239,6 +236,8 @@ public class ArrowController : MonoBehaviour
 
     public void RemoteRecover()
     {
+        if(haveArrow) return;
+        
         Debug.Log("Remote Recover");
         prefabParticleManager.PlayAssignedParticle("RecallingMainArrowVFX");
         foreach (var arrow in arrowsList)

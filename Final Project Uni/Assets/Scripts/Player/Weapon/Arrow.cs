@@ -37,7 +37,7 @@ public class Arrow : MonoBehaviour
     [FoldoutGroup("Setup")]
     [ReadOnly] public PlayerController _playerController;
     [FoldoutGroup("Setup/Events")]
-    public UnityEvent StartRecallEvent, StopRecallEvent, RecoverEvent;
+    public UnityEvent StartRecallEvent, StopRecallEvent, RecoverEvent, HideEvent;
     public float offset;
     public bool IsMainArrow;
 
@@ -74,10 +74,7 @@ public class Arrow : MonoBehaviour
             currentHoverHeight = 0;
             
             if (IsMainArrow && currentArrowState == ArrowState.Recalling)
-            {
                 _arrowController.prefabParticleManager.PlayAssignedParticle("RecallingMainArrowVFX");
-                _arrowController.prefabParticleManager.PlayAssignedParticle("RecallingVFX");
-            }
         }
 
         // Rotate the arrow to point in the direction of its velocity
@@ -86,6 +83,14 @@ public class Arrow : MonoBehaviour
             Quaternion targetRotation = Quaternion.LookRotation(arrowRb.velocity.normalized);
             arrowRb.rotation = Quaternion.Slerp(arrowRb.rotation, targetRotation, Time.deltaTime * rotSpeed); // Adjust the speed of rotation here
         }
+    }
+
+    private void OnDisable()
+    {
+        //HideEvent.Invoke();
+
+        _arrowController.prefabParticleManager.SpawnParticle("ArrowHideVFX", 
+            transform.position, Quaternion.Euler(-90, 0, 0));
     }
 
     #endregion
@@ -151,6 +156,8 @@ public class Arrow : MonoBehaviour
         RecoverEvent.Invoke();
         
         //hide and deactivate it
+        if(!gameObject.activeSelf) return;
+            
         arrowRb.velocity = Vector3.zero;
         gameObject.SetActive(false);
     }

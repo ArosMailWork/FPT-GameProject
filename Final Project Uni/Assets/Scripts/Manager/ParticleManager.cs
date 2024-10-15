@@ -13,7 +13,9 @@ public class ParticleManager : SerializedMonoBehaviour
 
     // Reference to the EffectList ScriptableObject containing particle mappings.
     [FoldoutGroup("Settings")] 
-    [SerializeField] private EffectList effectList;
+    //[SerializeField] private EffectList effectList;
+    [DictionaryDrawerSettings(DisplayMode = DictionaryDisplayOptions.ExpandedFoldout)]
+    public Dictionary<string, List<GameObject>> particleDictionary;
     #endregion
 
     #region UnityMethod
@@ -26,7 +28,7 @@ public class ParticleManager : SerializedMonoBehaviour
     #region Set Transform
     public GameObject SpawnParticle(string particleName, Vector3 position, Quaternion rotation)
     {
-        if (effectList == null || !effectList.particleDictionary.TryGetValue(particleName, out List<GameObject> particlePrefabs) || particlePrefabs == null || particlePrefabs.Count == 0)
+        if (!particleDictionary.TryGetValue(particleName, out List<GameObject> particlePrefabs) || particlePrefabs == null || particlePrefabs.Count == 0)
         {
             Debug.LogError($"Particle '{particleName}' not found or has no available prefabs.");
             return null;
@@ -64,7 +66,7 @@ public class ParticleManager : SerializedMonoBehaviour
     [FoldoutGroup("Event")] [Button]
     public GameObject SpawnOppositeParticle(string particleName, Vector3 bulletDirection)
     {
-        if (effectList == null || !effectList.particleDictionary.TryGetValue(particleName, out List<GameObject> particlePrefabs) || particlePrefabs == null || particlePrefabs.Count == 0)
+        if (!particleDictionary.TryGetValue(particleName, out List<GameObject> particlePrefabs) || particlePrefabs == null || particlePrefabs.Count == 0)
         {
             Debug.LogError($"Particle '{particleName}' not found or has no available prefabs.");
             return null;
@@ -77,7 +79,7 @@ public class ParticleManager : SerializedMonoBehaviour
 
     public ParticleSystem GetParticleSystem(string particleName)
     {
-        if (effectList == null || !effectList.particleDictionary.TryGetValue(particleName, out List<GameObject> particlePrefabs) || particlePrefabs == null || particlePrefabs.Count == 0)
+        if (!particleDictionary.TryGetValue(particleName, out List<GameObject> particlePrefabs) || particlePrefabs == null || particlePrefabs.Count == 0)
         {
             Debug.LogError($"Particle '{particleName}' not found or has no available prefabs.");
             return null;
@@ -98,7 +100,7 @@ public class ParticleManager : SerializedMonoBehaviour
     [Button]
     public void PlayAssignedParticle(string particleName)
     {
-        if (effectList == null || !effectList.particleDictionary.TryGetValue(particleName, out List<GameObject> particlePrefabs) || particlePrefabs == null || particlePrefabs.Count == 0)
+        if (!particleDictionary.TryGetValue(particleName, out List<GameObject> particlePrefabs) || particlePrefabs == null || particlePrefabs.Count == 0)
         {
             Debug.LogError($"Particle '{particleName}' not found or has no available prefabs.");
             return;
