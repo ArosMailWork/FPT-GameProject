@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -15,6 +16,7 @@ public class PressurePlate : MonoBehaviour
     public List<InteractTarget> validTargets = new List<InteractTarget>();
 
     public UnityEvent ToggleOn, ToggleOff;
+    public float DelayActivateTime, DelayLeftTime;
     public bool pressing;
 
     // List to track objects currently inside the trigger
@@ -24,14 +26,12 @@ public class PressurePlate : MonoBehaviour
     private bool IsValidTarget(Collider other)
     {
         // If no specific target is provided, we assume all tags are valid
-        if (validTargets.Count == 0)
-            return true;
+        if (validTargets.Count == 0) return true;
 
         // Check if the tag matches any of the valid targets
         foreach (InteractTarget target in validTargets)
         {
-            if (other.CompareTag(target.ToString()))
-                return true;
+            if (other.CompareTag(target.ToString())) return true;
         }
 
         return false; // No matching tag found
@@ -39,30 +39,35 @@ public class PressurePlate : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (!IsValidTarget(other))
-            return; // Ignore if not a valid target
+        if (!IsValidTarget(other)) return;
 
-        // Add object to the list if not already present
-        if (!objectsInTrigger.Contains(other))
-        {
-            objectsInTrigger.Add(other);
-            pressing = true;
-            ToggleOn.Invoke();
-        }
+        TriggerToggle(other, false);
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (!IsValidTarget(other))
-            return; // Ignore if not a valid target
+        if (!IsValidTarget(other)) return;
 
-        // Remove the object from the list when it exits
-        if (objectsInTrigger.Contains(other))
+        TriggerToggle(other, true);
+    }
+
+    async UniTaskVoid TriggerToggle(Collider other, bool toggle)
+    {
+        if (toggle && objectsInTrigger.Contains(other))
         {
             objectsInTrigger.Remove(other);
-            pressing = false;
+            pressing = toggle;
+            await UniTask.Delay(TimeSpan.FromSeconds(DelayActivateTime));
             ToggleOff.Invoke();
         }
+        else if (!toggle && !objectsInTrigger.Contains(other))
+        {
+            objectsInTrigger.Add(other);
+            pressing = true;
+            await UniTask.Delay(TimeSpan.FromSeconds(DelayLeftTime));
+            ToggleOn.Invoke();
+        }
+        
     }
 
     private void Update()
