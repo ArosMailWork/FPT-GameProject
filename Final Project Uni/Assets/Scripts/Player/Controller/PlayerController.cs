@@ -11,23 +11,17 @@ using UnityEngine.InputSystem;
 [Serializable]
 public enum PlayerState
 {
-    Idle, Running, Recalling, Stunning, Rolling
+    Idle, Running, Recalling, ReverseRecalling, Stunning, Rolling, Striking
 }
 
 public class PlayerController : MonoBehaviour
 {
     #region Variables
 
+    [FoldoutGroup("Stats")] 
+    public PlayerStats _stats;
     [FoldoutGroup("Stats")]
     public Health PlayerHealth;
-    [FoldoutGroup("Stats")]
-    public float speed, rotationSpeed, MaxSpeed = 20;
-    [FoldoutGroup("Stats/Roll")]
-    public float rollSpeed, rollCD, rollTime;
-    [FoldoutGroup("Setup/Stamina")]
-    public int staminaRollCost;
-    [FoldoutGroup("Setup/Guard")]
-    public float guardTime;
 
 
     [FoldoutGroup("Debug")]
@@ -39,20 +33,24 @@ public class PlayerController : MonoBehaviour
     [FoldoutGroup("Debug")]
     public bool isJoystickInput;
     [FoldoutGroup("Debug")]
-    [SerializeField, ReadOnly] private float currentAccel, controlRollDirect = 0.2f;
+    [SerializeField, ReadOnly] private float currentAccel;
     [FoldoutGroup("Debug/Roll")]
     [SerializeField, ReadOnly] private bool canRoll;
     [FoldoutGroup("Debug/Roll")]
     [SerializeField, ReadOnly] private float currentRollCD;
     [FoldoutGroup("Debug/Roll")]
     [SerializeField, ReadOnly] private Vector3 RollDirect;
+    [FoldoutGroup("Debug/Striking")]
+    [SerializeField, ReadOnly] public float strikeMultiplier;
+    [FoldoutGroup("Debug/Reverse Recall")]
+    [SerializeField, ReadOnly] public float ReverseRecallMultiplier = 1;
 
     [FoldoutGroup("Setup")]
     public Rigidbody PlayerRB;
     [FoldoutGroup("Setup")]
     public PlayerAnimController _playerAnimController;
     [FoldoutGroup("Setup")]
-    public ArrowController _ArrowController;
+    public ArrowController _arrowController;
     [FoldoutGroup("Setup")]
     public UltimateJoystick JoystickPA;
     [FoldoutGroup("Setup/Stamina")] public StaminaSystem staminaSystem;
@@ -66,6 +64,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 cameraForward;
     private Vector3 cameraRight;
     private Vector3 moveDirection;
+    private Vector3 RecallDirect;
     private Quaternion targetRotation;
 
     #endregion
@@ -94,8 +93,10 @@ public class PlayerController : MonoBehaviour
 
         Move(moveInput);
         UpdateAnimState();
-        RotatePlayer(moveDirection);
+        RotatePlayer(moveDirection, _stats.rotationSpeed);
         RollApply();
+        StrikingMoveApply(strikeMultiplier);
+        ReverseRecall();
     }
 
     private void OnDrawGizmos()
@@ -119,27 +120,30 @@ public class PlayerController : MonoBehaviour
         currentRollCD += time;
     }
 
-    public async UniTaskVoid doRollingMove(Vector2 input)
+    public async UniTaskVoid doRollingMove(Vector2 input, int staminaCost)
     {
         //prevent spam in the middle
-        if (!canRoll || !staminaSystem.HasEnoughStamina(staminaRollCost) || moveBuffer == Vector2.zero) return;
+        if (!canRoll || !staminaSystem.HasEnoughStamina(staminaCost) || moveBuffer == Vector2.zero) return;
 
         //add CD
-        AddRollCD(rollCD + rollTime);
+        AddRollCD(_stats.rollCD + _stats.rollTime);
         canRoll = false; //just want to save calculate so I place here, hehe
 
-        //this lead to the Roll Apply do non-stop
-
+        //this lead to the Roll Apply
         currentState = PlayerState.Rolling;
         _playerAnimController.DodgeAnim();
+
+        _arrowController.isRecalling = false;
+
         //consume Stamina here
-        staminaSystem.Consume(staminaRollCost);
+        staminaSystem.Consume(staminaCost);
 
         //roll done ? okay cool
-        await UniTask.Delay(TimeSpan.FromSeconds(rollTime));
+        await UniTask.Delay(TimeSpan.FromSeconds(_stats.rollTime));
         currentState = PlayerState.Idle;
         //Might add some event here to activate particle or anything
     }
+    
 
     void RollApply()
     {
@@ -149,17 +153,35 @@ public class PlayerController : MonoBehaviour
             moveDirection = (cameraRight * moveBuffer.x + cameraForward * moveBuffer.y).normalized;
 
             // Mix the directions
-            Vector3 mixedDirection = Vector3.Lerp(transform.forward.normalized, moveDirection, controlRollDirect).normalized;
+            Vector3 mixedDirection = Vector3.Lerp(transform.forward.normalized, moveDirection, _stats.controlRollDirect).normalized;
 
             // Implement Roll Logic here
             RollDirect.x = mixedDirection.x;
             RollDirect.z = mixedDirection.z;
 
-            PlayerRB.velocity = RollDirect.normalized * (rollSpeed * Time.fixedDeltaTime * 240);
+            PlayerRB.velocity = RollDirect.normalized * (_stats.rollSpeed * Time.fixedDeltaTime * 240);
+        }
+    }
+    
+    public void StrikingMoveApply(float speedMultiplier = 2)
+    {
+        if (currentState == PlayerState.Striking)
+        {
+            // Take from buffer
+            moveDirection = (cameraRight * moveBuffer.x + cameraForward * moveBuffer.y).normalized;
+
+            // Mix the directions
+            Vector3 mixedDirection = Vector3.Lerp(transform.forward.normalized, moveDirection, _stats.controlRollDirect).normalized;
+
+            // Implement Roll Logic here
+            RollDirect.x = mixedDirection.x;
+            RollDirect.z = mixedDirection.z;
+
+            PlayerRB.velocity = RollDirect.normalized * (_stats.rollSpeed * speedMultiplier * Time.fixedDeltaTime * 240);
         }
     }
 
-    void LimitSpeed()
+    void LimitSpeed(float MaxSpeed)
     {
         Mathf.Clamp(PlayerRB.velocity.magnitude, 0, MaxSpeed);
         if (PlayerRB.velocity.magnitude > MaxSpeed)
@@ -201,22 +223,37 @@ public class PlayerController : MonoBehaviour
 
     void UpdateAnimState()
     {
-        if (currentState == PlayerState.Stunning || currentState == PlayerState.Rolling) goto Skip;
+        if (currentState == PlayerState.Stunning || currentState == PlayerState.Rolling || currentState == PlayerState.Striking) goto Skip;
+        if (currentState == PlayerState.ReverseRecalling) goto ReverseRecallFlag;
 
         currentState = PlayerState.Idle;
         if (moveDirection != Vector3.zero) currentState = PlayerState.Running;
-        if (_ArrowController.isRecalling) currentState = PlayerState.Recalling;
-
         _playerAnimController.UpdateRunInput(currentState == PlayerState.Running);
+        if (_arrowController.isRecalling) currentState = PlayerState.Recalling;
+        _playerAnimController.RecallAnim(_arrowController.isRecalling);
+        
+        ReverseRecallFlag:
+        if (currentState == PlayerState.ReverseRecalling)
+        {
+            _playerAnimController.RecallAnim(true, true);
+            _playerAnimController.RecallAnimTrigger();
+        }
 
-    Skip:;
+        Skip:;
     }
 
     public async UniTaskVoid GuardAnim()
     {
         _playerAnimController.GuardAnim(true);
-        await UniTask.Delay(TimeSpan.FromSeconds(guardTime));
+        await UniTask.Delay(TimeSpan.FromSeconds(_stats.guardTime));
         _playerAnimController.GuardAnim(false);
+    }
+
+    public void MeleeAnim()
+    {
+        if(currentState == PlayerState.Recalling || currentState == PlayerState.ReverseRecalling || currentState == PlayerState.Stunning) return;
+        if(_arrowController.ChargingInput) return;
+        _playerAnimController.Slash();
     }
 
     #endregion
@@ -225,9 +262,9 @@ public class PlayerController : MonoBehaviour
 
     public void Move(Vector2 input)
     {
-        if (currentState == PlayerState.Stunning ||
-            currentState == PlayerState.Rolling ||
-            currentState == PlayerState.Recalling) return;
+        if (currentState == PlayerState.Stunning || currentState == PlayerState.Rolling ||
+            currentState == PlayerState.Recalling  || currentState == PlayerState.ReverseRecalling || 
+            currentState == PlayerState.Striking) return;
 
         if (isJoystickInput) input = joyStickInput;
 
@@ -239,18 +276,15 @@ public class PlayerController : MonoBehaviour
 
         moveDirection = (cameraRight * input.x + cameraForward * input.y).normalized;
         moveDirection.y = 0;
-
-        // Debugging: Draw a ray in the direction of movement
-        //Debug.DrawRay(PlayerRB.transform.position, moveDirection, Color.blue, 0.2f);
-
+        
         // Move the Rigidbody
         if (currentState != PlayerState.Rolling)
-            PlayerRB.AddForce(moveDirection * (Time.deltaTime * 240 * speed), ForceMode.VelocityChange);
+            PlayerRB.AddForce(moveDirection * (Time.deltaTime * 240 * _stats.speed), ForceMode.VelocityChange);
 
-        LimitSpeed();
+        LimitSpeed(_stats.maxSpeed);
     }
 
-    void RotatePlayer(Vector3 moveDirection)
+    void RotatePlayer(Vector3 moveDirection, float rotationSpeed)
     {
         if (moveDirection == Vector3.zero) return;
         targetRotation = Quaternion.LookRotation(moveDirection);
@@ -266,12 +300,21 @@ public class PlayerController : MonoBehaviour
     public void Roll()
     {
         if (currentState == PlayerState.Rolling || moveBuffer == Vector2.zero) return;
-        doRollingMove(moveBuffer);
+        doRollingMove(moveBuffer, _stats.staminaRollCost);
     }
-
     public void Guard()
     {
         GuardAnim();
+    }
+    
+    public void ReverseRecall()
+    {
+        if(currentState != PlayerState.ReverseRecalling || !_arrowController.MainArrow.isActiveAndEnabled) return;
+        RecallDirect = _arrowController.MainArrow.transform.position - transform.position;
+        PlayerRB.AddForce(RecallDirect.normalized * (ReverseRecallMultiplier * (_arrowController.MainArrow.recallSpeed * Time.fixedDeltaTime * 240)), ForceMode.Acceleration);
+        LimitSpeed(_arrowController.MainArrow.MaxSpeed);
+        
+        RotatePlayer(RecallDirect, _stats.rotationSpeed/2);
     }
 
     #endregion
@@ -281,14 +324,23 @@ public class PlayerController : MonoBehaviour
     [Button]
     public void Hurt(Vector3 KnockDirect, float Damage)
     {
-        _playerAnimController.DamagedAnim();
+        HurtAnim();
         ReceiveKnockback(KnockDirect);
     }
 
-    public void ReceiveKnockback(Vector3 KnockDirect)
+    public void HurtAnim()
+    {
+        _playerAnimController.DamagedAnim();
+    }
+
+    public async UniTaskVoid ReceiveKnockback(Vector3 KnockDirect, float StunTime = 0.2f)
     {
         Debug.Log("Player: ouch");
         //Implement Knockback shiet here
+        PlayerRB.AddForce(KnockDirect, ForceMode.Impulse);
+
+        currentState = PlayerState.Stunning;
+        await UniTask.Delay(TimeSpan.FromSeconds(StunTime));
     }
 
     public void Die()
@@ -306,6 +358,13 @@ public class PlayerController : MonoBehaviour
     void SpeedCheck()
     {
         currentAccel = PlayerRB.velocity.magnitude;
+    }
+
+    [FoldoutGroup("Debug")]
+    [Button]
+    public void forceChangeState(PlayerState state)
+    {
+        currentState = state;
     }
 
     #endregion

@@ -1,73 +1,96 @@
 using System.Collections;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class SkillHolder : MonoBehaviour
 {
     public PlayerController _pc;
-    public int currentSkill = 0;
-    public List<GameObject> skillList;
-    public GameObject activeSkill;
-    public GameObject skillPrefab1;
-    public GameObject skillPrefab2;
-
-    float currentCD;
+    public int currentActiveSkill = 0;
+    public List<GameObject> skillPrefabs;  // List of skill prefabs
+    private List<GameObject> skillList = new List<GameObject>(); // List of instantiated skills
+    private GameObject activeSkill;
+    private ISkill currentSkill; 
+    
+    [ReadOnly] public float currentCD;
 
     // Start is called before the first frame update
     void Start()
     {
-        AddSkill(skillPrefab1);
-        AddSkill(skillPrefab2);
-        SetActiveSkill(0);
-        //activeSkill.GetComponent<ISkill>().Activate();
+        // Instantiate all skills from the skillPrefabs list
+        foreach (GameObject skillPrefab in skillPrefabs)
+        {
+            AddSkill(skillPrefab);
+        }
+
+        // Set the initial active skill
+        SetActiveSkill(currentActiveSkill);
     }
+
+    [Button]
     void SetActiveSkill(int slot)
     {
-        activeSkill = skillList[slot];
-
+        if (slot >= 0 && slot < skillList.Count)
+        {
+            activeSkill = skillList[slot];
+            currentSkill = activeSkill.GetComponent<ISkill>();
+        }
     }
+
     #region Util
-    //Util 
+    // Utility method for switching to the next skill
     public void NextSkill(InputAction.CallbackContext ctx)
     {
-        if (currentSkill + 1 < skillList.Count)
-        {
-            activeSkill = skillList[currentSkill + 1];
-            currentSkill += 1;
-        }
+        if (currentActiveSkill + 1 < skillList.Count)
+            currentActiveSkill += 1;
         else
-        {
-            activeSkill = skillList[0];
-            currentSkill = 0;
-        }
+            currentActiveSkill = 0;
+        
+        SetActiveSkill(currentActiveSkill);
     }
     #endregion
-    void AddSkill(GameObject skill)
+
+    // Method to instantiate and add a skill to the skillList
+    void AddSkill(GameObject skillPrefab)
     {
-        GameObject g = Instantiate(skill);
-        g.transform.SetParent(this.transform);
-        g.GetComponent<ISkill>().Assign(_pc);
-        skillList.Add(g);
+        GameObject skillInstance = Instantiate(skillPrefab);
+        skillInstance.transform.SetParent(this.transform);
+        skillInstance.transform.localPosition = Vector3.zero;
+        skillInstance.transform.localRotation = Quaternion.identity;
+        skillInstance.GetComponent<ISkill>().Assign(_pc);
+        skillList.Add(skillInstance);
     }
+
     #region Input
     public void ActivateSkill(InputAction.CallbackContext ctx)
     {
-        activeSkill.GetComponent<ISkill>().Activate();
-        //TimerAdd(activeSkill.GetComponent<ISkill>().Cooldown);
+        ActivateSkill();
     }
+
+    public void DeactivateSkill(InputAction.CallbackContext ctx)
+    {
+        DeactivateSkill();
+    }
+
     public void ActivateSkill()
     {
-        activeSkill.GetComponent<ISkill>().Activate();
-        //TimerAdd(activeSkill.GetComponent<ISkill>().Cooldown);
+        if (activeSkill == null) return;
+        currentSkill.Activate();
+        
+    }
+
+    public void DeactivateSkill()
+    {
+        if (activeSkill == null) return;
+        currentSkill.Deactivate();
     }
     #endregion
 
     #region Timer
     public void Timer()
     {
-        if (currentCD >= 0)
-            currentCD -= Time.deltaTime;
+        if (currentCD >= 0) currentCD -= Time.deltaTime;
     }
 
     public void TimerAdd(float addTime)

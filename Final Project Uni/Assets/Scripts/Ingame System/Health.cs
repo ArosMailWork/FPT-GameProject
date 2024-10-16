@@ -30,7 +30,7 @@ public class Health : MonoBehaviour
     [FoldoutGroup("Setup")]
     public bool fillOnStart = true;
     [FoldoutGroup("Setup/Event")]
-    public UnityEvent HpValueChange, OnDeath;
+    public UnityEvent HpValueChange, HpReduce, OnDeath;
     [FoldoutGroup("Setup/Event")]
     public UnityEvent<Vector3, float> OnKnockback;
 
@@ -73,8 +73,8 @@ public class Health : MonoBehaviour
 
     public void HPUpdate()
     {
-        Debug.Log(this.gameObject.name + " HP Update");
-        if (StatUI != null) StatUI.UpdateHP(health, maxHealth);
+        //Debug.Log(this.gameObject.name + " HP Update");
+        if (StatUI != null) StatUI.UpdateValue(health, maxHealth);
         HpValueChange.Invoke();
     }
     public void DeathEvent()
@@ -88,7 +88,7 @@ public class Health : MonoBehaviour
     #region Ults
     
     [FoldoutGroup("Event Test")] [Button]
-    public void Invinvicle(float time)
+    public void Invincible(float time)
     {
         InvincibleTimer(time);
     }
@@ -138,7 +138,7 @@ public class Health : MonoBehaviour
     public void Knockback(Vector3 Dir, float knockForce)
     {
         //knockback Event
-        OnKnockback.Invoke(Dir, knockForce);
+        OnKnockback.Invoke(Dir.normalized, knockForce);
     }
 
 
@@ -150,8 +150,9 @@ public class Health : MonoBehaviour
     }
     void DealDamage(int damage)
     {
-        Debug.Log("Hurt " + damage);
+        //Debug.Log("Hurt " + damage);
         currentHealth -= damage;
+        HpReduce.Invoke();
     }
     async UniTaskVoid DoT(int damage, float duration)
     {

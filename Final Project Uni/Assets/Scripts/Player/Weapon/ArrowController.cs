@@ -10,7 +10,8 @@ public class ArrowController : MonoBehaviour
 {
     #region Variables
 
-    private PlayerController _playerController;
+    public PlayerAnimController _playerAnimController;
+    public StatSliderUI _StatSliderUI;
 
     [FoldoutGroup("Stats")]
     public AnimationCurve forceCurve;
@@ -20,19 +21,23 @@ public class ArrowController : MonoBehaviour
 
     [FoldoutGroup("Debug")]
     [SerializeField] List<Arrow> arrowsList;
+    [FoldoutGroup("Debug")]
+    public PhysicMaterial physicMat;
+    
     [FoldoutGroup("Debug/States")]
     [ReadOnly] public bool ChargingInput;
     [FoldoutGroup("Debug/States")]
-    public bool FullyCharged, isRecalling, isCanceling, arrowRecoverFlag, haveArrow;
+    public bool FullyCharged, isRecalling, RecallBuffer, arrowRecoverFlag, haveArrow;
     [FoldoutGroup("Debug/States")]
     public bool ShootButtonPressing;
 
     [FoldoutGroup("Debug/Setup")] public GameObject ArrowPrefab;
-    [FoldoutGroup("Debug/Setup")]
-    public Arrow MainArrow;
+    [FoldoutGroup("Debug/Setup")] public ParticleManager prefabParticleManager;
+    [FoldoutGroup("Debug/Setup")] public Arrow MainArrow;
+    [FoldoutGroup("Debug/Buff")] public bool IsSplitShot = false;
 
     public static ArrowController Instance;
-    [FoldoutGroup("Debug/Buff")] public bool IsSplitShot = false;
+    private PlayerController _playerController;
 
     #endregion
 
@@ -46,11 +51,29 @@ public class ArrowController : MonoBehaviour
     private void Start()
     {
         _playerController = PlayerController.Instance;
+        _playerAnimController = _playerController._playerAnimController;
+
+        haveArrow = true;
+        _playerAnimController.UpdateHaveArrow(true);
     }
 
     private void Update()
     {
+        _StatSliderUI.UpdateValue(currentChargedTime, chargedTime);
+            
         UpdateCharging();
+
+        if (RecallBuffer)
+        {
+            RecallArrow(MainArrow);
+            
+            if(!IsSplitShot) return;
+            foreach (var arrow in arrowsList)
+            {
+                if (!arrow.IsMainArrow) RecallArrow(arrow);
+            }
+        }
+
     }
 
     #endregion
@@ -59,15 +82,11 @@ public class ArrowController : MonoBehaviour
 
     public void ChargeShoot(InputAction.CallbackContext ctx)
     {
-        //have arrow and alive ? cool
-        if (!haveArrow || !_playerController.PlayerHealth.isAlive) return;
-        ChargingInput = ctx.performed;
+        ChargeShoot(ctx.performed);
     }
     public void Recall(InputAction.CallbackContext ctx)
     {
-        ShootButtonPressing = ctx.performed;
-        //if (haveArrow || !_playerController.isAlive) return;
-        StartRecall(ctx.performed);
+        Recall(ctx.performed);
     }
 
     //Mobile Input
@@ -76,6 +95,8 @@ public class ArrowController : MonoBehaviour
         //have arrow and alive ? cool
         if (!haveArrow || !_playerController.PlayerHealth.isAlive) return;
         ChargingInput = charge;
+        
+        _playerAnimController.Draw(true, true);
     }
     public void Recall(bool recall)
     {
@@ -91,8 +112,10 @@ public class ArrowController : MonoBehaviour
 
     void UpdateCharging()
     {
-        if (ChargingInput && !isCanceling)
+        if (ChargingInput)
         {
+            if(!_StatSliderUI.toggleShow) _StatSliderUI.UpdateToggle(true);
+            
             if (currentChargedTime <= chargedTime)
             {
                 currentChargedTime += Time.deltaTime;
@@ -103,15 +126,27 @@ public class ArrowController : MonoBehaviour
     void ShootArrow(Arrow arrow)
     {
         float calForce = forceCurve.Evaluate(currentChargedTime / chargedTime) * ShootForce;
-        Vector3 ShootDir = _playerController.transform.forward + new Vector3(arrow.offset, arrow.offset, arrow.offset);
-        ShootDir.y = 0;
-        //Test (pooling replace)
+
+        // Calculate the rotation around the Y-axis based on the offset in degrees
+        Quaternion rotationOffset = Quaternion.Euler(0, arrow.offsetDegree, 0);
+
+        // Apply the rotation offset to the player's forward direction (ignore Y-axis for shooting)
+        Vector3 shootDir = rotationOffset * _playerController.transform.forward;
+        shootDir.y = 0; // Ensure no vertical component in the shooting direction
+
+        // Activate the arrow game object
         arrow.gameObject.SetActive(true);
         arrow.transform.position = _playerController.transform.position;
-        arrow.Shoot(ShootDir.normalized * calForce);
-        //arrow.Shoot(ShootDir.normalized);
+
+        // Set the rotation so the Z-axis points in the shoot direction
+        arrow.transform.rotation = Quaternion.LookRotation(shootDir.normalized);
+
+        // Shoot the arrow with the calculated force
+        arrow.Shoot(shootDir.normalized * calForce);
         arrow.currentArrowState = ArrowState.Shooting;
     }
+
+
     [Button]
     public void Shoot()
     {
@@ -124,62 +159,104 @@ public class ArrowController : MonoBehaviour
         //because button up
         ChargingInput = false;
         haveArrow = false;
+        _playerAnimController.UpdateHaveArrow(haveArrow);
         ShootArrow(MainArrow);
         if (IsSplitShot)
         {
             foreach (var arrow in arrowsList)
             {
-                ShootArrow(arrow);
+                if(!arrow.IsMainArrow) ShootArrow(arrow);
             }
         }
 
-
+        //wear
+        _playerAnimController.Draw(false, true);
         currentChargedTime = 0;
+        _StatSliderUI.UpdateToggle(false, 0.5f);
     }
 
     #endregion
 
     #region Recall
-    public async UniTaskVoid HideAllArrow(float time = 0)
+    public async UniTaskVoid HideAllMirageArrow(float time = 0)
     {
         await UniTask.Delay(TimeSpan.FromSeconds(time));
         foreach (var arrow in arrowsList)
         {
-            arrow.HideArrow();
+            if(!arrow.IsMainArrow) arrow.HideArrow();
         }
     }
     void RecallArrow(Arrow arrow)
     {
-        if (arrow == null || arrow.currentArrowState == ArrowState.Shooting) return;
+        if (arrow == null) return;
+        if (arrow.currentArrowState == ArrowState.Shooting)
+        {
+            RecallBuffer = true;
+            return;
+        }
 
         if (isRecalling)
         {
+            RecallBuffer = false;
+            
+            
             //cant call while shooting
             if (arrow.currentArrowState != ArrowState.Shooting)
+            {
+                arrow.StartRecallEvent.Invoke();
+                
                 arrow.currentArrowState = ArrowState.Recalling;
+                if (arrow.IsMainArrow && arrow.currentArrowState == ArrowState.Recalling)
+                    prefabParticleManager.PlayAssignedParticle("RecallingMainArrowVFX");
+            }
         }
         else
+        {
+            arrow.StopRecallEvent.Invoke();
             arrow.currentArrowState = ArrowState.Idle;
+        }
     }
     [Button]
     public void StartRecall(bool recallBool)
     {
         isRecalling = recallBool;
         if (!_playerController.PlayerHealth.isAlive || _playerController.currentState == PlayerState.Stunning || haveArrow) return;
-        
-        if (recallBool) _playerController.currentState = PlayerState.Recalling;
-        else _playerController.currentState = PlayerState.Idle;
-        
+
+        if (recallBool)
+        {
+            _playerController.currentState = PlayerState.Recalling;
+            _playerAnimController.RecallAnimTrigger();
+        }
+        else 
+            _playerController.currentState = PlayerState.Idle;
         
         RecallArrow(MainArrow);
-        if (IsSplitShot)
+        if (!IsSplitShot) return;
+        
+        foreach (var arrow in arrowsList)
         {
-            foreach (var arrow in arrowsList)
-            {
-                RecallArrow(arrow);
-            }
+            RecallArrow(arrow);
         }
 
     }
+    #endregion
+
+    #region Remote Recover
+
+    public void RemoteRecover()
+    {
+        if(haveArrow) return;
+        
+        Debug.Log("Remote Recover");
+        prefabParticleManager.PlayAssignedParticle("RecallingMainArrowVFX");
+        foreach (var arrow in arrowsList)
+        {
+            arrow.HideArrow();
+        }
+
+        haveArrow = true;
+        isRecalling = false;
+    }
+
     #endregion
 }

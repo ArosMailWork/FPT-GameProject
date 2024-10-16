@@ -45,6 +45,7 @@ public class HurtBox : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
+        //Debug.Log("hit " + other.gameObject.name);
         if (!Activate || other.gameObject.tag != TargetTag.ToString()) return;
         
         if (other.TryGetComponent<Health>(out Health targetHealth))
@@ -60,8 +61,6 @@ public class HurtBox : MonoBehaviour
     
     void HitTarget(Health targetHealth, Vector3? knockDir = null)
     {
-        //if(!Activate) return;
-        
         //check DoT mode or not
         if(dotDam) targetHealth.DamageOverTime(Damage, DotTime);
         else targetHealth.Hurt(Damage);

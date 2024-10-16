@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Events;
@@ -23,7 +24,7 @@ public class Arrow : MonoBehaviour
     public float hoverSpeed = 2.0f;
 
     [FoldoutGroup("Debug")]
-    [ReadOnly] public float currentLifeTime;
+    [ReadOnly] public float CurrentVelocity;
     [FoldoutGroup("Debug")]
     public Vector3 RecallDirect;
     [FoldoutGroup("Debug/Hover")]
@@ -36,8 +37,8 @@ public class Arrow : MonoBehaviour
     [FoldoutGroup("Setup")]
     [ReadOnly] public PlayerController _playerController;
     [FoldoutGroup("Setup/Events")]
-    public UnityEvent StartRecallEvent, StopRecallEvent, FinishRecallEvent;
-    public float offset;
+    public UnityEvent StartRecallEvent, StopRecallEvent, RecoverEvent, HideEvent;
+    public float offsetDegree;
     public bool IsMainArrow;
 
     #region Unity Methods
@@ -50,6 +51,12 @@ public class Arrow : MonoBehaviour
     private void Start()
     {
         AssignController();
+        RecoverEvent.Invoke();
+    }
+
+    private void FixedUpdate()
+    {
+        CurrentVelocity = arrowRb.velocity.magnitude;
     }
 
     private void Update()
@@ -60,12 +67,15 @@ public class Arrow : MonoBehaviour
             currentArrowState = ArrowState.Idle;
         }
 
-
-        if (currentArrowState == ArrowState.Recalling)
-            Recall();
+        if (currentArrowState == ArrowState.Recalling) Recall();
 
         else if (currentArrowState == ArrowState.Idle)
+        {
             currentHoverHeight = 0;
+            
+            if (IsMainArrow && currentArrowState == ArrowState.Recalling)
+                _arrowController.prefabParticleManager.PlayAssignedParticle("RecallingMainArrowVFX");
+        }
 
         // Rotate the arrow to point in the direction of its velocity
         if (arrowRb.velocity.magnitude > 0 && arrowRb.velocity != Vector3.zero)
@@ -73,6 +83,14 @@ public class Arrow : MonoBehaviour
             Quaternion targetRotation = Quaternion.LookRotation(arrowRb.velocity.normalized);
             arrowRb.rotation = Quaternion.Slerp(arrowRb.rotation, targetRotation, Time.deltaTime * rotSpeed); // Adjust the speed of rotation here
         }
+    }
+
+    private void OnDisable()
+    {
+        //HideEvent.Invoke();
+
+        _arrowController.prefabParticleManager.SpawnParticle("ArrowHideVFX", 
+            transform.position, Quaternion.Euler(-90, 0, 0));
     }
 
     #endregion
@@ -95,11 +113,6 @@ public class Arrow : MonoBehaviour
     public void Recall()
     {
         RecallDirect = _playerController.transform.position - transform.position;
-        DragArrow();
-    }
-
-    void DragArrow()
-    {
         arrowRb.AddForce(RecallDirect.normalized * (recallSpeed * Time.fixedDeltaTime * 240), ForceMode.Acceleration);
         LimitSpeed();
     }
@@ -114,9 +127,8 @@ public class Arrow : MonoBehaviour
             arrowRb.velocity = arrowRb.velocity.normalized * MaxSpeed;
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
-
         //hit anything -> allow recall
         if (currentArrowState == ArrowState.Shooting) return;
         if (other.gameObject.tag == "Player")
@@ -125,21 +137,27 @@ public class Arrow : MonoBehaviour
             {
                 _playerController.currentState = PlayerState.Idle;
                 _arrowController.haveArrow = true;
+                _arrowController._playerAnimController.UpdateHaveArrow(true);
                 _arrowController.isRecalling = false;
                 
                 if(_arrowController.ShootButtonPressing)
                     _arrowController.arrowRecoverFlag = true;
                 
-                _arrowController.HideAllArrow(MirageDelay);
+                if(_arrowController.IsSplitShot)
+                    _arrowController.HideAllMirageArrow(MirageDelay);
                 currentArrowState = ArrowState.Idle;
             }
             HideArrow();
-
         }
     }
     public void HideArrow()
     {
-        //hide it with pooling
+        //can Play an Event here
+        RecoverEvent.Invoke();
+        
+        //hide and deactivate it
+        if(!gameObject.activeSelf) return;
+            
         arrowRb.velocity = Vector3.zero;
         gameObject.SetActive(false);
     }

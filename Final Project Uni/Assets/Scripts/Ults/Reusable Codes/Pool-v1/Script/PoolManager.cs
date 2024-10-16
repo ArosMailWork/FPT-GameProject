@@ -1,66 +1,73 @@
-// Remember that Awake and Start will only ever be called on the first instantiation
-// and that member variables won't be reset automatically.  You should reset your
-// object yourself after calling Spawn().  (i.e. You'll have to do things like set
-// the object's HPs to max, reset animation states, etc...)s
-
+using System;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-public class PoolManager
+public class PoolManager : MonoBehaviour
 {
-    const int DEFAULT_POOL_SIZE = 3;
-    //Dictionary contain all pool using GameObject as key
-    private static Dictionary<GameObject, Pool> poolDict;
+    public static PoolManager Instance { get; private set; }
+    private const int DEFAULT_POOL_SIZE = 30;
+    private Dictionary<GameObject, Pool> poolDict;
+    public Transform poolParent;
 
-    //Initiate a Pool and put it inside poolDict
-    private static void InitPool(GameObject prefab = null, int qty = DEFAULT_POOL_SIZE)
+    private void Awake()
     {
-        //Check if there no pools dictionary in PoolManager then create one 
-        if (poolDict == null)
+        if (Instance != null && Instance != this)
         {
-            poolDict = new Dictionary<GameObject, Pool>();
+            Destroy(gameObject);  // Destroy duplicate instances
+            return;
         }
-        //Create a new pool and put inside poolDict if there is no pool for the GameObject
-        if (prefab != null && poolDict.ContainsKey(prefab) == false)
+
+        Instance = this;
+        poolDict = new Dictionary<GameObject, Pool>();
+        DontDestroyOnLoad(gameObject);  // Make the PoolManager persistent across scenes if needed
+    }
+
+    // Initialize a Pool and put it inside poolDict
+    private void InitPool(GameObject prefab = null, int qty = DEFAULT_POOL_SIZE)
+    {
+        // Create a new pool and put it inside poolDict if there is no pool for the GameObject
+        if (prefab != null && !poolDict.ContainsKey(prefab))
         {
             poolDict[prefab] = new Pool(prefab, qty);
         }
     }
 
-    //Get pool count by game object
-    public static int GetPoolCount(GameObject prefab)
+    // Get pool count by prefab
+    public int GetPoolCount(GameObject prefab)
     {
-        if (poolDict[prefab] != null)
+        if (poolDict.ContainsKey(prefab))
         {
             return poolDict[prefab].Count();
         }
         return 0;
     }
-    //Spawn GameObject with prefab and position
-    public static GameObject Spawn(GameObject prefab, Vector3 pos, Quaternion rot)
+
+    // Spawn GameObject with prefab and position
+    public GameObject Spawn(GameObject prefab, Vector3 pos, Quaternion rot, float DespawnTime = 5f)
     {
-        //Create a new pool if no pool available with InitPool()
+        // Create a new pool if no pool available with InitPool()
         InitPool(prefab);
-        //return the object from the pool Spawn() method
-        return poolDict[prefab].Spawn(pos, rot);
+        // Return the object from the pool's Spawn() method
+        return poolDict[prefab].Spawn(pos, rot, DespawnTime, poolParent);
     }
 
-    //Take from an object from pool but not place in the game world yet
-    public static GameObject TakeFromPool(GameObject prefab)
+    // Take an object from pool but not place in the game world yet
+    public GameObject TakeFromPool(GameObject prefab)
     {
         InitPool(prefab);
         return poolDict[prefab].TakeFromPool();
     }
 
-
-    public static void Despawn(GameObject obj)
+    // Despawn GameObject and return it to its pool
+    public void Despawn(GameObject obj)
     {
-        //Take the GameObject's GameUnit component if null then the object not on the pool
-        //if not null then call the pool Despawn() method
+        // Take the GameObject's GameUnit component. If null, the object was not from a pool
         GameUnit gameUnit = obj.GetComponent<GameUnit>();
         if (gameUnit == null)
         {
-            Debug.Log("Object '" + obj.name + "' wasn't spawned from a pool. Destroying it instead.");
+            Debug.LogWarning($"Object '{obj.name}' wasn't spawned from a pool. Destroying it instead.");
+            Destroy(obj);
         }
         else
         {
@@ -68,19 +75,19 @@ public class PoolManager
         }
     }
 
-
-    public static void Preload(GameObject prefab, int qty = 3)
+    // Preload objects into the pool
+    public void Preload(GameObject prefab, int qty = 3, Transform poolParent = null)
     {
-        //Create a new pool if no pool available with InitPool()
+        // Create a new pool if no pool available
         InitPool(prefab, qty);
 
-        //Make an array to grab the objects we about to pre-spawn
+        // Pre-spawn objects and despawn them
         GameObject[] objs = new GameObject[qty];
         for (int i = 0; i < qty; i++)
         {
-            objs[i] = Spawn(prefab, Vector3.zero, Quaternion.identity);
+            objs[i] = Spawn(prefab, Vector3.zero, Quaternion.identity, 0);
         }
-        //Despawn and put all of them in pool with pool Despawn() method
+
         for (int i = 0; i < qty; i++)
         {
             Despawn(objs[i]);

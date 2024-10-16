@@ -1,74 +1,122 @@
 using Sirenix.OdinInspector;
-using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-public class ParticleManager : MonoBehaviour
+public class ParticleManager : SerializedMonoBehaviour
 {
     #region Variables
+    [FoldoutGroup("Settings")]
     public static ParticleManager Instance { get; private set; }
 
+    [FoldoutGroup("Settings")]
+    public bool PrefabManager;
 
-    [SerializeField] public GameObject prefab;
+    [FoldoutGroup("Settings")] 
+    //[SerializeField] private EffectList effectList;
+    [DictionaryDrawerSettings(DisplayMode = DictionaryDisplayOptions.ExpandedFoldout)]
+    public Dictionary<string, List<GameObject>> particleDictionary;
     #endregion
 
     #region UnityMethod
     private void Awake()
     {
-
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-            return;
-        }
+        if (Instance == null && !PrefabManager) Instance = this;
     }
     #endregion
 
-
-
-    #region Event
-    public GameObject SpawnParticle(GameObject particleSystem, Vector3 position, Quaternion rotation)
+    #region Set Transform
+    public GameObject SpawnParticle(string particleName, Vector3 position, Quaternion rotation)
     {
-        return PoolManager.Spawn(particleSystem, position, rotation);
+        if (!particleDictionary.TryGetValue(particleName, out List<GameObject> particlePrefabs) || particlePrefabs == null || particlePrefabs.Count == 0)
+        {
+            Debug.LogError($"Particle '{particleName}' not found or has no available prefabs.");
+            return null;
+        }
+
+        GameObject particlePrefab = particlePrefabs[0];
+        return PoolManager.Instance.Spawn(particlePrefab, position, rotation);
     }
 
-    // Set the position of an existing particle system
-    public void SetParticlePosition(GameObject particleSystem, Vector3 newPosition)
+    public void SetParticlePosition(GameObject particleObject, Vector3 newPosition)
     {
-        particleSystem.transform.position = newPosition;
+        if (particleObject == null) return;
+        particleObject.transform.position = newPosition;
     }
 
-    // Rotate an existing particle system
-    public void RotateParticle(GameObject particleSystem, float rotateX, float rotateY, float RotateZ)
+    public void RotateParticle(GameObject particleObject, float rotateX, float rotateY, float rotateZ)
     {
-        Quaternion rotation = Quaternion.Euler(rotateX, rotateY, RotateZ);
-        particleSystem.transform.rotation = rotation;
-    }
+        if (particleObject == null) return;
 
+        Quaternion rotation = Quaternion.Euler(rotateX, rotateY, rotateZ);
+        particleObject.transform.rotation = rotation;
+    }
     #endregion
 
     #region Ults
-    [FoldoutGroup("Event Test")]
-    [Button]
-    public void setParticlePositionAndRotation(GameObject particleSystem, Vector3 newPosition, Quaternion newRotation)
+    [FoldoutGroup("Event")] [Button]
+    public void SetParticlePositionAndRotation(GameObject particleObject, Vector3 newPosition, Quaternion newRotation)
     {
-        SetParticlePosition(particleSystem, newPosition);
-        RotateParticle(particleSystem, newRotation.x, newRotation.y, newRotation.z);
+        if (particleObject == null) return;
+        SetParticlePosition(particleObject, newPosition);
+        RotateParticle(particleObject, newRotation.eulerAngles.x, newRotation.eulerAngles.y, newRotation.eulerAngles.z);
     }
-    [FoldoutGroup("Event Test")]
-    [Button]
-    public GameObject SpawnOppositeParticle(GameObject particlePrefab, Vector3 bulletDirection)
-    {
-     
-        Vector3 oppositeDirection = -bulletDirection.normalized;
 
-        return SpawnParticle(particlePrefab, oppositeDirection, Quaternion.identity);
+    [FoldoutGroup("Event")] [Button]
+    public GameObject SpawnOppositeParticle(string particleName, Vector3 bulletDirection)
+    {
+        if (!particleDictionary.TryGetValue(particleName, out List<GameObject> particlePrefabs) || particlePrefabs == null || particlePrefabs.Count == 0)
+        {
+            Debug.LogError($"Particle '{particleName}' not found or has no available prefabs.");
+            return null;
+        }
+
+        Vector3 oppositeDirection = -bulletDirection.normalized;
+        GameObject particlePrefab = particlePrefabs[Random.Range(0, particlePrefabs.Count)];
+        return SpawnParticle(particleName, oppositeDirection, Quaternion.identity);
+    }
+
+    public ParticleSystem GetParticleSystem(string particleName)
+    {
+        if (!particleDictionary.TryGetValue(particleName, out List<GameObject> particlePrefabs) || particlePrefabs == null || particlePrefabs.Count == 0)
+        {
+            Debug.LogError($"Particle '{particleName}' not found or has no available prefabs.");
+            return null;
+        }
+
+        foreach (var particlePrefab in particlePrefabs)
+        {
+            if (particlePrefab.TryGetComponent(out ParticleSystem particleSystem))
+            {
+                return particleSystem;
+            }
+        }
+
+        Debug.LogError($"No ParticleSystem component found on any of the '{particleName}' prefabs.");
+        return null;
+    }
+
+    [Button]
+    public void PlayAssignedParticle(string particleName)
+    {
+        if (!particleDictionary.TryGetValue(particleName, out List<GameObject> particlePrefabs) || particlePrefabs == null || particlePrefabs.Count == 0)
+        {
+            Debug.LogError($"Particle '{particleName}' not found or has no available prefabs.");
+            return;
+        }
+
+        foreach (var particlePrefab in particlePrefabs)
+        {
+            var particleSystem = particlePrefab.GetComponent<ParticleSystem>();
+            if (particleSystem != null)
+            {
+                particleSystem.Play();
+            }
+            else
+            {
+                Debug.LogError($"No ParticleSystem component found on prefab '{particlePrefab.name}' for '{particleName}'.");
+            }
+        }
     }
     #endregion
-
 }
