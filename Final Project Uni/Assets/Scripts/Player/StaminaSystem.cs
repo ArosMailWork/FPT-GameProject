@@ -42,7 +42,7 @@ public class StaminaSystem : MonoBehaviour
 
     protected virtual void OnValueChanged()
     {
-        if (StatUI != null) StatUI.UpdateHP(currentValue, MaxStamina);
+        if (StatUI != null) StatUI.UpdateValue(currentValue, MaxStamina);
         OnValueChange?.Invoke(this);
     }
 

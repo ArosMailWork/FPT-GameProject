@@ -41,7 +41,7 @@ public class BotAttack : BaseState
     {
         base.TriggerEnter(other);
 
-        if (other.CompareTag("Unit"))
+        if (other.CompareTag("Enemy"))
         {
             GameObject go = other.gameObject;
             BotMain bot = go.GetComponent<BotMain>();

@@ -10,8 +10,8 @@ public class ArrowController : MonoBehaviour
 {
     #region Variables
 
-    private PlayerController _playerController;
     public PlayerAnimController _playerAnimController;
+    public StatSliderUI _StatSliderUI;
 
     [FoldoutGroup("Stats")]
     public AnimationCurve forceCurve;
@@ -37,6 +37,7 @@ public class ArrowController : MonoBehaviour
     [FoldoutGroup("Debug/Buff")] public bool IsSplitShot = false;
 
     public static ArrowController Instance;
+    private PlayerController _playerController;
 
     #endregion
 
@@ -58,6 +59,8 @@ public class ArrowController : MonoBehaviour
 
     private void Update()
     {
+        _StatSliderUI.UpdateValue(currentChargedTime, chargedTime);
+            
         UpdateCharging();
 
         if (RecallBuffer)
@@ -111,6 +114,8 @@ public class ArrowController : MonoBehaviour
     {
         if (ChargingInput)
         {
+            if(!_StatSliderUI.toggleShow) _StatSliderUI.UpdateToggle(true);
+            
             if (currentChargedTime <= chargedTime)
             {
                 currentChargedTime += Time.deltaTime;
@@ -167,6 +172,7 @@ public class ArrowController : MonoBehaviour
         //wear
         _playerAnimController.Draw(false, true);
         currentChargedTime = 0;
+        _StatSliderUI.UpdateToggle(false, 0.5f);
     }
 
     #endregion

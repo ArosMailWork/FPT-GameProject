@@ -74,7 +74,7 @@ public class Health : MonoBehaviour
     public void HPUpdate()
     {
         //Debug.Log(this.gameObject.name + " HP Update");
-        if (StatUI != null) StatUI.UpdateHP(health, maxHealth);
+        if (StatUI != null) StatUI.UpdateValue(health, maxHealth);
         HpValueChange.Invoke();
     }
     public void DeathEvent()
@@ -88,7 +88,7 @@ public class Health : MonoBehaviour
     #region Ults
     
     [FoldoutGroup("Event Test")] [Button]
-    public void Invinvicle(float time)
+    public void Invincible(float time)
     {
         InvincibleTimer(time);
     }

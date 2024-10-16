@@ -29,7 +29,7 @@ public class DynamicObstacle : MonoBehaviour
 
     public void ToggleHurtBox(bool toggle)
     {
-        Debug.Log("yes ? " + toggle);
+        //Debug.Log("yes ? " + toggle);
         foreach (var hurtBox in HurtBoxes)
         {
             hurtBox.Activate = toggle;
