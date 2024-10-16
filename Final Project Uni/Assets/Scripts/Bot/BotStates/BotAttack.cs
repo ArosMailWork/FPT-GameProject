@@ -11,29 +11,40 @@ public class BotAttack : BotActive
     {
         base.Enter();
         sm.currState = "Attack";
-        if (sm.target == null)
-        {
-            sm.target = sm.targets[0];
-        }
         TF = sm.bot.transform;
     }
 
     public override void UpdateLogic()
     {
         base.UpdateLogic();
-        if (sm.targets.Count == 0 && sm.target == null)
-        {
-            sm.ChangeState(sm.idleState);
-        }
-        else if (sm.target == null)
-        {
-            sm.target = sm.targets[0];
-        }
-        else
+        if (sm.target != null)
         {
             Rotate();
         }
 
+        // if (sm.target == null)
+        // {
+        //     sm.ChangeState(sm.idleState);
+        // }
+        // else
+        // {
+        //     Rotate();
+        // }
+        // if (Vector3.Distance(TF.position, sm.target.position) > sm.bot.maxRange)
+        // {
+        //     sm.nav.SetDestination(sm.destination);
+        // }
+        // else
+        // {
+        //     sm.nav.isStopped = true;
+        //     sm.ChangeState(sm.hitState);
+        // }
+
+
+        // if (Vector3.Distance(TF.position, sm.target.position) < sm.bot.minRange)
+        // {
+        //     sm.ChangeState(sm.hitState);
+        // }
     }
 
     public void Rotate()
@@ -47,4 +58,5 @@ public class BotAttack : BotActive
         // Calculate a rotation a step closer to the target and applies rotation to this object
         TF.rotation = Quaternion.LookRotation(newDirection);
     }
+
 }

@@ -1,7 +1,9 @@
+using Mono.CSharp;
 using UnityEngine;
 
 public class BotChase : BotAttack
 {
+
     public BotChase(BotSM stateMachine) : base("Chase", stateMachine)
     {
 
@@ -9,22 +11,27 @@ public class BotChase : BotAttack
     public override void Enter()
     {
         base.Enter();
-        sm.nav.SetDestination(sm.target.position);
+        //sm.nav.SetDestination(sm.target.position);
+
         sm.currState = "Chase";
     }
     public override void UpdateLogic()
     {
         base.UpdateLogic();
-        if (Vector3.Distance(TF.position, sm.target.position) > 2f)
+        //TODO: implement a better way to check 3d distance that exclude y axis
+        if (Vector3.Distance(TF.position, sm.destination) > 0.5f)
         {
-            sm.nav.SetDestination(sm.target.position);
+            Debug.Log(Vector3.Distance(TF.position, sm.destination));
+            sm.nav.SetDestination(sm.destination);
         }
         else
         {
+            Debug.Log("aaaaa");
             sm.nav.isStopped = true;
             sm.ChangeState(sm.hitState);
         }
     }
+
 
 
 

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Mono.CSharp;
 using UnityEngine;
 
 public class BotActive : BaseState
@@ -14,31 +15,31 @@ public class BotActive : BaseState
     public override void TriggerEnter(Collider other)
     {
         base.TriggerEnter(other);
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && sm.target == null)
         {
             GameObject go = other.gameObject;
             Character c = go.GetComponent<Character>();
             if (c != null)
             {
-                sm.targets.Add(c.tf);
-            }
-            ;
-            Debug.Log(sm.targets.Count);
-        }
-    }
-    public override void TriggerExit(Collider other)
-    {
-        base.TriggerExit(other);
-        if (other.CompareTag("Player"))
-        {
-            GameObject go = other.gameObject;
-            Character c = go.GetComponent<Character>();
-            if (c != null)
-            {
-                sm.targets.Remove(c.tf);
+                //sm.targets.Add(c.tf);
+                sm.target = c.tf;
             }
 
-            Debug.Log(sm.targets.Count);
         }
     }
+    // public override void TriggerExit(Collider other)
+    // {
+    //     base.TriggerExit(other);
+    //     if (other.CompareTag("Player") && sm.target != null)
+    //     {
+    //         GameObject go = other.gameObject;
+    //         Character c = go.GetComponent<Character>();
+    //         if (c != null)
+    //         {
+    //             //sm.targets.Remove(c.tf);
+    //             sm.target = c.tf;
+    //         }
+
+    //     }
+    // }
 }

@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class BotHit : BotAttack
 {
-    private float hitCooldown = 1.0f;
+    private float hitCooldown = 0.5f;
     private float counter;
 
     public BotHit(BotSM stateMachine) : base("Hit", stateMachine)
@@ -15,7 +15,7 @@ public class BotHit : BotAttack
         base.Enter();
         counter = hitCooldown;
         sm.currState = "Hit";
-        //Debug.Log("Hit!");
+        Debug.Log("Hit!");
     }
     public override void UpdateLogic()
     {
@@ -24,6 +24,7 @@ public class BotHit : BotAttack
         if (counter <= 0)
         {
             Hit();
+            sm.ChangeState(sm.patrolState);
         }
         else
         {
@@ -37,6 +38,7 @@ public class BotHit : BotAttack
         {
             //GameObject p = PoolManager.Spawn(sm.bot.projectile, sm.gameObject.transform.position, sm.gameObject.transform.rotation);
             //p.GetComponent<Projectile>().team = sm.bot.team;
+            Debug.Log("Attack");
             counter = hitCooldown;
         }
 

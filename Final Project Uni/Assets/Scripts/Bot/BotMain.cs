@@ -8,6 +8,10 @@ public class BotMain : MonoBehaviour
     public UnitType unitType;
     public int Team = 0;
     public Material material;
+    public float minRange;
+    public float maxRange;
+    public float cooldown = 2f;
+    public float countdown;
     //Stat
     public CharacterStat MaxHP;
     public CharacterStat HP;
@@ -23,6 +27,14 @@ public class BotMain : MonoBehaviour
         {
             Dead();
         }
+        if (countdown >= 0)
+        {
+            countdown -= Time.deltaTime;
+        }
+    }
+    public void ResetCooldown()
+    {
+        countdown = cooldown;
     }
     public void Dead()
     {
