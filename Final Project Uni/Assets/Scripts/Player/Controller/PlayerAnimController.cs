@@ -56,6 +56,7 @@ public class PlayerAnimController : MonoBehaviour
     
     public void StrikingAnim()
     {
+        playerAnimator.SetTrigger("StrikingStart");
     }
 
     public async UniTaskVoid DebuffStun(float time)

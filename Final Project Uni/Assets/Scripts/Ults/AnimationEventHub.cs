@@ -17,4 +17,18 @@ public class AnimationEventHub : SerializedMonoBehaviour
         else
             Debug.LogWarning($"No event found with AnimEventID: {idInput}");
     }
+    
+    [Button]
+    public void RemoveEventByID(string idInput)
+    {
+        if (eventDic.ContainsKey(idInput))
+        {
+            eventDic.Remove(idInput);
+            Debug.Log($"Event with ID: {idInput} has been removed.");
+        }
+        else
+        {
+            Debug.LogWarning($"No event found with ID: {idInput} to remove.");
+        }
+    }
 }

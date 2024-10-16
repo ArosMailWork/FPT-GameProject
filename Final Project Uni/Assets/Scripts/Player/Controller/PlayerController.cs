@@ -22,6 +22,8 @@ public class PlayerController : MonoBehaviour
     public PlayerStats _stats;
     [FoldoutGroup("Stats")]
     public Health PlayerHealth;
+    [FoldoutGroup("Stats/Lunge")]
+    public float meleeLungeForce = 100f, lungeAngle = 60f, rangeAngleTolerance = 5f, lungeRange = 25f, LungeTime = 0.3f;
 
 
     [FoldoutGroup("Debug")]
@@ -60,12 +62,14 @@ public class PlayerController : MonoBehaviour
     public static PlayerController Instance;
 
     //Calculate
-    private Vector3 calculateMove;
-    private Vector3 cameraForward;
-    private Vector3 cameraRight;
-    private Vector3 moveDirection;
-    private Vector3 RecallDirect;
+    private Vector3 calculateMove,moveDirection;
+    private Vector3 cameraForward, cameraRight;
+    private Vector3 RecallDirect, lungeDirection;
+    private Vector3 leftRayDirection, rightRayDirection;
     private Quaternion targetRotation;
+    private GameObject closestEnemy;
+    private float closestDistance, elapsedTime;
+    private Quaternion leftRayRotation, rightRayRotation;
 
     #endregion
 
@@ -101,7 +105,22 @@ public class PlayerController : MonoBehaviour
 
     private void OnDrawGizmos()
     {
+        if (PlayerRB == null) return;
 
+        //player facing
+        Gizmos.color = Color.blue;
+        Gizmos.DrawRay(PlayerRB.transform.position, PlayerRB.transform.forward * lungeRange);
+        
+        // Calculate the boundaries of the lunge cone
+        leftRayRotation = Quaternion.AngleAxis(-(lungeAngle / 2 + rangeAngleTolerance), Vector3.up);
+        rightRayRotation = Quaternion.AngleAxis(lungeAngle / 2 + rangeAngleTolerance, Vector3.up);
+        leftRayDirection = leftRayRotation * PlayerRB.transform.forward;
+        rightRayDirection = rightRayRotation * PlayerRB.transform.forward;
+
+        // Draw the cone boundaries
+        Gizmos.color = Color.green;
+        Gizmos.DrawRay(PlayerRB.transform.position, leftRayDirection * lungeRange);
+        Gizmos.DrawRay(PlayerRB.transform.position, rightRayDirection * lungeRange);
     }
 
     #endregion
@@ -254,6 +273,71 @@ public class PlayerController : MonoBehaviour
         if(currentState == PlayerState.Recalling || currentState == PlayerState.ReverseRecalling || currentState == PlayerState.Stunning) return;
         if(_arrowController.ChargingInput) return;
         _playerAnimController.Slash();
+    }
+
+    [Button]
+    public void MeleeLunge()
+    {
+        Debug.Log("Lunge");
+        // Use OverlapSphere to detect all colliders within the radius
+        Collider[] hitColliders = Physics.OverlapSphere(PlayerRB.transform.position, lungeRange);
+
+        // Variable to track the closest enemy within the field of view
+        closestEnemy = null;
+        closestDistance = Mathf.Infinity;
+        lungeDirection = PlayerRB.transform.forward.normalized;  // Default to forward if no enemy is found
+
+        // Loop through all colliders detected by the OverlapSphere
+        foreach (Collider hitCollider in hitColliders)
+        {
+            GameObject hitObject = hitCollider.gameObject;
+
+            // Guard clause: If the hit object doesn't have the tag "Enemy", skip it
+            if (!hitObject.CompareTag("Enemy")) continue;
+
+            Vector3 directionToEnemy = (hitObject.transform.position - PlayerRB.transform.position).normalized;
+
+            // Calculate the angle between the player's forward direction and the direction to the enemy
+            float angleToEnemy = Vector3.Angle(PlayerRB.transform.forward, directionToEnemy);
+
+            // Guard clause: If the enemy is outside the cone of ±30 degrees, skip it
+            if (angleToEnemy > lungeAngle / 2 + rangeAngleTolerance) continue;
+
+            // Calculate the distance to the enemy
+            float distanceToEnemy = Vector3.Distance(PlayerRB.transform.position, hitObject.transform.position);
+
+            // Guard clause: If this enemy is farther than the closest found, skip it
+            if (distanceToEnemy >= closestDistance) continue;
+
+            // Update closest enemy and distance if this one is closer
+            closestEnemy = hitObject;
+            closestDistance = distanceToEnemy;
+            
+            // Draw a line to this enemy for debug purposes
+            Debug.DrawLine(PlayerRB.transform.position, hitObject.transform.position, Color.red, 1f);
+        }
+
+        // Guard clause: If no enemy was found, just lunge forward
+        if (closestEnemy != null)
+            lungeDirection = (closestEnemy.transform.position - PlayerRB.transform.position).normalized;
+
+        doMeleeLunge(LungeTime);
+    }
+    
+    public async UniTaskVoid doMeleeLunge(float time)
+    {
+        elapsedTime = 0f;  // Tracks how much time has passed
+
+        while (elapsedTime < time)
+        {
+            PlayerRB.AddForce(lungeDirection * meleeLungeForce, ForceMode.Acceleration);
+            RotatePlayer(lungeDirection, _stats.rotationSpeed * 0.75f);
+            
+            await UniTask.Yield(PlayerLoopTiming.FixedUpdate);
+            elapsedTime += Time.deltaTime;
+        }
+
+        Debug.Log("Lunge Rotation Complete");
     }
 
     #endregion
