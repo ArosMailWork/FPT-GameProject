@@ -50,6 +50,9 @@ public class Arrow : MonoBehaviour
 
     private void Start()
     {
+        _arrowController = ArrowController.Instance;
+        _playerController = PlayerController.Instance;
+        
         RecoverEvent.Invoke();
         if (IsMainArrow) hitbox.MirageMultiplier = 1f;
     }
@@ -94,11 +97,8 @@ public class Arrow : MonoBehaviour
     }
 
     #endregion
-    public void AssignController()
+    public void Assign()
     {
-        _arrowController = ArrowController.Instance;
-        _playerController = PlayerController.Instance;
-        
         arrowRb = GetComponent<Rigidbody>();
         hitbox = GetComponent<HurtBox>();
     }

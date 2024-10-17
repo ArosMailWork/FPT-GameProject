@@ -50,7 +50,7 @@ public class ArrowController : MonoBehaviour
 
         foreach (var arrow in arrowsList)
         {
-            arrow.AssignController();
+            arrow.Assign();
         }
     }
     private void Start()
