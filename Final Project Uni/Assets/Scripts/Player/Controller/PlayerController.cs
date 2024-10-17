@@ -213,7 +213,6 @@ public class PlayerController : MonoBehaviour
 
     public void InputMove(InputAction.CallbackContext ctx)
     {
-        if (!PlayerHealth.isAlive) return;
         moveInput = ctx.ReadValue<Vector2>();
 
         if (moveInput != Vector2.zero && moveInput != moveBuffer) moveBuffer = moveInput;
@@ -348,7 +347,7 @@ public class PlayerController : MonoBehaviour
     {
         if (currentState == PlayerState.Stunning || currentState == PlayerState.Rolling ||
             currentState == PlayerState.Recalling  || currentState == PlayerState.ReverseRecalling || 
-            currentState == PlayerState.Striking) return;
+            currentState == PlayerState.Striking || !PlayerHealth.isAlive) return;
 
         if (isJoystickInput) input = joyStickInput;
 
@@ -388,6 +387,7 @@ public class PlayerController : MonoBehaviour
     }
     public void Guard()
     {
+        if(!PlayerHealth.isAlive) return;
         GuardAnim();
     }
     
@@ -406,10 +406,9 @@ public class PlayerController : MonoBehaviour
     #region Event
 
     [Button]
-    public void Hurt(Vector3 KnockDirect, float Damage)
+    public void Hurt(float Damage)
     {
         HurtAnim();
-        ReceiveKnockback(KnockDirect);
     }
 
     public void HurtAnim()
@@ -417,20 +416,29 @@ public class PlayerController : MonoBehaviour
         _playerAnimController.DamagedAnim();
     }
 
-    public async UniTaskVoid ReceiveKnockback(Vector3 KnockDirect, float StunTime = 0.2f)
+    public void ReceiveKnockback(Vector3 KnockDirect)
     {
-        Debug.Log("Player: ouch");
+        doReceiveKnockback(KnockDirect);
+    }
+    
+    public async UniTaskVoid doReceiveKnockback(Vector3 KnockDirect, float StunTime = 0.15f)
+    {
+        Debug.Log("Player Knockback: " + KnockDirect);
         //Implement Knockback shiet here
-        PlayerRB.AddForce(KnockDirect, ForceMode.Impulse);
+        KnockDirect.y = 0;
+        
+        PlayerRB.AddForce(KnockDirect.normalized * KnockDirect.magnitude, ForceMode.Impulse);
 
         currentState = PlayerState.Stunning;
         await UniTask.Delay(TimeSpan.FromSeconds(StunTime));
+        currentState = PlayerState.Idle;
     }
 
     public void Die()
     {
         Debug.Log("Ded");
         _playerAnimController.DieAnim(true);
+        PlayerHealth.isAlive = false;
     }
 
     public

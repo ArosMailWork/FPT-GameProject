@@ -32,7 +32,7 @@ public class Health : MonoBehaviour
     [FoldoutGroup("Setup/Event")]
     public UnityEvent HpValueChange, HpReduce, OnDeath;
     [FoldoutGroup("Setup/Event")]
-    public UnityEvent<Vector3, float> OnKnockback;
+    public UnityEvent<Vector3> OnKnockback;
 
     [FoldoutGroup("Debug")] public bool isAlive = true;
     
@@ -138,7 +138,7 @@ public class Health : MonoBehaviour
     public void Knockback(Vector3 Dir, float knockForce)
     {
         //knockback Event
-        OnKnockback.Invoke(Dir.normalized, knockForce);
+        OnKnockback.Invoke(Dir.normalized * knockForce);
     }
 
 

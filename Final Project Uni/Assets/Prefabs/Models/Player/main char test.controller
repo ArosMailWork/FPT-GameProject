@@ -11,6 +11,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 1
     m_ConditionEvent: Dodge
     m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: Die
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 3823657110588536407}
   m_DstState: {fileID: 0}
   m_Solo: 0
@@ -268,6 +271,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 1
     m_ConditionEvent: Die
     m_EventTreshold: 0
+  - m_ConditionMode: 1
+    m_ConditionEvent: DieTrigger
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1380931225631518575}
   m_Solo: 0
@@ -295,6 +301,9 @@ AnimatorStateTransition:
     m_EventTreshold: 0
   - m_ConditionMode: 1
     m_ConditionEvent: RecallingStart
+    m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: Die
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: -1821583467147693534}
   m_DstState: {fileID: 0}
@@ -572,13 +581,13 @@ AnimatorStateMachine:
   - {fileID: -2509629704548459565}
   m_EntryTransitions: []
   m_StateMachineTransitions:
+  - first: {fileID: -1821583467147693534}
+    second:
+    - {fileID: -5558813697867614549}
   - first: {fileID: 3823657110588536407}
     second:
     - {fileID: -1677903435238595835}
     - {fileID: -1772423089854300212}
-  - first: {fileID: -1821583467147693534}
-    second:
-    - {fileID: -5558813697867614549}
   m_StateMachineBehaviours: []
   m_AnyStatePosition: {x: -380, y: 80, z: 0}
   m_EntryPosition: {x: 510, y: 80, z: 0}
@@ -739,6 +748,12 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
+  - m_Name: DieTrigger
+    m_Type: 9
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 0}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -762,6 +777,9 @@ AnimatorStateTransition:
   m_Conditions:
   - m_ConditionMode: 1
     m_ConditionEvent: Damaged
+    m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: Die
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -3497042490736453880}
@@ -1061,6 +1079,9 @@ AnimatorStateTransition:
   m_Conditions:
   - m_ConditionMode: 1
     m_ConditionEvent: Guard
+    m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: Die
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -4855565528530541705}

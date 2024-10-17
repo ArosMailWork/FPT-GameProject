@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -9,6 +10,7 @@ public class HurtBox : MonoBehaviour
     #region Variables
     
     public bool Activate = true;
+    [CanBeNull] public Transform customPivot;
     
     [FoldoutGroup("Stats")]
     public List<InteractTarget> validTargets = new List<InteractTarget>(); // List of valid targets
@@ -34,6 +36,9 @@ public class HurtBox : MonoBehaviour
     // Track already hit objects
     [FoldoutGroup("Debug")]
     private HashSet<Collider> hitObjects = new HashSet<Collider>();
+    
+    RaycastHit hitInfo;
+    private Vector3 pivotPosition;
 
     #endregion
     
@@ -48,7 +53,11 @@ public class HurtBox : MonoBehaviour
     {
         if (!Activate || !IsValidTarget(other) || hitObjects.Contains(other)) return;
 
-        Debug.Log("hit " + other.transform.name);
+        // Use customPivot if it's set, otherwise use transform.position
+        pivotPosition = customPivot != null ? customPivot.position : transform.position;
+        KnockDir = other.transform.position - pivotPosition;
+        
+        Debug.DrawRay(pivotPosition, KnockDir * 10, Color.green, 2.0f);
 
         if (other.TryGetComponent<Health>(out Health targetHealth))
         {
@@ -62,7 +71,11 @@ public class HurtBox : MonoBehaviour
         // Apply the same logic for objects already inside the HurtBox
         if (!Activate || !IsValidTarget(other) || hitObjects.Contains(other)) return;
 
-        Debug.Log("hit " + other.transform.name);
+        // Use customPivot if it's set, otherwise use transform.position
+        pivotPosition = customPivot != null ? customPivot.position : transform.position;
+        KnockDir = other.transform.position - pivotPosition;
+
+        Debug.DrawRay(pivotPosition, KnockDir * 10, Color.green, 2.0f);
 
         if (other.TryGetComponent<Health>(out Health targetHealth))
         {
