@@ -20,6 +20,9 @@ public class Arrow : MonoBehaviour
     public Vector3 AccelDirect;
     [FoldoutGroup("Stats")]
     public float lifeTime, recallSpeed, rotSpeed = 10, MaxSpeed, minShootingSpeed = 0.5f, MirageDelay = 0.5f;
+
+    [FoldoutGroup("Stats")] 
+    public float bonusRicochetMultiplier = 0;
     [FoldoutGroup("Stats/Hover")]
     public float hoverSpeed = 2.0f;
 
@@ -32,6 +35,8 @@ public class Arrow : MonoBehaviour
 
     [FoldoutGroup("Setup")]
     public Rigidbody arrowRb;
+    [FoldoutGroup("Setup")] 
+    public HurtBox hitbox;
     [FoldoutGroup("Setup")]
     [ReadOnly] public ArrowController _arrowController;
     [FoldoutGroup("Setup")]
@@ -43,15 +48,10 @@ public class Arrow : MonoBehaviour
 
     #region Unity Methods
 
-    private void Awake()
-    {
-        arrowRb = GetComponent<Rigidbody>();
-    }
-
     private void Start()
     {
-        AssignController();
         RecoverEvent.Invoke();
+        if (IsMainArrow) hitbox.MirageMultiplier = 1f;
     }
 
     private void FixedUpdate()
@@ -98,6 +98,9 @@ public class Arrow : MonoBehaviour
     {
         _arrowController = ArrowController.Instance;
         _playerController = PlayerController.Instance;
+        
+        arrowRb = GetComponent<Rigidbody>();
+        hitbox = GetComponent<HurtBox>();
     }
 
 
@@ -166,6 +169,9 @@ public class Arrow : MonoBehaviour
     {
         //hit anything -> allow recall
         if (currentArrowState == ArrowState.Shooting) currentArrowState = ArrowState.Idle;
+
+        if(bonusRicochetMultiplier > 0)
+        arrowRb.velocity = arrowRb.velocity * bonusRicochetMultiplier;
     }
 
     private void OnTriggerExit(Collider other)

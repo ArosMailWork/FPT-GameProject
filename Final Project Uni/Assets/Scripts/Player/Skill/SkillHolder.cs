@@ -6,60 +6,90 @@ using UnityEngine.InputSystem;
 
 public class SkillHolder : MonoBehaviour
 {
-    public PlayerController _pc;
-    public int currentActiveSkill = 0;
-    public List<GameObject> skillPrefabs;  // List of skill prefabs
-    private List<GameObject> skillList = new List<GameObject>(); // List of instantiated skills
-    private GameObject activeSkill;
-    private ISkill currentSkill; 
-    
     [ReadOnly] public float currentCD;
 
-    // Start is called before the first frame update
+    [FoldoutGroup("Skill List")]
+    public List<GameObject> skillList = new List<GameObject>();
+    [FoldoutGroup("Skill List")]
+    public List<GameObject> passiveSkillList = new List<GameObject>();
+    [FoldoutGroup("Skill List")]
+    public List<GameObject> activeSkillList = new List<GameObject>();
+
+    [FoldoutGroup("Current Active Skill")]
+    public int currentActiveSkill = 0;
+    [FoldoutGroup("Current Active Skill")]
+    [ReadOnly] public GameObject activeSkill;
+    [FoldoutGroup("Current Active Skill")]
+    [ReadOnly] public ISkill currentSkill;
+
+    [FoldoutGroup("Setup")]
+    public PlayerController _pc;
+    [FoldoutGroup("Setup")]
+    public List<GameObject> StartSkill;
+
+    public static SkillHolder Instance;
+
     void Start()
     {
-        // Instantiate all skills from the skillPrefabs list
-        foreach (GameObject skillPrefab in skillPrefabs)
+        Instance = this;
+        
+        // Instantiate and categorize skills based on their type
+        foreach (GameObject skillPrefab in StartSkill)
         {
             AddSkill(skillPrefab);
         }
 
-        // Set the initial active skill
+        // Set the initial active skill from the ActiveSkillList
         SetActiveSkill(currentActiveSkill);
     }
 
     [Button]
     void SetActiveSkill(int slot)
     {
-        if (slot >= 0 && slot < skillList.Count)
+        if (slot >= 0 && slot < activeSkillList.Count)
         {
-            activeSkill = skillList[slot];
+            currentActiveSkill = slot;
+            activeSkill = activeSkillList[slot];
             currentSkill = activeSkill.GetComponent<ISkill>();
         }
     }
 
     #region Util
-    // Utility method for switching to the next skill
+    // Utility method for switching to the next active skill
     public void NextSkill(InputAction.CallbackContext ctx)
     {
-        if (currentActiveSkill + 1 < skillList.Count)
+        if (currentActiveSkill + 1 < activeSkillList.Count)
             currentActiveSkill += 1;
         else
             currentActiveSkill = 0;
-        
+
         SetActiveSkill(currentActiveSkill);
     }
     #endregion
 
-    // Method to instantiate and add a skill to the skillList
-    void AddSkill(GameObject skillPrefab)
+    [Button]
+    public void AddSkill(GameObject skillPrefab)
     {
         GameObject skillInstance = Instantiate(skillPrefab);
         skillInstance.transform.SetParent(this.transform);
         skillInstance.transform.localPosition = Vector3.zero;
         skillInstance.transform.localRotation = Quaternion.identity;
-        skillInstance.GetComponent<ISkill>().Assign(_pc);
-        skillList.Add(skillInstance);
+
+        ISkill skillComponent = skillInstance.GetComponent<ISkill>();
+        skillComponent.Assign(_pc);
+
+        // Add the skill to the appropriate list based on its type
+        if (skillComponent.type == SkillType.ACTIVE)
+        {
+            activeSkillList.Add(skillInstance);  // Add to active skill list
+        }
+        else if (skillComponent.type == SkillType.PASSIVE)
+        {
+            passiveSkillList.Add(skillInstance);  // Add to passive skill list
+            skillComponent.Activate();  // Auto-activate passive skills
+        }
+
+        skillList.Add(skillInstance);  // Add all skills to the master list
     }
 
     #region Input
@@ -77,7 +107,6 @@ public class SkillHolder : MonoBehaviour
     {
         if (activeSkill == null) return;
         currentSkill.Activate();
-        
     }
 
     public void DeactivateSkill()

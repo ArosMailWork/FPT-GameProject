@@ -20,7 +20,7 @@ public class ArrowController : MonoBehaviour
     public float ShootForce, currentChargedTime, chargedTime = 2f;
 
     [FoldoutGroup("Debug")]
-    [SerializeField] List<Arrow> arrowsList;
+    public List<Arrow> arrowsList;
     [FoldoutGroup("Debug")]
     public PhysicMaterial physicMat;
     
@@ -47,6 +47,11 @@ public class ArrowController : MonoBehaviour
     {
         if (Instance != this || Instance != null) Destroy(Instance);
         Instance = this;
+
+        foreach (var arrow in arrowsList)
+        {
+            arrow.AssignController();
+        }
     }
     private void Start()
     {

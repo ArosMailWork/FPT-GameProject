@@ -5,13 +5,13 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Events;
 
+public enum InteractTarget
+{
+    Player, Arrow, Enemy
+}
+
 public class PressurePlate : MonoBehaviour
 {
-    public enum InteractTarget
-    {
-        Player, Arrow, Enemy
-    }
-
     // List of targets to check against
     public List<InteractTarget> validTargets = new List<InteractTarget>();
 

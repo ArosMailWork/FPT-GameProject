@@ -18,15 +18,18 @@ public class PlayerStats : MonoBehaviour
     public int defaultMaxStamina = 100, defaultRegenRate = 10, defaultStaminaRollCost = 20;
 
     [FoldoutGroup("Default Stats/Arrow")] 
-    public float DynamicFriction = 0.05f, StaticFriction = 0.2f, bounciness = 1;
+    public float defaultRicochetFriction = 0;
     [FoldoutGroup("Default Stats/Arrow")] 
-    public PhysicMaterialCombine BounceCombine = PhysicMaterialCombine.Maximum, FrictionCombine = PhysicMaterialCombine.Average;
-
+    public int defaultDamage = 2;
+    [FoldoutGroup("Default Stats/Arrow")] 
+    public float defaultDamageMultiplier = 1;
+    
+    [FoldoutGroup("Default Stats/Physics")]
+    [ReadOnly] public float defaultDrag, defaultMass;
 
     #endregion
     
     #region Bonus
-
     [FoldoutGroup("Bonus Stats")]
     public float bonusSpeed, bonusRotationSpeed, bonusMaxSpeed;
     [FoldoutGroup("Bonus Stats/Roll")]
@@ -36,6 +39,14 @@ public class PlayerStats : MonoBehaviour
 
     [FoldoutGroup("Bonus Stats/Arrow Controller")]
     public float bonusChargedTime;
+    
+    [FoldoutGroup("Bonus Stats/Arrow")] 
+    public float bonusRicochetMultiplier;
+
+    [FoldoutGroup("Bonus Stats/Arrow")] 
+    public int bonusDamage;
+    [FoldoutGroup("Bonus Stats/Arrow")] 
+    public float bonusDamageMultiplier;
     
     
     #endregion
@@ -64,9 +75,11 @@ public class PlayerStats : MonoBehaviour
     //Arrow Controller
     public float ChargedTime => defaultChargedTime - bonusChargedTime;
     
-    //Physics
-    [ReadOnly] public float defautDrag, defaultMass;
-    
+    //Arrow
+    public float staticFriction => defaultRicochetFriction * bonusRicochetMultiplier;
+    public int Damage => defaultDamage + bonusDamage;
+    public float DamageMultiplier => defaultDamageMultiplier + bonusDamageMultiplier;
+
     #endregion
 
     private PlayerController _pc;
@@ -78,10 +91,11 @@ public class PlayerStats : MonoBehaviour
         _pc = PlayerController.Instance;
         _staminaSystem = _pc.staminaSystem;
         _arrowController = _pc._arrowController;
-        defautDrag = _pc.PlayerRB.drag;
+        defaultDrag = _pc.PlayerRB.drag;
         defaultMass = _pc.PlayerRB.mass;
     }
     
+    [Button]
     public void UpdateBonusValue()
     {
         //Stamina
@@ -90,5 +104,15 @@ public class PlayerStats : MonoBehaviour
         
         //Arrow Controller
         _arrowController.chargedTime = ChargedTime;
+        
+        //Arrow
+        foreach (var arrow in _arrowController.arrowsList)
+        {
+            arrow.bonusRicochetMultiplier = bonusRicochetMultiplier;
+            arrow.hitbox.BaseDamage = Damage;
+            arrow.hitbox.MirageMultiplier = DamageMultiplier;
+        }
+        
+
     }
 }

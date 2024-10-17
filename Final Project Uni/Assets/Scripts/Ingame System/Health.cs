@@ -150,7 +150,7 @@ public class Health : MonoBehaviour
     }
     void DealDamage(int damage)
     {
-        //Debug.Log("Hurt " + damage);
+        Debug.Log("Received " + damage);
         currentHealth -= damage;
         HpReduce.Invoke();
     }

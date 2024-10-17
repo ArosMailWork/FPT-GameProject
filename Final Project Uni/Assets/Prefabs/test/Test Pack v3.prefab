@@ -422,7 +422,7 @@ Camera:
   m_Depth: 1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 2368
+    m_Bits: 2400
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -1071,7 +1071,7 @@ GameObject:
   - component: {fileID: 7632102529869377310}
   m_Layer: 8
   m_Name: Hitbox
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1625,7 +1625,7 @@ Transform:
   m_GameObject: {fileID: 3696407578007481472}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.9511644, z: -0.30868497, w: 0}
-  m_LocalPosition: {x: 0, y: 8.35, z: 2.6}
+  m_LocalPosition: {x: 45.1, y: 8.35, z: 36}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2335,11 +2335,11 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2871050212381921262}
   - {fileID: 2295359438090098626}
   - {fileID: 823388568739778070}
   - {fileID: 4395877825834499976}
   - {fileID: 2557406246698506062}
+  - {fileID: 2871050212381921262}
   - {fileID: 5600778628111460480}
   - {fileID: 904165088710245171}
   - {fileID: 7660807590827180441}
@@ -2611,7 +2611,6 @@ GameObject:
   - component: {fileID: 1238358558977346349}
   - component: {fileID: 8324176156020605593}
   - component: {fileID: 2802374290162290371}
-  - component: {fileID: 7260584129755608711}
   m_Layer: 5
   m_Name: ChargeBar
   m_TagString: Untagged
@@ -2729,24 +2728,6 @@ MonoBehaviour:
   target: {fileID: 2557406246698506062}
   offset: {x: -5, y: 0, z: 1}
   smooth: 15
---- !u!114 &7260584129755608711
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5830393594338193341}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ea8f624f6aea5dd4387ca60f2c6f3454, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  updateMethod: 1
-  target: {fileID: 2557406246698506062}
-  useLerp: 1
-  smoothValue: 15
-  positionOffset: {x: 0, y: 0, z: 5}
-  rotationOffset: {x: 0, y: 0, z: 0}
 --- !u!1 &5940592536609193738
 GameObject:
   m_ObjectHideFlags: 0
@@ -2851,13 +2832,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d2972659d8aa734a9a41389d1e583ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _pc: {fileID: 1766675483051995058}
-  currentActiveSkill: 0
-  skillPrefabs:
-  - {fileID: 464762936703557575, guid: 7674e64215c755042adb5d32681b7752, type: 3}
-  - {fileID: 3204633484197432600, guid: 29cbe985972cbc542be680de78ee308c, type: 3}
-  - {fileID: 5543831279937719370, guid: d45fd2c154d060043ad931ff536c5a6a, type: 3}
   currentCD: 0
+  skillList: []
+  passiveSkillList: []
+  activeSkillList: []
+  currentActiveSkill: 0
+  activeSkill: {fileID: 0}
+  currentSkill: {fileID: 0}
+  _pc: {fileID: 1766675483051995058}
+  StartSkill:
+  - {fileID: 5543831279937719370, guid: d45fd2c154d060043ad931ff536c5a6a, type: 3}
+  - {fileID: 2424829857179758770, guid: 76a96f0e38d4bb4459e4f4bb8f8bddc8, type: 3}
+  - {fileID: 464762936703557575, guid: 7674e64215c755042adb5d32681b7752, type: 3}
 --- !u!1 &6085415222758916639
 GameObject:
   m_ObjectHideFlags: 0
@@ -2884,7 +2870,7 @@ Transform:
   m_GameObject: {fileID: 6085415222758916639}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.9511644, z: -0.30868497, w: 0}
-  m_LocalPosition: {x: 0, y: 8.35, z: 2.6}
+  m_LocalPosition: {x: 45.1, y: 8.35, z: 36}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3166,6 +3152,8 @@ MonoBehaviour:
     ReferencedUnityObjects:
     - {fileID: 245403840057983425}
     - {fileID: 0}
+    - {fileID: 1766675483051995058}
+    - {fileID: 0}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -3184,7 +3172,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 12
-      Data: 1
+      Data: 2
     - Name: 
       Entry: 7
       Data: 
@@ -3237,6 +3225,85 @@ MonoBehaviour:
     - Name: m_StringArgument
       Entry: 1
       Data: SlashEffect
+    - Name: m_BoolArgument
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: m_CallState
+      Entry: 3
+      Data: 2
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: MeleeLunge
+    - Name: $v
+      Entry: 7
+      Data: 7|UnityEngine.Events.UnityEvent, UnityEngine.CoreModule
+    - Name: m_PersistentCalls
+      Entry: 7
+      Data: 8|UnityEngine.Events.PersistentCallGroup, UnityEngine.CoreModule
+    - Name: m_Calls
+      Entry: 7
+      Data: 9|System.Collections.Generic.List`1[[UnityEngine.Events.PersistentCall,
+        UnityEngine.CoreModule]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 10|UnityEngine.Events.PersistentCall, UnityEngine.CoreModule
+    - Name: m_Target
+      Entry: 10
+      Data: 2
+    - Name: m_TargetAssemblyTypeName
+      Entry: 1
+      Data: PlayerController, Assembly-CSharp
+    - Name: m_MethodName
+      Entry: 1
+      Data: MeleeLunge
+    - Name: m_Mode
+      Entry: 3
+      Data: 1
+    - Name: m_Arguments
+      Entry: 7
+      Data: 11|UnityEngine.Events.ArgumentCache, UnityEngine.CoreModule
+    - Name: m_ObjectArgument
+      Entry: 10
+      Data: 3
+    - Name: m_ObjectArgumentAssemblyTypeName
+      Entry: 1
+      Data: UnityEngine.Object, UnityEngine
+    - Name: m_IntArgument
+      Entry: 3
+      Data: 0
+    - Name: m_FloatArgument
+      Entry: 4
+      Data: 0
+    - Name: m_StringArgument
+      Entry: 1
+      Data: 
     - Name: m_BoolArgument
       Entry: 5
       Data: false
@@ -4301,7 +4368,7 @@ GameObject:
   - component: {fileID: 5833515457251910645}
   m_Layer: 8
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4315,7 +4382,7 @@ Transform:
   m_GameObject: {fileID: 8778054791344151268}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -6.4}
+  m_LocalPosition: {x: 45.1, y: 0, z: 27}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4576,11 +4643,11 @@ MonoBehaviour:
   defaultMaxStamina: 100
   defaultRegenRate: 10
   defaultStaminaRollCost: 20
-  DynamicFriction: 0.05
-  StaticFriction: 0.2
-  bounciness: 1
-  BounceCombine: 3
-  FrictionCombine: 2
+  defaultRicochetFriction: 0
+  defaultDamage: 2
+  defaultDamageMultiplier: 1
+  defaultDrag: 0
+  defaultMass: 0
   bonusSpeed: 0
   bonusRotationSpeed: 0
   bonusMaxSpeed: 0
@@ -4592,8 +4659,9 @@ MonoBehaviour:
   bonusRegenRate: 0
   bonusStaminaRollCost: 0
   bonusChargedTime: 0
-  defautDrag: 0
-  defaultMass: 0
+  bonusRicochetMultiplier: 0
+  bonusDamage: 1
+  bonusDamageMultiplier: 0
 --- !u!114 &821813476702798318
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4667,6 +4735,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _stats: {fileID: 1388413037981834033}
   PlayerHealth: {fileID: 821813476702798318}
+  meleeLungeForce: 750
+  lungeAngle: 60
+  rangeAngleTolerance: 5
+  lungeRange: 15
+  LungeTime: 0.2125
   currentState: 0
   moveInput: {x: 0, y: 0}
   moveBuffer: {x: 0, y: 0}
@@ -6318,8 +6391,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Activate: 0
-  TargetTag: 1
-  Damage: 4
+  validTargets: 
+  BaseDamage: 0
+  DamageMultiplier: 1
+  MirageMultiplier: 0.5
   DotTime: 0
   doKnockback: 1
   KnockForce: 5
@@ -6488,6 +6563,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 2871050212381921262}
     m_Modifications:
     - target: {fileID: 598926466160459040, guid: 25c3d4659d705524a93b30691ca1ee1e, type: 3}
+      propertyPath: hitbox
+      value: 
+      objectReference: {fileID: 7328969460272619473}
+    - target: {fileID: 598926466160459040, guid: 25c3d4659d705524a93b30691ca1ee1e, type: 3}
       propertyPath: offset
       value: -15
       objectReference: {fileID: 0}
@@ -6621,8 +6700,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Activate: 1
-  TargetTag: 1
-  Damage: 1
+  validTargets: 02000000
+  BaseDamage: 0
+  DamageMultiplier: 1
+  MirageMultiplier: 0.5
   DotTime: 0
   doKnockback: 0
   KnockForce: 0
@@ -9773,7 +9854,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 12
-      Data: 4
+      Data: 5
     - Name: 
       Entry: 7
       Data: 
@@ -10091,6 +10172,18 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: del
+    - Name: $v
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
       Entry: 13
       Data: 
     - Name: 
@@ -10209,6 +10302,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 2871050212381921262}
     m_Modifications:
     - target: {fileID: 598926466160459040, guid: 25c3d4659d705524a93b30691ca1ee1e, type: 3}
+      propertyPath: hitbox
+      value: 
+      objectReference: {fileID: 6173802205020416321}
+    - target: {fileID: 598926466160459040, guid: 25c3d4659d705524a93b30691ca1ee1e, type: 3}
       propertyPath: offset
       value: 15
       objectReference: {fileID: 0}
@@ -10326,8 +10423,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Activate: 1
-  TargetTag: 1
-  Damage: 1
+  validTargets: 02000000
+  BaseDamage: 0
+  DamageMultiplier: 1
+  MirageMultiplier: 0.5
   DotTime: 0
   doKnockback: 0
   KnockForce: 0
@@ -10611,8 +10710,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Activate: 1
-  TargetTag: 1
-  Damage: 2
+  validTargets: 02000000
+  BaseDamage: 0
+  DamageMultiplier: 1
+  MirageMultiplier: 0.5
   DotTime: 0
   doKnockback: 0
   KnockForce: 0
