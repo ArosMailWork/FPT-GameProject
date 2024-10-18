@@ -8,6 +8,7 @@ public class DialogUI : MonoBehaviour
 {
     public Button closeButton;
     public TMP_Text dialogText;
+    private bool isTextChanged = false;
     public Mask imageMask;
 
     private float originalFontSize;
@@ -50,10 +51,11 @@ public class DialogUI : MonoBehaviour
 
     void ChangeTextToAllBlackString()
     {
-        if (dialogText != null)
+        if (dialogText != null && !isTextChanged)
         {
             int length = dialogText.text.Length;
             dialogText.text = new string('█', length);
+            isTextChanged = true;
         }
         else
         {

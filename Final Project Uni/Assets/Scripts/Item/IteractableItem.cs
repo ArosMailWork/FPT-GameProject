@@ -8,6 +8,7 @@ public class IteractableItem : MonoBehaviour
 {
     public GameObject dialog;
     public Button activeButton;
+
     [SerializeField]
     private float distanceActiveInteraction = 2f;
 
@@ -24,10 +25,10 @@ public class IteractableItem : MonoBehaviour
     private void Awake()
     {
         dialog.SetActive(false);
+        activeButton.gameObject.SetActive(false);
         scaleEffect = dialog.GetComponent<ScaleEffect>();
         scaleEffect.OnScaleDownComplete += OnScaleDownComplete;
         scaleEffect.OnScaleUpComplete += OnScaleUpComplete;
-        
     }
 
     private void Start()
@@ -35,7 +36,7 @@ public class IteractableItem : MonoBehaviour
         OnTouch.AddListener(ToggleDialog);
         activeButton.onClick.AddListener(OnActiveButtonClicked);
     }
-    
+
     public void OnActiveButtonClicked()
     {
         OnTouch.Invoke();
@@ -55,8 +56,6 @@ public class IteractableItem : MonoBehaviour
         }
     }
 
-  
-
     // private void OnMouseDown()
     // {
     //     if (isActive)
@@ -71,7 +70,6 @@ public class IteractableItem : MonoBehaviour
         {
             scaleEffect.OnScaleDownComplete -= OnScaleDownComplete;
             scaleEffect.OnScaleUpComplete -= OnScaleUpComplete;
-            
         }
     }
 
@@ -79,15 +77,33 @@ public class IteractableItem : MonoBehaviour
     {
         activeButton.gameObject.SetActive(false);
     }
+
     private void OnScaleDownComplete()
     {
         activeButton.gameObject.SetActive(false);
     }
+
     private void OnTriggerEnter(Collider other)
     {
-        if(other.transform.CompareTag("Player"))
+        Debug.Log($"OnTriggerEnter called with: {other.gameObject.name}");
+        if (other.CompareTag("Player"))
         {
+            Debug.Log("Player tag detected");
             isActive = true;
+            activeButton.gameObject.SetActive(true);
+        }
+        else
+        {
+            Debug.Log($"Collider entered, but not player. Tag: {other.tag}");
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.transform.CompareTag("Player"))
+        {
+            isActive = false;
+            activeButton.gameObject.SetActive(false);
         }
     }
 }

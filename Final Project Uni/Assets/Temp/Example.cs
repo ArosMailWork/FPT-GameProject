@@ -1,31 +1,37 @@
+using System;
 using DG.Tweening;
 using UnityEngine;
 
 public class Example : MonoBehaviour
 {
-    public Tween myTween;
-
-    void Start()
+    private void OnTriggerEnter(Collider other)
     {
-        // Animation scale from small (0) to large (1) in 2 seconds
-        myTween = transform.DOScale(1, 2).SetAutoKill(false).Pause();
-    }
-
-    void OnEnable()
-    {
-        // Animate scale down from current scale to 0 in 1 second
-        transform.DOScale(0, 1).OnComplete(() =>
+        Debug.Log($"OnTriggerEnter called with: {other.gameObject.name}");
+        if (other.CompareTag("Player"))
         {
-            // Rewind to reset the tween
-            myTween.Rewind();
-            // Play the scale-up animation
-            myTween.Play();
-        });
+            Debug.Log("Player tag detected");
+        }
+        else
+        {
+            Debug.Log($"Collider entered, but not player. Tag: {other.tag}");
+        }
     }
 
-    void OnDisable()
+
+    private void OnCollisionEnter(Collision other)
     {
-        // Pause when the object is disabled
-        myTween.Pause();
+        Debug.Log($"OnCollisionEnter called with: {other.gameObject.name}");
+        if (other.gameObject.CompareTag("Player"))
+        {
+            Debug.Log("Player tag detected");
+        }
+        else
+        {
+            Debug.Log($"Collider entered, but not player. Tag: {other.gameObject.tag}");
+        } }
+
+    private void Update()
+    {
+        print("example");
     }
 }
