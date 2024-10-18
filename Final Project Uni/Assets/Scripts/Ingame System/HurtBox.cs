@@ -18,7 +18,7 @@ public class HurtBox : MonoBehaviour
     [FoldoutGroup("Stats/Damage")]
     public int BaseDamage;
     [FoldoutGroup("Stats/Damage")]
-    public float DamageMultiplier = 1, MirageMultiplier = 0.5f;
+    public float DamageMultiplier = 1, MirageMultiplier = 1;
     [FoldoutGroup("Stats/Damage")]
     public float DotTime;
     [FoldoutGroup("Stats/Knockback")]

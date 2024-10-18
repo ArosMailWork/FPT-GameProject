@@ -4,19 +4,22 @@ using UnityEngine;
 
 public class HitStop : MonoBehaviour
 {
-    private bool waiting;
+    [SerializeField] private bool waiting;
+    [Range(0,1)]public float slowDownTimer;
     [SerializeField] public float stopDuration;
+    [SerializeField] public float delay;
 
     public void Stop()
     {
         if (waiting) return;
         
-        StartCoroutine(Wait(stopDuration));
+        StartCoroutine(Wait(stopDuration, delay));
     }
 
-    public IEnumerator Wait(float duration)
+    public IEnumerator Wait(float duration, float delay)
     {
-        Time.timeScale = 0f;
+        yield return new WaitForSecondsRealtime(delay);
+        Time.timeScale = slowDownTimer;
         waiting = true;
         yield return new WaitForSecondsRealtime(duration);
         Time.timeScale = 1f;

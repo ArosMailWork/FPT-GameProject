@@ -142,7 +142,8 @@ public class PlayerController : MonoBehaviour
     public async UniTaskVoid doRollingMove(Vector2 input, int staminaCost)
     {
         //prevent spam in the middle
-        if (!canRoll || !staminaSystem.HasEnoughStamina(staminaCost) || moveBuffer == Vector2.zero) return;
+        if (!canRoll || !staminaSystem.HasEnoughStamina(staminaCost) || 
+            moveBuffer == Vector2.zero || !PlayerHealth.isAlive) return;
 
         //add CD
         AddRollCD(_stats.rollCD + _stats.rollTime);

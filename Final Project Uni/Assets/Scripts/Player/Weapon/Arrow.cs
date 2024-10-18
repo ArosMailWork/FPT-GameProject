@@ -54,7 +54,7 @@ public class Arrow : MonoBehaviour
         _playerController = PlayerController.Instance;
         
         RecoverEvent.Invoke();
-        if (IsMainArrow) hitbox.MirageMultiplier = 1f;
+        if (!IsMainArrow) hitbox.MirageMultiplier = 0.5f;
     }
 
     private void FixedUpdate()
