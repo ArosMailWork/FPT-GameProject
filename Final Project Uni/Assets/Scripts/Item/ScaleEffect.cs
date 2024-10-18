@@ -11,10 +11,12 @@ public class ScaleEffect : MonoBehaviour
     private AnimationCurve scaleCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
 
     public event Action OnScaleDownComplete;
+    public event Action OnScaleUpComplete;
 
     public async UniTask ScaleUpAsync()
     {
         await ScaleAsync(0, 1);
+        OnScaleUpComplete?.Invoke();
     }
 
     public async UniTask ScaleDownAsync()

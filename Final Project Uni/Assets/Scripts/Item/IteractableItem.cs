@@ -2,9 +2,12 @@ using System;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class IteractableItem : MonoBehaviour
 {
+    public GameObject dialog;
+    public Button activeButton;
     [SerializeField]
     private float distanceActiveInteraction = 2f;
 
@@ -16,19 +19,26 @@ public class IteractableItem : MonoBehaviour
 
     public UnityEvent OnTouch;
 
-    private GameObject dialog;
     private ScaleEffect scaleEffect;
 
     private void Awake()
     {
-        dialog = transform.GetChild(0).gameObject;
+        dialog.SetActive(false);
         scaleEffect = dialog.GetComponent<ScaleEffect>();
         scaleEffect.OnScaleDownComplete += OnScaleDownComplete;
+        scaleEffect.OnScaleUpComplete += OnScaleUpComplete;
+        
     }
 
     private void Start()
     {
         OnTouch.AddListener(ToggleDialog);
+        activeButton.onClick.AddListener(OnActiveButtonClicked);
+    }
+    
+    public void OnActiveButtonClicked()
+    {
+        OnTouch.Invoke();
     }
 
     public async void ToggleDialog()
@@ -45,32 +55,39 @@ public class IteractableItem : MonoBehaviour
         }
     }
 
-    private void OnScaleDownComplete()
-    {
-        // This method is no longer needed, but kept for compatibility
-    }
+  
 
-    private void OnMouseDown()
-    {
-        if (isActive)
-        {
-            OnTouch.Invoke();
-        }
-    }
+    // private void OnMouseDown()
+    // {
+    //     if (isActive)
+    //     {
+    //         OnTouch.Invoke();
+    //     }
+    // }
 
     private void OnDestroy()
     {
         if (scaleEffect != null)
         {
             scaleEffect.OnScaleDownComplete -= OnScaleDownComplete;
+            scaleEffect.OnScaleUpComplete -= OnScaleUpComplete;
+            
         }
     }
 
-    // Uncomment and modify this method if you want to implement distance-based activation
-    /*
-    private void Update()
+    private void OnScaleUpComplete()
     {
-        isActive = Vector3.Distance(transform.position, Player.Instance.transform.position) <= distanceActiveInteraction;
+        activeButton.gameObject.SetActive(false);
     }
-    */
+    private void OnScaleDownComplete()
+    {
+        activeButton.gameObject.SetActive(false);
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.transform.CompareTag("Player"))
+        {
+            isActive = true;
+        }
+    }
 }
