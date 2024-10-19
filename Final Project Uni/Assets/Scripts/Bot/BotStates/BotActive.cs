@@ -11,12 +11,33 @@ public class BotActive : BaseState
     {
         sm = (BotSM)this.stateMachine;
     }
+<<<<<<< Updated upstream
 
+=======
+    public override void Enter()
+    {
+        base.Enter();
+        TF = sm.bot.transform;
+    }
+    public override void UpdateLogic()
+    {
+        base.UpdateLogic();
+        if (sm.target != null)
+        {
+            Rotate();
+        }
+
+    }
+>>>>>>> Stashed changes
     public override void TriggerEnter(Collider other)
     {
         base.TriggerEnter(other);
         if (other.CompareTag("Player") && sm.target == null)
         {
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
             GameObject go = other.gameObject;
             Character c = go.GetComponent<Character>();
             if (c != null)
@@ -26,6 +47,7 @@ public class BotActive : BaseState
             }
 
         }
+<<<<<<< Updated upstream
     }
     // public override void TriggerExit(Collider other)
     // {
@@ -42,4 +64,24 @@ public class BotActive : BaseState
 
     //     }
     // }
+=======
+        if (other.CompareTag("Arrow"))
+        {
+            Debug.Log("asdasd");
+
+        }
+    }
+    public void Rotate()
+    {
+        // Determine which direction to rotate towards
+        Vector3 targetDirection = sm.target.transform.position - TF.position;
+        // The step size is equal to speed times frame time.
+        float singleStep = 8.0f * Time.deltaTime;
+
+        // Rotate the forward vector towards the target direction by one step
+        Vector3 newDirection = Vector3.RotateTowards(TF.forward, new Vector3(targetDirection.x, 0, targetDirection.z), singleStep, 0.0f);
+        // Calculate a rotation a step closer to the target and applies rotation to this object
+        TF.rotation = Quaternion.LookRotation(newDirection);
+    }
+>>>>>>> Stashed changes
 }

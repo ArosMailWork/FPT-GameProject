@@ -37,6 +37,7 @@ public class BotHit : BotAttack
         if (sm.target != null)
         {
             //GameObject p = PoolManager.Spawn(sm.bot.projectile, sm.gameObject.transform.position, sm.gameObject.transform.rotation);
+            GameObject.Instantiate(sm.bot.projectile, sm.gameObject.transform.position, sm.gameObject.transform.rotation);
             //p.GetComponent<Projectile>().team = sm.bot.team;
             Debug.Log("Attack");
             counter = hitCooldown;

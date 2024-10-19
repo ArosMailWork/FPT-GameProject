@@ -17,6 +17,10 @@ public class BotPatrol : BotActive
         base.Enter();
         sm.nav.isStopped = false;
         sm.currState = "Patrol";
+<<<<<<< Updated upstream
+=======
+        TF = sm.bot.transform;
+>>>>>>> Stashed changes
     }
     public override void UpdateLogic()
     {

@@ -11,6 +11,7 @@ public class BotAttack : BotActive
     {
         base.Enter();
         sm.currState = "Attack";
+<<<<<<< Updated upstream
         TF = sm.bot.transform;
     }
 
@@ -21,6 +22,8 @@ public class BotAttack : BotActive
         {
             Rotate();
         }
+=======
+>>>>>>> Stashed changes
 
         // if (sm.target == null)
         // {
@@ -47,6 +50,7 @@ public class BotAttack : BotActive
         // }
     }
 
+<<<<<<< Updated upstream
     public void Rotate()
     {
         // Determine which direction to rotate towards
@@ -58,5 +62,8 @@ public class BotAttack : BotActive
         // Calculate a rotation a step closer to the target and applies rotation to this object
         TF.rotation = Quaternion.LookRotation(newDirection);
     }
+=======
+
+>>>>>>> Stashed changes
 
 }
