@@ -56,8 +56,9 @@ public class HurtBox : MonoBehaviour
         // Use customPivot if it's set, otherwise use transform.position
         pivotPosition = customPivot != null ? customPivot.position : transform.position;
         KnockDir = other.transform.position - pivotPosition;
+        KnockDir.y = 0;
         
-        Debug.DrawRay(pivotPosition, KnockDir * 10, Color.green, 2.0f);
+        Debug.DrawRay(pivotPosition, KnockDir.normalized * 10, Color.green, 2.0f);
 
         if (other.TryGetComponent<Health>(out Health targetHealth))
         {
@@ -74,12 +75,13 @@ public class HurtBox : MonoBehaviour
         // Use customPivot if it's set, otherwise use transform.position
         pivotPosition = customPivot != null ? customPivot.position : transform.position;
         KnockDir = other.transform.position - pivotPosition;
+        KnockDir.y = 0;
 
-        Debug.DrawRay(pivotPosition, KnockDir * 10, Color.green, 2.0f);
+        Debug.DrawRay(pivotPosition, KnockDir.normalized * 10, Color.green, 2.0f);
 
         if (other.TryGetComponent<Health>(out Health targetHealth))
         {
-            HitTarget(targetHealth, KnockDir);
+            HitTarget(targetHealth, KnockDir.normalized);
             hitObjects.Add(other); // Mark the object as hit
         }
     }

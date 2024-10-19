@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -11,6 +12,8 @@ public enum SkillType
 }
 public abstract class ISkill : MonoBehaviour
 {
+    [FoldoutGroup("Base Skill")] 
+    [CanBeNull] public Sprite Icon;
     [FoldoutGroup("Base Skill")]
     [SerializeField] public PlayerController _pc;
     [FoldoutGroup("Base Skill")]
