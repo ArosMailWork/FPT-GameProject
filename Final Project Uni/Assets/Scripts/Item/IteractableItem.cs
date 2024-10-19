@@ -2,6 +2,7 @@ using System;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class IteractableItem : MonoBehaviour
@@ -10,20 +11,30 @@ public class IteractableItem : MonoBehaviour
     public Button activeButton;
 
     [SerializeField]
-    private bool isActive = true;
+    //only need active dialog one time
+    private bool isOpen = false;
 
     public UnityEvent OnTouch;
 
     private ScaleEffect scaleEffect;
+     
 
     private void Awake()
     {
         dialog.SetActive(false);
         activeButton.gameObject.SetActive(false);
         scaleEffect = dialog.GetComponent<ScaleEffect>();
+        var dialogUI = dialog.GetComponent<DialogUI>();
+        dialogUI.OnCloseButtonClicked += ChangeObjectToOpened;
         scaleEffect.OnScaleDownComplete += OnScaleDownComplete;
         scaleEffect.OnScaleUpComplete += OnScaleUpComplete;
     }
+
+    private void ChangeObjectToOpened()
+    {
+        isOpen = true;
+    }
+
 
     private void Start()
     {
@@ -79,16 +90,10 @@ public class IteractableItem : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log($"OnTriggerEnter called with: {other.gameObject.name}");
         if (other.CompareTag("Player"))
         {
-            Debug.Log("Player tag detected");
-            isActive = true;
+            if(isOpen == true) return;
             activeButton.gameObject.SetActive(true);
-        }
-        else
-        {
-            Debug.Log($"Collider entered, but not player. Tag: {other.tag}");
         }
     }
 
@@ -96,7 +101,6 @@ public class IteractableItem : MonoBehaviour
     {
         if (other.transform.CompareTag("Player"))
         {
-            isActive = false;
             activeButton.gameObject.SetActive(false);
         }
     }

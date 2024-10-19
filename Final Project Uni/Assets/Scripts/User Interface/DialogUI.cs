@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -10,6 +11,8 @@ public class DialogUI : MonoBehaviour
     public TMP_Text dialogText;
     private bool isTextChanged = false;
     public Mask imageMask;
+    
+    public event Action OnCloseButtonClicked;
 
     private float originalFontSize;
 
@@ -47,6 +50,7 @@ public class DialogUI : MonoBehaviour
             imageMask.enabled = true;
         }
         ChangeFontSize();
+        OnCloseButtonClicked?.Invoke();
     }
 
     void ChangeTextToAllBlackString()
@@ -54,7 +58,7 @@ public class DialogUI : MonoBehaviour
         if (dialogText != null && !isTextChanged)
         {
             int length = dialogText.text.Length;
-            dialogText.text = new string('█', length);
+            dialogText.text = new string('█', length+6);
             isTextChanged = true;
         }
         else
@@ -67,7 +71,7 @@ public class DialogUI : MonoBehaviour
     {
         if (dialogText != null)
         {
-            dialogText.fontSize = originalFontSize * 0.8f; // Reduce font size by 20%
+            dialogText.fontSize = originalFontSize * 2f; // Reduce font size by 20%
         }
     }
 }
