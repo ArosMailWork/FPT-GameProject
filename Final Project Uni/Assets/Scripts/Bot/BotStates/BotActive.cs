@@ -11,9 +11,6 @@ public class BotActive : BaseState
     {
         sm = (BotSM)this.stateMachine;
     }
-<<<<<<< Updated upstream
-
-=======
     public override void Enter()
     {
         base.Enter();
@@ -28,16 +25,12 @@ public class BotActive : BaseState
         }
 
     }
->>>>>>> Stashed changes
     public override void TriggerEnter(Collider other)
     {
         base.TriggerEnter(other);
         if (other.CompareTag("Player") && sm.target == null)
         {
-<<<<<<< Updated upstream
-=======
 
->>>>>>> Stashed changes
             GameObject go = other.gameObject;
             Character c = go.GetComponent<Character>();
             if (c != null)
@@ -47,24 +40,6 @@ public class BotActive : BaseState
             }
 
         }
-<<<<<<< Updated upstream
-    }
-    // public override void TriggerExit(Collider other)
-    // {
-    //     base.TriggerExit(other);
-    //     if (other.CompareTag("Player") && sm.target != null)
-    //     {
-    //         GameObject go = other.gameObject;
-    //         Character c = go.GetComponent<Character>();
-    //         if (c != null)
-    //         {
-    //             //sm.targets.Remove(c.tf);
-    //             sm.target = c.tf;
-    //         }
-
-    //     }
-    // }
-=======
         if (other.CompareTag("Arrow"))
         {
             Debug.Log("asdasd");
@@ -83,5 +58,4 @@ public class BotActive : BaseState
         // Calculate a rotation a step closer to the target and applies rotation to this object
         TF.rotation = Quaternion.LookRotation(newDirection);
     }
->>>>>>> Stashed changes
 }

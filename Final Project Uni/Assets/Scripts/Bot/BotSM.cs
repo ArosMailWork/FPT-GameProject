@@ -21,11 +21,8 @@ public class BotSM : StateMachine
     public BotHit hitState;
     [HideInInspector]
     public BotPatrol patrolState;
-<<<<<<< Updated upstream
-=======
     [HideInInspector]
     public BotKnockback knockbackState;
->>>>>>> Stashed changes
 
     public void Awake()
     {
@@ -33,10 +30,7 @@ public class BotSM : StateMachine
         hitState = new BotHit(this);
         chaseState = new BotChase(this);
         patrolState = new BotPatrol(this);
-<<<<<<< Updated upstream
-=======
         knockbackState = new BotKnockback(this);
->>>>>>> Stashed changes
         //targets = new List<Transform>();
     }
     public void GoIdle()

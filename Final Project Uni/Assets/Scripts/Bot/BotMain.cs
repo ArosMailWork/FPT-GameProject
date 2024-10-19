@@ -23,17 +23,7 @@ public class BotMain : MonoBehaviour
     {
         HP = new CharacterStat(20);
     }
-    public void Update()
-    {
-        if (HP.Value <= 0)
-        {
-            Dead();
-        }
-        if (countdown >= 0)
-        {
-            countdown -= Time.deltaTime;
-        }
-    }
+
     public void ResetCooldown()
     {
         countdown = cooldown;
