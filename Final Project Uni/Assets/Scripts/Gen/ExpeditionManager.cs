@@ -33,7 +33,7 @@ public class ExpeditionManager : MonoBehaviour
     }
     void GenerateFloor(World world, Floor floor)
     {
-        gen.LoadNewBiome(currentBiome);
+        //gen.LoadNewBiome(currentBiome);
         //floo
     }
 

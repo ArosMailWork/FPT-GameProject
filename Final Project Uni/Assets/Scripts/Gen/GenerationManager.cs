@@ -30,7 +30,7 @@ public class GenerationManager : MonoBehaviour
     }
     public void GenerateFloor()
     {
-        //LoadNewBiome();
+        LoadNewBiome();
         AssignDataToRoomGen();
         Gen.Generate();
 
@@ -57,9 +57,9 @@ public class GenerationManager : MonoBehaviour
         StartRoom = newFloor.StartRoom;
         EndRoom = newFloor.EndRoom;
     }
-    public void LoadNewBiome(Biome newBiome)
+    public void LoadNewBiome()
     {
-        biome = newBiome;
+
         BiomeName = biome.biomeName;
         GenericRoom = biome.GenericRoom;
         RewardRoom = biome.RewardRoom;
