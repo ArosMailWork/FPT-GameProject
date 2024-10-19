@@ -47,6 +47,7 @@ public class GenerationManager : MonoBehaviour
     }
     public void LoadNewFloor(Floor newFloor)
     {
+
         MainPathLength = newFloor.MainPathLength;
         SideRoomChance = newFloor.SideRoomChance;
         MinPuzzleRoom = newFloor.MinPuzzleRoom;
