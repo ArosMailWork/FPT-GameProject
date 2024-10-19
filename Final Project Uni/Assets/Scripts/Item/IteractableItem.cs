@@ -10,12 +10,6 @@ public class IteractableItem : MonoBehaviour
     public Button activeButton;
 
     [SerializeField]
-    private float distanceActiveInteraction = 2f;
-
-    [SerializeField]
-    private float deactivationDelay = 1f;
-
-    [SerializeField]
     private bool isActive = true;
 
     public UnityEvent OnTouch;

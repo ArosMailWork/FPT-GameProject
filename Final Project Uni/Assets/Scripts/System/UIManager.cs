@@ -2,6 +2,7 @@ using System;
 using Cysharp.Threading.Tasks;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace PA
@@ -130,7 +131,8 @@ namespace PA
             bloomToggle.isOn = settings.isBloomEnabled;
             // TODO: Set FPS and Resolution dropdown values
         }
-
+        
+        [Header("Transition")] 
         #region Change Child
 
         public GameObject maskA;
@@ -172,8 +174,8 @@ namespace PA
 
         #region Playe Anim
 
-        [Header("Transition")] public GameObject WipeA;
-        public Animator UIanimator;
+        public GameObject WipeSlider;
+        public Animator transitionAnimator;
         public float delayActive = 0.5f;
 
         //false mean left to right
@@ -184,14 +186,14 @@ namespace PA
         {
             if (!toggle)
             {
-                UIanimator.SetTrigger("Wipe A to B");
+                transitionAnimator.SetTrigger("Wipe A to B");
                 toggle = true;
                 return;
             }
 
             if (toggle)
             {
-                UIanimator.SetTrigger("Wipe B to A");
+                transitionAnimator.SetTrigger("Wipe B to A");
                 toggle = false;
                 return;
             }

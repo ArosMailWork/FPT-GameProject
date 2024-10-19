@@ -34,7 +34,7 @@ public class FixPosition : MonoBehaviour
             initialLocalScale.y / transform.parent.lossyScale.y,
             initialLocalScale.z / transform.parent.lossyScale.z
         );
-        print($"Lc: {transform.localScale} and Gb: {transform.parent.lossyScale}");
+        //print($"Lc: {transform.localScale} and Gb: {transform.parent.lossyScale}");
         debugScale = transform.localScale;
     }
 }
