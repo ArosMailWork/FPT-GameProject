@@ -20,13 +20,24 @@ public class EnemySpawner : MonoBehaviour
 
     //Calculate
     [FoldoutGroup("Debug")]
-    private List<GameObject> enemiesToSpawn, matchingPrefabs, enemies;
+    public List<GameObject> enemiesToSpawn, matchingPrefabs, enemies;
     [FoldoutGroup("Debug")]
     private Vector3 potentialPosition, spawnPosition;
     
     private int randomIndex;
     private Vector2 randomPoint;
 
+    public void Start()
+    {
+        SpawnLocal();
+    }
+
+    [FoldoutGroup("Event Test")]
+    [Button]
+    public void SpawnLocal()
+    {
+        Spawn(transform.position, SpawnRadius);
+    }
     
     [FoldoutGroup("Event Test")]
     [Button]
@@ -42,7 +53,7 @@ public class EnemySpawner : MonoBehaviour
         }
         
         foreach (var enemy in enemiesToSpawn)
-        { 
+        {
             Instantiate(enemy, spawnPosition, Quaternion.identity);
         }
     }
@@ -69,14 +80,28 @@ public class EnemySpawner : MonoBehaviour
         {
             // Generate a random point within a circle
             randomPoint = Random.insideUnitCircle * radius;
-            potentialPosition = center + new Vector3(randomPoint.x, 0, randomPoint.y);
-            // Check if the potential position is on the NavMesh
-            NavMeshHit hit;
-            if (NavMesh.SamplePosition(potentialPosition, out hit, 1.0f, NavMesh.AllAreas))
-                return hit.position; // Return the valid position found
+            potentialPosition = center + new Vector3(randomPoint.x, 10, randomPoint.y); // Start 10 units above
+
+            // Draw a blue line going downward to visualize the raycast
+            Debug.DrawLine(potentialPosition, potentialPosition - Vector3.up * 1000, Color.blue, 5f);
+
+            // Raycast downwards to find a surface
+            RaycastHit hit;
+            if (Physics.Raycast(potentialPosition, Vector3.down, out hit, 100f))
+            {
+                // Check if the surface is on the NavMesh
+                NavMeshHit navHit;
+                if (NavMesh.SamplePosition(hit.point, out navHit, 1.0f, NavMesh.AllAreas))
+                {
+                    Debug.Log("Valid spawn position found");
+                    return navHit.position; // Return the valid position found on the NavMesh
+                }
+            }
         }
         return Vector3.zero; // Return zero vector if no valid position found
     }
+
+
     
     private List<GameObject> SpawnEnemiesOfType(EnemyDifficulty difficulty, int count)
     {

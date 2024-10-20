@@ -152,8 +152,8 @@ public class IKSpiderAnimation : MonoBehaviour
 
     void FixedUpdate()
     {
-        //velocity = _spiderMovement.transform.position - lastBodyPos;
-        Vector3 currentVelocity = _spiderMovement.rb.velocity;
+        Vector3 currentVelocity = _spiderMovement.transform.position - lastBodyPos;
+        //Vector3 currentVelocity = _spiderMovement.rb.velocity;
         
         velocity = Vector3.Lerp(lastVelocity, currentVelocity, 1f / (smoothness + 1f));
 

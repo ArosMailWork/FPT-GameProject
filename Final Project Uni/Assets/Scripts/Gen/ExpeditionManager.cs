@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
+using Unity.AI.Navigation;
 using UnityEngine;
 
 public class ExpeditionManager : MonoBehaviour
@@ -37,5 +39,10 @@ public class ExpeditionManager : MonoBehaviour
         //floo
     }
 
-
+    [Button]
+    public void BakeMesh()
+    {
+        NavMeshSurface surface = GetComponent<NavMeshSurface>();
+        surface.BuildNavMesh();
+    }
 }

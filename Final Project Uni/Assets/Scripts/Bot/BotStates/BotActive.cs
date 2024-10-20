@@ -28,21 +28,24 @@ public class BotActive : BaseState
     public override void TriggerEnter(Collider other)
     {
         base.TriggerEnter(other);
-        if (other.CompareTag("Player") && sm.target == null)
+        if (other.tag == "Player")
         {
-
-            GameObject go = other.gameObject;
-            Character c = go.GetComponent<Character>();
+            Debug.Log(other.gameObject.name);
+            Character c = other.GetComponent<Character>();
             if (c != null)
             {
-                //sm.targets.Add(c.tf);
+                Debug.Log(c.gameObject.name);
                 sm.target = c.tf;
+            }
+            else
+            {
+                Debug.Log("shiet");
+                
             }
 
         }
         if (other.CompareTag("Arrow"))
         {
-            Debug.Log("asdasd");
 
         }
     }

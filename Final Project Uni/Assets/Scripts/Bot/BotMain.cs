@@ -15,14 +15,6 @@ public class BotMain : MonoBehaviour
     //Stat
     public GameObject projectile;
     public Health Health;
-    public CharacterStat MaxHP;
-    public CharacterStat HP;
-    public CharacterStat Speed;
-
-    public void Start()
-    {
-        HP = new CharacterStat(20);
-    }
 
     public void ResetCooldown()
     {

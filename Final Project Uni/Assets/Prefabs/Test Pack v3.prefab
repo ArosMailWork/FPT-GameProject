@@ -1196,7 +1196,7 @@ Transform:
   m_GameObject: {fileID: 1685101136282150318}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 45.1, y: 0, z: 27}
+  m_LocalPosition: {x: -7.43, y: 2, z: -5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1457,11 +1457,11 @@ MonoBehaviour:
   defaultMaxStamina: 100
   defaultRegenRate: 10
   defaultStaminaRollCost: 20
-  DynamicFriction: 0.05
-  StaticFriction: 0.2
-  bounciness: 1
-  BounceCombine: 3
-  FrictionCombine: 2
+  defaultRicochetFriction: 0
+  defaultDamage: 2
+  defaultDamageMultiplier: 1
+  defaultDrag: 0
+  defaultMass: 0
   bonusSpeed: 0
   bonusRotationSpeed: 0
   bonusMaxSpeed: 0
@@ -1473,8 +1473,9 @@ MonoBehaviour:
   bonusRegenRate: 0
   bonusStaminaRollCost: 0
   bonusChargedTime: 0
-  defautDrag: 0
-  defaultMass: 0
+  bonusRicochetMultiplier: 0
+  bonusDamage: 0
+  bonusDamageMultiplier: 0
 --- !u!114 &835472500627865431
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1548,6 +1549,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _stats: {fileID: 8561311727452774308}
   PlayerHealth: {fileID: 835472500627865431}
+  meleeLungeForce: 100
+  lungeAngle: 60
+  rangeAngleTolerance: 5
+  lungeRange: 25
+  LungeTime: 0.3
   currentState: 0
   moveInput: {x: 0, y: 0}
   moveBuffer: {x: 0, y: 0}
@@ -2454,7 +2460,7 @@ Transform:
   m_GameObject: {fileID: 3222992120661298813}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.9511644, z: -0.30868497, w: 0}
-  m_LocalPosition: {x: 45.1, y: 8.35, z: 36}
+  m_LocalPosition: {x: -7.43, y: 10.35, z: 4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2774,7 +2780,7 @@ Transform:
   m_GameObject: {fileID: 4467906348502153541}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.9511644, z: -0.30868497, w: 0}
-  m_LocalPosition: {x: 45.1, y: 8.35, z: 36}
+  m_LocalPosition: {x: -7.43, y: 10.35, z: 4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3085,13 +3091,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d2972659d8aa734a9a41389d1e583ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _pc: {fileID: 8963439906629463174}
-  currentActiveSkill: 0
-  skillPrefabs:
-  - {fileID: 464762936703557575, guid: 7674e64215c755042adb5d32681b7752, type: 3}
-  - {fileID: 3204633484197432600, guid: 29cbe985972cbc542be680de78ee308c, type: 3}
-  - {fileID: 5543831279937719370, guid: d45fd2c154d060043ad931ff536c5a6a, type: 3}
   currentCD: 0
+  skillList: []
+  passiveSkillList: []
+  activeSkillList: []
+  currentActiveSkill: 0
+  activeSkill: {fileID: 0}
+  currentSkill: {fileID: 0}
+  _pc: {fileID: 8963439906629463174}
+  StartSkill: []
 --- !u!1 &4982497474377237780
 GameObject:
   m_ObjectHideFlags: 0
@@ -4752,7 +4760,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 14305
+    m_Bits: 14309
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -5449,8 +5457,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Activate: 1
-  TargetTag: 1
-  Damage: 1
+  customPivot: {fileID: 0}
+  validTargets: 02000000
+  BaseDamage: 0
+  DamageMultiplier: 1
+  MirageMultiplier: 1
   DotTime: 0
   doKnockback: 0
   KnockForce: 0
@@ -6249,8 +6260,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Activate: 1
-  TargetTag: 1
-  Damage: 2
+  customPivot: {fileID: 0}
+  validTargets: 02000000
+  BaseDamage: 0
+  DamageMultiplier: 1
+  MirageMultiplier: 1
   DotTime: 0
   doKnockback: 0
   KnockForce: 0
@@ -6687,8 +6701,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Activate: 1
-  TargetTag: 1
-  Damage: 1
+  customPivot: {fileID: 0}
+  validTargets: 02000000
+  BaseDamage: 0
+  DamageMultiplier: 1
+  MirageMultiplier: 1
   DotTime: 0
   doKnockback: 0
   KnockForce: 0
@@ -6927,19 +6944,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 22420156, guid: 4adbe3ac910c42e4883b0170504cf426, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 169.917
+      value: 292.68
       objectReference: {fileID: 0}
     - target: {fileID: 22420156, guid: 4adbe3ac910c42e4883b0170504cf426, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 169.917
+      value: 292.68
       objectReference: {fileID: 0}
     - target: {fileID: 22420156, guid: 4adbe3ac910c42e4883b0170504cf426, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0.84954834
+      value: 1.4633789
       objectReference: {fileID: 0}
     - target: {fileID: 22420156, guid: 4adbe3ac910c42e4883b0170504cf426, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.8496094
+      value: 1.4633789
       objectReference: {fileID: 0}
     - target: {fileID: 22464756, guid: 4adbe3ac910c42e4883b0170504cf426, type: 3}
       propertyPath: m_Pivot.x
@@ -6967,11 +6984,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 22464756, guid: 4adbe3ac910c42e4883b0170504cf426, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 171.61618
+      value: 295.60678
       objectReference: {fileID: 0}
     - target: {fileID: 22464756, guid: 4adbe3ac910c42e4883b0170504cf426, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 171.61618
+      value: 295.60678
       objectReference: {fileID: 0}
     - target: {fileID: 22464756, guid: 4adbe3ac910c42e4883b0170504cf426, type: 3}
       propertyPath: m_LocalPosition.x
@@ -7003,11 +7020,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 22464756, guid: 4adbe3ac910c42e4883b0170504cf426, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 39.273743
+      value: 63.629395
       objectReference: {fileID: 0}
     - target: {fileID: 22464756, guid: 4adbe3ac910c42e4883b0170504cf426, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 22.004547
+      value: 37.90262
       objectReference: {fileID: 0}
     - target: {fileID: 22464756, guid: 4adbe3ac910c42e4883b0170504cf426, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -10812,8 +10829,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Activate: 0
-  TargetTag: 1
-  Damage: 4
+  customPivot: {fileID: 0}
+  validTargets: 
+  BaseDamage: 0
+  DamageMultiplier: 1
+  MirageMultiplier: 1
   DotTime: 0
   doKnockback: 1
   KnockForce: 5
