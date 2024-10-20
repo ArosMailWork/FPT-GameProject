@@ -23,6 +23,8 @@ public class BotSM : StateMachine
     public BotPatrol patrolState;
     [HideInInspector]
     public BotKnockback knockbackState;
+    [HideInInspector]
+    public BotDeath deathState;
 
     public void Awake()
     {
@@ -31,6 +33,7 @@ public class BotSM : StateMachine
         chaseState = new BotChase(this);
         patrolState = new BotPatrol(this);
         knockbackState = new BotKnockback(this);
+        deathState = new BotDeath(this);
         //targets = new List<Transform>();
     }
     public void GoIdle()
@@ -41,5 +44,9 @@ public class BotSM : StateMachine
     {
         return idleState;
         //return setState;
+    }
+    public void GoDeath()
+    {
+        ChangeState(deathState);
     }
 }

@@ -2,17 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BotDisable : MonoBehaviour
+public class BotDisable : BaseState
 {
-    // Start is called before the first frame update
-    void Start()
+    protected BotSM sm;
+    protected Transform TF;
+    public BotDisable(string name, BotSM stateMachine) : base("Disable", stateMachine)
     {
-        
+        sm = (BotSM)this.stateMachine;
     }
-
-    // Update is called once per frame
-    void Update()
+    public override void Enter()
     {
-        
+        base.Enter();
+        Debug.Log("asdasd");
+        sm.nav.isStopped = true;
+    }
+    public override void Exit()
+    {
+        base.Exit();
+        sm.nav.isStopped = false;
     }
 }

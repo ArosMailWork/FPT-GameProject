@@ -2,19 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BotKnockback : BotDisable
+public class BotDeath : BotDisable
 {
     protected float cooldown = 1f;
     protected float countdown;
-    public BotKnockback(BotSM stateMachine) : base("Knockback", stateMachine)
+    public BotDeath(BotSM stateMachine) : base("Knockback", stateMachine)
     {
         sm = (BotSM)this.stateMachine;
     }
-
     public override void Enter()
     {
         base.Enter();
-        sm.currState = "Knockback";
+        sm.currState = "Death";
         countdown = cooldown;
 
     }
@@ -29,7 +28,7 @@ public class BotKnockback : BotDisable
         }
         else
         {
-            sm.ChangeState(sm.patrolState);
+            GameObject.Destroy(sm.bot.gameObject);
         }
     }
 }

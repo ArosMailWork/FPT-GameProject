@@ -26,7 +26,6 @@ public class BotChase : BotAttack
         }
         else
         {
-            Debug.Log("aaaaa");
             sm.nav.isStopped = true;
             sm.ChangeState(sm.hitState);
         }
