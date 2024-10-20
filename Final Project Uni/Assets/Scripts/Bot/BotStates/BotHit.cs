@@ -15,7 +15,6 @@ public class BotHit : BotAttack
         base.Enter();
         counter = hitCooldown;
         sm.currState = "Hit";
-        Debug.Log("Hit!");
     }
     public override void UpdateLogic()
     {
@@ -36,10 +35,8 @@ public class BotHit : BotAttack
     {
         if (sm.target != null)
         {
-            //GameObject p = PoolManager.Spawn(sm.bot.projectile, sm.gameObject.transform.position, sm.gameObject.transform.rotation);
-            GameObject.Instantiate(sm.bot.projectile, sm.gameObject.transform.position, sm.gameObject.transform.rotation);
-            //p.GetComponent<Projectile>().team = sm.bot.team;
-            Debug.Log("Attack");
+            //GameObject.Instantiate(sm.bot.projectile, sm.gameObject.transform.position, sm.gameObject.transform.rotation);
+            sm.bot.gun.FireGun();
             counter = hitCooldown;
         }
 

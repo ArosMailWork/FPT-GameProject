@@ -42,7 +42,8 @@ public class BotActive : BaseState
         }
         if (other.CompareTag("Arrow"))
         {
-            Debug.Log("asdasd");
+            sm.ChangeState(sm.knockbackState);
+            sm.bot.Health.Hurt(1);
 
         }
     }

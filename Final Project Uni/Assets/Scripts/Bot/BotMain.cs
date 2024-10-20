@@ -13,7 +13,8 @@ public class BotMain : MonoBehaviour
     public float cooldown = 2f;
     public float countdown;
     //Stat
-    public GameObject projectile;
+    public BotGun gun;
+    //public GameObject projectile;
     public Health Health;
     public CharacterStat MaxHP;
     public CharacterStat HP;
