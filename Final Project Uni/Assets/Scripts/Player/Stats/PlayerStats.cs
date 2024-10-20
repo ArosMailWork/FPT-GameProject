@@ -1,3 +1,4 @@
+using PA;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -54,16 +55,16 @@ public class PlayerStats : MonoBehaviour
     #region Total Value
 
     // Speed
-    public float speed => defaultSpeed + bonusSpeed;
+    public float speed => (defaultSpeed * PermanentStats.Speed) + bonusSpeed;
     public float rotationSpeed => defaultRotationSpeed + bonusRotationSpeed;
     public float maxSpeed => defaultMaxSpeed + bonusMaxSpeed;
-    
+
     //Roll
     public float rollSpeed => defaultRollSpeed + bonusRollSpeed;
     public float rollCD => defaultRollCD + bonusRollCD;
     public float rollTime => defaultRollTime + bonusRollTime;
     public float controlRollDirect => defaultControlRollDirect + bonusControlRollDirect;
-    
+
     //Guard
     public float guardTime => defaultGuardTime; // No bonus, just returns default value
 
@@ -71,13 +72,17 @@ public class PlayerStats : MonoBehaviour
     public int maxStamina => defaultMaxStamina + bonusMaxStamina;
     public int regenRate => defaultRegenRate + bonusRegenRate;
     public int staminaRollCost => defaultStaminaRollCost - bonusStaminaRollCost;
-    
+
     //Arrow Controller
     public float ChargedTime => defaultChargedTime - bonusChargedTime;
-    
+
     //Arrow
     public float staticFriction => defaultRicochetFriction * bonusRicochetMultiplier;
-    public int Damage => defaultDamage + bonusDamage;
+
+    public int Damage =>
+        Mathf.CeilToInt((defaultDamage * PermanentStats.Damage) + bonusDamage);
+    // nochange * (uptoBigEnough) + uptoBigEnough
+
     public float DamageMultiplier => defaultDamageMultiplier + bonusDamageMultiplier;
 
     #endregion
@@ -93,6 +98,7 @@ public class PlayerStats : MonoBehaviour
         _arrowController = _pc._arrowController;
         defaultDrag = _pc.PlayerRB.drag;
         defaultMass = _pc.PlayerRB.mass;
+        playerHealth = _pc.PlayerHealth.maxHealth;
     }
     
     [Button]
@@ -113,6 +119,12 @@ public class PlayerStats : MonoBehaviour
             arrow.hitbox.MirageMultiplier = DamageMultiplier;
         }
         
-
+        //health
+        print("healthpermanent: " + HealthFromPermanent);
+        _pc.PlayerHealth.maxHealth += HealthFromPermanent;
+        // playerHealth = _pc.PlayerHealth.maxHealth;
     }
+
+    public int playerHealth ;
+    public int HealthFromPermanent;
 }
