@@ -19,9 +19,9 @@ public class BotChase : BotAttack
     {
         base.UpdateLogic();
         //TODO: implement a better way to check 3d distance that exclude y axis
-        if (Vector3.Distance(TF.position, sm.destination) > 0.5f)
+        if (Vector3.Distance(TF.position, sm.destination) > 1f)
         {
-            //Debug.Log(Vector3.Distance(TF.position, sm.destination));
+            Debug.Log(Vector3.Distance(TF.position, sm.destination));
             sm.nav.SetDestination(sm.destination);
         }
         else
