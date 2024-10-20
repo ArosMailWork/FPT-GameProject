@@ -9,5 +9,6 @@ public class BotGun : MonoBehaviour
     public void FireGun()
     {
         GameObject.Instantiate(projectile, transform.position, transform.rotation);
+        //PoolManager.Instance.Spawn(projectile, transform.position, transform.rotation);
     }
 }
