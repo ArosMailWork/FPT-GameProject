@@ -5,8 +5,9 @@ using UnityEngine.AI;
 
 public class BotSM : StateMachine
 {
-    public Queue<GameObject> targets;
-    public GameObject target;
+    //public List<Transform> targets;
+    public Transform target;
+    public Vector3 destination;
     public NavMeshAgent nav;
     public Transform defaultDestination;
     public BotMain bot;
@@ -18,22 +19,23 @@ public class BotSM : StateMachine
     public BotChase chaseState;
     [HideInInspector]
     public BotHit hitState;
+    [HideInInspector]
+    public BotPatrol patrolState;
+    [HideInInspector]
+    public BotKnockback knockbackState;
 
     public void Awake()
     {
         idleState = new BotIdle(this);
         hitState = new BotHit(this);
         chaseState = new BotChase(this);
-        targets = new Queue<GameObject>();
-
+        patrolState = new BotPatrol(this);
+        knockbackState = new BotKnockback(this);
+        //targets = new List<Transform>();
     }
     public void GoIdle()
     {
-        //ChangeState(idleState);
-    }
-    public void GoSet()
-    {
-        //ChangeState(setState);
+        ChangeState(idleState);
     }
     protected override BaseState GetInitialState()
     {
