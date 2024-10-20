@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BotDeath : BotDisable
 {
-    protected float cooldown = 0.5f;
+    protected float cooldown = 0.1f;
     protected float countdown;
     public BotDeath(BotSM stateMachine) : base("Knockback", stateMachine)
     {
