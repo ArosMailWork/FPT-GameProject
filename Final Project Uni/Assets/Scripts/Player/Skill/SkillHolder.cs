@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class SkillHolder : MonoBehaviour
 {
@@ -26,6 +27,8 @@ public class SkillHolder : MonoBehaviour
     public PlayerController _pc;
     [FoldoutGroup("Setup")]
     public List<GameObject> StartSkill;
+    [FoldoutGroup("Setup")] 
+    public Image currentSkillUISprite;
 
     public static SkillHolder Instance;
 
@@ -51,6 +54,7 @@ public class SkillHolder : MonoBehaviour
             currentActiveSkill = slot;
             activeSkill = activeSkillList[slot];
             currentSkill = activeSkill.GetComponent<ISkill>();
+            currentSkillUISprite.sprite = currentSkill.Icon;
         }
     }
 

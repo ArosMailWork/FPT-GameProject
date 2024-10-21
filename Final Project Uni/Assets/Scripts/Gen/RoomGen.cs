@@ -1,12 +1,7 @@
-using System.Runtime.CompilerServices;
-using System.Security.Cryptography;
-using System.Runtime.InteropServices.ComTypes;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-using UnityEngine.UIElements;
-using Unity.VisualScripting;
-using UnityEngine.Rendering;
+using Sirenix.OdinInspector;
 
 public class RoomGen : MonoBehaviour
 {
@@ -14,8 +9,8 @@ public class RoomGen : MonoBehaviour
     private int GridSize = 1;
     //private int Size = 100;
     private int MainPathLength = 4;
-    private int Width;
-    private int Height;
+    private int Width = 20;
+    private int Height = 20;
     private int SideRoomChance = 5;
     private List<Room> GenericRoom;
     private List<Room> PuzzleRoom;
@@ -30,7 +25,8 @@ public class RoomGen : MonoBehaviour
     private List<Node> Nodes = new List<Node>();
     private List<GameObject> allRoom = new List<GameObject>();
     private Node origin = new Node();
-
+    private Vector3 spawn;
+    public GenerationManager gm;
     //An array of offset to make it easier to check neighbours
     // without duplicating code.
     private List<Vector2Int> sideOffsets = new List<Vector2Int>{
@@ -44,12 +40,14 @@ public class RoomGen : MonoBehaviour
         new Vector2Int(1,0), //Right
         //new Vector2Int(-1,0) //Left
     };
-    public void AssignData(int GridSize, int MainPathLength, int Width, int Height, int TotalPuzzleRoom, int TotalRewardRoom, List<Room> genericRoom, List<Room> rewardRoom, List<Room> puzzleRoom, Room StartRoom, Room EndRoom)
+    // public Vector3 GetSpawnPosition()
+    // {
+    //     return origin
+    // }
+    public void AssignData(int GridSize, int MainPathLength, int TotalPuzzleRoom, int TotalRewardRoom, List<Room> genericRoom, List<Room> rewardRoom, List<Room> puzzleRoom, Room StartRoom, Room EndRoom)
     {
         this.GridSize = GridSize;
         this.MainPathLength = MainPathLength;
-        this.Width = Width;
-        this.Height = Height;
         this.TotalPuzzleRoom = TotalPuzzleRoom;
         this.TotalRewardRoom = TotalRewardRoom;
         this.GenericRoom = genericRoom;
@@ -63,6 +61,7 @@ public class RoomGen : MonoBehaviour
 
     public void Generate()
     {
+        transform.localScale = Vector3.one;
         _grid = new Node[Width, Height];
         //First Pass 
         GenerateMainPath();
@@ -72,7 +71,7 @@ public class RoomGen : MonoBehaviour
         RoomPlace(TotalPuzzleRoom, PuzzleRoom);
         RoomPlace(TotalRewardRoom, RewardRoom);
         origin.ConnectedPos = CheckConnectedDirection(origin.currentPos, sideOffsets);
-        Debug.Log(origin.ConnectedPos.Count);
+        //Debug.Log(origin.ConnectedPos.Count);
         GameObject o = GameObject.Instantiate(origin.room.Prefab, new Vector3(origin.currentPos.x * GridSize, 0f, origin.currentPos.y * GridSize), Quaternion.identity);
         o.GetComponent<RoomController>().SetConnector(origin.ConnectedPos);
         //o.transform.localScale = new Vector3(Size, 1, Size);
@@ -100,47 +99,38 @@ public class RoomGen : MonoBehaviour
                 }
             }
         }
+        gm.SetScale();
 
     }
+    [Button]
     public void Regenerate()
     {
         Clear();
-        _grid = new Node[Width, Height];
-        //First Pass 
-        GenerateMainPath();
-        //Instantiate the origin point
-        allRoom.Add(GameObject.Instantiate(origin.room.Prefab, new Vector3(origin.currentPos.x * GridSize, 0f, origin.currentPos.y * GridSize), Quaternion.identity));
-        //Second Pass
-        GenerateSidePath();
-        //Instantiate the main path and the side path
-        foreach (Node n in origin.nodes)
-        {
-            CheckConnectedDirection(n.currentPos, mainOffsets);
-            allRoom.Add(GameObject.Instantiate(n.room.Prefab, new Vector3(n.currentPos.x * GridSize, 0f, n.currentPos.y * GridSize), Quaternion.identity));
-            if (n.nodes.Count > 0)
-            {
-                foreach (Node s in n.nodes)
-                {
-                    allRoom.Add(GameObject.Instantiate(s.room.Prefab, new Vector3(s.currentPos.x * GridSize, 0f, s.currentPos.y * GridSize), Quaternion.identity));
-                }
-            }
-        }
+        Generate();
     }
     public void Clear()
     {
-        for (int i = 0; i < _grid.GetLength(0); i++)
-        {
-            for (int y = 0; i < _grid.GetLength(1); y++)
-            {
-                _grid[i, y] = null;
-            }
-        }
+        ClearGrid();  // Clears the grid data
         for (int i = 0; i < allRoom.Count; i++)
         {
-            Destroy(allRoom[i]);
+            Destroy(allRoom[i]);  // Destroys all instantiated room GameObjects
         }
-        origin = null;
+        allRoom.Clear(); // Clear the list of rooms
+        origin = new Node(); // Reset the origin node
+    }
 
+    public void ClearGrid()
+    {
+        if (_grid != null)
+        {
+            for (int x = 0; x < _grid.GetLength(0); x++)
+            {
+                for (int y = 0; y < _grid.GetLength(1); y++)
+                {
+                    _grid[x, y] = null; // Reset each grid cell
+                }
+            }
+        }
     }
     private void GenerateMainPath()
     {

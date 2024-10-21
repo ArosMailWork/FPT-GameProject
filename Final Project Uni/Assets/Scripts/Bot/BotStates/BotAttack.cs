@@ -1,57 +1,52 @@
 using UnityEngine;
 
-public class BotAttack : BaseState
+public class BotAttack : BotActive
 {
-    protected BotSM sm;
-    protected Transform TF;
+
     public BotAttack(string name, BotSM stateMachine) : base("Attack", stateMachine)
     {
-        sm = (BotSM)this.stateMachine;
+
     }
     public override void Enter()
     {
         base.Enter();
         sm.currState = "Attack";
-        if (sm.target == null)
-        {
-            sm.target = sm.targets.Dequeue();
-        }
         TF = sm.bot.transform;
     }
 
     public override void UpdateLogic()
     {
         base.UpdateLogic();
-        if (sm.targets.Count == 0 && sm.target == null)
-        {
-            sm.ChangeState(sm.idleState);
-        }
-        else if (sm.target == null)
-        {
-            sm.target = sm.targets.Dequeue();
-        }
-        else
+        if (sm.target != null)
         {
             Rotate();
         }
 
+        // if (sm.target == null)
+        // {
+        //     sm.ChangeState(sm.idleState);
+        // }
+        // else
+        // {
+        //     Rotate();
+        // }
+        // if (Vector3.Distance(TF.position, sm.target.position) > sm.bot.maxRange)
+        // {
+        //     sm.nav.SetDestination(sm.destination);
+        // }
+        // else
+        // {
+        //     sm.nav.isStopped = true;
+        //     sm.ChangeState(sm.hitState);
+        // }
+
+
+        // if (Vector3.Distance(TF.position, sm.target.position) < sm.bot.minRange)
+        // {
+        //     sm.ChangeState(sm.hitState);
+        // }
     }
 
-    public override void TriggerEnter(Collider other)
-    {
-        base.TriggerEnter(other);
-
-        if (other.CompareTag("Enemy"))
-        {
-            GameObject go = other.gameObject;
-            BotMain bot = go.GetComponent<BotMain>();
-            if ((int)bot.unitType <= 8 && bot.Team != sm.bot.Team)
-            {
-                sm.targets.Enqueue(go);
-                Debug.Log(sm.targets.Count);
-            }
-        }
-    }
     public void Rotate()
     {
         // Determine which direction to rotate towards
@@ -63,4 +58,5 @@ public class BotAttack : BaseState
         // Calculate a rotation a step closer to the target and applies rotation to this object
         TF.rotation = Quaternion.LookRotation(newDirection);
     }
+
 }
