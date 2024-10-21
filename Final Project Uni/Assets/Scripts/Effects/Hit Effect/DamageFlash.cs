@@ -16,7 +16,7 @@ public class DamageFlash : MonoBehaviour
     private List<Material[]> _oldMaterials = new List<Material[]>();
     private Coroutine _damageFlashCoroutine;
 
-    [SerializeField, CanBeNull] private HitStop _hitStop;
+    //[SerializeField, CanBeNull] private HitStop _hitStop;
 
     #endregion
 
@@ -59,7 +59,7 @@ public class DamageFlash : MonoBehaviour
     {
         _damageFlashCoroutine = StartCoroutine(DamageFlasher());
 
-        FindObjectOfType<HitStop>().Stop();
+        //FindObjectOfType<HitStop>().Stop();
     }
     public IEnumerator DamageFlasher()
     {
@@ -104,7 +104,7 @@ public class DamageFlash : MonoBehaviour
     {
         CallDamageFlash();
         
-        if(_hitStop != null) _hitStop.Stop();
+        //if(_hitStop != null) _hitStop.Stop();
     }
 
     #endregion

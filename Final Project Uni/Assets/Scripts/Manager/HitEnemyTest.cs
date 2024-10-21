@@ -1,26 +1,32 @@
+using Cysharp.Threading.Tasks;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class HitEnemyTest : MonoBehaviour
 {
-    private void OnCollisionEnter(Collision objectWeHit)
+
+    public Transform pivot;
+
+    public void Start()
     {
-        if (objectWeHit.gameObject.CompareTag("Target"))
-        {
-            Debug.Log("hit" + objectWeHit.gameObject.name + "!");
-            CreateParticle(objectWeHit);
-            //Destroy(gameObject);
-        }
+        if(pivot == null)
+            pivot = transform;
+    }
+    public void SpawnKnockbackParticle(Vector3 KnockDirect)
+    {
+        doSpawnKnockbackParticle(KnockDirect);
     }
 
-    private void CreateParticle(Collision objectWeHit)
+    public async UniTaskVoid doSpawnKnockbackParticle(Vector3 KnockDirect, float StunTime = 0.15f)
     {
-        ContactPoint contact = objectWeHit.contacts[0];
+        GameObject prefab =  ParticleManager.Instance.SpawnParticle("HitEffect", 
+            pivot.position
+            , Quaternion.LookRotation(KnockDirect));
+        //Debug.Log("Player Knockback: " + KnockDirect);
+        //Implement Knockback shiet here
+        KnockDirect.y = 0;
 
-        var particlePrefab = ParticleManager.Instance.SpawnParticle
-                ("HitParticle", contact.point, Quaternion.LookRotation(contact.normal));
-
-        particlePrefab.transform.SetParent(objectWeHit.gameObject.transform);
     }
 }

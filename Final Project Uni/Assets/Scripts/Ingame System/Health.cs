@@ -135,7 +135,7 @@ public class Health : MonoBehaviour
     
     
     [FoldoutGroup("Event Test/Basic")] [Button]
-    public void Knockback(Vector3 Dir, float knockForce)
+    public void Knockback(Vector3 Dir, float knockForce = 10)
     {
         //knockback Event
         OnKnockback.Invoke(Dir.normalized * knockForce);
