@@ -35,8 +35,7 @@ public class BotHit : BotAttack
     {
         if (sm.target != null)
         {
-            //GameObject.Instantiate(sm.bot.projectile, sm.gameObject.transform.position, sm.gameObject.transform.rotation);
-            sm.bot.gun.FireGun();
+            sm.bot.gun.FireGun(); //replace with play anim
             counter = hitCooldown;
         }
 

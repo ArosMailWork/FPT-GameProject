@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,12 +6,20 @@ using UnityEngine;
 public class BotProjectile : MonoBehaviour
 {
     // Start is called before the first frame update
-    //public Rigidbody rb;
-    float speed = 35f;
-    public void Update()
+    public Rigidbody rb;
+    public float speed = 35f;
+
+    private HurtBox _hurtBox;
+
+    private void Awake()
     {
-        transform.Translate(Vector3.forward * speed * Time.deltaTime);
+        _hurtBox = GetComponent<HurtBox>();
+        _hurtBox.isProjectile = true;
     }
 
-
+    public void Start()
+    {
+        rb.velocity = transform.forward * speed;
+        _hurtBox.KnockDir = rb.velocity;
+    }
 }
