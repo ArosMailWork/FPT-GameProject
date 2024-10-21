@@ -13,7 +13,7 @@ public class BotDisable : BaseState
     public override void Enter()
     {
         base.Enter();
-        Debug.Log("asdasd");
+        //Debug.Log("asdasd");
         sm.nav.isStopped = true;
     }
     public override void Exit()

@@ -278,7 +278,7 @@ public class PlayerController : MonoBehaviour
     [Button]
     public void MeleeLunge()
     {
-        Debug.Log("Lunge");
+        //Debug.Log("Lunge");
         // Use OverlapSphere to detect all colliders within the radius
         Collider[] hitColliders = Physics.OverlapSphere(PlayerRB.transform.position, lungeRange);
 
@@ -337,7 +337,7 @@ public class PlayerController : MonoBehaviour
             elapsedTime += Time.deltaTime;
         }
 
-        Debug.Log("Lunge Rotation Complete");
+        //Debug.Log("Lunge Rotation Complete");
     }
 
     #endregion

@@ -37,7 +37,7 @@ public class GenerationManager : MonoBehaviour
     }
     public void SetScale()
     {
-        Debug.Log("adaojsjp");
+        //Debug.Log("adaojsjp");
         transform.localScale = new Vector3(MapScale_test, MapScale_test, MapScale_test); //test scale   
     }
 
