@@ -28,15 +28,15 @@ public class BotActive : BaseState
     public override void TriggerEnter(Collider other)
     {
         base.TriggerEnter(other);
+        
+        Debug.Log(other.gameObject.name);
         if (other.CompareTag("Player") && sm.target == null)
         {
-
-            GameObject go = other.gameObject;
-            Character c = go.GetComponent<Character>();
+            PlayerController c = other.gameObject.GetComponent<PlayerController>();
             if (c != null)
             {
                 //sm.targets.Add(c.tf);
-                sm.target = c.tf;
+                sm.target = c.PlayerRB.transform;
             }
 
         }
