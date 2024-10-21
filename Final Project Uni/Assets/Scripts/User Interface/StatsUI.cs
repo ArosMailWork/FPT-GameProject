@@ -14,8 +14,8 @@ namespace PA
 
         private void Start()
         {
-            upgradeButtonx2.onClick.AddListener(() => statsManager.UpgradeStats(0.02f));
-            upgradeButtonx5.onClick.AddListener(() => statsManager.UpgradeStats(0.04f));
+            upgradeButtonx2.onClick.AddListener(() => statsManager.UpgradeStats(2));
+            upgradeButtonx5.onClick.AddListener(() => statsManager.UpgradeStats(4));
             confirmModifierPermanentButton.onClick.AddListener(statsManager.ConfirmStats);
             exitStatsButton.onClick.AddListener(CloseStatsUI);
             UpdateGoldDisplay(statsManager.playerGold);

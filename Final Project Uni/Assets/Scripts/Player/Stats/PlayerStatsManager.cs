@@ -8,6 +8,10 @@ namespace PA
     {
         public PlayerStats playerStats;
         public StatsUI statsUI;
+        public float percentHp;
+        public float percentSpeed;
+        public float percentDamage;
+
         public int playerGold = 1000; // Giả lập lượng vàng
 
         private void Start()
@@ -31,9 +35,13 @@ namespace PA
         {
             //subtract because after upgrade, the value is more than 1, end we only need increase percentage amount
             playerStats.bonusSpeed = playerStats.defaultSpeed * (PermanentStats.Speed - 1f);
-            playerStats.bonusDamage = Mathf.CeilToInt(playerStats.defaultDamage * (PermanentStats.Damage - 1f));
+            playerStats.bonusDamage = Mathf.CeilToInt(
+                playerStats.defaultDamage * (PermanentStats.Damage - 1f)
+            );
             print("bonusDamage: " + playerStats.bonusDamage);
-            playerStats.HealthFromPermanent = Mathf.CeilToInt(playerStats.playerHealth * (PermanentStats.HP -1f)); // 10 * (1.02-1)
+            playerStats.HealthFromPermanent = Mathf.CeilToInt(
+                playerStats.playerHealth * (PermanentStats.HP - 1f)
+            ); // 10 * (1.02-1)
             playerStats.UpdateBonusValue();
         }
 
@@ -47,16 +55,16 @@ namespace PA
             );
         }
 
-        //update actual value 
-        public void UpgradeStats(float percentage)
+        //update actual value
+        public void UpgradeStats(int upgradeType)
         {
-            int cost = percentage == 0.02f ? 100 : 200; // 100 gold for 2%, 200 gold for 4%
+            int cost = upgradeType == 2 ? 100 : 200; // 100 gold for 2%, 200 gold for 4%
             if (playerGold >= cost)
             {
                 playerGold -= cost;
-                PermanentStats.UpdateStat("HP", PermanentStats.HP + percentage);
-                PermanentStats.UpdateStat("Speed", PermanentStats.Speed + percentage);
-                PermanentStats.UpdateStat("Damage", PermanentStats.Damage + percentage);
+                PermanentStats.UpdateStat("HP", PermanentStats.HP + percentHp);
+                PermanentStats.UpdateStat("Speed", PermanentStats.Speed + percentSpeed);
+                PermanentStats.UpdateStat("Damage", PermanentStats.Damage + percentDamage);
                 UpdatePlayerStats();
                 UpdateUI();
                 statsUI.UpdateGoldDisplay(playerGold);

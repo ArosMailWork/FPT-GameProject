@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -45,14 +46,34 @@ public class DialogUI : MonoBehaviour
     void OnCloseButtonClick()
     {
         ChangeTextToAllBlackString();
-        if (imageMask != null)
-        {
-            imageMask.enabled = true;
-        }
+        SetActiveMask(true);
         ChangeFontSize();
         OnCloseButtonClicked?.Invoke();
     }
-
+    [Button]
+    void ToggleMask()
+    {
+        if (imageMask != null)
+        {
+            imageMask.enabled = !imageMask.enabled;
+        }
+        else
+        {
+            Debug.LogWarning("Image mask is not assigned in DialogUI.");
+        }
+    }
+    void SetActiveMask(bool isActive)
+    {
+        if (imageMask != null)
+        {
+            imageMask.enabled = isActive;
+        }
+        else
+        {
+            Debug.LogWarning("Image mask is not assigned in DialogUI.");
+        }
+    }
+    [Button]
     void ChangeTextToAllBlackString()
     {
         if (dialogText != null && !isTextChanged)
