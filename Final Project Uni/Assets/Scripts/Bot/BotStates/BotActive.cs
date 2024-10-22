@@ -28,8 +28,8 @@ public class BotActive : BaseState
     public override void TriggerEnter(Collider other)
     {
         base.TriggerEnter(other);
-        
-        Debug.Log(other.gameObject.name);
+
+        //Debug.Log(other.gameObject.name);
         if (other.CompareTag("Player") && sm.target == null)
         {
             PlayerController c = other.gameObject.GetComponent<PlayerController>();

@@ -12,6 +12,7 @@ public class BotMain : MonoBehaviour
     public float maxRange;
     public float cooldown = 2f;
     public float countdown;
+    public Rigidbody rg;
     //Stat
     public BotGun gun;
     //public GameObject projectile;

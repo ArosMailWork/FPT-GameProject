@@ -14,11 +14,22 @@ public class BotDisable : BaseState
     {
         base.Enter();
         //Debug.Log("asdasd");
-        sm.nav.isStopped = true;
+        //sm.nav.updatePosition = false;
+        //sm.nav.isStopped = true;
+        sm.nav.enabled = false;
+        sm.bot.rg.useGravity = true;
+        sm.bot.rg.isKinematic = false;
     }
     public override void Exit()
     {
         base.Exit();
-        sm.nav.isStopped = false;
+        //sm.nav.isStopped = false;
+        //sm.nav.updatePosition = true;
+        sm.bot.rg.velocity = Vector3.zero;
+        sm.bot.rg.angularVelocity = Vector3.zero;
+        sm.bot.rg.useGravity = false;
+        sm.bot.rg.isKinematic = true;
+        sm.nav.Warp(sm.transform.position);
+        sm.nav.enabled = true;
     }
 }

@@ -49,4 +49,14 @@ public class BotSM : StateMachine
     {
         ChangeState(deathState);
     }
+    public void GoKnockback(Vector3 force)
+    {
+        if (currState != "Knockback")
+        {
+            knockbackState.force = force;
+            ChangeState(knockbackState);
+        }
+        //Debug.Log("aaaa");
+
+    }
 }

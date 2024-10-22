@@ -2672,7 +2672,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthState: 0
-  maxHealth: 9
+  maxHealth: 20
   health: 0
   overHeal: 0
   StatUI: {fileID: 0}
@@ -2697,13 +2697,37 @@ MonoBehaviour:
         m_CallState: 2
   OnDeath:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1122336399}
+        m_TargetAssemblyTypeName: BotSM, Assembly-CSharp
+        m_MethodName: GoDeath
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   OnKnockback:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 621148792}
         m_TargetAssemblyTypeName: HitEnemyTest, Assembly-CSharp
         m_MethodName: SpawnKnockbackParticle
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1122336399}
+        m_TargetAssemblyTypeName: BotSM, Assembly-CSharp
+        m_MethodName: GoKnockback
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5565,7 +5589,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1122336393}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.72675186, z: -0, w: 0.6869001}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -12.600012, y: -2.8014, z: 49.900024}
   m_LocalScale: {x: 0.7075267, y: 0.70752674, z: 0.7075267}
   m_ConstrainProportionsScale: 0
@@ -5573,7 +5597,7 @@ Transform:
   - {fileID: 744256309}
   - {fileID: 621148788}
   m_Father: {fileID: 287349472}
-  m_LocalEulerAnglesHint: {x: 0, y: -3.23, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1122336399
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5602,7 +5626,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 15
+  m_Speed: 0
   m_Acceleration: 10
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -5633,6 +5657,7 @@ MonoBehaviour:
   maxRange: 8
   cooldown: 0
   countdown: 0
+  rg: {fileID: 1122336402}
   gun: {fileID: 1841474734}
   Health: {fileID: 621148789}
 --- !u!54 &1122336402
@@ -5660,7 +5685,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 1
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 2
 --- !u!4 &1137852311 stripped
 Transform:
@@ -14257,6 +14282,11 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1962856955}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &1978792171 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7316320797480690529, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
+  m_PrefabInstance: {fileID: 4334579984242774510}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1979043093
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15042,35 +15072,35 @@ PrefabInstance:
       objectReference: {fileID: 1795772745}
     - target: {fileID: 634516113154801550, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 292.68
+      value: 169.917
       objectReference: {fileID: 0}
     - target: {fileID: 634516113154801550, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 292.68
+      value: 169.917
       objectReference: {fileID: 0}
     - target: {fileID: 634516113154801550, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 1.4633789
+      value: 0.8496094
       objectReference: {fileID: 0}
     - target: {fileID: 634516113154801550, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 1.4634094
+      value: 0.8496094
       objectReference: {fileID: 0}
     - target: {fileID: 634516113154813382, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 295.60678
+      value: 171.61618
       objectReference: {fileID: 0}
     - target: {fileID: 634516113154813382, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 295.60678
+      value: 171.61618
       objectReference: {fileID: 0}
     - target: {fileID: 634516113154813382, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 63.629395
+      value: 38.83374
       objectReference: {fileID: 0}
     - target: {fileID: 634516113154813382, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 37.90262
+      value: 22.004547
       objectReference: {fileID: 0}
     - target: {fileID: 821813476702798318, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
       propertyPath: HpReduce.m_PersistentCalls.m_Calls.Array.size
@@ -15100,6 +15130,10 @@ PrefabInstance:
       propertyPath: HpReduce.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 2295359438090098626, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 24.4
+      objectReference: {fileID: 0}
     - target: {fileID: 2319979411750749596, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -15107,6 +15141,10 @@ PrefabInstance:
     - target: {fileID: 2319979411750749596, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2557406246698506062, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 24.4
       objectReference: {fileID: 0}
     - target: {fileID: 3391826867119073756, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
       propertyPath: m_AnchorMax.x
@@ -15174,7 +15212,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4395877825834499976, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 36.96
+      value: 24.4
       objectReference: {fileID: 0}
     - target: {fileID: 4395877825834499976, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
       propertyPath: m_LocalPosition.y
@@ -15330,6 +15368,18 @@ PrefabInstance:
       propertyPath: serializationData.PrefabModificationsReferencedUnityObjects.Array.data[3]
       value: 
       objectReference: {fileID: 94724346}
+    - target: {fileID: 6123833372231583965, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
+      propertyPath: KnockForce
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6123833372231583965, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
+      propertyPath: customPivot
+      value: 
+      objectReference: {fileID: 1978792171}
+    - target: {fileID: 6173802205020416321, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
+      propertyPath: KnockForce
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 6526502324537555375, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
       propertyPath: serializationData.Prefab
       value: 
@@ -15346,6 +15396,14 @@ PrefabInstance:
     - target: {fileID: 6526502324537555375, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
       propertyPath: serializationData.PrefabModifications.Array.data[1]
       value: '"path":"eventDic.{\"del\"}","value":null'
+      objectReference: {fileID: 0}
+    - target: {fileID: 6896801385506974553, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7328969460272619473, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
+      propertyPath: KnockForce
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8114548762273780579, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
       propertyPath: m_AnchorMax.x
