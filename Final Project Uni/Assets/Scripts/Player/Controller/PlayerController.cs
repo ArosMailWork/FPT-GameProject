@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices.ComTypes;
 using Cysharp.Threading.Tasks;
+using JetBrains.Annotations;
 using OpenCover.Framework.Model;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -49,6 +50,8 @@ public class PlayerController : MonoBehaviour
 
     [FoldoutGroup("Setup")]
     public Rigidbody PlayerRB;
+    [FoldoutGroup("Setup")]
+    [CanBeNull] public HitStop _hitStop;
     [FoldoutGroup("Setup")]
     public PlayerAnimController _playerAnimController;
     [FoldoutGroup("Setup")]
@@ -424,7 +427,7 @@ public class PlayerController : MonoBehaviour
     
     public async UniTaskVoid doReceiveKnockback(Vector3 KnockDirect, float StunTime = 0.15f)
     {
-        Debug.Log("Player Knockback: " + KnockDirect);
+        //Debug.Log("Player Knockback: " + KnockDirect);
         //Implement Knockback shiet here
         KnockDirect.y = 0;
         

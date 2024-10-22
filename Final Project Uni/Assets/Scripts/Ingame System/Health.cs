@@ -93,6 +93,12 @@ public class Health : MonoBehaviour
         InvincibleTimer(time);
     }
     
+    [FoldoutGroup("Event Test")] [Button]
+    public void Absorbtion(float time)
+    {
+        AbsorbtionTimer(time);
+    }
+    
     [FoldoutGroup("Event Test/Basic")]
     [Button]
     public void Hurt(int damage)
@@ -148,6 +154,14 @@ public class Health : MonoBehaviour
         await UniTask.Delay(TimeSpan.FromSeconds(time));
         healthState = HealthState.Idle;
     }
+    
+    private async UniTaskVoid AbsorbtionTimer(float time)
+    {
+        healthState = HealthState.Absorbtion;
+        await UniTask.Delay(TimeSpan.FromSeconds(time));
+        healthState = HealthState.Idle;
+    }
+    
     void DealDamage(int damage)
     {
         Debug.Log("Received " + damage);

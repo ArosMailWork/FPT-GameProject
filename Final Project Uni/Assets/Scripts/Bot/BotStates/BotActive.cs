@@ -21,7 +21,9 @@ public class BotActive : BaseState
         base.UpdateLogic();
         if (sm.target != null)
         {
+            sm.bot.Distance = Vector3.Distance(sm.transform.position, sm.target.position);
             Rotate();
+            //RotatePredict();
         }
 
     }
@@ -36,7 +38,7 @@ public class BotActive : BaseState
             if (c != null)
             {
                 //sm.targets.Add(c.tf);
-                sm.target = c.PlayerRB.transform;
+                sm.target = c.PlayerRB;
             }
 
         }
@@ -49,14 +51,43 @@ public class BotActive : BaseState
     }
     public void Rotate()
     {
-        // Determine which direction to rotate towards
+        // Determine the direction to the target (only consider the X and Z axes)
         Vector3 targetDirection = sm.target.transform.position - TF.position;
-        // The step size is equal to speed times frame time.
+        targetDirection.y = 0; // Ensure the direction is flat (only rotate on Y-axis)
+
+        // The step size is equal to speed times frame time
         float singleStep = 8.0f * Time.deltaTime;
 
-        // Rotate the forward vector towards the target direction by one step
+        // Calculate the new direction (XZ plane only)
+        Vector3 newDirection = Vector3.RotateTowards(TF.forward, targetDirection, singleStep, 0.0f);
+
+        // Apply the rotation only to the Y-axis
+        Quaternion targetRotation = Quaternion.LookRotation(newDirection);
+        TF.rotation = Quaternion.Euler(0, targetRotation.eulerAngles.y, 0); // Keep only the Y-axis rotation
+    }
+
+    
+    public void RotatePredict()
+    {
+        // Check if the target has a Rigidbody to get the velocity
+        Rigidbody targetRB = sm.target.GetComponent<Rigidbody>();
+        if (targetRB == null) return; // If the target has no Rigidbody, skip
+
+        // Get the target's velocity and predict its future position
+        Vector3 targetVelocity = targetRB.velocity;
+        Vector3 predictedPosition = sm.target.transform.position + targetVelocity * 1f; // 0.5f is a prediction factor, you can tweak it
+
+        // Calculate the direction to the predicted position
+        Vector3 targetDirection = predictedPosition - TF.position;
+
+        // The step size is equal to rotation speed times frame time
+        float singleStep = 8.0f * Time.deltaTime;
+
+        // Rotate towards the predicted position, ignoring the Y axis to keep horizontal rotation
         Vector3 newDirection = Vector3.RotateTowards(TF.forward, new Vector3(targetDirection.x, 0, targetDirection.z), singleStep, 0.0f);
-        // Calculate a rotation a step closer to the target and applies rotation to this object
+
+        // Apply the rotation to the bot
         TF.rotation = Quaternion.LookRotation(newDirection);
     }
+
 }

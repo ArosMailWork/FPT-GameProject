@@ -29,7 +29,7 @@ public class BotKnockback : BotDisable
         }
         else
         {
-            sm.ChangeState(sm.patrolState);
+            sm.ChangeState(sm.StrafeState);
         }
     }
 }

@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using JetBrains.Annotations;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Events;
 
 public enum HurtType
 {
-    Light, Heavy
+    Bullet, Melee
 }
 
 public class HurtBox : MonoBehaviour
@@ -32,6 +33,8 @@ public class HurtBox : MonoBehaviour
     public bool doKnockback;
     [FoldoutGroup("Stats/Knockback")]
     public float KnockForce;
+    [FoldoutGroup("Event")]
+    public UnityEvent hitEvent;
     
     [FoldoutGroup("Stats/Knockback")]
     public Vector3 KnockDir; // Modify this by other component
@@ -58,10 +61,17 @@ public class HurtBox : MonoBehaviour
         dotDam = (BaseDamage > 1 && DotTime > 0);
     }
 
+
     private void OnTriggerEnter(Collider other)
     {
-        if (!Activate || !IsValidTarget(other) || hitObjects.Contains(other)) return;
+        if (!Activate || !IsValidTarget(other) || hitObjects.Contains(other))
+        {
+            //Debug.Log("failed " + other.name);
+            hitEvent.Invoke();
+            return;
+        }
 
+        //Calc Knockback Dir
         if (!isProjectile)
         {
             // Use customPivot if it's set, otherwise use transform.position
@@ -82,7 +92,12 @@ public class HurtBox : MonoBehaviour
     private void OnTriggerStay(Collider other)
     {
         // Apply the same logic for objects already inside the HurtBox
-        if (!Activate || !IsValidTarget(other) || hitObjects.Contains(other)) return;
+        if (!Activate || !IsValidTarget(other) || hitObjects.Contains(other))
+        {
+            //hitEvent.Invoke();
+            //Debug.Log("failed stay " + other.name);
+            return;
+        }
 
         if (!isProjectile)
         {
@@ -105,8 +120,13 @@ public class HurtBox : MonoBehaviour
     {
         // Remove the object from hitObjects when it leaves the HurtBox, so it can be hit again if it re-enters
         if (!hitObjects.Contains(other)) return;
-        
         hitObjects.Remove(other);
+    }
+
+    private void OnDisable()
+    {
+        // Remove the object from hitObjects when it turn off the HurtBox
+        hitObjects.Clear();
     }
 
     #endregion
@@ -129,7 +149,7 @@ public class HurtBox : MonoBehaviour
         Activate = toggle;
     }
 
-    void HitTarget(Health targetHealth, Vector3? knockDir = null, HurtType hurtType = HurtType.Light)
+    void HitTarget(Health targetHealth, Vector3? knockDir = null, HurtType hurtType = HurtType.Bullet)
     {
         int Damage = Mathf.CeilToInt(BaseDamage * DamageMultiplier * MirageMultiplier);
         
@@ -144,5 +164,8 @@ public class HurtBox : MonoBehaviour
             targetHealth.Knockback(direction.normalized, KnockForce);
 
         KnockDir = Vector3.zero; // Reset knockback direction
+        
+        Debug.Log("hitted");
+        hitEvent.Invoke();
     }
 }

@@ -1,12 +1,12 @@
 
 using UnityEngine;
 
-public class BotHit : BotAttack
+public class BotAttacking : BotAttack
 {
     private float hitCooldown = 0.5f;
     private float counter;
 
-    public BotHit(BotSM stateMachine) : base("Hit", stateMachine)
+    public BotAttacking(BotSM stateMachine) : base("Attacking", stateMachine)
     {
 
     }
@@ -14,7 +14,7 @@ public class BotHit : BotAttack
     {
         base.Enter();
         counter = hitCooldown;
-        sm.currState = "Hit";
+        sm.currState = "Attacking";
     }
     public override void UpdateLogic()
     {
@@ -23,7 +23,7 @@ public class BotHit : BotAttack
         if (counter <= 0)
         {
             Hit();
-            sm.ChangeState(sm.patrolState);
+            sm.ChangeState(sm.StrafeState);
         }
         else
         {
@@ -35,7 +35,12 @@ public class BotHit : BotAttack
     {
         if (sm.target != null)
         {
-            sm.bot.gun.FireGun(); //replace with play anim
+            sm.bot.gun.target = sm.target;
+            
+            //replace with play anim
+            sm.bot.gun.Fire();
+            //sm.bot.gun.FireStraight();
+            
             counter = hitCooldown;
         }
 

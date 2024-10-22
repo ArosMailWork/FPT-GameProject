@@ -10,16 +10,29 @@ public class BotProjectile : MonoBehaviour
     public float speed = 35f;
 
     private HurtBox _hurtBox;
+    List<InteractTarget> validTargets = new List<InteractTarget>(); // List of valid targets
 
     private void Awake()
     {
         _hurtBox = GetComponent<HurtBox>();
         _hurtBox.isProjectile = true;
+        validTargets = _hurtBox.validTargets;
     }
 
-    public void Start()
+    public void OnEnable()
     {
-        rb.velocity = transform.forward * speed;
-        _hurtBox.KnockDir = rb.velocity;
+        rb.transform.rotation = Quaternion.Euler(0, rb.transform.rotation.eulerAngles.y, 0);
+        
+        // Set the velocity along the X and Z axes while keeping Y velocity zero to ensure the projectile stays level with the ground
+        Vector3 forwardVelocity = transform.forward * speed;
+        rb.velocity = new Vector3(forwardVelocity.x, 0, forwardVelocity.z); // Y velocity is set to 0
+        
+        _hurtBox.KnockDir = rb.velocity; // KnockDir is also set to this velocity
+    }
+
+    public void SelfDestruct()
+    {
+        //Can add particle or sth here
+        PoolManager.Instance.Despawn(gameObject);
     }
 }
