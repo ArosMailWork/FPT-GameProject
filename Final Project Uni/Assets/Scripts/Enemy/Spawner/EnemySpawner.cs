@@ -23,52 +23,52 @@ public class EnemySpawner : MonoBehaviour
     public List<GameObject> enemiesToSpawn, matchingPrefabs, enemies;
     [FoldoutGroup("Debug")]
     private Vector3 potentialPosition, spawnPosition;
-    
+
     private int randomIndex;
     private Vector2 randomPoint;
 
     private void Start()
     {
         LoadEnemiesToSpawn();
-        //Spawn(transform.position, SpawnRadius);
+        Spawn(transform.position, SpawnRadius);
     }
 
     [FoldoutGroup("Event Test")]
     [Button]
     public void Spawn(Vector3 position, float spawnRadius)
     {
-        // Find a valid spawn position
-        spawnPosition = FindValidSpawnPosition(position, spawnRadius);
-        // Check if a valid position was found
-        if (spawnPosition == Vector3.zero)
-        {
-            Debug.Log("No valid spawn position");
-            return;
-        }
-        
         foreach (var enemy in enemiesToSpawn)
-        { 
+        {
+            // Find a valid spawn position
+            spawnPosition = FindValidSpawnPosition(position, spawnRadius);
+
+            // Check if a valid position was found
+            if (spawnPosition == Vector3.zero)
+            {
+                Debug.Log("No valid spawn position");
+                return;
+            }
             Instantiate(enemy, spawnPosition, Quaternion.identity);
         }
     }
-    
+
     [FoldoutGroup("Event Test")]
     [Button]
     public void LoadEnemiesToSpawn()
     {
-        if(enemiesToSpawn != null) enemiesToSpawn.Clear();
-        
+        if (enemiesToSpawn != null) enemiesToSpawn.Clear();
+
         // Add enemies based on the counts in the Scriptable Object
-        if(spawnSettings.easyCount > 0)
-        enemiesToSpawn.AddRange(SpawnEnemiesOfType(EnemyDifficulty.Easy, spawnSettings.easyCount));
-        if(spawnSettings.normalCount > 0)
-        enemiesToSpawn.AddRange(SpawnEnemiesOfType(EnemyDifficulty.Normal, spawnSettings.normalCount));
-        if(spawnSettings.hardCount > 0)
-        enemiesToSpawn.AddRange(SpawnEnemiesOfType(EnemyDifficulty.Hard, spawnSettings.hardCount));
-        if(spawnSettings.specialCount > 0)
-        enemiesToSpawn.AddRange(SpawnEnemiesOfType(EnemyDifficulty.Special, spawnSettings.specialCount));
-        if(spawnSettings.bossesCount > 0)
-        enemiesToSpawn.AddRange(SpawnEnemiesOfType(EnemyDifficulty.Bosses, spawnSettings.bossesCount));
+        if (spawnSettings.easyCount > 0)
+            enemiesToSpawn.AddRange(SpawnEnemiesOfType(EnemyDifficulty.Easy, spawnSettings.easyCount));
+        if (spawnSettings.normalCount > 0)
+            enemiesToSpawn.AddRange(SpawnEnemiesOfType(EnemyDifficulty.Normal, spawnSettings.normalCount));
+        if (spawnSettings.hardCount > 0)
+            enemiesToSpawn.AddRange(SpawnEnemiesOfType(EnemyDifficulty.Hard, spawnSettings.hardCount));
+        if (spawnSettings.specialCount > 0)
+            enemiesToSpawn.AddRange(SpawnEnemiesOfType(EnemyDifficulty.Special, spawnSettings.specialCount));
+        if (spawnSettings.bossesCount > 0)
+            enemiesToSpawn.AddRange(SpawnEnemiesOfType(EnemyDifficulty.Bosses, spawnSettings.bossesCount));
     }
 
     #region Calculate
@@ -78,19 +78,19 @@ public class EnemySpawner : MonoBehaviour
         for (int i = 0; i < 10; i++) // Try 10 times to find a valid position
         {
             // Generate a random point within a circle
-            randomPoint = Random.insideUnitCircle * radius;
+            randomPoint = Random.insideUnitSphere * radius;
             potentialPosition = center + new Vector3(randomPoint.x, 0, randomPoint.y);
             // Check if the potential position is on the NavMesh
             NavMeshHit hit;
-            if (NavMesh.SamplePosition(potentialPosition, out hit, 1.0f, NavMesh.AllAreas))
+            if (NavMesh.SamplePosition(potentialPosition, out hit, radius, NavMesh.AllAreas))
                 return hit.position; // Return the valid position found
         }
         return Vector3.zero; // Return zero vector if no valid position found
     }
-    
+
     private List<GameObject> SpawnEnemiesOfType(EnemyDifficulty difficulty, int count)
     {
-        if(enemies != null) enemies.Clear();
+        if (enemies != null) enemies.Clear();
         for (int i = 0; i < count; i++)
         {
             GameObject enemyPrefab = GetEnemyPrefab(difficulty);

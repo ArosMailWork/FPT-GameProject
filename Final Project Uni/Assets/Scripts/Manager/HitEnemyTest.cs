@@ -29,4 +29,5 @@ public class HitEnemyTest : MonoBehaviour
         KnockDirect.y = 0;
 
     }
+    
 }
