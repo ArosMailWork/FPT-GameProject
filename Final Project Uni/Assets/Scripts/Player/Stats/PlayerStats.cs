@@ -5,51 +5,74 @@ using UnityEngine;
 public class PlayerStats : MonoBehaviour
 {
     #region Default
-    
+
     [FoldoutGroup("Default Stats")]
-    public float defaultSpeed = 0.7f, defaultRotationSpeed = 25, defaultMaxSpeed = 20;
+    public float defaultSpeed = 0.7f,
+        defaultRotationSpeed = 25,
+        defaultMaxSpeed = 20;
+
     [FoldoutGroup("Default Stats/Roll")]
-    public float defaultRollSpeed = 13, defaultRollCD = 0.6f, defaultRollTime = 0.25f, defaultControlRollDirect = 0.2f;
-    [FoldoutGroup("Default Stats/Shooting")] 
+    public float defaultRollSpeed = 13,
+        defaultRollCD = 0.6f,
+        defaultRollTime = 0.25f,
+        defaultControlRollDirect = 0.2f;
+
+    [FoldoutGroup("Default Stats/Shooting")]
     public float defaultChargedTime = 2;
-    
+
     [FoldoutGroup("Default Stats/Guard")]
     public float defaultGuardTime = 2; //temp
-    [FoldoutGroup("Default Stats/Stamina")]
-    public int defaultMaxStamina = 100, defaultRegenRate = 10, defaultStaminaRollCost = 20;
 
-    [FoldoutGroup("Default Stats/Arrow")] 
+    [FoldoutGroup("Default Stats/Stamina")]
+    public int defaultMaxStamina = 100,
+        defaultRegenRate = 10,
+        defaultStaminaRollCost = 20;
+
+    [FoldoutGroup("Default Stats/Arrow")]
     public float defaultRicochetFriction = 0;
-    [FoldoutGroup("Default Stats/Arrow")] 
+
+    [FoldoutGroup("Default Stats/Arrow")]
     public int defaultDamage = 2;
-    [FoldoutGroup("Default Stats/Arrow")] 
+
+    [FoldoutGroup("Default Stats/Arrow")]
     public float defaultDamageMultiplier = 1;
-    
+
     [FoldoutGroup("Default Stats/Physics")]
-    [ReadOnly] public float defaultDrag, defaultMass;
+    [ReadOnly]
+    public float defaultDrag,
+        defaultMass;
 
     #endregion
-    
+
     #region Bonus
     [FoldoutGroup("Bonus Stats")]
-    public float bonusSpeed, bonusRotationSpeed, bonusMaxSpeed;
+    public float bonusSpeed,
+        bonusRotationSpeed,
+        bonusMaxSpeed;
+
     [FoldoutGroup("Bonus Stats/Roll")]
-    public float bonusRollSpeed, bonusRollCD, bonusRollTime, bonusControlRollDirect;
+    public float bonusRollSpeed,
+        bonusRollCD,
+        bonusRollTime,
+        bonusControlRollDirect;
+
     [FoldoutGroup("Bonus Stats/Stamina")]
-    public int bonusMaxStamina, bonusRegenRate, bonusStaminaRollCost;
+    public int bonusMaxStamina,
+        bonusRegenRate,
+        bonusStaminaRollCost;
 
     [FoldoutGroup("Bonus Stats/Arrow Controller")]
     public float bonusChargedTime;
-    
-    [FoldoutGroup("Bonus Stats/Arrow")] 
+
+    [FoldoutGroup("Bonus Stats/Arrow")]
     public float bonusRicochetMultiplier;
 
-    [FoldoutGroup("Bonus Stats/Arrow")] 
+    [FoldoutGroup("Bonus Stats/Arrow")]
     public int bonusDamage;
-    [FoldoutGroup("Bonus Stats/Arrow")] 
+
+    [FoldoutGroup("Bonus Stats/Arrow")]
     public float bonusDamageMultiplier;
-    
-    
+
     #endregion
 
     #region Total Value
@@ -79,8 +102,8 @@ public class PlayerStats : MonoBehaviour
     //Arrow
     public float staticFriction => defaultRicochetFriction * bonusRicochetMultiplier;
 
-    public int Damage =>
-        Mathf.CeilToInt((defaultDamage * PermanentStats.Damage) + bonusDamage);
+    public int Damage => Mathf.CeilToInt((defaultDamage * PermanentStats.Damage) + bonusDamage);
+
     // nochange * (uptoBigEnough) + uptoBigEnough
 
     public float DamageMultiplier => defaultDamageMultiplier + bonusDamageMultiplier;
@@ -100,17 +123,17 @@ public class PlayerStats : MonoBehaviour
         defaultMass = _pc.PlayerRB.mass;
         playerHealth = _pc.PlayerHealth.maxHealth;
     }
-    
+
     [Button]
     public void UpdateBonusValue()
     {
         //Stamina
         _staminaSystem.MaxStamina = maxStamina;
         _staminaSystem.RegenRate = regenRate;
-        
+
         //Arrow Controller
         _arrowController.chargedTime = ChargedTime;
-        
+
         //Arrow
         foreach (var arrow in _arrowController.arrowsList)
         {
@@ -118,14 +141,19 @@ public class PlayerStats : MonoBehaviour
             arrow.hitbox.BaseDamage = Damage;
             arrow.hitbox.MirageMultiplier = DamageMultiplier;
         }
-        
+
         //health
         print("healthpermanent: " + HealthFromPermanent);
         _pc.PlayerHealth.maxHealth += HealthFromPermanent;
         // playerHealth = _pc.PlayerHealth.maxHealth;
     }
 
-    public int playerHealth ;
+    public int playerHealth;
+    public void ApplyHealth(int health)
+    {
+        playerHealth += health;
+        _pc.PlayerHealth.maxHealth = playerHealth;
+    }
     public int HealthFromPermanent;
-    public int knowledgeLevel; 
+    public int knowledgeLevel;
 }

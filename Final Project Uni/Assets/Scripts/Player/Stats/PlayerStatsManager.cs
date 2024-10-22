@@ -86,11 +86,9 @@ namespace PA
 
         public void BuffPlayer(int healthBuff, float speedBuff, int damageBuff)
         {
-            playerStats.playerHealth += healthBuff;
+            playerStats.ApplyHealth(healthBuff);
             playerStats.defaultSpeed += speedBuff;
             playerStats.defaultDamage += damageBuff;
-            UpdatePlayerStats();
-            UpdateUI();
         }
 
         #endregion
