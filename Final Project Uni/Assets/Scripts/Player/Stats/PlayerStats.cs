@@ -127,4 +127,5 @@ public class PlayerStats : MonoBehaviour
 
     public int playerHealth ;
     public int HealthFromPermanent;
+    public int knowledgeLevel; 
 }
