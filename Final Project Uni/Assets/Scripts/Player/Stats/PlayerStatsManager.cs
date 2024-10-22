@@ -81,5 +81,18 @@ namespace PA
             Debug.Log(Application.dataPath + "/player_stats.json");
             Debug.Log("Stats saved permanently!");
         }
+
+        #region BuffItem
+
+        public void BuffPlayer(int healthBuff, float speedBuff, int damageBuff)
+        {
+            playerStats.playerHealth += healthBuff;
+            playerStats.defaultSpeed += speedBuff;
+            playerStats.defaultDamage += damageBuff;
+            UpdatePlayerStats();
+            UpdateUI();
+        }
+
+        #endregion
     }
 }

@@ -9,6 +9,7 @@ public class IteractableItem : MonoBehaviour
 {
     public GameObject dialog;
     public Button activeButton;
+    public int requireKnowledgeLevel;
 
     [SerializeField]
     //only need active dialog one time
@@ -17,7 +18,6 @@ public class IteractableItem : MonoBehaviour
     public UnityEvent OnTouch;
 
     private ScaleEffect scaleEffect;
-     
 
     private void Awake()
     {
@@ -35,14 +35,13 @@ public class IteractableItem : MonoBehaviour
         isOpen = true;
     }
 
-
-    private void Start()
+    public void Start()
     {
         OnTouch.AddListener(ToggleDialog);
         activeButton.onClick.AddListener(OnActiveButtonClicked);
     }
 
-    public void OnActiveButtonClicked()
+    public virtual void OnActiveButtonClicked()
     {
         OnTouch.Invoke();
     }
@@ -92,7 +91,8 @@ public class IteractableItem : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            if(isOpen == true) return;
+            if (isOpen == true)
+                return;
             activeButton.gameObject.SetActive(true);
         }
     }
