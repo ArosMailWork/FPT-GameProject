@@ -1,10 +1,17 @@
+using System;
+using System.Collections;
 using PA;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
 public class PlayerStats : MonoBehaviour
 {
+    public int playerGold = 1000;
+
     #region Default
+
+    public int HealthFromPermanent;
+    public int knowledgeLevel;
 
     [FoldoutGroup("Default Stats")]
     public float defaultSpeed = 0.7f,
@@ -45,12 +52,20 @@ public class PlayerStats : MonoBehaviour
     #endregion
 
     #region Perma Upgrade
+    public StatsUI statsUI;
 
-    
+    [FoldoutGroup("Perman")]
+    public float percentHp = 0.02f;
 
+    [FoldoutGroup("Perman")]
+    public float percentSpeed = 0.02f;
+
+    [FoldoutGroup("Perman")]
+    public float percentDamage = 0.02f;
     #endregion
-    
+
     #region Bonus
+
     [FoldoutGroup("Bonus Stats")]
     public float bonusSpeed,
         bonusRotationSpeed,
@@ -84,7 +99,7 @@ public class PlayerStats : MonoBehaviour
     #region Total Value (Calculate)
 
     //Health
-    
+
     //Speed
     public float speed => (defaultSpeed * PermanentStats.Speed) + bonusSpeed;
     public float rotationSpeed => defaultRotationSpeed + bonusRotationSpeed;
@@ -129,8 +144,66 @@ public class PlayerStats : MonoBehaviour
         _arrowController = _pc._arrowController;
         defaultDrag = _pc.PlayerRB.drag;
         defaultMass = _pc.PlayerRB.mass;
-        
-        playerHealth = _pc.PlayerHealth.maxHealth;
+
+        StartCoroutine(DelayedStart());
+    }
+
+    private IEnumerator DelayedStart()
+    {
+        yield return null;
+        PermanentStats.LoadStats();
+        UpdatePlayerStats();
+        UpdateUI();
+    }
+
+    public void UpdatePlayerStats()
+    {
+        bonusSpeed = defaultSpeed * (PermanentStats.Speed - 1f);
+        bonusDamage = Mathf.CeilToInt(defaultDamage * (PermanentStats.Damage - 1f));
+        HealthFromPermanent = Mathf.CeilToInt(
+            _pc.PlayerHealth.maxHealth * (PermanentStats.HP - 1f)
+        );
+        UpdateBonusValue();
+    }
+
+    public void UpdateUI()
+    {
+        statsUI.UpdateStatsDisplay(_pc.PlayerHealth.maxHealth, speed, Damage);
+    }
+
+    public void UpgradeStats(int upgradeType)
+    {
+        int cost = upgradeType == 2 ? 100 : 200;
+        if (playerGold >= cost)
+        {
+            playerGold -= cost;
+            PermanentStats.UpdateStat("HP", PermanentStats.HP + percentHp);
+            PermanentStats.UpdateStat("Speed", PermanentStats.Speed + percentSpeed);
+            PermanentStats.UpdateStat("Damage", PermanentStats.Damage + percentDamage);
+            UpdatePlayerStats();
+            UpdateUI();
+            statsUI.UpdateGoldDisplay(playerGold);
+        }
+        else
+        {
+            Debug.Log("Not enough gold!");
+        }
+    }
+
+    public void ConfirmStats()
+    {
+        PermanentStats.SaveStats();
+        Debug.Log(Application.dataPath + "/player_stats.json");
+        Debug.Log("Stats saved permanently!");
+    }
+
+    public void BuffPlayer(int healthBuff, float speedBuff, int damageBuff)
+    {
+        _pc.PlayerHealth.maxHealth += healthBuff;
+        defaultSpeed += speedBuff;
+        defaultDamage += damageBuff;
+        UpdatePlayerStats();
+        UpdateUI();
     }
 
     [Button]
@@ -152,20 +225,6 @@ public class PlayerStats : MonoBehaviour
         }
 
         //health
-        //print("health permanent: " + HealthFromPermanent);
         _pc.PlayerHealth.maxHealth += HealthFromPermanent;
-        // playerHealth = _pc.PlayerHealth.maxHealth;
     }
-
-    
-    
-    
-    public int playerHealth;
-    public void ApplyHealth(int health)
-    {
-        playerHealth += health;
-        _pc.PlayerHealth.maxHealth = playerHealth;
-    }
-    public int HealthFromPermanent;
-    public int knowledgeLevel;
 }

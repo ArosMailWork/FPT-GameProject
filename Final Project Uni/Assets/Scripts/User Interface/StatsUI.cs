@@ -6,19 +6,25 @@ namespace PA
 {
     public class StatsUI : MonoBehaviour
     {
-        public TMP_Text healthStat, speedStat, damageStat, goldText;
+        public TMP_Text healthStat,
+            speedStat,
+            damageStat,
+            goldText;
 
-        public Button exitStatsButton, confirmModifierPermanentButton, upgradeButtonx2, upgradeButtonx5;
+        public Button exitStatsButton,
+            confirmModifierPermanentButton,
+            upgradeButtonx2,
+            upgradeButtonx5;
 
-        public PlayerStatsManager statsManager;
+        public PlayerStats playerStats;
 
         private void Start()
         {
-            upgradeButtonx2.onClick.AddListener(() => statsManager.UpgradeStats(2));
-            upgradeButtonx5.onClick.AddListener(() => statsManager.UpgradeStats(4));
-            confirmModifierPermanentButton.onClick.AddListener(statsManager.ConfirmStats);
+            upgradeButtonx2.onClick.AddListener(() => playerStats.UpgradeStats(2));
+            upgradeButtonx5.onClick.AddListener(() => playerStats.UpgradeStats(4));
+            confirmModifierPermanentButton.onClick.AddListener(playerStats.ConfirmStats);
             exitStatsButton.onClick.AddListener(CloseStatsUI);
-            UpdateGoldDisplay(statsManager.playerGold);
+            UpdateGoldDisplay(playerStats.playerGold);
         }
 
         public void UpdateStatsDisplay(int health, float speed, int damage)
