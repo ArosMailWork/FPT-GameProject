@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -12,6 +13,7 @@ public class AudioManager : SerializedMonoBehaviour
     [SerializeField] private Dictionary<string, AudioClip> soundEffectsDict;
     [SerializeField] private Dictionary<int, AudioClip> backgroundMusicDict;
     [SerializeField] private AnimationCurve transitionCurve;
+    [Range(0, 1)] public float volume;
     #endregion
 
     #region UnityMethod
@@ -66,24 +68,21 @@ public class AudioManager : SerializedMonoBehaviour
         }
     }
 
-    private IEnumerator TransitionMusic(AudioClip newClip)
+    private async UniTask TransitionMusic(AudioClip newClip)
     {
         float time = 0f;
         float duration = 1f;
-        float volume = musicSource.volume;
+
+        musicSource2.clip = newClip;
+        musicSource2.Play();
+
         while (time < duration)
         {
             time += Time.deltaTime;
             float volumeTransition = transitionCurve.Evaluate(time);
             musicSource.volume = (1 - volumeTransition) * volume;
             musicSource2.volume = volumeTransition * volume;
-
-            if (time >= duration / 2)
-            {
-                musicSource2.clip = newClip;
-                musicSource2.Play();
-            }
-            yield return null;
+            await UniTask.Yield();
         }
 
         AudioSource temp = musicSource;
@@ -112,7 +111,7 @@ public class AudioManager : SerializedMonoBehaviour
     [Button]
     public void ChangeMusic(AudioClip newAudioClip)
     {
-        StartCoroutine(TransitionMusic(newAudioClip));
+        TransitionMusic(newAudioClip).Forget();
     }
 
     #endregion

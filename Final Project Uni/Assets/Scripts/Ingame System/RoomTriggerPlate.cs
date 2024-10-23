@@ -10,10 +10,9 @@ public class RoomTriggerPlate : MonoBehaviour
 {
     // List of targets to check against
     public List<InteractTarget> validTargets = new List<InteractTarget>();
-
     public UnityEvent ToggleOn, ToggleOff;
     public float DelayActivateTime, DelayLeftTime;
-    public bool pressing;
+    public bool pressed;
 
 
     // Function to check if the tag matches any in the validTargets list
@@ -34,8 +33,9 @@ public class RoomTriggerPlate : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         Debug.Log("entered");
-        if (!IsValidTarget(other)) return;
+        if (!IsValidTarget(other) || pressed) return;
         TriggerToggle(true);
+        pressed = true;
     }
 
     [Button]
@@ -43,13 +43,11 @@ public class RoomTriggerPlate : MonoBehaviour
     {
         if (toggle)
         {
-            pressing = toggle;
             await UniTask.Delay(TimeSpan.FromSeconds(DelayActivateTime));
             ToggleOn.Invoke();
         }
         else if (!toggle)
         {
-            pressing = true;
             await UniTask.Delay(TimeSpan.FromSeconds(DelayLeftTime));
             ToggleOff.Invoke();
         }
