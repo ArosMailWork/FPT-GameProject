@@ -14,11 +14,11 @@ public enum HurtType
 public class HurtBox : MonoBehaviour
 {
     #region Variables
-    
+
     public bool Activate = true;
     [CanBeNull] public Transform customPivot;
 
-    [FoldoutGroup("Stats")] 
+    [FoldoutGroup("Stats")]
     public HurtType type;
     [FoldoutGroup("Stats")]
     public List<InteractTarget> validTargets = new List<InteractTarget>(); // List of valid targets
@@ -35,27 +35,27 @@ public class HurtBox : MonoBehaviour
     public float KnockForce;
     [FoldoutGroup("Event")]
     public UnityEvent hitEvent;
-    
+
     [FoldoutGroup("Stats/Knockback")]
     public Vector3 KnockDir; // Modify this by other component
     [FoldoutGroup("Debug")]
     [SerializeField, ReadOnly] private bool dotDam;
     [FoldoutGroup("Debug")]
-    [ReadOnly] public bool isProjectile;
+    public bool isProjectile;
     [FoldoutGroup("Debug")]
     [SerializeField, ReadOnly] private Vector3 direction;
 
     // Track already hit objects
     [FoldoutGroup("Debug")]
     private HashSet<Collider> hitObjects = new HashSet<Collider>();
-    
+
     RaycastHit hitInfo;
     private Vector3 pivotPosition;
 
     #endregion
-    
+
     #region Unity Methods
-    
+
     private void Awake()
     {
         dotDam = (BaseDamage > 1 && DotTime > 0);
@@ -79,7 +79,7 @@ public class HurtBox : MonoBehaviour
             KnockDir = other.transform.position - pivotPosition;
             KnockDir.y = 0;
         }
-        
+
         Debug.DrawRay(pivotPosition, KnockDir.normalized * 10, Color.green, 2.0f);
 
         if (other.TryGetComponent<Health>(out Health targetHealth))
@@ -151,11 +151,12 @@ public class HurtBox : MonoBehaviour
 
     void HitTarget(Health targetHealth, Vector3? knockDir = null, HurtType hurtType = HurtType.Bullet)
     {
+        Debug.Log(knockDir);
         int Damage = Mathf.CeilToInt(BaseDamage * DamageMultiplier * MirageMultiplier);
-        
-        if (dotDam) 
+
+        if (dotDam)
             targetHealth.DamageOverTime(Damage, DotTime);
-        else 
+        else
             targetHealth.Hurt(Damage);
 
         direction = knockDir ?? Vector3.zero;
@@ -164,8 +165,8 @@ public class HurtBox : MonoBehaviour
             targetHealth.Knockback(direction.normalized, KnockForce);
 
         KnockDir = Vector3.zero; // Reset knockback direction
-        
-        Debug.Log("hitted");
+
+        //Debug.Log("hitted");
         hitEvent.Invoke();
     }
 }

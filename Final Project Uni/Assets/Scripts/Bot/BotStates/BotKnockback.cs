@@ -40,7 +40,7 @@ public class BotKnockback : BotDisable
     }
     public void applyKnockback(Vector3 force)
     {
-        Vector3 f = new Vector3(-force.x, 6f, -force.z);
+        Vector3 f = new Vector3(force.x, 6f, force.z);
         sm.bot.rg.AddForce(f, ForceMode.Impulse);
     }
 }
