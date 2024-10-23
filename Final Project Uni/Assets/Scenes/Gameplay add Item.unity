@@ -3186,7 +3186,7 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 16375
 --- !u!114 &475653768
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9005,8 +9005,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: 21300000, guid: e4b7033fca3bc0e4192a1b77d73431d7, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -17140,14 +17140,13 @@ GameObject:
   - component: {fileID: 1966982199}
   - component: {fileID: 1966982198}
   - component: {fileID: 1966982203}
-  - component: {fileID: 1966982202}
   m_Layer: 5
   m_Name: Canvas Player Stat
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1966982198
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17231,24 +17230,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &1966982202
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1966982197}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe9d8a951d3d7cd48bbfde81f43b18c2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerStats: {fileID: 2111777230}
-  statsUI: {fileID: 1966982203}
-  percentHp: 0.02
-  percentSpeed: 0.02
-  percentDamage: 0.02
-  playerGold: 1000
 --- !u!114 &1966982203
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17269,7 +17250,7 @@ MonoBehaviour:
   confirmModifierPermanentButton: {fileID: 321414703}
   upgradeButtonx2: {fileID: 1712904305}
   upgradeButtonx5: {fileID: 532812410}
-  statsManager: {fileID: 1966982202}
+  playerStats: {fileID: 2111777230}
 --- !u!1 &1978803978
 GameObject:
   m_ObjectHideFlags: 0
@@ -18690,6 +18671,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  IsScaledUp: 0
 --- !u!1 &919132148594688788
 GameObject:
   m_ObjectHideFlags: 0
@@ -19433,8 +19415,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 094673acd1637db49b3dd2a963d31104, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  closeButton: {fileID: 3890485946562433278}
+  requireKnowledgeLevel: 0
   dialogText: {fileID: 7400890572024271048}
+  alternateFont: {fileID: 0}
   imageMask: {fileID: 3688783540074120959}
 --- !u!4 &4167280743907751039
 Transform:
@@ -19963,6 +19946,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 180
       objectReference: {fileID: 0}
+    - target: {fileID: 1388413037981834033, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
+      propertyPath: statsUI
+      value: 
+      objectReference: {fileID: 1966982203}
     - target: {fileID: 1407122478007007907, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: -0.00000023585613
@@ -22218,9 +22205,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialog: {fileID: 5868279161476094820}
-  activeButton: {fileID: 1282156907}
-  isOpen: 0
-  OnTouch:
+  interactButton: {fileID: 1282156907}
+  oneTimeUseUI: 0
+  InteractEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  EnterTriggerRange:
+    m_PersistentCalls:
+      m_Calls: []
+  ExitTriggerRange:
     m_PersistentCalls:
       m_Calls: []
 --- !u!4 &5302170683165135717
