@@ -3,23 +3,18 @@ using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-public class AudioManager : MonoBehaviour
+public class AudioManager : SerializedMonoBehaviour
 {
-
     #region Variables
-
     public static AudioManager Instance { get; private set; }
+    [SerializeField] private AudioSource audioSource, musicSource, musicSource2;
 
-    [SerializeField] private AudioSource audioSource, musicSource;
-    [SerializeField] private AudioClip dash;
-
-    [Header("Scene Music")] [SerializeField]
-    private AudioClip[] sceneMusic;
-
+    [SerializeField] private Dictionary<string, AudioClip> soundEffectsDict;
+    [SerializeField] private Dictionary<int, AudioClip> backgroundMusicDict;
+    [SerializeField] private AnimationCurve transitionCurve;
     #endregion
 
     #region UnityMethod
-
     public void Awake()
     {
         if (Instance != null && Instance != this)
@@ -31,38 +26,93 @@ public class AudioManager : MonoBehaviour
             Instance = this;
         }
     }
-
     #endregion
 
-    #region Events
+    #region Methods
+    //private void InitializeDictionaries()
+    //{
+    //    soundEffectsDict = new Dictionary<string, AudioClip>
+    //    {
+    //        { "dash", null } // Add your actual AudioClip here
+    //        // Add more sound effects here as needed
+    //    };
 
-    public void Dash()
+    //    backgroundMusicDict = new Dictionary<int, AudioClip>();
+    //    // Initialize background music clips here as needed
+    //}
+
+    public void PlaySoundEffect(string soundName)
     {
-        audioSource.clip = dash;
-        audioSource.Play();
+        if (soundEffectsDict.TryGetValue(soundName, out var clip))
+        {
+            audioSource.PlayOneShot(clip);
+        }
+        else
+        {
+            Debug.LogWarning($"Sound effect '{soundName}' not found in the dictionary!");
+        }
     }
-    public void SceneMusic(int sceneNumber)
+
+    public void PlayBackgroundMusic(int sceneNumber)
     {
-        musicSource.clip = sceneMusic[sceneNumber];
-        musicSource.Play();
+        if (backgroundMusicDict.TryGetValue(sceneNumber, out var clip))
+        {
+            musicSource.clip = clip;
+            musicSource.Play();
+        }
+        else
+        {
+            Debug.LogWarning($"Background music for scene '{sceneNumber}' not found in the dictionary!");
+        }
+    }
+
+    private IEnumerator TransitionMusic(AudioClip newClip)
+    {
+        float time = 0f;
+        float duration = 1f;
+        float volume = musicSource.volume;
+        while (time < duration)
+        {
+            time += Time.deltaTime;
+            float volumeTransition = transitionCurve.Evaluate(time);
+            musicSource.volume = (1 - volumeTransition) * volume;
+            musicSource2.volume = volumeTransition * volume;
+
+            if (time >= duration / 2)
+            {
+                musicSource2.clip = newClip;
+                musicSource2.Play();
+            }
+            yield return null;
+        }
+
+        AudioSource temp = musicSource;
+        musicSource = musicSource2;
+        musicSource2 = temp;
+        musicSource2.Stop();
     }
 
     #endregion
 
     #region Ults
-
     [FoldoutGroup("Event Test")]
     [Button]
-    public void playSound()
+    public void PlaySound(string soundName)
     {
-        Dash();
+        PlaySoundEffect(soundName);
     }
 
     [FoldoutGroup("Event Test")]
     [Button]
-    public void playSceneMusic(int sceneNumber)
+    public void PlaySceneMusic(int sceneNumber)
     {
-        SceneMusic(sceneNumber);
+        PlayBackgroundMusic(sceneNumber);
+    }
+    [FoldoutGroup("Event Test")]
+    [Button]
+    public void ChangeMusic(AudioClip newAudioClip)
+    {
+        StartCoroutine(TransitionMusic(newAudioClip));
     }
 
     #endregion
