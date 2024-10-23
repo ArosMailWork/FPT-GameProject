@@ -27,7 +27,7 @@ public class BotChase : BotAttack
         else
         {
             sm.nav.isStopped = true;
-            sm.ChangeState(sm.hitState);
+            sm.ChangeState(sm.AttackingState);
         }
     }
 

@@ -6,7 +6,7 @@ using UnityEngine.AI;
 public class BotSM : StateMachine
 {
     //public List<Transform> targets;
-    public Transform target;
+    public Rigidbody target;
     public Vector3 destination;
     public NavMeshAgent nav;
     public Transform defaultDestination;
@@ -18,9 +18,9 @@ public class BotSM : StateMachine
     [HideInInspector]
     public BotChase chaseState;
     [HideInInspector]
-    public BotHit hitState;
+    public BotAttacking AttackingState;
     [HideInInspector]
-    public BotPatrol patrolState;
+    public BotStrafe StrafeState;
     [HideInInspector]
     public BotKnockback knockbackState;
     [HideInInspector]
@@ -29,13 +29,14 @@ public class BotSM : StateMachine
     public void Awake()
     {
         idleState = new BotIdle(this);
-        hitState = new BotHit(this);
+        AttackingState = new BotAttacking(this);
         chaseState = new BotChase(this);
-        patrolState = new BotPatrol(this);
+        StrafeState = new BotStrafe(this);
         knockbackState = new BotKnockback(this);
         deathState = new BotDeath(this);
         //targets = new List<Transform>();
     }
+    
     public void GoIdle()
     {
         ChangeState(idleState);
