@@ -11,7 +11,7 @@ public class AudioManager : SerializedMonoBehaviour
     [SerializeField] private AudioSource audioSource, musicSource, musicSource2;
 
     [SerializeField] private Dictionary<string, AudioClip> soundEffectsDict;
-    [SerializeField] private Dictionary<int, AudioClip> backgroundMusicDict;
+    [SerializeField] private Dictionary<string, AudioClip> backgroundMusicDict;
     [SerializeField] private AnimationCurve transitionCurve;
     [Range(0, 1)] public float volume;
     #endregion
@@ -31,17 +31,6 @@ public class AudioManager : SerializedMonoBehaviour
     #endregion
 
     #region Methods
-    //private void InitializeDictionaries()
-    //{
-    //    soundEffectsDict = new Dictionary<string, AudioClip>
-    //    {
-    //        { "dash", null } // Add your actual AudioClip here
-    //        // Add more sound effects here as needed
-    //    };
-
-    //    backgroundMusicDict = new Dictionary<int, AudioClip>();
-    //    // Initialize background music clips here as needed
-    //}
 
     public void PlaySoundEffect(string soundName)
     {
@@ -55,7 +44,7 @@ public class AudioManager : SerializedMonoBehaviour
         }
     }
 
-    public void PlayBackgroundMusic(int sceneNumber)
+    public void PlayBackgroundMusic(string sceneNumber)
     {
         if (backgroundMusicDict.TryGetValue(sceneNumber, out var clip))
         {
@@ -68,13 +57,21 @@ public class AudioManager : SerializedMonoBehaviour
         }
     }
 
-    private async UniTask TransitionMusic(AudioClip newClip)
+    private async UniTask TransitionMusicAsync(string backgroundMusic)
     {
         float time = 0f;
         float duration = 1f;
 
-        musicSource2.clip = newClip;
-        musicSource2.Play();
+        AudioClip newClip = await LoadAudioClipAsync(backgroundMusic);
+        if (newClip != null)
+        {
+            musicSource2.clip = newClip;
+            musicSource2.Play();
+        }
+        else
+        {
+            Debug.LogWarning($"Background music for scene '{backgroundMusic}' not found in the dictionary!");
+        }
 
         while (time < duration)
         {
@@ -91,6 +88,15 @@ public class AudioManager : SerializedMonoBehaviour
         musicSource2.Stop();
     }
 
+    private async UniTask<AudioClip> LoadAudioClipAsync(string sceneNumber)
+    {
+        if (backgroundMusicDict.TryGetValue(sceneNumber, out var clip))
+        {
+            // Simulate asynchronous loading
+            return clip;
+        }
+        return null;
+    }
     #endregion
 
     #region Ults
@@ -103,15 +109,15 @@ public class AudioManager : SerializedMonoBehaviour
 
     [FoldoutGroup("Event Test")]
     [Button]
-    public void PlaySceneMusic(int sceneNumber)
+    public void PlaySceneMusic(string sceneNumber)
     {
         PlayBackgroundMusic(sceneNumber);
     }
     [FoldoutGroup("Event Test")]
     [Button]
-    public void ChangeMusic(AudioClip newAudioClip)
+    public void ChangeMusic(string BGMId)
     {
-        TransitionMusic(newAudioClip).Forget();
+        TransitionMusicAsync(BGMId).Forget();
     }
 
     #endregion
