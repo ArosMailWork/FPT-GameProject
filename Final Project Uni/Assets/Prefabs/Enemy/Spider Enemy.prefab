@@ -32,15 +32,16 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 112112474686021948}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.72675186, z: -0, w: 0.6869001}
+  m_LocalRotation: {x: 0, y: -0.72675455, z: 0, w: 0.6868973}
   m_LocalPosition: {x: -12.600012, y: -2.8014, z: 49.900024}
   m_LocalScale: {x: 0.7075267, y: 0.70752674, z: 0.7075267}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 6228839682049801632}
   - {fileID: 6456555114653144852}
   - {fileID: 2660650304615112178}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: -3.23, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -93.23, z: 0}
 --- !u!95 &2523270015734707432
 Animator:
   serializedVersion: 5
@@ -51,7 +52,7 @@ Animator:
   m_GameObject: {fileID: 112112474686021948}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 074f34d510b2d304bb16e7066ab662bf, type: 2}
+  m_Controller: {fileID: 9100000, guid: b4835df9d33314d4b99692b8a2aa6b54, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -77,7 +78,7 @@ MonoBehaviour:
   groundDetectDistance: 10
   groundLayer:
     serializedVersion: 2
-    m_Bits: 1024
+    m_Bits: 1
   SpiderCenter: {fileID: 2660650304615112178}
   rb: {fileID: 5042441227007213714}
   GroundSurfaceNormal: {x: 0, y: 0, z: 0}
@@ -159,7 +160,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 15
+  m_Speed: 10
   m_Acceleration: 10
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -185,7 +186,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   destination: {x: 0, y: 0, z: 0}
-  nav: {fileID: 5057085819797887427}
+  agent: {fileID: 5057085819797887427}
   defaultDestination: {fileID: 0}
   bot: {fileID: 4004114171866760815}
   currState: 
@@ -204,10 +205,12 @@ MonoBehaviour:
   unitType: 1
   Team: 0
   material: {fileID: 0}
-  minRange: 8
-  maxRange: 10
+  minRange: 10
+  MoveAngle: 45
+  maxRange: 16
   cooldown: 0
   countdown: 0
+  rg: {fileID: 6036468495442058585}
   gun: {fileID: 3536847632919760736}
   Health: {fileID: 3120639686030684393}
 --- !u!54 &6036468495442058585
@@ -218,15 +221,15 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 112112474686021948}
   serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
+  m_Mass: 5
+  m_Drag: 6
+  m_AngularDrag: 4
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -235,7 +238,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 1
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 80
   m_CollisionDetection: 2
 --- !u!1 &284511370154613601
 GameObject:
@@ -246,7 +249,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5936208167661973573}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: LL IK_target
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -786,7 +789,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8693022571516227535}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: LR IK_target
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -817,7 +820,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3527149529233406988}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: LL IK_hint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -881,13 +884,13 @@ GameObject:
   m_Component:
   - component: {fileID: 1809035761035986316}
   - component: {fileID: 3536847632919760736}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Gun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1809035761035986316
 Transform:
   m_ObjectHideFlags: 0
@@ -915,7 +918,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1089ed7d2f57a14aaa8e55ef552b358, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  aimType: 2
   projectile: {fileID: 3324548520128070669, guid: 0605064c50fda5c4fa84e35176a8f3a7, type: 3}
+  target: {fileID: 0}
+  predictionFactor: 0.5
+  projectileSpeed: 35
 --- !u!1 &3263960687250915915
 GameObject:
   m_ObjectHideFlags: 0
@@ -1380,7 +1387,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5000990004969338798}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: LF IK_hint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1442,7 +1449,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1345602376405048502}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: LR IK_hint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1504,7 +1511,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4162845189436390041}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: LF IK_target
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1597,7 +1604,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7551393007028955435}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: LB IK_hint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1967,13 +1974,37 @@ MonoBehaviour:
         m_CallState: 2
   OnDeath:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2599205349479952492}
+        m_TargetAssemblyTypeName: BotSM, Assembly-CSharp
+        m_MethodName: GoDeath
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   OnKnockback:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 6871427476159568478}
         m_TargetAssemblyTypeName: HitEnemyTest, Assembly-CSharp
         m_MethodName: SpawnKnockbackParticle
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 2599205349479952492}
+        m_TargetAssemblyTypeName: BotSM, Assembly-CSharp
+        m_MethodName: GoKnockback
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2105,7 +2136,7 @@ GameObject:
   - component: {fileID: 8833778315182799085}
   - component: {fileID: 3359468746794388728}
   - component: {fileID: 7201855893792849604}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Stencil Mask
   m_TagString: StencilMask
   m_Icon: {fileID: 0}
@@ -2290,7 +2321,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8581010290410736623}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: LB IK_target
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2312,6 +2343,112 @@ Transform:
   m_Children: []
   m_Father: {fileID: 489988804411366040}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &9001693526194680572
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6228839682049801632}
+  - component: {fileID: 8942145158708014921}
+  - component: {fileID: 3327541551469901681}
+  - component: {fileID: 944038219748289615}
+  m_Layer: 0
+  m_Name: Stencil Mask
+  m_TagString: StencilMask
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &6228839682049801632
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9001693526194680572}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.028179433, z: -0, w: 0.9996029}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3496383749310142673}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &8942145158708014921
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9001693526194680572}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &3327541551469901681
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9001693526194680572}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: e34db4a735a3b1f40b847adaa27dd665, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &944038219748289615
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9001693526194680572}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 117bd9b592553ce49b236a852af1224d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaskTime: 0.3
+  unMaskTime: 0.25
+  seeThroughSize: 14
+  sphereRadius: 2
+  hitting: 0
+  camera: {fileID: 0}
+  target: {fileID: 9001693526194680572}
+  myLayerMask:
+    serializedVersion: 2
+    m_Bits: 517
 --- !u!1 &9209751081354465810
 GameObject:
   m_ObjectHideFlags: 0

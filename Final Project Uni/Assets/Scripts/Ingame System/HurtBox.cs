@@ -17,6 +17,7 @@ public class HurtBox : MonoBehaviour
 
     public bool Activate = true;
     [CanBeNull] public Transform customPivot;
+    [CanBeNull] public Rigidbody rb;
 
     [FoldoutGroup("Stats")]
     public HurtType type;
@@ -79,6 +80,8 @@ public class HurtBox : MonoBehaviour
             KnockDir = other.transform.position - pivotPosition;
             KnockDir.y = 0;
         }
+
+        if (rb != null && isProjectile) KnockDir = rb.velocity.normalized;
 
         Debug.DrawRay(pivotPosition, KnockDir.normalized * 10, Color.green, 2.0f);
 

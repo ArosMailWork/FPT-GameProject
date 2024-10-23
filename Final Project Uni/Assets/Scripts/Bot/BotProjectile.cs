@@ -27,7 +27,7 @@ public class BotProjectile : MonoBehaviour
         Vector3 forwardVelocity = transform.forward * speed;
         rb.velocity = new Vector3(forwardVelocity.x, 0, forwardVelocity.z); // Y velocity is set to 0
         
-        _hurtBox.KnockDir = rb.velocity; // KnockDir is also set to this velocity
+        //_hurtBox.KnockDir = rb.velocity; // KnockDir is also set to this velocity
     }
 
     public void SelfDestruct()

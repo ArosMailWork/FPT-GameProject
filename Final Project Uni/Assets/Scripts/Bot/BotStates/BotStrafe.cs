@@ -15,7 +15,7 @@ public class BotStrafe : BotActive
     public override void Enter()
     {
         base.Enter();
-        sm.nav.isStopped = false;
+        sm.agent.isStopped = false;
         sm.currState = "Strafe";
     }
     public override void UpdateLogic()

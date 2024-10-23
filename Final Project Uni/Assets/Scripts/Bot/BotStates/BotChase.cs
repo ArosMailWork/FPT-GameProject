@@ -22,11 +22,11 @@ public class BotChase : BotAttack
         if (Vector3.Distance(TF.position, sm.destination) > 1f)
         {
             //Debug.Log(Vector3.Distance(TF.position, sm.destination));
-            sm.nav.SetDestination(sm.destination);
+            sm.agent.SetDestination(sm.destination);
         }
         else
         {
-            sm.nav.isStopped = true;
+            sm.agent.isStopped = true;
             sm.ChangeState(sm.AttackingState);
         }
     }

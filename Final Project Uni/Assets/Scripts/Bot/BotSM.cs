@@ -8,7 +8,7 @@ public class BotSM : StateMachine
     //public List<Transform> targets;
     public Rigidbody target;
     public Vector3 destination;
-    public NavMeshAgent nav;
+    public NavMeshAgent agent;
     public Transform defaultDestination;
     public BotMain bot;
     public string currState;
