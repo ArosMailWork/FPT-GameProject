@@ -8,10 +8,11 @@ public class BotMain : MonoBehaviour
     public UnitType unitType;
     public int Team = 0;
     public Material material;
-    public float minRange;
+    public float minRange, MoveAngle = 80f;
     public float maxRange;
     public float cooldown = 2f;
     public float countdown;
+
     public Rigidbody rg;
     //Stat
     public BotGun gun;

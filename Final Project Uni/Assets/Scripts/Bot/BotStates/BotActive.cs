@@ -21,7 +21,7 @@ public class BotActive : BaseState
         base.UpdateLogic();
         if (sm.target != null)
         {
-            sm.bot.Distance = Vector3.Distance(sm.transform.position, sm.target.position);
+            //sm.bot.Distance = Vector3.Distance(sm.transform.position, sm.target.position);
             Rotate();
             //RotatePredict();
         }
@@ -66,7 +66,7 @@ public class BotActive : BaseState
         TF.rotation = Quaternion.Euler(0, targetRotation.eulerAngles.y, 0); // Keep only the Y-axis rotation
     }
 
-    
+
     public void RotatePredict()
     {
         // Check if the target has a Rigidbody to get the velocity
