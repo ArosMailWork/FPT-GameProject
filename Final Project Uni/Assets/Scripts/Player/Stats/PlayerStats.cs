@@ -44,6 +44,12 @@ public class PlayerStats : MonoBehaviour
 
     #endregion
 
+    #region Perma Upgrade
+
+    
+
+    #endregion
+    
     #region Bonus
     [FoldoutGroup("Bonus Stats")]
     public float bonusSpeed,
@@ -75,9 +81,11 @@ public class PlayerStats : MonoBehaviour
 
     #endregion
 
-    #region Total Value
+    #region Total Value (Calculate)
 
-    // Speed
+    //Health
+    
+    //Speed
     public float speed => (defaultSpeed * PermanentStats.Speed) + bonusSpeed;
     public float rotationSpeed => defaultRotationSpeed + bonusRotationSpeed;
     public float maxSpeed => defaultMaxSpeed + bonusMaxSpeed;
@@ -121,6 +129,7 @@ public class PlayerStats : MonoBehaviour
         _arrowController = _pc._arrowController;
         defaultDrag = _pc.PlayerRB.drag;
         defaultMass = _pc.PlayerRB.mass;
+        
         playerHealth = _pc.PlayerHealth.maxHealth;
     }
 
@@ -143,11 +152,14 @@ public class PlayerStats : MonoBehaviour
         }
 
         //health
-        print("healthpermanent: " + HealthFromPermanent);
+        //print("health permanent: " + HealthFromPermanent);
         _pc.PlayerHealth.maxHealth += HealthFromPermanent;
         // playerHealth = _pc.PlayerHealth.maxHealth;
     }
 
+    
+    
+    
     public int playerHealth;
     public void ApplyHealth(int health)
     {

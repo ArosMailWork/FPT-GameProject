@@ -39,9 +39,7 @@ namespace PA
                 playerStats.defaultDamage * (PermanentStats.Damage - 1f)
             );
             print("bonusDamage: " + playerStats.bonusDamage);
-            playerStats.HealthFromPermanent = Mathf.CeilToInt(
-                playerStats.playerHealth * (PermanentStats.HP - 1f)
-            ); // 10 * (1.02-1)
+            playerStats.HealthFromPermanent = Mathf.CeilToInt(playerStats.playerHealth * (PermanentStats.HP - 1f)); // 10 * (1.02-1)
             playerStats.UpdateBonusValue();
         }
 

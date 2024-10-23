@@ -1,34 +1,13 @@
 using PA;
 using UnityEngine;
 
-public class BuffItem : IteractableItem
+public class BuffItem : MonoBehaviour
 {
-    [SerializeField]
-    private int healthBuff = 100;
-
-    [SerializeField]
-    private float speedBuff = 10f;
-
-    [SerializeField]
-    private int damageBuff = 10;
+    public int healthBuff = 100, damageBuff = 10;
+    public float speedBuff = 10f;
 
     private PlayerStatsManager playerStatsManager;
 
-    private void Start()
-    {
-        base.Start();
-        playerStatsManager = FindObjectOfType<PlayerStatsManager>();
-        if (playerStatsManager == null)
-        {
-            Debug.LogError("PlayerStatsManager not found in the scene!");
-        }
-    }
-
-    public override void OnActiveButtonClicked()
-    {
-        base.OnActiveButtonClicked();
-        ApplyBuff();
-    }
 
     private void ApplyBuff()
     {

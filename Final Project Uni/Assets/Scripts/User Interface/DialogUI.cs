@@ -1,98 +1,64 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Sirenix.OdinInspector;
 
 public class DialogUI : MonoBehaviour
 {
-    public Button closeButton;
-    public TMP_Text dialogText;
-    private bool isTextChanged = false;
-    public Mask imageMask;
+    public int requireKnowledgeLevel;
     
-    public event Action OnCloseButtonClicked;
+    public TMP_Text dialogText;
+    public TMP_FontAsset alternateFont;
+    private bool isFontChanged = false;
+    public Mask imageMask;
 
-    private float originalFontSize;
+    //Store stuffs
+    float originalFontSize;
+    TMP_FontAsset originalFont;
 
     void Start()
     {
-        if (closeButton != null)
-        {
-            closeButton.onClick.AddListener(OnCloseButtonClick);
-        }
-        else
-        {
-            Debug.LogWarning("Close button is not assigned in DialogUI.");
-        }
-
-        if (imageMask != null)
-        {
-            imageMask.enabled = false;
-        }
-        else
-        {
-            Debug.LogWarning("Image mask is not assigned in DialogUI.");
-        }
+        SetActiveMask(false);
 
         if (dialogText != null)
         {
             originalFontSize = dialogText.fontSize;
+            originalFont = dialogText.font; // Store the original font
         }
+
+        if (requireKnowledgeLevel <= PlayerController.Instance._stats.knowledgeLevel)
+            ShowOriginalText();
+        else
+            ChangeTextFontHidden();
     }
 
-    void OnCloseButtonClick()
-    {
-        ChangeTextToAllBlackString();
-        SetActiveMask(true);
-        ChangeFontSize();
-        OnCloseButtonClicked?.Invoke();
-    }
-    [Button]
-    void ToggleMask()
-    {
-        if (imageMask != null)
-        {
-            imageMask.enabled = !imageMask.enabled;
-        }
-        else
-        {
-            Debug.LogWarning("Image mask is not assigned in DialogUI.");
-        }
-    }
     void SetActiveMask(bool isActive)
     {
         if (imageMask != null)
-        {
             imageMask.enabled = isActive;
-        }
-        else
+    }
+
+    [Button]
+    public void ChangeTextFontHidden()
+    {
+        if (dialogText != null && !isFontChanged && alternateFont != null)
         {
-            Debug.LogWarning("Image mask is not assigned in DialogUI.");
+            dialogText.font = alternateFont; // Change to the alternate font
+            isFontChanged = true;
+        }
+        else if (alternateFont == null)
+        {
+            Debug.LogWarning("Alternate font is not assigned.");
         }
     }
     [Button]
-    void ChangeTextToAllBlackString()
+    public void ShowOriginalText()
     {
-        if (dialogText != null && !isTextChanged)
+        if (dialogText != null && isFontChanged)
         {
-            int length = dialogText.text.Length;
-            dialogText.text = new string('█', length+6);
-            isTextChanged = true;
-        }
-        else
-        {
-            Debug.LogWarning("Dialog text is not assigned in DialogUI.");
-        }
-    }
-
-    void ChangeFontSize()
-    {
-        if (dialogText != null)
-        {
-            dialogText.fontSize = originalFontSize * 2f; // Reduce font size by 20%
+            dialogText.font = originalFont; // Restore the original font
+            isFontChanged = false;
         }
     }
 }

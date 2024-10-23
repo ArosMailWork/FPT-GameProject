@@ -1,107 +1,65 @@
-using System;
-using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
-public class IteractableItem : MonoBehaviour
+public class InteractableItem : MonoBehaviour
 {
     public GameObject dialog;
-    public Button activeButton;
-    public int requireKnowledgeLevel;
+    public Button interactButton;
 
-    [SerializeField]
-    //only need active dialog one time
-    private bool isOpen = false;
+    // New boolean to control if UI interaction is one-time only
+    public bool oneTimeUseUI = false;
 
-    public UnityEvent OnTouch;
+    // Unity events for interaction and trigger range handling
+    public UnityEvent InteractEvent, EnterTriggerRange, ExitTriggerRange;
 
-    private ScaleEffect scaleEffect;
+    // Track if the interaction has occurred when oneTimeUseUI is true
+    private bool hasInteracted = false;
 
     private void Awake()
     {
-        dialog.SetActive(false);
-        activeButton.gameObject.SetActive(false);
-        scaleEffect = dialog.GetComponent<ScaleEffect>();
-        var dialogUI = dialog.GetComponent<DialogUI>();
-        dialogUI.OnCloseButtonClicked += ChangeObjectToOpened;
-        scaleEffect.OnScaleDownComplete += OnScaleDownComplete;
-        scaleEffect.OnScaleUpComplete += OnScaleUpComplete;
+        interactButton.gameObject.SetActive(false);
+        interactButton.onClick.AddListener(() => OnInteract());
     }
 
-    private void ChangeObjectToOpened()
+    // Method to be called when the interact button is clicked
+    public void OnInteract()
     {
-        isOpen = true;
-    }
+        if (oneTimeUseUI && hasInteracted) return;
 
-    public void Start()
-    {
-        OnTouch.AddListener(ToggleDialog);
-        activeButton.onClick.AddListener(OnActiveButtonClicked);
-    }
+        InteractEvent.Invoke();
 
-    public virtual void OnActiveButtonClicked()
-    {
-        OnTouch.Invoke();
-    }
-
-    public async void ToggleDialog()
-    {
-        if (dialog.activeSelf)
+        if (oneTimeUseUI)
         {
-            await scaleEffect.ScaleDownAsync();
-            dialog.SetActive(false);
-        }
-        else
-        {
-            dialog.SetActive(true);
-            await scaleEffect.ScaleUpAsync();
+            hasInteracted = true;  // Mark as interacted
+            interactButton.gameObject.SetActive(false);  // Hide the button after interaction
         }
     }
 
-    // private void OnMouseDown()
-    // {
-    //     if (isActive)
-    //     {
-    //         OnTouch.Invoke();
-    //     }
-    // }
-
-    private void OnDestroy()
+    // Method to show/hide the interact UI
+    public void ShowUIInteract(bool toggle)
     {
-        if (scaleEffect != null)
+        if (!hasInteracted || !oneTimeUseUI)  // Only show the button if interaction hasn't happened (for one-time use)
         {
-            scaleEffect.OnScaleDownComplete -= OnScaleDownComplete;
-            scaleEffect.OnScaleUpComplete -= OnScaleUpComplete;
+            interactButton.gameObject.SetActive(toggle);
         }
     }
 
-    private void OnScaleUpComplete()
-    {
-        activeButton.gameObject.SetActive(false);
-    }
-
-    private void OnScaleDownComplete()
-    {
-        activeButton.gameObject.SetActive(false);
-    }
-
+    // Called when a player enters the interaction range
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
-        {
-            if (isOpen == true)
-                return;
-            activeButton.gameObject.SetActive(true);
-        }
+        if (!other.CompareTag("Player")) return;
+
+        EnterTriggerRange.Invoke();
+        ShowUIInteract(true);
     }
 
+    // Called when a player leaves the interaction range
     private void OnTriggerExit(Collider other)
     {
-        if (other.transform.CompareTag("Player"))
-        {
-            activeButton.gameObject.SetActive(false);
-        }
+        if (!other.CompareTag("Player")) return;
+
+        ExitTriggerRange.Invoke();
+        ShowUIInteract(false);
     }
 }
