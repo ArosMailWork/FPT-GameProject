@@ -394,6 +394,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tf: {fileID: 518369947}
+--- !u!114 &518369949 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1766675483051995058, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
+  m_PrefabInstance: {fileID: 764398497}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 518369935}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2dbfd82078156464aa55b21f0d43a427, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -746,6 +757,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef0a980ff4aea7f449c4fbbd416f944c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spawn: {x: 0, y: 0, z: 0}
   gm: {fileID: 1088060710}
 --- !u!114 &1088060710
 MonoBehaviour:
@@ -759,7 +771,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5252160379b66244196289291095a730, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
+  player: {fileID: 518369949}
   Gen: {fileID: 1088060709}
   GridSize: 100
   MainPathLength: 5
@@ -785,12 +797,11 @@ MonoBehaviour:
   gen: {fileID: 1088060710}
   worlds:
   - {fileID: 11400000, guid: 4c95cdd5d5c7a414485f8afc038b4807, type: 2}
-  floors:
-  - {fileID: 11400000, guid: 968fb6188e6bcd54db8a47f3f2433e0a, type: 2}
+  floors: []
   currentWorld: {fileID: 0}
   currentBiome: {fileID: 0}
   currentWorldNumber: 0
-  currentLevel: 0
+  currentFloor: 0
 --- !u!1 &1295800285 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4485425231564049215, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
