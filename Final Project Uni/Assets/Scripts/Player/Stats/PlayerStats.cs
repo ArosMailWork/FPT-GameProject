@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
-using PA;
+using System.IO;
+using System.Linq;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -54,13 +55,13 @@ public class PlayerStats : MonoBehaviour
     #region Perma Upgrade
     public StatsUI statsUI;
 
-    [FoldoutGroup("Perman")]
+    [FoldoutGroup("Perman Upgrade")]
     public float percentHp = 0.02f;
 
-    [FoldoutGroup("Perman")]
+    [FoldoutGroup("Perman Upgrade")]
     public float percentSpeed = 0.02f;
 
-    [FoldoutGroup("Perman")]
+    [FoldoutGroup("Perman Upgrade")]
     public float percentDamage = 0.02f;
     #endregion
 
@@ -101,7 +102,7 @@ public class PlayerStats : MonoBehaviour
     //Health
 
     //Speed
-    public float speed => (defaultSpeed * PermanentStats.Speed) + bonusSpeed;
+    public float speed => (defaultSpeed * permanentSpeed) + bonusSpeed;
     public float rotationSpeed => defaultRotationSpeed + bonusRotationSpeed;
     public float maxSpeed => defaultMaxSpeed + bonusMaxSpeed;
 
@@ -125,7 +126,7 @@ public class PlayerStats : MonoBehaviour
     //Arrow
     public float staticFriction => defaultRicochetFriction * bonusRicochetMultiplier;
 
-    public int Damage => Mathf.CeilToInt((defaultDamage * PermanentStats.Damage) + bonusDamage);
+    public int Damage => Mathf.CeilToInt((defaultDamage * permanentDamage) + bonusDamage);
 
     // nochange * (uptoBigEnough) + uptoBigEnough
 
@@ -151,18 +152,16 @@ public class PlayerStats : MonoBehaviour
     private IEnumerator DelayedStart()
     {
         yield return null;
-        PermanentStats.LoadStats();
+        LoadPermanentStats();
         UpdatePlayerStats();
         UpdateUI();
     }
 
     public void UpdatePlayerStats()
     {
-        bonusSpeed = defaultSpeed * (PermanentStats.Speed - 1f);
-        bonusDamage = Mathf.CeilToInt(defaultDamage * (PermanentStats.Damage - 1f));
-        HealthFromPermanent = Mathf.CeilToInt(
-            _pc.PlayerHealth.maxHealth * (PermanentStats.HP - 1f)
-        );
+        bonusSpeed = defaultSpeed * (permanentSpeed - 1f);
+        bonusDamage = Mathf.CeilToInt(defaultDamage * (permanentDamage - 1f));
+        HealthFromPermanent = Mathf.CeilToInt(_pc.PlayerHealth.maxHealth * (permanentHP - 1f));
         UpdateBonusValue();
     }
 
@@ -177,9 +176,9 @@ public class PlayerStats : MonoBehaviour
         if (playerGold >= cost)
         {
             playerGold -= cost;
-            PermanentStats.UpdateStat("HP", PermanentStats.HP + percentHp);
-            PermanentStats.UpdateStat("Speed", PermanentStats.Speed + percentSpeed);
-            PermanentStats.UpdateStat("Damage", PermanentStats.Damage + percentDamage);
+            permanentHP += percentHp;
+            permanentSpeed += percentSpeed;
+            permanentDamage += percentDamage;
             UpdatePlayerStats();
             UpdateUI();
             statsUI.UpdateGoldDisplay(playerGold);
@@ -192,7 +191,7 @@ public class PlayerStats : MonoBehaviour
 
     public void ConfirmStats()
     {
-        PermanentStats.SaveStats();
+        SavePermanentStats();
         Debug.Log(Application.dataPath + "/player_stats.json");
         Debug.Log("Stats saved permanently!");
     }
@@ -226,5 +225,49 @@ public class PlayerStats : MonoBehaviour
 
         //health
         _pc.PlayerHealth.maxHealth += HealthFromPermanent;
+    }
+
+    // Add permanent stat fields
+    [FoldoutGroup("Debug/Permanent Stats")]
+    private float permanentHP = 1f;
+
+    [FoldoutGroup("Debug/Permanent Stats")]
+    private float permanentSpeed = 1f;
+
+    [FoldoutGroup("Debug/Permanent Stats")]
+    private float permanentDamage = 1f;
+
+    private void LoadPermanentStats()
+    {
+        string savePath = Path.Combine(Application.dataPath, "player_stats.json");
+        if (File.Exists(savePath))
+        {
+            string json = File.ReadAllText(savePath);
+            PermanentStatsData loadedData = JsonUtility.FromJson<PermanentStatsData>(json);
+            permanentHP = loadedData.HP;
+            permanentSpeed = loadedData.Speed;
+            permanentDamage = loadedData.Damage;
+        }
+    }
+
+    private void SavePermanentStats()
+    {
+        string savePath = Path.Combine(Application.dataPath, "player_stats.json");
+        var data = new PermanentStatsData
+        {
+            HP = permanentHP,
+            Speed = permanentSpeed,
+            Damage = permanentDamage,
+        };
+        string json = JsonUtility.ToJson(data);
+        File.WriteAllText(savePath, json);
+    }
+
+    [System.Serializable]
+    private class PermanentStatsData
+    {
+        public float HP;
+        public float Speed;
+        public float Damage;
     }
 }
