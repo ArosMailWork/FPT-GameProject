@@ -25,7 +25,7 @@ public class RoomGen : MonoBehaviour
     private List<Node> Nodes = new List<Node>();
     private List<GameObject> allRoom = new List<GameObject>();
     private Node origin = new Node();
-    private Vector3 spawn;
+    public Vector3 spawn;
     public GenerationManager gm;
     //An array of offset to make it easier to check neighbours
     // without duplicating code.
@@ -73,6 +73,7 @@ public class RoomGen : MonoBehaviour
         origin.ConnectedPos = CheckConnectedDirection(origin.currentPos, sideOffsets);
         //Debug.Log(origin.ConnectedPos.Count);
         GameObject o = GameObject.Instantiate(origin.room.Prefab, new Vector3(origin.currentPos.x * GridSize, 0f, origin.currentPos.y * GridSize), Quaternion.identity);
+        spawn = new Vector3(origin.currentPos.x * GridSize, 2f, origin.currentPos.y * GridSize);
         o.GetComponent<RoomController>().SetConnector(origin.ConnectedPos);
         //o.transform.localScale = new Vector3(Size, 1, Size);
         o.transform.SetParent(this.transform);
@@ -99,7 +100,7 @@ public class RoomGen : MonoBehaviour
                 }
             }
         }
-        gm.SetScale();
+        //gm.SetScale();
 
     }
     [Button]
@@ -136,7 +137,7 @@ public class RoomGen : MonoBehaviour
     {
         origin.nodes.Clear();
         //Vector2Int pointer = new Vector2Int(Width / 2, Height / 2);
-        Vector2Int pointer = new Vector2Int(0, 0);
+        Vector2Int pointer = new Vector2Int(Width / 2, Height / 2);
         origin.currentPos = pointer;
         origin.room = StartRoom;
         origin.IsSpecialRoom = true;

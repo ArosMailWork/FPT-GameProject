@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Floor", menuName = "Gen/Floor")]
@@ -7,12 +8,11 @@ using UnityEngine;
 public class Floor : ScriptableObject
 {
     public string floorName;
-    public int MainPathLength;
-    public int SideRoomChance;
-    public int MinPuzzleRoom;
-    public int MaxPuzzleRoom;
-    public int MinRewardRoom;
-    public int MaxRewardRoom;
-    public Room StartRoom;
-    public Room EndRoom;
+    [FoldoutGroup("Room Setup")]
+    public int MainPathLength, SideRoomChance;
+    [FoldoutGroup("Room Setup")]
+    public bool haveBoss;
+    [FoldoutGroup("Special Room")]
+    public int MinPuzzleRoom, MaxPuzzleRoom, MinRewardRoom, MaxRewardRoom;
+
 }
