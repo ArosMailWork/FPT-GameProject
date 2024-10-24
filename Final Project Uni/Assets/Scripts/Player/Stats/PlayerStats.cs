@@ -63,6 +63,12 @@ public class PlayerStats : MonoBehaviour
 
     [FoldoutGroup("Perman Upgrade")]
     public float permaDamage_Percent = 0.02f;
+
+    [FoldoutGroup("Perman Upgrade/Temps")]
+    [ReadOnly]
+    public float permanentHP = 1f,
+        permanentSpeed = 1f,
+        permanentDamage = 1f;
     #endregion
 
     #region Bonus
@@ -100,9 +106,10 @@ public class PlayerStats : MonoBehaviour
     #region Total Value (Calculate)
 
     //Health
+    public int totalMaxHealth => Mathf.CeilToInt(_pc.PlayerHealth.maxHealth * permanentHP);
 
     //Speed
-    public float speed => (defaultSpeed * permanentSpeed) + bonusSpeed;
+    public float speed => defaultSpeed * permanentSpeed + bonusSpeed;
     public float rotationSpeed => defaultRotationSpeed + bonusRotationSpeed;
     public float maxSpeed => defaultMaxSpeed + bonusMaxSpeed;
 
@@ -126,7 +133,7 @@ public class PlayerStats : MonoBehaviour
     //Arrow
     public float staticFriction => defaultRicochetFriction * bonusRicochetMultiplier;
 
-    public int Damage => Mathf.CeilToInt((defaultDamage * permanentDamage) + bonusDamage);
+    public int Damage => Mathf.CeilToInt(defaultDamage * permanentDamage) + bonusDamage;
 
     // nochange * (uptoBigEnough) + uptoBigEnough
 
@@ -157,18 +164,12 @@ public class PlayerStats : MonoBehaviour
         UpdateUI();
     }
 
-    public void UpdatePlayerStats()
-    {
-        bonusSpeed = defaultSpeed * (permanentSpeed - 1f);
-        bonusDamage = Mathf.CeilToInt(defaultDamage * (permanentDamage - 1f));
-        HealthFromPermanent = Mathf.CeilToInt(_pc.PlayerHealth.maxHealth * (permanentHP - 1f));
-        UpdateBonusValue();
-    }
-
     public void UpdateUI()
     {
-        statsUI.UpdateStatsDisplay(_pc.PlayerHealth.maxHealth, speed, Damage);
+        statsUI.UpdateStatsDisplay(totalMaxHealth, speed, Damage);
     }
+
+    private float upgradeMultiplier = 1;
 
     public void UpgradeStats(int upgradeType)
     {
@@ -177,10 +178,15 @@ public class PlayerStats : MonoBehaviour
         {
             playerGold -= cost;
             //% sẽ giảm dần theo hàm y = x^0.6
-            float upgradeMultiplier = Mathf.Pow(upgradeType / 2f, 0.6f);
-            permanentHP += permaHP_Percent * upgradeMultiplier;
-            permanentSpeed += permaSpeed_Percent * upgradeMultiplier;
-            permanentDamage += permaDamage_Percent * upgradeMultiplier;
+            upgradeMultiplier = Mathf.Pow(upgradeType / 2f, 0.6f);
+
+            int upgradeAmount = upgradeType == 2 ? 1 : 2;
+            //tăng số lần đã upgrade lên
+            permaHPUpgrades += upgradeAmount;
+            permaSpeedUpgrades += upgradeAmount;
+            permaDamageUpgrades += upgradeAmount;
+
+            //giá trị tăng % sau khi convert từ số lần đã upgrade, temp thôi
             UpdatePlayerStats();
             UpdateUI();
             statsUI.UpdateGoldDisplay(playerGold);
@@ -190,6 +196,15 @@ public class PlayerStats : MonoBehaviour
             Debug.Log("Not enough gold!");
         }
     }
+
+    public void UpdatePlayerStats()
+    {
+        //giá trị tăng % sau khi convert từ số lần đã upgrade(temp thôi)
+        permanentHP = 1f + (permaHP_Percent * permaHPUpgrades * upgradeMultiplier);
+        permanentSpeed = 1f + (permaSpeed_Percent * permaSpeedUpgrades * upgradeMultiplier);
+        permanentDamage = 1f + (permaDamage_Percent * permaDamageUpgrades * upgradeMultiplier);
+    }
+
     public void BuffPlayer(int healthBuff, float speedBuff, int damageBuff)
     {
         _pc.PlayerHealth.maxHealth += healthBuff;
@@ -218,42 +233,43 @@ public class PlayerStats : MonoBehaviour
         }
 
         //health
-        _pc.PlayerHealth.maxHealth += HealthFromPermanent;
+        _pc.PlayerHealth.maxHealth = totalMaxHealth;
     }
 
-    // Add permanent stat fields
-    [FoldoutGroup("Debug/Permanent Stats")]
-    private float permanentHP = 1f;
+    // Số lần đã upgrade
+    [FoldoutGroup("Permanent Stats")]
+    public int permaHPUpgrades = 0;
 
-    [FoldoutGroup("Debug/Permanent Stats")]
-    private float permanentSpeed = 1f;
+    [FoldoutGroup("Permanent Stats")]
+    public int permaSpeedUpgrades = 0;
 
-    [FoldoutGroup("Debug/Permanent Stats")]
-    private float permanentDamage = 1f;
+    [FoldoutGroup("Permanent Stats")]
+    public int permaDamageUpgrades = 0;
 
     private void LoadPermanentStats()
     {
-        PermanentStatsData loadedData = PermanCRUD.LoadPermanentStats();
-        permanentHP = loadedData.HP;
-        permanentSpeed = loadedData.Speed;
-        permanentDamage = loadedData.Damage;
+        PermaStatsData loadedData = PermanCRUD.LoadPermanentStats();
+        permaHPUpgrades = loadedData.HPUpgradesData;
+        permaSpeedUpgrades = loadedData.SpeedUpgradesData;
+        permaDamageUpgrades = loadedData.DamageUpgradesData;
     }
+
     public void ConfirmStats()
     {
-        var data = new PermanentStatsData
+        var data = new PermaStatsData
         {
-            HP = permanentHP,
-            Speed = permanentSpeed,
-            Damage = permanentDamage,
+            HPUpgradesData = permaHPUpgrades,
+            SpeedUpgradesData = permaSpeedUpgrades,
+            DamageUpgradesData = permaDamageUpgrades,
         };
         PermanCRUD.SavePermanentStats(data);
     }
 }
 
 [System.Serializable]
-public class PermanentStatsData
+public class PermaStatsData
 {
-    public float HP;
-    public float Speed;
-    public float Damage;
+    public int HPUpgradesData;
+    public int SpeedUpgradesData;
+    public int DamageUpgradesData;
 }
