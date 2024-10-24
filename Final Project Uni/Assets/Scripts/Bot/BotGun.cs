@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum AimType
 {
-    Basic, Predict, AccuratePredict
+    Basic, Predict, AccuratePredict, RandomOffset
 }
 
 public class BotGun : MonoBehaviour
@@ -14,6 +14,7 @@ public class BotGun : MonoBehaviour
     public Rigidbody target;
     public float predictionFactor = 0.5f;
     public float projectileSpeed = 35f;
+    public float randomAngleRange = 5f;
 
     private Rigidbody projectileRB;
 
@@ -30,6 +31,9 @@ public class BotGun : MonoBehaviour
             case AimType.AccuratePredict:
                 FirePredictHighAccurate();
                 break;
+            case AimType.RandomOffset:
+                FireRandomOffset();
+                break;
         }
     }
     
@@ -42,6 +46,19 @@ public class BotGun : MonoBehaviour
         // Spawn the projectile with the world space rotation
         PoolManager.Instance.Spawn(projectile, transform.position, worldRotation);
     }
+    public void FireRandomOffset()
+    {
+        // Get the world space rotation for forward direction
+        Quaternion baseRotation = Quaternion.LookRotation(transform.forward, Vector3.up);
+
+        // Add random offset to the Y-axis
+        float randomYRotation = Random.Range(-randomAngleRange, randomAngleRange);
+        Quaternion randomRotation = Quaternion.Euler(0, randomYRotation, 0) * baseRotation;
+
+        // Spawn the projectile with the random rotation
+        PoolManager.Instance.Spawn(projectile, transform.position, randomRotation);
+    }
+    
 
     // predictive shooting method
     public void FirePredict()
@@ -71,7 +88,6 @@ public class BotGun : MonoBehaviour
             projectileRB.velocity = predictedRotation * Vector3.forward * projectileSpeed;
         }
     }
-    
     public void FirePredictHighAccurate()
     {
         if (target == null) return;

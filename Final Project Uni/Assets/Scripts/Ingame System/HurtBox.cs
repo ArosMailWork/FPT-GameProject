@@ -21,6 +21,7 @@ public class HurtBox : MonoBehaviour
 
     [FoldoutGroup("Stats")]
     public HurtType type;
+
     [FoldoutGroup("Stats")]
     public List<InteractTarget> validTargets = new List<InteractTarget>(); // List of valid targets
 
@@ -67,7 +68,7 @@ public class HurtBox : MonoBehaviour
     {
         if (!Activate || !IsValidTarget(other) || hitObjects.Contains(other))
         {
-            //Debug.Log("failed " + other.name);
+            Debug.Log("hitted " + other.name + " " + other.tag);
             hitEvent.Invoke();
             return;
         }
@@ -95,10 +96,9 @@ public class HurtBox : MonoBehaviour
     private void OnTriggerStay(Collider other)
     {
         // Apply the same logic for objects already inside the HurtBox
-        if (!Activate || !IsValidTarget(other) || hitObjects.Contains(other))
+        if (!Activate || !IsValidTarget(other)|| hitObjects.Contains(other))
         {
             //hitEvent.Invoke();
-            //Debug.Log("failed stay " + other.name);
             return;
         }
 
@@ -146,15 +146,14 @@ public class HurtBox : MonoBehaviour
 
         return false; // No matching tag found
     }
-
+    
     public void ToggleHurtBox(bool toggle)
     {
         Activate = toggle;
     }
-
     void HitTarget(Health targetHealth, Vector3? knockDir = null, HurtType hurtType = HurtType.Bullet)
     {
-        Debug.Log(knockDir);
+        //Debug.Log(knockDir);
         int Damage = Mathf.CeilToInt(BaseDamage * DamageMultiplier * MirageMultiplier);
 
         if (dotDam)

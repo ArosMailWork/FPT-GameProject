@@ -16,6 +16,8 @@ public class BotDeath : BotDisable
         sm.currState = "Death";
         countdown = cooldown;
 
+        if(sm.bot._animController != null)
+            sm.bot._animController.Die();
     }
 
     // Update is called once per frame

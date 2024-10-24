@@ -1,13 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.InteropServices.ComTypes;
 using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
-using OpenCover.Framework.Model;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 [Serializable]
 public enum PlayerState
@@ -48,6 +47,7 @@ public class PlayerController : MonoBehaviour
     [FoldoutGroup("Debug/Reverse Recall")]
     [SerializeField, ReadOnly] public float ReverseRecallMultiplier = 1;
 
+    [FoldoutGroup("Setup")] public Button interactButton;
     [FoldoutGroup("Setup")]
     public Rigidbody PlayerRB;
     [FoldoutGroup("Setup")]
@@ -86,6 +86,8 @@ public class PlayerController : MonoBehaviour
 
         if (Instance != this || Instance != null) Destroy(Instance);
         Instance = this;
+        
+        interactButton.gameObject.SetActive(false);
     }
 
     private void FixedUpdate()

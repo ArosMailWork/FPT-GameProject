@@ -42,6 +42,9 @@ public class BotKnockback : BotDisable
         if (countdown >= 0)
         {
             countdown -= Time.deltaTime;
+            
+            if(sm.bot._animController != null)
+            sm.bot._animController.DamagedAnim();
         }
         else if (!isKnockbackActive) // Ensure knockback is finished before changing state
         {
