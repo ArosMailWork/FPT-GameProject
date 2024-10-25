@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class BotAttacking : BotTargeting
 {
-    private float hitCooldown = 0.5f;
+    private float hitCooldown = 0.3f;
     private float counter;
 
     public BotAttacking(BotSM stateMachine) : base("Attacking", stateMachine)
@@ -40,6 +40,7 @@ public class BotAttacking : BotTargeting
         {
             foreach (var gun in sm.bot.gun)
             {
+                if(gun != null)
                 gun.target = sm.target;
             }
             

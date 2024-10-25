@@ -39,6 +39,7 @@ public class BotMain : MonoBehaviour
         return
 #endif
         
+        if(gun.Count <= 0) return;
         if(gun[gunSlot] != null && gun[gunSlot].target != null) gun[gunSlot].Fire();
     }
 }
