@@ -14,6 +14,14 @@ public class BotMain : MonoBehaviour
     public float minRange, maxRange, MoveAngle = 80f;
     [FoldoutGroup("Movement Settings")]
     public float cooldown = 2f, countdown;
+    [FoldoutGroup("Movement Settings")]
+    public float attackRange = 1.5f;
+    [FoldoutGroup("Movement Settings/Prediction")]
+    public bool UseMovementPrediction;
+    [FoldoutGroup("Movement Settings/Prediction")]
+    [Range(-1, 1)] public float MovementPredictionThreshold = 0;
+    [FoldoutGroup("Movement Settings/Prediction")]
+    [Range(0.25f, 2f)] public float MovementPredictionTime = 1f;
 
     [FoldoutGroup("Setup")]
     public Rigidbody rg;
@@ -35,10 +43,6 @@ public class BotMain : MonoBehaviour
 
     public void Shoot(int gunSlot)
     {
-#if !UNITY_EDITOR
-        return
-#endif
-        
         if(gun.Count <= 0) return;
         if(gun[gunSlot] != null && gun[gunSlot].target != null) gun[gunSlot].Fire();
     }

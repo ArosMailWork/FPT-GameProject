@@ -93,6 +93,7 @@ MonoBehaviour:
   bot: {fileID: 3743429227143718691}
   currState: 
   isAlive: 1
+  distance: 0
 --- !u!114 &3743429227143718691
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -111,6 +112,10 @@ MonoBehaviour:
   MoveAngle: 45
   cooldown: 0
   countdown: 0
+  attackRange: 5
+  UseMovementPrediction: 1
+  MovementPredictionThreshold: 1
+  MovementPredictionTime: 1
   rg: {fileID: 5158283497665658361}
   Health: {fileID: 3209076834201055492}
   gun: []
@@ -155,7 +160,7 @@ GameObject:
   - component: {fileID: 5335693619280270060}
   - component: {fileID: 6236889314193675655}
   - component: {fileID: 4674372763989576710}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: hitbox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -811,6 +816,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f9902cb66c54a5b4f80c2a063726ffaa, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2159572410402407373}
+    - targetCorrespondingSourceObject: {fileID: 5528860797864257434, guid: f9902cb66c54a5b4f80c2a063726ffaa, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3860152780757078181}
   m_SourcePrefab: {fileID: 100100000, guid: f9902cb66c54a5b4f80c2a063726ffaa, type: 3}
 --- !u!4 &1441381601376140751 stripped
 Transform:
@@ -974,10 +982,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.68499845
-  m_Height: 2.07
+  m_Radius: 0.55
+  m_Height: 2.08
   m_Direction: 1
-  m_Center: {x: 0.000000054386568, y: 0.89999986, z: -0.2687638}
+  m_Center: {x: 0.000000021940615, y: 0.89999986, z: -0.10714928}
 --- !u!95 &1521456786377289608
 Animator:
   serializedVersion: 5
@@ -1126,6 +1134,34 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -6368346887284349187, guid: f9902cb66c54a5b4f80c2a063726ffaa, type: 3}
   m_PrefabInstance: {fileID: 1408053902874745380}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &6859013064918547902 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5528860797864257434, guid: f9902cb66c54a5b4f80c2a063726ffaa, type: 3}
+  m_PrefabInstance: {fileID: 1408053902874745380}
+  m_PrefabAsset: {fileID: 0}
+--- !u!136 &3860152780757078181
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6859013064918547902}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.52338445
+  m_Height: 2.07
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.66, z: 0.19}
 --- !u!4 &8562546043721447257 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -1919043811460059779, guid: f9902cb66c54a5b4f80c2a063726ffaa, type: 3}

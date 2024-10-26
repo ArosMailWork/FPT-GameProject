@@ -11,14 +11,12 @@ public class BotChase : BotTargeting
     public override void Enter()
     {
         base.Enter();
-        //sm.nav.SetDestination(sm.target.position);
-
         sm.currState = "Chase";
     }
     public override void UpdateLogic()
     {
         base.UpdateLogic();
-        if (Vector3.Distance(TF.position, sm.destination) > 1f)
+        if (Vector3.Distance(TF.position, sm.destination) > 1)
         {
             sm.agent.SetDestination(sm.destination);
             
@@ -34,8 +32,5 @@ public class BotChase : BotTargeting
             sm.ChangeState(sm.AttackingState);
         }
     }
-
-
-
 
 }
