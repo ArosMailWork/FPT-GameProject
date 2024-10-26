@@ -29,5 +29,10 @@ public class HitParticle : MonoBehaviour
         KnockDirect.y = 0;
 
     }
+
+    public void PlayExplodeParticle()
+    {
+        ParticleManager.Instance.SpawnParticle("BotExplode",pivot.position, Quaternion.Euler(0, 0, 0));
+    }
     
 }
