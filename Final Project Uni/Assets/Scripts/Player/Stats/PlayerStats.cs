@@ -10,7 +10,8 @@ public class PlayerStats : MonoBehaviour
     public int playerGold = 1000;
 
     #region Default
-
+    [SerializeField]
+    private int baseMaxHealth = 100;
     public int HealthFromPermanent;
     public int knowledgeLevel;
 
@@ -106,7 +107,7 @@ public class PlayerStats : MonoBehaviour
     #region Total Value (Calculate)
 
     //Health
-    public int totalMaxHealth => Mathf.CeilToInt(_pc.PlayerHealth.maxHealth * permanentHP);
+    public int totalMaxHealth => Mathf.CeilToInt(baseMaxHealth * permanentHP);
 
     //Speed
     public float speed => defaultSpeed * permanentSpeed + bonusSpeed;
@@ -144,7 +145,7 @@ public class PlayerStats : MonoBehaviour
     private PlayerController _pc;
     private StaminaSystem _staminaSystem;
     private ArrowController _arrowController;
-
+    
     private void Start()
     {
         _pc = PlayerController.Instance;
@@ -222,7 +223,6 @@ public class PlayerStats : MonoBehaviour
         _pc.PlayerHealth.maxHealth += healthBuff;
         defaultSpeed += speedBuff;
         defaultDamage += damageBuff;
-        UpdatePlayerStats();
         UpdateUI();
     }
 
@@ -275,20 +275,6 @@ public class PlayerStats : MonoBehaviour
             DamageUpgradesData = permaDamageUpgrades,
         };
         PermanCRUD.SavePermanentStats(data);
-    }
-
-    public void UpdatePlayerStats()
-    {
-        float CalculateMultiplier(int upgrades)
-        {
-            return Mathf.Pow(upgrades, 0.6f);
-        }
-
-        permanentHP = 1f + (permaHP_Percent * CalculateMultiplier(permaHPUpgrades));
-        permanentSpeed = 1f + (permaSpeed_Percent * CalculateMultiplier(permaSpeedUpgrades));
-        permanentDamage = 1f + (permaDamage_Percent * CalculateMultiplier(permaDamageUpgrades));
-
-        UpdateBonusValue();
     }
 
     private float CalculateMultiplier(int upgrades)
