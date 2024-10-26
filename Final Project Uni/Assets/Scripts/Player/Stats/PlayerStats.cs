@@ -152,57 +152,69 @@ public class PlayerStats : MonoBehaviour
         _arrowController = _pc._arrowController;
         defaultDrag = _pc.PlayerRB.drag;
         defaultMass = _pc.PlayerRB.mass;
-
-        StartCoroutine(DelayedStart());
-    }
-
-    private IEnumerator DelayedStart()
-    {
-        yield return null;
         LoadPermanentStats();
-        UpdatePlayerStats();
+        UpdateAllPlayerStats();
         UpdateUI();
+        UpdateBonusValue();
     }
 
     public void UpdateUI()
     {
-        statsUI.UpdateStatsDisplay(totalMaxHealth, speed, Damage);
+        statsUI.UpdateStatsDisplay(totalMaxHealth, speed, Damage, playerGold);
     }
 
-    private float upgradeMultiplier = 1;
+    private const int UPGRADE_COST = 100;
 
-    public void UpgradeStats(int upgradeType)
+    public void ModifyStat(string statType, bool increase)
     {
-        int cost = upgradeType == 2 ? 100 : 200;
-        if (playerGold >= cost)
+        if (playerGold >= UPGRADE_COST)
         {
-            playerGold -= cost;
-            //% sẽ giảm dần theo hàm y = x^0.6
-            upgradeMultiplier = Mathf.Pow(upgradeType / 2f, 0.6f);
+            int change = increase ? 1 : -1;
+            bool canModify = true;
 
-            int upgradeAmount = upgradeType == 2 ? 1 : 2;
-            //tăng số lần đã upgrade lên
-            permaHPUpgrades += upgradeAmount;
-            permaSpeedUpgrades += upgradeAmount;
-            permaDamageUpgrades += upgradeAmount;
+            switch (statType)
+            {
+                case "HP":
+                    canModify = (permaHPUpgrades + change) >= 0;
+                    if (canModify)
+                    {
+                        permaHPUpgrades += change;
+                        UpdateSpecificStat("HP");
+                    }
+                    break;
+                case "Speed":
+                    canModify = (permaSpeedUpgrades + change) >= 0;
+                    if (canModify)
+                    {
+                        permaSpeedUpgrades += change;
+                        UpdateSpecificStat("Speed");
+                    }
+                    break;
+                case "Damage":
+                    canModify = (permaDamageUpgrades + change) >= 0;
+                    if (canModify)
+                    {
+                        permaDamageUpgrades += change;
+                        UpdateSpecificStat("Damage");
+                    }
+                    break;
+            }
 
-            //giá trị tăng % sau khi convert từ số lần đã upgrade, temp thôi
-            UpdatePlayerStats();
-            UpdateUI();
-            statsUI.UpdateGoldDisplay(playerGold);
+            if (canModify)
+            {
+                playerGold -= UPGRADE_COST;
+                UpdateUI();
+                UpdateBonusValue();
+            }
+            else
+            {
+                Debug.Log("Cannot decrease stat below 0!");
+            }
         }
         else
         {
             Debug.Log("Not enough gold!");
         }
-    }
-
-    public void UpdatePlayerStats()
-    {
-        //giá trị tăng % sau khi convert từ số lần đã upgrade(temp thôi)
-        permanentHP = 1f + (permaHP_Percent * permaHPUpgrades * upgradeMultiplier);
-        permanentSpeed = 1f + (permaSpeed_Percent * permaSpeedUpgrades * upgradeMultiplier);
-        permanentDamage = 1f + (permaDamage_Percent * permaDamageUpgrades * upgradeMultiplier);
     }
 
     public void BuffPlayer(int healthBuff, float speedBuff, int damageBuff)
@@ -263,6 +275,54 @@ public class PlayerStats : MonoBehaviour
             DamageUpgradesData = permaDamageUpgrades,
         };
         PermanCRUD.SavePermanentStats(data);
+    }
+
+    public void UpdatePlayerStats()
+    {
+        float CalculateMultiplier(int upgrades)
+        {
+            return Mathf.Pow(upgrades, 0.6f);
+        }
+
+        permanentHP = 1f + (permaHP_Percent * CalculateMultiplier(permaHPUpgrades));
+        permanentSpeed = 1f + (permaSpeed_Percent * CalculateMultiplier(permaSpeedUpgrades));
+        permanentDamage = 1f + (permaDamage_Percent * CalculateMultiplier(permaDamageUpgrades));
+
+        UpdateBonusValue();
+    }
+
+    private float CalculateMultiplier(int upgrades)
+    {
+        return Mathf.Pow(upgrades, 0.6f);
+    }
+
+    private void UpdateSpecificStat(string statType)
+    {
+        switch (statType)
+        {
+            case "HP":
+                print("update hp");
+                permanentHP = 1f + (permaHP_Percent * CalculateMultiplier(permaHPUpgrades));
+                break;
+            case "Speed":
+                print("update speed");
+                permanentSpeed =
+                    1f + (permaSpeed_Percent * CalculateMultiplier(permaSpeedUpgrades));
+                break;
+            case "Damage":
+                print("update damage");
+                permanentDamage =
+                    1f + (permaDamage_Percent * CalculateMultiplier(permaDamageUpgrades));
+                break;
+        }
+    }
+
+    // This method is now only used for initial setup and when loading saved data
+    public void UpdateAllPlayerStats()
+    {
+        permanentHP = 1f + (permaHP_Percent * CalculateMultiplier(permaHPUpgrades));
+        permanentSpeed = 1f + (permaSpeed_Percent * CalculateMultiplier(permaSpeedUpgrades));
+        permanentDamage = 1f + (permaDamage_Percent * CalculateMultiplier(permaDamageUpgrades));
     }
 }
 

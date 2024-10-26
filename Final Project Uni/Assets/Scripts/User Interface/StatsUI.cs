@@ -1,40 +1,71 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class StatsUI : MonoBehaviour
 {
-    public TMP_Text healthStat,
-        speedStat,
-        damageStat,
-        goldText;
+    public TMP_Text goldText;
+    public Button exitStatsButton;
+    public Button confirmModifierPermanentButton;
 
-    public Button exitStatsButton,
-        confirmModifierPermanentButton,
-        upgradeButtonx2,
-        upgradeButtonx5;
+    #region HP Buttons
+
+    public TMP_Text healthStat;
+    public Button hpPlusButton;
+    public Button hpMinusButton;
+
+    #endregion
+
+    #region Speed Buttons
+
+    public TMP_Text speedStat;
+    public Button speedPlusButton;
+    public Button speedMinusButton;
+
+    #endregion
+
+    #region Damage Buttons
+
+    public TMP_Text damageStat;
+    public Button damagePlusButton;
+    public Button damageMinusButton;
+
+    #endregion
 
     public PlayerStats playerStats;
 
     private void Start()
     {
-        upgradeButtonx2.onClick.AddListener(() => playerStats.UpgradeStats(2));
-        upgradeButtonx5.onClick.AddListener(() => playerStats.UpgradeStats(4));
+        hpPlusButton.onClick.AddListener(() => playerStats.ModifyStat("HP", true));
+        hpMinusButton.onClick.AddListener(() => playerStats.ModifyStat("HP", false));
+        speedPlusButton.onClick.AddListener(() => playerStats.ModifyStat("Speed", true));
+        speedMinusButton.onClick.AddListener(() => playerStats.ModifyStat("Speed", false));
+        damagePlusButton.onClick.AddListener(() => playerStats.ModifyStat("Damage", true));
+        damageMinusButton.onClick.AddListener(() => playerStats.ModifyStat("Damage", false));
+
         confirmModifierPermanentButton.onClick.AddListener(playerStats.ConfirmStats);
         exitStatsButton.onClick.AddListener(CloseStatsUI);
-        UpdateGoldDisplay(playerStats.playerGold);
+        StartCoroutine(DelayedStart());
     }
 
-    public void UpdateStatsDisplay(int health, float speed, int damage)
+    private IEnumerator DelayedStart()
+    {
+        yield return null;
+        UpdateStatsDisplay(
+            playerStats.totalMaxHealth,
+            playerStats.speed,
+            playerStats.Damage,
+            playerStats.playerGold
+        );
+    }
+
+    public void UpdateStatsDisplay(int health, float speed, int damage, int gold)
     {
         healthStat.text = $"Health: {health}";
         speedStat.text = $"Speed: {speed:F2}";
         damageStat.text = $"Damage: {damage}";
-    }
-
-    public void UpdateGoldDisplay(int gold)
-    {
-        goldText.text = $"Gold: {gold}";
+        goldText.text = $"Power of Player: {gold}";
     }
 
     private void CloseStatsUI()
