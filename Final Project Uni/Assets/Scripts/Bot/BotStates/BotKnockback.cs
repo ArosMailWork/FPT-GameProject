@@ -30,7 +30,9 @@ public class BotKnockback : BotDisable
         sm.currState = "Knockback";
         countdown = cooldown;
         
-        //Debug.Log(force);
+        if(sm.bot._animController != null)
+            sm.bot._animController.UpdateRunInput(false);
+
         applyKnockback(force);
     }
 
@@ -43,12 +45,14 @@ public class BotKnockback : BotDisable
         {
             countdown -= Time.deltaTime;
             
-            if(sm.bot._animController != null)
+            if(sm.bot._animController != null && sm.isAlive)
             sm.bot._animController.DamagedAnim();
+            //else if(sm.bot._animController != null && sm.isAlive)
+            //sm.bot._animController.DamagedAnim();
         }
         else if (!isKnockbackActive) // Ensure knockback is finished before changing state
         {
-            sm.ChangeState(sm.StrafeState);
+            if(sm.isAlive) sm.ChangeState(sm.StrafeState);
         }
     }
 

@@ -12,6 +12,7 @@ public class BotSM : StateMachine
     public Transform defaultDestination;
     public BotMain bot;
     public string currState;
+    public bool isAlive = true;
 
     [HideInInspector]
     public BotIdle idleState;
@@ -48,6 +49,7 @@ public class BotSM : StateMachine
     }
     public void GoDeath()
     {
+        isAlive = false;
         ChangeState(deathState);
     }
     public void GoKnockback(Vector3 force)

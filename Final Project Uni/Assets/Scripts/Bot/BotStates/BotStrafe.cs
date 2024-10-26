@@ -21,10 +21,27 @@ public class BotStrafe : BotActive
     public override void UpdateLogic()
     {
         base.UpdateLogic();
-        if (sm.target != null)
+        if (sm.target != null && sm.bot.unitType == UnitType.Shooter)
         {
             sm.destination = ChooseAttackLocation(sm.target.position, sm.bot.minRange, sm.bot.maxRange, sm.bot.MoveAngle);
             sm.ChangeState(sm.chaseState);
+        }
+
+        if (sm.target != null && sm.bot.unitType == UnitType.Melee)
+        {
+            sm.destination = ChooseAttackLocation(sm.target.position, sm.bot.minRange, sm.bot.maxRange, sm.bot.MoveAngle);
+            if (Vector3.Distance(TF.position, sm.destination) > 1f)
+            {
+                sm.agent.SetDestination(sm.destination);
+            
+                if(sm.bot._animController != null)
+                    sm.bot._animController.UpdateRunInput(true);
+            }
+            else
+            {
+                sm.agent.isStopped = true;
+                sm.ChangeState(sm.AttackingState);
+            }
         }
     }
 

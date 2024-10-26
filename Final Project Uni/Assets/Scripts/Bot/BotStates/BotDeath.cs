@@ -14,23 +14,16 @@ public class BotDeath : BotDisable
     {
         base.Enter();
         sm.currState = "Death";
-        countdown = cooldown;
-
+        
         if(sm.bot._animController != null)
             sm.bot._animController.Die();
+
+        sm.bot.enabled = false;
     }
 
     // Update is called once per frame
     public override void UpdateLogic()
     {
         base.UpdateLogic();
-        if (countdown >= 0)
-        {
-            countdown -= Time.deltaTime;
-        }
-        else
-        {
-            GameObject.Destroy(sm.bot.gameObject);
-        }
     }
 }

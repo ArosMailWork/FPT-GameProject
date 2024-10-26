@@ -4142,6 +4142,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4693225784028992, guid: 752bb20fed6c14516baa62c2fa14ac6e, type: 3}
   m_PrefabInstance: {fileID: 682839383}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &1170093130 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8562546043721447257, guid: 9627545ff0f205943b0c823c90920c4c, type: 3}
+  m_PrefabInstance: {fileID: 7608438436610776535}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1171043808
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4266,11 +4271,6 @@ MonoBehaviour:
     fontSize: 12
     fontColor: {r: 1, g: 1, b: 1, a: 1}
     dropShadow: 0
---- !u!4 &1175795793 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 9204618953382928091, guid: baea871511be78a4cba24d69acec177d, type: 3}
-  m_PrefabInstance: {fileID: 9055936332273563958}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1176261280
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12618,14 +12618,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 287349472}
     m_Modifications:
+    - target: {fileID: 2254896319304738677, guid: 9627545ff0f205943b0c823c90920c4c, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2254896319304738677, guid: 9627545ff0f205943b0c823c90920c4c, type: 3}
+      propertyPath: m_TagString
+      value: Enemy
+      objectReference: {fileID: 0}
     - target: {fileID: 3822209977320137134, guid: 9627545ff0f205943b0c823c90920c4c, type: 3}
       propertyPath: m_Name
       value: Zombie Enemy
       objectReference: {fileID: 0}
+    - target: {fileID: 3822209977320137134, guid: 9627545ff0f205943b0c823c90920c4c, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4648347693394332232, guid: 9627545ff0f205943b0c823c90920c4c, type: 3}
       propertyPath: pivot
       value: 
-      objectReference: {fileID: 1175795793}
+      objectReference: {fileID: 1170093130}
     - target: {fileID: 7964238488062681879, guid: 9627545ff0f205943b0c823c90920c4c, type: 3}
       propertyPath: m_LocalPosition.x
       value: -23
@@ -12689,7 +12701,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 112112474686021948, guid: baea871511be78a4cba24d69acec177d, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 944038219748289615, guid: baea871511be78a4cba24d69acec177d, type: 3}
       propertyPath: camera
@@ -12743,10 +12755,22 @@ PrefabInstance:
       propertyPath: m_Radius
       value: 2.67
       objectReference: {fileID: 0}
+    - target: {fileID: 5060925919120718628, guid: baea871511be78a4cba24d69acec177d, type: 3}
+      propertyPath: aimType
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6975556985535353251, guid: baea871511be78a4cba24d69acec177d, type: 3}
+      propertyPath: aimType
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 7201855893792849604, guid: baea871511be78a4cba24d69acec177d, type: 3}
       propertyPath: camera
       value: 
       objectReference: {fileID: 1663686649167761665}
+    - target: {fileID: 7573986252473110202, guid: baea871511be78a4cba24d69acec177d, type: 3}
+      propertyPath: aimType
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
