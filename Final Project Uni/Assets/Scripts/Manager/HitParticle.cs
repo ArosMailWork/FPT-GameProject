@@ -24,10 +24,10 @@ public class HitParticle : MonoBehaviour
         GameObject prefab =  ParticleManager.Instance.SpawnParticle("HitEffect", 
             pivot.position
             , Quaternion.LookRotation(KnockDirect));
-        //Debug.Log("Player Knockback: " + KnockDirect);
+        
         //Implement Knockback shiet here
         KnockDirect.y = 0;
-
+        AudioManager.Instance.HitEffect();
     }
 
     public void PlayExplodeParticle()
