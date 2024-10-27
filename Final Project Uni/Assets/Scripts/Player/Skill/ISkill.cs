@@ -8,7 +8,7 @@ using UnityEngine;
 [Serializable]
 public enum SkillType
 {
-    PASSIVE, ACTIVE
+    PASSIVE, ACTIVE, STATS
 }
 public abstract class ISkill : MonoBehaviour
 {
