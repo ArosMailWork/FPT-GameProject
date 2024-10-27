@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -16,10 +17,9 @@ public class InteractableItem : MonoBehaviour
     // Track if the interaction has occurred when oneTimeUseUI is true
     private bool hasInteracted = false;
 
-    private void Awake()
+    private void Start()
     {
-        interactButton.gameObject.SetActive(false);
-        interactButton.onClick.AddListener(() => OnInteract());
+        interactButton = PlayerController.Instance.interactButton;
     }
 
     // Method to be called when the interact button is clicked
@@ -50,6 +50,9 @@ public class InteractableItem : MonoBehaviour
     {
         if (!other.CompareTag("Player")) return;
 
+        // Add the listener when entering the trigger range
+        interactButton.onClick.AddListener(OnInteract);
+        
         EnterTriggerRange.Invoke();
         ShowUIInteract(true);
     }
@@ -58,6 +61,9 @@ public class InteractableItem : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         if (!other.CompareTag("Player")) return;
+
+        // Remove the listener when exiting the trigger range to prevent stacking interactions
+        interactButton.onClick.RemoveListener(OnInteract);
 
         ExitTriggerRange.Invoke();
         ShowUIInteract(false);

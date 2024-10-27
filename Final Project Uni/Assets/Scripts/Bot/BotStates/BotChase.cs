@@ -1,7 +1,9 @@
+using Mono.CSharp;
 using UnityEngine;
 
-public class BotChase : BotAttack
+public class BotChase : BotTargeting
 {
+
     public BotChase(BotSM stateMachine) : base("Chase", stateMachine)
     {
 
@@ -9,24 +11,26 @@ public class BotChase : BotAttack
     public override void Enter()
     {
         base.Enter();
-        sm.nav.SetDestination(sm.target.transform.position);
         sm.currState = "Chase";
-        //Debug.Log("Chase");
     }
     public override void UpdateLogic()
     {
         base.UpdateLogic();
-        if (Vector3.Distance(TF.position, sm.target.transform.position) > 2f)
+        if (Vector3.Distance(TF.position, sm.destination) > 1)
         {
-            sm.nav.SetDestination(sm.target.transform.position);
+            sm.agent.SetDestination(sm.destination);
+            
+            if(sm.bot._animController != null)
+            sm.bot._animController.UpdateRunInput(true);
         }
         else
         {
-            sm.nav.isStopped = true;
-            sm.ChangeState(sm.hitState);
+            if(sm.bot._animController != null)
+            sm.bot._animController.UpdateRunInput(false);
+            
+            sm.agent.isStopped = true;
+            sm.ChangeState(sm.AttackingState);
         }
     }
-
-
 
 }

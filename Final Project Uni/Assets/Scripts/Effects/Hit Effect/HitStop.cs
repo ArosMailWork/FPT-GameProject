@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 public class HitStop : MonoBehaviour
@@ -9,6 +10,7 @@ public class HitStop : MonoBehaviour
     [SerializeField] public float stopDuration;
     [SerializeField] public float delay;
 
+    [Button]
     public void Stop()
     {
         if (waiting) return;

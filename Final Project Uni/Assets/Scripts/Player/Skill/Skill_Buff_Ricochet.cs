@@ -14,7 +14,7 @@ public class Skill_Buff_Ricochet : ISkill
     
     void SetStat()
     {
-        Debug.Log("Add Ricochet!!");
+        //Debug.Log("Add Ricochet!!");
         _pc._stats.bonusRicochetMultiplier = ricochetValue;
         _pc._stats.UpdateBonusValue();
     }

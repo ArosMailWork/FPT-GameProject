@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
@@ -11,7 +12,7 @@ public class AudioManager : MonoBehaviour
     public static AudioManager Instance { get; private set; }
 
     [SerializeField] private AudioSource audioSource, musicSource;
-    [SerializeField] private AudioClip dash;
+    [SerializeField] private AudioClip hit;
 
     [Header("Scene Music")] [SerializeField]
     private AudioClip[] sceneMusic;
@@ -32,13 +33,18 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        SceneMusic(0); //test only
+    }
+
     #endregion
 
     #region Events
 
-    public void Dash()
+    public void HitEffect()
     {
-        audioSource.clip = dash;
+        audioSource.clip = hit;
         audioSource.Play();
     }
     public void SceneMusic(int sceneNumber)
@@ -55,7 +61,7 @@ public class AudioManager : MonoBehaviour
     [Button]
     public void playSound()
     {
-        Dash();
+        HitEffect();
     }
 
     [FoldoutGroup("Event Test")]

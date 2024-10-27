@@ -118,5 +118,19 @@ public class ParticleManager : SerializedMonoBehaviour
             }
         }
     }
+
+    [Button]
+    public void RemoveParticle(string particleName)
+    {
+        if (particleDictionary.ContainsKey(particleName))
+        {
+            particleDictionary.Remove(particleName);
+            Debug.Log($"Particle '{particleName}' removed from the dictionary.");
+        }
+        else
+        {
+            Debug.LogError($"Particle '{particleName}' not found in the dictionary.");
+        }
+    }
     #endregion
 }
