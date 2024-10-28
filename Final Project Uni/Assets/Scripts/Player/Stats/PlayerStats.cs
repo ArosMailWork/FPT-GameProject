@@ -11,8 +11,7 @@ public class PlayerStats : MonoBehaviour
 
     #region Default
     [SerializeField]
-    private int baseMaxHealth = 100;
-    public int HealthFromPermanent;
+    private int defaultMaxHealth = 10;
     public int knowledgeLevel;
 
     [FoldoutGroup("Default Stats")]
@@ -56,20 +55,12 @@ public class PlayerStats : MonoBehaviour
     #region Perma Upgrade
     public StatsUI statsUI;
 
-    [FoldoutGroup("Perman Upgrade")]
-    public float permaHP_Percent = 0.02f;
+    //a way to save LOC, easier to read
+    [FoldoutGroup("Perma Upgrade")]
+    public float permaHP_Percent = 0.02f, permaSpeed_Percent = 0.02f, permaDamage_Percent = 0.02f;
 
-    [FoldoutGroup("Perman Upgrade")]
-    public float permaSpeed_Percent = 0.02f;
-
-    [FoldoutGroup("Perman Upgrade")]
-    public float permaDamage_Percent = 0.02f;
-
-    [FoldoutGroup("Perman Upgrade/Temps")]
-    [ReadOnly]
-    public float permanentHP = 1f,
-        permanentSpeed = 1f,
-        permanentDamage = 1f;
+    [FoldoutGroup("Perma Upgrade/Debug")]
+    [ReadOnly] public float permanentHP = 1f, permanentSpeed = 1f, permanentDamage = 1f;
     #endregion
 
     #region Bonus
@@ -107,7 +98,7 @@ public class PlayerStats : MonoBehaviour
     #region Total Value (Calculate)
 
     //Health
-    public int totalMaxHealth => Mathf.CeilToInt(baseMaxHealth * permanentHP);
+    public int totalMaxHealth => Mathf.CeilToInt(defaultMaxHealth * permanentHP);
 
     //Speed
     public float speed => defaultSpeed * permanentSpeed + bonusSpeed;
@@ -155,18 +146,19 @@ public class PlayerStats : MonoBehaviour
         defaultMass = _pc.PlayerRB.mass;
         LoadPermanentStats();
         UpdateAllPlayerStats();
-        UpdateUI();
         UpdateBonusValue();
     }
 
+    //Only call this shiet when interact with the perma shop npc
     public void UpdateUI()
     {
+        if(statsUI != null)
         statsUI.UpdateStatsDisplay(totalMaxHealth, speed, Damage, playerGold);
     }
 
-    private const int UPGRADE_COST = 100;
+    private const int UPGRADE_COST = 100; //Change this belong to the npc
 
-    public void ModifyStat(string statType, bool increase)
+    public void ModifyStat(string statType, bool increase) //use Guard Clause
     {
         if (playerGold >= UPGRADE_COST)
         {
