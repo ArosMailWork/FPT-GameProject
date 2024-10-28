@@ -4,14 +4,24 @@ using System.Collections.Generic;
 using JetBrains.Annotations;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Events;
+
+public enum HurtType
+{
+    Bullet, Melee
+}
 
 public class HurtBox : MonoBehaviour
 {
     #region Variables
-    
+
     public bool Activate = true;
     [CanBeNull] public Transform customPivot;
-    
+    [CanBeNull] public Rigidbody rb;
+
+    [FoldoutGroup("Stats")]
+    public HurtType type;
+
     [FoldoutGroup("Stats")]
     public List<InteractTarget> validTargets = new List<InteractTarget>(); // List of valid targets
 
@@ -25,39 +35,55 @@ public class HurtBox : MonoBehaviour
     public bool doKnockback;
     [FoldoutGroup("Stats/Knockback")]
     public float KnockForce;
-    
+    [FoldoutGroup("Event")]
+    public UnityEvent hitEvent;
+
     [FoldoutGroup("Stats/Knockback")]
     public Vector3 KnockDir; // Modify this by other component
     [FoldoutGroup("Debug")]
     [SerializeField, ReadOnly] private bool dotDam;
+    [FoldoutGroup("Debug")]
+    public bool isProjectile;
     [FoldoutGroup("Debug")]
     [SerializeField, ReadOnly] private Vector3 direction;
 
     // Track already hit objects
     [FoldoutGroup("Debug")]
     private HashSet<Collider> hitObjects = new HashSet<Collider>();
-    
+
     RaycastHit hitInfo;
     private Vector3 pivotPosition;
 
     #endregion
-    
+
     #region Unity Methods
-    
+
     private void Awake()
     {
         dotDam = (BaseDamage > 1 && DotTime > 0);
     }
 
+
     private void OnTriggerEnter(Collider other)
     {
-        if (!Activate || !IsValidTarget(other) || hitObjects.Contains(other)) return;
+        if (!Activate || !IsValidTarget(other) || hitObjects.Contains(other))
+        {
+            Debug.Log(this.transform.name + " hitted " + other.name + " / " + other.tag);
+            hitEvent.Invoke();
+            return;
+        }
 
-        // Use customPivot if it's set, otherwise use transform.position
-        pivotPosition = customPivot != null ? customPivot.position : transform.position;
-        KnockDir = other.transform.position - pivotPosition;
-        KnockDir.y = 0;
-        
+        //Calc Knockback Dir
+        if (!isProjectile)
+        {
+            // Use customPivot if it's set, otherwise use transform.position
+            pivotPosition = customPivot != null ? customPivot.position : transform.position;
+            KnockDir = other.transform.position - pivotPosition;
+            KnockDir.y = 0;
+        }
+
+        if (rb != null && isProjectile) KnockDir = rb.velocity.normalized;
+
         Debug.DrawRay(pivotPosition, KnockDir.normalized * 10, Color.green, 2.0f);
 
         if (other.TryGetComponent<Health>(out Health targetHealth))
@@ -70,14 +96,21 @@ public class HurtBox : MonoBehaviour
     private void OnTriggerStay(Collider other)
     {
         // Apply the same logic for objects already inside the HurtBox
-        if (!Activate || !IsValidTarget(other) || hitObjects.Contains(other)) return;
+        if (!Activate || !IsValidTarget(other)|| hitObjects.Contains(other))
+        {
+            //hitEvent.Invoke();
+            return;
+        }
 
-        // Use customPivot if it's set, otherwise use transform.position
-        pivotPosition = customPivot != null ? customPivot.position : transform.position;
-        KnockDir = other.transform.position - pivotPosition;
-        KnockDir.y = 0;
+        if (!isProjectile)
+        {
+            // Use customPivot if it's set, otherwise use transform.position
+            pivotPosition = customPivot != null ? customPivot.position : transform.position;
+            KnockDir = other.transform.position - pivotPosition;
+            KnockDir.y = 0;
+        }
 
-        Debug.DrawRay(pivotPosition, KnockDir.normalized * 10, Color.green, 2.0f);
+        //Debug.DrawRay(pivotPosition, KnockDir.normalized * 10, Color.green, 2.0f);
 
         if (other.TryGetComponent<Health>(out Health targetHealth))
         {
@@ -90,8 +123,13 @@ public class HurtBox : MonoBehaviour
     {
         // Remove the object from hitObjects when it leaves the HurtBox, so it can be hit again if it re-enters
         if (!hitObjects.Contains(other)) return;
-        
         hitObjects.Remove(other);
+    }
+
+    private void OnDisable()
+    {
+        // Remove the object from hitObjects when it turn off the HurtBox
+        hitObjects.Clear();
     }
 
     #endregion
@@ -108,19 +146,19 @@ public class HurtBox : MonoBehaviour
 
         return false; // No matching tag found
     }
-
+    
     public void ToggleHurtBox(bool toggle)
     {
         Activate = toggle;
     }
-
-    void HitTarget(Health targetHealth, Vector3? knockDir = null)
+    void HitTarget(Health targetHealth, Vector3? knockDir = null, HurtType hurtType = HurtType.Bullet)
     {
+        //Debug.Log(knockDir);
         int Damage = Mathf.CeilToInt(BaseDamage * DamageMultiplier * MirageMultiplier);
-        
-        if (dotDam) 
+
+        if (dotDam)
             targetHealth.DamageOverTime(Damage, DotTime);
-        else 
+        else
             targetHealth.Hurt(Damage);
 
         direction = knockDir ?? Vector3.zero;
@@ -129,5 +167,8 @@ public class HurtBox : MonoBehaviour
             targetHealth.Knockback(direction.normalized, KnockForce);
 
         KnockDir = Vector3.zero; // Reset knockback direction
+
+        //Debug.Log("hitted");
+        hitEvent.Invoke();
     }
 }

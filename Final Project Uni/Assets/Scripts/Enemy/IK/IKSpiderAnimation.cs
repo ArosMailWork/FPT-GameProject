@@ -14,7 +14,7 @@ public class IKSpiderAnimation : MonoBehaviour
     public float sphereCastRadius = 0.125f;
     [FoldoutGroup("Calculate Setup")]
     public float raycastRange = 1.5f;
-    
+
     [FoldoutGroup("Settings")]
     public bool Calculate = true;
     [FoldoutGroup("Settings")]
@@ -29,16 +29,16 @@ public class IKSpiderAnimation : MonoBehaviour
     public float stepHeight = 0.25f;
     [FoldoutGroup("Settings")]
     public bool GizmoDebugToggle;
-    
-    
+
+
     [SerializeField] private SpiderIKController _spiderMovement;
-    
+
     private Vector3[] defaultLegPositions;
     private Vector3[] lastLegPositions;
     private Vector3 lastBodyUp;
     private bool[] legMoving;
     private int nbLegs;
-    
+
     private Vector3 velocity;
     private Vector3 lastVelocity;
     private Vector3 lastBodyPos;
@@ -48,7 +48,7 @@ public class IKSpiderAnimation : MonoBehaviour
         Vector3[] res = new Vector3[2];
         res[1] = Vector3.zero;
         RaycastHit hit;
-        Ray ray = new Ray(point + halfRange * up / 2f, - up);
+        Ray ray = new Ray(point + halfRange * up / 2f, -up);
 
         if (Physics.SphereCast(ray, sphereCastRadius, out hit, 2f * halfRange))
         {
@@ -61,7 +61,7 @@ public class IKSpiderAnimation : MonoBehaviour
         }
         return res;
     }
-    
+
     void Start()
     {
         lastBodyUp = _spiderMovement.GroundSurfaceNormal;
@@ -83,19 +83,19 @@ public class IKSpiderAnimation : MonoBehaviour
     {
         Vector3 startPos = lastLegPositions[index];
         lastLegPositions[index] = defaultLegPositions[index];
-        
+
         float elapsedTime = 0f;
 
         while (elapsedTime < totalDuration && _spiderMovement.isGrounded)
         {
             float curveTime = elapsedTime / totalDuration;
             float yOffset = LegMoveCurve.Evaluate(curveTime) * stepHeight;
-            
+
             Vector3 nextPos = Vector3.Lerp(startPos, targetPoint, curveTime);
             legTargets[index].position = nextPos + transform.up * yOffset;
 
             elapsedTime += Time.fixedDeltaTime;
-            
+
             yield return new WaitForFixedUpdate();
             //yield return null; // Wait for the next frame
         }
@@ -106,9 +106,9 @@ public class IKSpiderAnimation : MonoBehaviour
             float curveTime = elapsedTime / totalDuration;
             Vector3 nextPos = Vector3.Lerp(startPos, targetPoint, curveTime);
             legTargets[index].position = nextPos;
-            
+
             elapsedTime += Time.fixedDeltaTime;
-            
+
             yield return new WaitForFixedUpdate();
             //yield return null;
         }
@@ -123,7 +123,7 @@ public class IKSpiderAnimation : MonoBehaviour
     {
         float elapsedTime = 0f;
         Vector3[] startPositions = new Vector3[nbLegs];
-    
+
         for (int i = 0; i < legTargets.Length; i++)
         {
             startPositions[i] = legTargets[i].position;
@@ -152,9 +152,9 @@ public class IKSpiderAnimation : MonoBehaviour
 
     void FixedUpdate()
     {
-        //velocity = _spiderMovement.transform.position - lastBodyPos;
-        Vector3 currentVelocity = _spiderMovement.rb.velocity;
-        
+        Vector3 currentVelocity = _spiderMovement.transform.position - lastBodyPos;
+        //Vector3 currentVelocity = _spiderMovement.rb.velocity;
+
         velocity = Vector3.Lerp(lastVelocity, currentVelocity, 1f / (smoothness + 1f));
 
         if (velocity.magnitude < 0.000025f)
@@ -171,7 +171,7 @@ public class IKSpiderAnimation : MonoBehaviour
             lastBodyPos = _spiderMovement.transform.position;
             return;
         }
-        
+
         Vector3[] desiredPositions = new Vector3[nbLegs];
         int indexToMove = -1;
         float maxDistance = stepSize;
@@ -197,12 +197,12 @@ public class IKSpiderAnimation : MonoBehaviour
             // Calculate opposite direction from barrier
             Vector3 obstacleDirection = (targetPoint - legTargets[indexToMove].position).normalized;
             Vector3 newTargetPoint = targetPoint + obstacleDirection * (stepSize * 0.6f);
-            
+
             Vector3[] positionAndNormalFwd = MatchToSurfaceFromAbove(newTargetPoint + velocity * velocityMultiplier, raycastRange, (_spiderMovement.GroundSurfaceNormal - velocity * 100).normalized);
-            Vector3[] positionAndNormalBwd = MatchToSurfaceFromAbove(newTargetPoint + velocity * velocityMultiplier, raycastRange*(1f + velocity.magnitude), (_spiderMovement.GroundSurfaceNormal + velocity * 75).normalized);
-            
+            Vector3[] positionAndNormalBwd = MatchToSurfaceFromAbove(newTargetPoint + velocity * velocityMultiplier, raycastRange * (1f + velocity.magnitude), (_spiderMovement.GroundSurfaceNormal + velocity * 75).normalized);
+
             legMoving[0] = true;
-            
+
             if (positionAndNormalFwd[1] == Vector3.zero)
                 StartCoroutine(PerformStep(indexToMove, positionAndNormalBwd[0]));
             else
@@ -210,7 +210,7 @@ public class IKSpiderAnimation : MonoBehaviour
         }
 
         lastBodyPos = _spiderMovement.transform.position;
-        
+
     }
 
     private void OnDrawGizmos()

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
@@ -27,6 +28,11 @@ public class AudioManager : SerializedMonoBehaviour
         {
             Instance = this;
         }
+    }
+
+    private void Start()
+    {
+        SceneMusic(0); //test only
     }
     #endregion
 
@@ -113,6 +119,7 @@ public class AudioManager : SerializedMonoBehaviour
     {
         PlayBackgroundMusic(sceneNumber);
     }
+
     [FoldoutGroup("Event Test")]
     [Button]
     public void ChangeMusic(string BGMId)

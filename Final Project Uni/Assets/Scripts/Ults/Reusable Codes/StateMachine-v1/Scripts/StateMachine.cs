@@ -70,6 +70,7 @@ public class StateMachine : MonoBehaviour
     {
         //IN-CASE : need to remember previous state
         //previousState = currentState;
+        
         currentState.Exit();
 
         currentState = newState;
