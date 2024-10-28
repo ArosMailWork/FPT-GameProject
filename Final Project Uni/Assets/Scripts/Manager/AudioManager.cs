@@ -32,7 +32,7 @@ public class AudioManager : SerializedMonoBehaviour
 
     private void Start()
     {
-        SceneMusic(0); //test only
+        //SceneMusic(0); //test only
     }
     #endregion
 
