@@ -33,10 +33,15 @@ public class StatsUI : MonoBehaviour
 
     #endregion
 
-    public PlayerStats playerStats;
+    public PlayerStats playerStats; 
 
     private void Start()
     {
+        //dont use like this, setup drag and drop for menu stuffs, remember those things will got execute by code
+        //-> bad performance compare to already loaded by object
+        //compact the value intend to add by a whole list or struct sth then execute only once for nbest performance
+        //ExampleL InteractableItem use add and remove only by collider -> make sure the event use wont touch others
+        
         hpPlusButton.onClick.AddListener(() => playerStats.ModifyStat("HP", true));
         hpMinusButton.onClick.AddListener(() => playerStats.ModifyStat("HP", false));
         speedPlusButton.onClick.AddListener(() => playerStats.ModifyStat("Speed", true));
