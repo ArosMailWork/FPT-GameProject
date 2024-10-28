@@ -65,6 +65,7 @@ public class SkillHolder : MonoBehaviour
     // Utility method for switching to the next active skill
     public void NextSkill()
     {
+        if (_pc.blockInput) return;
         Debug.Log("next");
         
         if (currentActiveSkill + 1 < activeSkillList.Count)

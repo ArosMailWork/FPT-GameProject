@@ -1,13 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.InteropServices.ComTypes;
 using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
-using OpenCover.Framework.Model;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 [Serializable]
 public enum PlayerState
@@ -19,6 +18,8 @@ public class PlayerController : MonoBehaviour
 {
     #region Variables
 
+    [FoldoutGroup("Stats")] 
+    public bool blockInput;
     [FoldoutGroup("Stats")] 
     public PlayerStats _stats;
     [FoldoutGroup("Stats")]
@@ -48,6 +49,7 @@ public class PlayerController : MonoBehaviour
     [FoldoutGroup("Debug/Reverse Recall")]
     [SerializeField, ReadOnly] public float ReverseRecallMultiplier = 1;
 
+    [FoldoutGroup("Setup")] public Button interactButton;
     [FoldoutGroup("Setup")]
     public Rigidbody PlayerRB;
     [FoldoutGroup("Setup")]
@@ -86,6 +88,8 @@ public class PlayerController : MonoBehaviour
 
         if (Instance != this || Instance != null) Destroy(Instance);
         Instance = this;
+        
+        interactButton.gameObject.SetActive(false);
     }
 
     private void FixedUpdate()
@@ -96,6 +100,9 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        _arrowController.blockInput = blockInput;
+        if (blockInput) return;
+
         UpdateRollCDTimer();
 
         Move(moveInput);
@@ -224,7 +231,6 @@ public class PlayerController : MonoBehaviour
 
     public void InputRoll(InputAction.CallbackContext ctx)
     {
-        if (!PlayerHealth.isAlive) return;
         Roll();
     }
 
@@ -273,6 +279,7 @@ public class PlayerController : MonoBehaviour
 
     public void MeleeAnim()
     {
+        if (blockInput) return;
         if(currentState == PlayerState.Recalling || currentState == PlayerState.ReverseRecalling || currentState == PlayerState.Stunning) return;
         if(_arrowController.ChargingInput) return;
         _playerAnimController.Slash();
@@ -386,6 +393,8 @@ public class PlayerController : MonoBehaviour
 
     public void Roll()
     {
+        if (blockInput) return;
+        if (!PlayerHealth.isAlive) return;
         if (currentState == PlayerState.Rolling || moveBuffer == Vector2.zero) return;
         doRollingMove(moveBuffer, _stats.staminaRollCost);
     }

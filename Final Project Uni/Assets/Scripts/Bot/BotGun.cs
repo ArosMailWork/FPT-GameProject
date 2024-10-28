@@ -1,24 +1,37 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public enum AimType
 {
-    Basic, Predict, AccuratePredict
+    Basic, Predict, AccuratePredict, RandomOffset
 }
 
 public class BotGun : MonoBehaviour
 {
+    public bool Activated = true;
     public AimType aimType;
     public GameObject projectile;
     public Rigidbody target;
     public float predictionFactor = 0.5f;
     public float projectileSpeed = 35f;
+    public float randomAngleRange = 5f;
 
-    private Rigidbody projectileRB;
+    private BotProjectile projectileCalc;
+
+    private void Awake()
+    {
+        projectileCalc = projectile.GetComponent<BotProjectile>();
+        if (projectileCalc != null)
+            projectileCalc.speed = projectileSpeed;
+    }
 
     public void Fire()
     {
+        if(!Activated) return;
+        
         switch (aimType)
         {
             case AimType.Basic:
@@ -30,6 +43,9 @@ public class BotGun : MonoBehaviour
             case AimType.AccuratePredict:
                 FirePredictHighAccurate();
                 break;
+            case AimType.RandomOffset:
+                FireRandomOffset();
+                break;
         }
     }
     
@@ -38,10 +54,23 @@ public class BotGun : MonoBehaviour
     {
         // Get the world space rotation directly (without local rotation adjustments)
         Quaternion worldRotation = Quaternion.LookRotation(transform.forward, Vector3.up);
-
+        
         // Spawn the projectile with the world space rotation
         PoolManager.Instance.Spawn(projectile, transform.position, worldRotation);
     }
+    public void FireRandomOffset()
+    {
+        // Get the world space rotation for forward direction
+        Quaternion baseRotation = Quaternion.LookRotation(transform.forward, Vector3.up);
+
+        // Add random offset to the Y-axis
+        float randomYRotation = Random.Range(-randomAngleRange, randomAngleRange);
+        Quaternion randomRotation = Quaternion.Euler(0, randomYRotation, 0) * baseRotation;
+        
+        // Spawn the projectile with the random rotation
+        PoolManager.Instance.Spawn(projectile, transform.position, randomRotation);
+    }
+    
 
     // predictive shooting method
     public void FirePredict()
@@ -60,18 +89,9 @@ public class BotGun : MonoBehaviour
         Vector3 flattenedDirection = new Vector3(targetDirection.x, 0, targetDirection.z); // Flatten the direction to ignore Y-axis
         Quaternion predictedRotation = Quaternion.LookRotation(flattenedDirection, Vector3.up); // Look at the target only on the Y-axis
 
-
         // Spawn the projectile with the predicted rotation
         PoolManager.Instance.Spawn(projectile, transform.position, predictedRotation);
-
-        // Apply velocity to the projectile to ensure it flies towards the predicted position
-        projectileRB = projectile.GetComponent<Rigidbody>();
-        if (projectileRB != null)
-        {
-            projectileRB.velocity = predictedRotation * Vector3.forward * projectileSpeed;
-        }
     }
-    
     public void FirePredictHighAccurate()
     {
         if (target == null) return;
@@ -99,14 +119,6 @@ public class BotGun : MonoBehaviour
 
         // Spawn the projectile with the predicted rotation
         PoolManager.Instance.Spawn(projectile, transform.position, predictedRotation);
-
-        // Apply velocity to the projectile to ensure it flies towards the predicted position
-        projectileRB = projectile.GetComponent<Rigidbody>();
-        if (projectileRB != null)
-        {
-            // Set the projectile's velocity towards the predicted position
-            projectileRB.velocity = predictedRotation * Vector3.forward * projectileSpeed;
-        }
     }
 
 }

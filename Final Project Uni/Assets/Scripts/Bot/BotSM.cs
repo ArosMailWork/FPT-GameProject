@@ -12,19 +12,15 @@ public class BotSM : StateMachine
     public Transform defaultDestination;
     public BotMain bot;
     public string currState;
+    public bool isAlive = true;
+    public float distance;
 
-    [HideInInspector]
-    public BotIdle idleState;
-    [HideInInspector]
-    public BotChase chaseState;
-    [HideInInspector]
-    public BotAttacking AttackingState;
-    [HideInInspector]
-    public BotStrafe StrafeState;
-    [HideInInspector]
-    public BotKnockback knockbackState;
-    [HideInInspector]
-    public BotDeath deathState;
+    [HideInInspector] public BotIdle idleState;
+    [HideInInspector] public BotChase chaseState;
+    [HideInInspector] public BotAttacking AttackingState;
+    [HideInInspector] public BotStrafe StrafeState;
+    [HideInInspector] public BotKnockback knockbackState;
+    [HideInInspector] public BotDeath deathState;
 
     public void Awake()
     {
@@ -44,10 +40,10 @@ public class BotSM : StateMachine
     protected override BaseState GetInitialState()
     {
         return idleState;
-        //return setState;
     }
     public void GoDeath()
     {
+        isAlive = false;
         ChangeState(deathState);
     }
     public void GoKnockback(Vector3 force)
@@ -57,7 +53,5 @@ public class BotSM : StateMachine
             knockbackState.force = force;
             ChangeState(knockbackState);
         }
-        //Debug.Log("aaaa");
-
     }
 }

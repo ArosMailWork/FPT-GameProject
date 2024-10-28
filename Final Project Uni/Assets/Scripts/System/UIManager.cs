@@ -1,5 +1,8 @@
+using System;
+using Cysharp.Threading.Tasks;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace PA
@@ -25,41 +28,56 @@ namespace PA
         private GameObject mainMenuPanel;
 
         [SerializeField] private Button newGameButton;
+
         [SerializeField] private Button loadGameButton;
+
         [SerializeField] private Button settingsButton;
+
         [SerializeField] private Button quitGameButton;
 
         [Header("Settings Menu UI")] [SerializeField]
         private GameObject settingsMenuPanel;
 
         [SerializeField] private GameObject settingsPanel;
+
         [SerializeField] private Button graphicsPanelButton;
+
         [SerializeField] private Button soundPanelButton;
+
         [SerializeField] private Button backSettingsMenuButton;
 
         [SerializeField] private GameObject graphicsPanel;
+
         [SerializeField] private GameObject soundPanel;
 
         [Space(10)] [Header("Graphics Settings UI")] [SerializeField]
         private TMP_Dropdown fpsDropdown;
 
         [SerializeField] private Dropdown graphicsQualityDropdown;
+
         [SerializeField] private Toggle vSyncToggle;
+
         [SerializeField] private Toggle antiAliasingToggle;
+
         [SerializeField] private Toggle shadowsToggle;
+
         [SerializeField] private Toggle bloomToggle;
+
         [SerializeField] private Button backGraphicsSettingsButton;
 
-        [Header("Sound Settings UI")] 
-        [SerializeField] private Slider musicVolumeSlider;
+        [Header("Sound Settings UI")] [SerializeField]
+        private Slider musicVolumeSlider;
+
         [SerializeField] private TMP_Text musicVolumeTextBG;
 
         [SerializeField] private Slider sfxVolumeSlider;
+
         [SerializeField] private TMP_Text musicVolumeTextSFX;
 
         [SerializeField] private Toggle musicToggle;
-        
+
         [SerializeField] private Toggle sfxToggle;
+
         [SerializeField] private Button backSoundSettingsButton;
 
         private void Start()
@@ -85,17 +103,16 @@ namespace PA
             //graphicsQualityDropdown.onValueChanged.AddListener(OnGraphicsQualityChanged);
             vSyncToggle.onValueChanged.AddListener(OnVSyncToggled);
             antiAliasingToggle.onValueChanged.AddListener(OnAntiAliasingToggled);
-//            shadowsToggle.onValueChanged.AddListener(OnShadowsToggled);
+            //            shadowsToggle.onValueChanged.AddListener(OnShadowsToggled);
             bloomToggle.onValueChanged.AddListener(OnBloomToggled);
             backGraphicsSettingsButton.onClick.AddListener(OnBackGraphicsSettingsClicked);
 
             // Sound Settings
             musicVolumeSlider.onValueChanged.AddListener(OnMusicVolumeChanged);
             sfxVolumeSlider.onValueChanged.AddListener(OnSFXVolumeChanged);
-//            musicToggle.onValueChanged.AddListener(OnMusicToggled);
-           // sfxToggle.onValueChanged.AddListener(OnSFXToggled);
+            //            musicToggle.onValueChanged.AddListener(OnMusicToggled);
+            // sfxToggle.onValueChanged.AddListener(OnSFXToggled);
             backSoundSettingsButton.onClick.AddListener(OnBackSoundSettingsClicked);
-
 
             LoadSettingsUI();
         }
@@ -105,17 +122,102 @@ namespace PA
             GameSettings settings = GameSettings.Instance;
             musicVolumeSlider.value = settings.musicVolume;
             sfxVolumeSlider.value = settings.sfxVolume;
-           // musicToggle.isOn = settings.isMusicEnabled;
-           // sfxToggle.isOn = settings.isSFXEnabled;
+            // musicToggle.isOn = settings.isMusicEnabled;
+            // sfxToggle.isOn = settings.isSFXEnabled;
             //graphicsQualityDropdown.value = settings.graphicsQuality;
             vSyncToggle.isOn = settings.isVSyncEnabled;
             antiAliasingToggle.isOn = settings.isAntiAliasingEnabled;
-           // shadowsToggle.isOn = settings.isShadowsEnabled;
+            // shadowsToggle.isOn = settings.isShadowsEnabled;
             bloomToggle.isOn = settings.isBloomEnabled;
             // TODO: Set FPS and Resolution dropdown values
         }
+        
+        [Header("Transition")] 
+        #region Change Child
+
+        public GameObject maskA;
+        public GameObject maskB;
+
+        void ConfigTwoGameObjectOfTransition(GameObject newChild, GameObject oldChild)
+        {
+            var tempA = maskA.transform.GetChild(0);
+            var tempB = maskB.transform.GetChild(0);
+            //clear parent
+            tempA.SetParent(null);
+            tempB.SetParent(null);
+            // Ensure both new and old child have FixPosition component
+            if (!newChild.GetComponent<FixPosition>())
+            {
+                newChild.AddComponent<FixPosition>();
+            }
+
+            if (!oldChild.GetComponent<FixPosition>())
+            {
+                oldChild.AddComponent<FixPosition>();
+            }
+
+            //false mean left to right
+            //true mean right to left
+            if (!toggle)
+            {
+                newChild.transform.SetParent(maskA.transform);
+                oldChild.transform.SetParent(maskB.transform);
+            }
+            else
+            {
+                newChild.transform.SetParent(maskB.transform);
+                oldChild.transform.SetParent(maskA.transform);
+            }
+        }
+
+        #endregion
+
+        #region Playe Anim
+
+        public GameObject WipeSlider;
+        public Animator transitionAnimator;
+        public float delayActive = 0.5f;
+
+        //false mean left to right
+        //true mean right to left
+        public bool toggle = false;
+
+        public void MakeTransition()
+        {
+            if (!toggle)
+            {
+                transitionAnimator.SetTrigger("Wipe A to B");
+                toggle = true;
+                return;
+            }
+
+            if (toggle)
+            {
+                transitionAnimator.SetTrigger("Wipe B to A");
+                toggle = false;
+                return;
+            }
+        }
+
+        #endregion
 
         #region Button Click Handlers
+
+        void GeneralClick(GameObject newChild, GameObject oldChild)
+        {
+            newChild.SetActive(true);
+            oldChild.SetActive(true);
+            ConfigTwoGameObjectOfTransition(newChild, oldChild);
+            MakeTransition();
+
+            DelayedDeactivationAsync().Forget();
+
+            async UniTaskVoid DelayedDeactivationAsync()
+            {
+                await UniTask.Delay(TimeSpan.FromSeconds(delayActive));
+                oldChild.SetActive(false);
+            }
+        }
 
         private void OnNewGameClicked()
         {
@@ -129,8 +231,7 @@ namespace PA
 
         private void OnSettingsClicked()
         {
-            mainMenuPanel.SetActive(false);
-            settingsMenuPanel.SetActive(true);
+            GeneralClick(settingsPanel, mainMenuPanel);
         }
 
         private void OnQuitClicked()
@@ -141,39 +242,34 @@ namespace PA
         private void OnBackSettingsClicked()
         {
             ApplySettings();
-            settingsMenuPanel.SetActive(false);
-            mainMenuPanel.SetActive(true);
+            GeneralClick(mainMenuPanel, settingsMenuPanel);
         }
 
         private void OnSettingsPanelClicked()
         {
-            settingsMenuPanel.SetActive(true);
+            GeneralClick(settingsMenuPanel, mainMenuPanel);
         }
 
         private void OnGraphicsPanelClicked()
         {
-            settingsPanel.SetActive(false);
-            graphicsPanel.SetActive(true);
+            GeneralClick(graphicsPanel, settingsPanel);
         }
 
         private void OnSoundPanelClicked()
         {
-            settingsPanel.SetActive(false);
-            soundPanel.SetActive(true);
+            GeneralClick(soundPanel, settingsPanel);
         }
 
         private void OnBackGraphicsSettingsClicked()
         {
             ApplySettings();
-            graphicsPanel.SetActive(false);
-            settingsPanel.SetActive(true);
+            GeneralClick(settingsPanel, graphicsPanel);
         }
 
         private void OnBackSoundSettingsClicked()
         {
             ApplySettings();
-            soundPanel.SetActive(false);
-            settingsPanel.SetActive(true);
+            GeneralClick(settingsPanel, soundPanel);
         }
 
         #endregion

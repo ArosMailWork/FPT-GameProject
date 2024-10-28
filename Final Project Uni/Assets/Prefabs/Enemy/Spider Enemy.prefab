@@ -14,9 +14,11 @@ GameObject:
   - component: {fileID: 1146300196074436949}
   - component: {fileID: 5611715801397960631}
   - component: {fileID: 5057085819797887427}
+  - component: {fileID: 6609498681130430026}
   - component: {fileID: 2599205349479952492}
   - component: {fileID: 4004114171866760815}
   - component: {fileID: 6036468495442058585}
+  - component: {fileID: 6721069404085263387}
   m_Layer: 0
   m_Name: Spider Enemy
   m_TagString: Enemy
@@ -159,7 +161,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 112112474686021948}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
+  m_Radius: 2.67
   m_Speed: 10
   m_Acceleration: 10
   avoidancePriority: 50
@@ -168,10 +170,23 @@ NavMeshAgent:
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
-  m_Height: 2
+  m_Height: 6.18
   m_BaseOffset: 1.6
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &6609498681130430026
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 112112474686021948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 578d66cbf8729184280e8826889dccef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  botAnimator: {fileID: 2523270015734707432}
 --- !u!114 &2599205349479952492
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -190,6 +205,7 @@ MonoBehaviour:
   defaultDestination: {fileID: 0}
   bot: {fileID: 4004114171866760815}
   currState: 
+  isAlive: 1
 --- !u!114 &4004114171866760815
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -203,16 +219,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitType: 1
-  Team: 0
-  material: {fileID: 0}
   minRange: 10
-  MoveAngle: 45
   maxRange: 16
+  MoveAngle: 45
   cooldown: 0
   countdown: 0
   rg: {fileID: 6036468495442058585}
-  gun: {fileID: 3536847632919760736}
   Health: {fileID: 3120639686030684393}
+  gun:
+  - {fileID: 3536847632919760736}
+  - {fileID: 5060925919120718628}
+  - {fileID: 6975556985535353251}
+  - {fileID: 7573986252473110202}
+  _animController: {fileID: 6609498681130430026}
 --- !u!54 &6036468495442058585
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -240,6 +259,175 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 2
+--- !u!114 &6721069404085263387
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 112112474686021948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7fdb3f6f761bc343b1b885103c25ccd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects:
+    - {fileID: 6871427476159568478}
+    - {fileID: 0}
+    - {fileID: 4004114171866760815}
+    - {fileID: 0}
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: eventDic
+      Entry: 7
+      Data: 0|System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[UnityEngine.Events.UnityEvent,
+        UnityEngine.CoreModule]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 1|System.Collections.Generic.GenericEqualityComparer`1[[System.String,
+        mscorlib]], mscorlib
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: SpiderDie
+    - Name: $v
+      Entry: 7
+      Data: 2|UnityEngine.Events.UnityEvent, UnityEngine.CoreModule
+    - Name: m_PersistentCalls
+      Entry: 7
+      Data: 3|UnityEngine.Events.PersistentCallGroup, UnityEngine.CoreModule
+    - Name: m_Calls
+      Entry: 7
+      Data: 4|System.Collections.Generic.List`1[[UnityEngine.Events.PersistentCall,
+        UnityEngine.CoreModule]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 2
+    - Name: 
+      Entry: 7
+      Data: 5|UnityEngine.Events.PersistentCall, UnityEngine.CoreModule
+    - Name: m_Target
+      Entry: 10
+      Data: 0
+    - Name: m_TargetAssemblyTypeName
+      Entry: 1
+      Data: HitParticle, Assembly-CSharp
+    - Name: m_MethodName
+      Entry: 1
+      Data: PlayExplodeParticle
+    - Name: m_Mode
+      Entry: 3
+      Data: 1
+    - Name: m_Arguments
+      Entry: 7
+      Data: 6|UnityEngine.Events.ArgumentCache, UnityEngine.CoreModule
+    - Name: m_ObjectArgument
+      Entry: 10
+      Data: 1
+    - Name: m_ObjectArgumentAssemblyTypeName
+      Entry: 1
+      Data: UnityEngine.Object, UnityEngine
+    - Name: m_IntArgument
+      Entry: 3
+      Data: 0
+    - Name: m_FloatArgument
+      Entry: 4
+      Data: 0
+    - Name: m_StringArgument
+      Entry: 1
+      Data: 
+    - Name: m_BoolArgument
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: m_CallState
+      Entry: 3
+      Data: 2
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7|UnityEngine.Events.PersistentCall, UnityEngine.CoreModule
+    - Name: m_Target
+      Entry: 10
+      Data: 2
+    - Name: m_TargetAssemblyTypeName
+      Entry: 1
+      Data: BotMain, Assembly-CSharp
+    - Name: m_MethodName
+      Entry: 1
+      Data: Dead
+    - Name: m_Mode
+      Entry: 3
+      Data: 1
+    - Name: m_Arguments
+      Entry: 7
+      Data: 8|UnityEngine.Events.ArgumentCache, UnityEngine.CoreModule
+    - Name: m_ObjectArgument
+      Entry: 10
+      Data: 3
+    - Name: m_ObjectArgumentAssemblyTypeName
+      Entry: 1
+      Data: UnityEngine.Object, UnityEngine
+    - Name: m_IntArgument
+      Entry: 3
+      Data: 0
+    - Name: m_FloatArgument
+      Entry: 4
+      Data: 0
+    - Name: m_StringArgument
+      Entry: 1
+      Data: 
+    - Name: m_BoolArgument
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: m_CallState
+      Entry: 3
+      Data: 2
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
 --- !u!1 &284511370154613601
 GameObject:
   m_ObjectHideFlags: 0
@@ -890,7 +1078,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1809035761035986316
 Transform:
   m_ObjectHideFlags: 0
@@ -900,7 +1088,7 @@ Transform:
   m_GameObject: {fileID: 2902403702190626836}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.028179377, z: -0, w: 0.9996029}
-  m_LocalPosition: {x: -0.19, y: 1.54, z: 5.03}
+  m_LocalPosition: {x: 2.07, y: 2.69, z: 4.9}
   m_LocalScale: {x: 0.7366506, y: 0.8278414, z: 0.7366506}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -918,11 +1106,64 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1089ed7d2f57a14aaa8e55ef552b358, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  aimType: 2
+  Activated: 1
+  aimType: 3
   projectile: {fileID: 3324548520128070669, guid: 0605064c50fda5c4fa84e35176a8f3a7, type: 3}
   target: {fileID: 0}
   predictionFactor: 0.5
   projectileSpeed: 35
+  randomAngleRange: 5
+--- !u!1 &2907705411627144930
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3293306295798004457}
+  - component: {fileID: 6975556985535353251}
+  m_Layer: 7
+  m_Name: Gun (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3293306295798004457
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2907705411627144930}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.028179377, z: -0, w: 0.9996029}
+  m_LocalPosition: {x: -2.12, y: 2.99, z: 4.27}
+  m_LocalScale: {x: 0.7366506, y: 0.8278414, z: 0.7366506}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2660650304615112178}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6975556985535353251
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2907705411627144930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1089ed7d2f57a14aaa8e55ef552b358, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Activated: 1
+  aimType: 3
+  projectile: {fileID: 3324548520128070669, guid: 0605064c50fda5c4fa84e35176a8f3a7, type: 3}
+  target: {fileID: 0}
+  predictionFactor: 0.5
+  projectileSpeed: 35
+  randomAngleRange: 5
 --- !u!1 &3263960687250915915
 GameObject:
   m_ObjectHideFlags: 0
@@ -1378,6 +1619,57 @@ Transform:
   - {fileID: 6732362777009202423}
   m_Father: {fileID: 6076101674484990138}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &5010735096116302063
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 722569745294267632}
+  - component: {fileID: 7573986252473110202}
+  m_Layer: 7
+  m_Name: Gun (3)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &722569745294267632
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5010735096116302063}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.028179377, z: -0, w: 0.9996029}
+  m_LocalPosition: {x: 2, y: 2.9899998, z: 4.04}
+  m_LocalScale: {x: 0.7366506, y: 0.8278414, z: 0.7366506}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2660650304615112178}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7573986252473110202
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5010735096116302063}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1089ed7d2f57a14aaa8e55ef552b358, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Activated: 1
+  aimType: 3
+  projectile: {fileID: 3324548520128070669, guid: 0605064c50fda5c4fa84e35176a8f3a7, type: 3}
+  target: {fileID: 0}
+  predictionFactor: 0.5
+  projectileSpeed: 35
+  randomAngleRange: 5
 --- !u!1 &5012032890202858219
 GameObject:
   m_ObjectHideFlags: 0
@@ -1847,6 +2139,57 @@ Transform:
   - {fileID: 5607001276407257252}
   m_Father: {fileID: 7314221845993526658}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &8123689879158830666
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9141650544660547667}
+  - component: {fileID: 5060925919120718628}
+  m_Layer: 7
+  m_Name: Gun (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9141650544660547667
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8123689879158830666}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.028179377, z: -0, w: 0.9996029}
+  m_LocalPosition: {x: -2.075, y: 2.69, z: 5.137}
+  m_LocalScale: {x: 0.7366506, y: 0.8278414, z: 0.7366506}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2660650304615112178}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5060925919120718628
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8123689879158830666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1089ed7d2f57a14aaa8e55ef552b358, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Activated: 1
+  aimType: 3
+  projectile: {fileID: 3324548520128070669, guid: 0605064c50fda5c4fa84e35176a8f3a7, type: 3}
+  target: {fileID: 0}
+  predictionFactor: 0.5
+  projectileSpeed: 35
+  randomAngleRange: 5
 --- !u!1 &8302401207357981283
 GameObject:
   m_ObjectHideFlags: 0
@@ -1884,6 +2227,9 @@ Transform:
   - {fileID: 34948182843377944}
   - {fileID: 8625575344292151231}
   - {fileID: 1809035761035986316}
+  - {fileID: 9141650544660547667}
+  - {fileID: 3293306295798004457}
+  - {fileID: 722569745294267632}
   m_Father: {fileID: 3496383749310142673}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &5042441227007213714
@@ -1975,6 +2321,18 @@ MonoBehaviour:
   OnDeath:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: HitParticle, Assembly-CSharp
+        m_MethodName: PlayExplodeParticle
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 2599205349479952492}
         m_TargetAssemblyTypeName: BotSM, Assembly-CSharp
         m_MethodName: GoDeath
@@ -1990,7 +2348,7 @@ MonoBehaviour:
   OnKnockback:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6871427476159568478}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: HitEnemyTest, Assembly-CSharp
         m_MethodName: SpawnKnockbackParticle
         m_Mode: 0

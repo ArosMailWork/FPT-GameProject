@@ -57,6 +57,7 @@ public class Skill_Active_Striking : ISkill
         _pc.currentState = PlayerState.Striking;
         //_playerAnimController.StrikingAnim();
         allowMark = true;
+        _pc.gameObject.layer = LayerMask.NameToLayer("Arrow");
         
         //consume Stamina here
         _pc.staminaSystem.Consume(staminaCost);
@@ -65,6 +66,7 @@ public class Skill_Active_Striking : ISkill
         await UniTask.Delay(TimeSpan.FromSeconds(_pc._stats.rollTime));
         _pc.currentState = PlayerState.Idle;
         allowMark = false;
+        _pc.gameObject.layer = LayerMask.NameToLayer("Player");
         
         //Might add some event here to activate particle or anything
         await UniTask.Delay(TimeSpan.FromSeconds(strikingDelayTime));

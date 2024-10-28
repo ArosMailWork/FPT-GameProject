@@ -1,9 +1,9 @@
 
 using UnityEngine;
 
-public class BotAttacking : BotAttack
+public class BotAttacking : BotTargeting
 {
-    private float hitCooldown = 0.5f;
+    private float hitCooldown = 0.3f;
     private float counter;
 
     public BotAttacking(BotSM stateMachine) : base("Attacking", stateMachine)
@@ -28,6 +28,9 @@ public class BotAttacking : BotAttack
         else
         {
             counter -= Time.deltaTime;
+            
+            if(sm.bot._animController != null)
+                sm.bot._animController.AttackAnim(false);
         }
 
     }
@@ -35,11 +38,14 @@ public class BotAttacking : BotAttack
     {
         if (sm.target != null)
         {
-            sm.bot.gun.target = sm.target;
+            foreach (var gun in sm.bot.gun)
+            {
+                if(gun != null)
+                gun.target = sm.target;
+            }
             
-            //replace with play anim
-            sm.bot.gun.Fire();
-            //sm.bot.gun.FireStraight();
+            if(sm.bot._animController != null)
+                sm.bot._animController.AttackAnim(true);
             
             counter = hitCooldown;
         }
