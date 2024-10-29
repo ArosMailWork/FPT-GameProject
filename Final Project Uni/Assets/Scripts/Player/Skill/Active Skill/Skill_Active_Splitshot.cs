@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class Skill_Active_Splitshot : ISkill
 {
-    // Start is called before the first frame update
     void Start()
     {
         SetToggle(true);

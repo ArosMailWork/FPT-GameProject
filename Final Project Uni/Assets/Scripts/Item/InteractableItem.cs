@@ -1,11 +1,12 @@
 using System;
+using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class InteractableItem : MonoBehaviour
 {
-    public GameObject dialog;
+    [CanBeNull] public GameObject ItemParent;
     public Button interactButton;
 
     // New boolean to control if UI interaction is one-time only
@@ -43,6 +44,12 @@ public class InteractableItem : MonoBehaviour
         {
             interactButton.gameObject.SetActive(toggle);
         }
+    }
+
+    public void SelfDestruct()
+    {
+        if(ItemParent != null) Destroy(ItemParent);
+        else Destroy(gameObject);
     }
 
     // Called when a player enters the interaction range

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.IO;
 using System.Linq;
+using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -43,7 +44,7 @@ public class PlayerStats : MonoBehaviour
     public int defaultDamage = 2;
 
     [FoldoutGroup("Default Stats/Arrow")]
-    public float defaultDamageMultiplier = 1;
+    public const float defaultDamageMultiplier = 1;
 
     [FoldoutGroup("Default Stats/Physics")]
     [ReadOnly]
@@ -66,7 +67,7 @@ public class PlayerStats : MonoBehaviour
     #region Bonus
 
     [FoldoutGroup("Bonus Stats")]
-    public float bonusSpeed,
+    public float bonusSpeed, bonusHealth,
         bonusRotationSpeed,
         bonusMaxSpeed;
 
@@ -98,7 +99,7 @@ public class PlayerStats : MonoBehaviour
     #region Total Value (Calculate)
 
     //Health
-    public int totalMaxHealth => Mathf.CeilToInt(defaultMaxHealth * permanentHP);
+    public int totalMaxHealth => Mathf.CeilToInt((defaultMaxHealth * permanentHP) + bonusHealth);
 
     //Speed
     public float speed => defaultSpeed * permanentSpeed + bonusSpeed;
@@ -125,7 +126,7 @@ public class PlayerStats : MonoBehaviour
     //Arrow
     public float staticFriction => defaultRicochetFriction * bonusRicochetMultiplier;
 
-    public int Damage => Mathf.CeilToInt(defaultDamage * permanentDamage) + bonusDamage;
+    public int Damage => Mathf.CeilToInt(((defaultDamage * permanentDamage) + bonusDamage) * DamageMultiplier);
 
     // nochange * (uptoBigEnough) + uptoBigEnough
 
@@ -133,7 +134,7 @@ public class PlayerStats : MonoBehaviour
 
     #endregion
 
-    private PlayerController _pc;
+    [SerializeField, ReadOnly] private PlayerController _pc;
     private StaminaSystem _staminaSystem;
     private ArrowController _arrowController;
     
@@ -158,7 +159,10 @@ public class PlayerStats : MonoBehaviour
 
     private const int UPGRADE_COST = 100; //Change this belong to the npc
 
-    public void ModifyStat(string statType, bool increase) //use Guard Clause
+    //use Guard Clause
+    //make payment split with modify method (also return half of money if decrease)
+    //payment stuff belong to NPC (another script)
+    public void ModifyPermaStat(string statType, bool increase) 
     {
         if (playerGold >= UPGRADE_COST)
         {
@@ -210,12 +214,31 @@ public class PlayerStats : MonoBehaviour
         }
     }
 
-    public void BuffPlayer(int healthBuff, float speedBuff, int damageBuff)
+    //Ults
+    //for modify bonus only
+    public void BuffPlayer(BuffType type, float amount = 0)
     {
-        _pc.PlayerHealth.maxHealth += healthBuff;
-        defaultSpeed += speedBuff;
-        defaultDamage += damageBuff;
+        switch (type)
+        {
+            case BuffType.Health:
+                bonusHealth += amount;
+                
+                //Set HP
+                _pc.PlayerHealth.maxHealth = totalMaxHealth;
+                _pc.PlayerHealth.currentHealth = totalMaxHealth;
+                break;
+            case BuffType.Damage:
+                bonusDamage += Mathf.CeilToInt(amount);
+                //Set Damage Through a command setup at Arrow Controller, Duck will make it later
+                
+                break;
+            case BuffType.Speed:
+                bonusSpeed += amount;
+                break;
+        }
         UpdateUI();
+
+        UpdateBonusValue();
     }
 
     [Button]
@@ -258,7 +281,7 @@ public class PlayerStats : MonoBehaviour
         permaDamageUpgrades = loadedData.DamageUpgradesData;
     }
 
-    public void ConfirmStats()
+    public void ConfirmUpdateStats() //Should Belong to the NPC
     {
         var data = new PermaStatsData
         {

@@ -42,14 +42,14 @@ public class StatsUI : MonoBehaviour
         //compact the value intend to add by a whole list or struct sth then execute only once for nbest performance
         //ExampleL InteractableItem use add and remove only by collider -> make sure the event use wont touch others
         
-        hpPlusButton.onClick.AddListener(() => playerStats.ModifyStat("HP", true));
-        hpMinusButton.onClick.AddListener(() => playerStats.ModifyStat("HP", false));
-        speedPlusButton.onClick.AddListener(() => playerStats.ModifyStat("Speed", true));
-        speedMinusButton.onClick.AddListener(() => playerStats.ModifyStat("Speed", false));
-        damagePlusButton.onClick.AddListener(() => playerStats.ModifyStat("Damage", true));
-        damageMinusButton.onClick.AddListener(() => playerStats.ModifyStat("Damage", false));
+        hpPlusButton.onClick.AddListener(() => playerStats.ModifyPermaStat("HP", true));
+        hpMinusButton.onClick.AddListener(() => playerStats.ModifyPermaStat("HP", false));
+        speedPlusButton.onClick.AddListener(() => playerStats.ModifyPermaStat("Speed", true));
+        speedMinusButton.onClick.AddListener(() => playerStats.ModifyPermaStat("Speed", false));
+        damagePlusButton.onClick.AddListener(() => playerStats.ModifyPermaStat("Damage", true));
+        damageMinusButton.onClick.AddListener(() => playerStats.ModifyPermaStat("Damage", false));
 
-        confirmModifierPermanentButton.onClick.AddListener(playerStats.ConfirmStats);
+        confirmModifierPermanentButton.onClick.AddListener(playerStats.ConfirmUpdateStats);
         exitStatsButton.onClick.AddListener(CloseStatsUI);
         StartCoroutine(DelayedStart());
     }
