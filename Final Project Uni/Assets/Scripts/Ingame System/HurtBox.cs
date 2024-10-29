@@ -68,7 +68,7 @@ public class HurtBox : MonoBehaviour
     {
         if (!Activate || !IsValidTarget(other) || hitObjects.Contains(other))
         {
-            Debug.Log(this.transform.name + " hitted " + other.name + " / " + other.tag);
+            //Debug.Log(this.transform.name + " hitted " + other.name + " / " + other.tag);
             hitEvent.Invoke();
             return;
         }
@@ -96,7 +96,7 @@ public class HurtBox : MonoBehaviour
     private void OnTriggerStay(Collider other)
     {
         // Apply the same logic for objects already inside the HurtBox
-        if (!Activate || !IsValidTarget(other)|| hitObjects.Contains(other))
+        if (!Activate || !IsValidTarget(other) || hitObjects.Contains(other))
         {
             //hitEvent.Invoke();
             return;
@@ -146,7 +146,7 @@ public class HurtBox : MonoBehaviour
 
         return false; // No matching tag found
     }
-    
+
     public void ToggleHurtBox(bool toggle)
     {
         Activate = toggle;
