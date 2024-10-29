@@ -1,3 +1,4 @@
+using PA;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -35,9 +36,14 @@ public class GameManager : MonoBehaviour
     public void StartNewGame()
     {
         // Logic for starting a new game
-        //SceneManager.LoadScene("MainGameScene");
+        SceneManager.LoadScene("Lobby");
+        UIManager.Instance.gameObject.SetActive(false);
     }
 
+    public void GoGamePlay()
+    {
+        SceneManager.LoadScene("Gameplay");
+    }
     public void LoadGame()
     {
         // Logic for loading a saved game
@@ -51,10 +57,10 @@ public class GameManager : MonoBehaviour
     public void QuitGame()
     {
         // Logic for quitting the game
-        #if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
-        #else
-            Application.Quit();
-        #endif
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
     }
 }
