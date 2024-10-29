@@ -51,6 +51,11 @@ public class InteractableItem : MonoBehaviour
         if(ItemParent != null) Destroy(ItemParent);
         else Destroy(gameObject);
     }
+    
+    public void PlayBuffParticle(string particleID)
+    {
+        ParticleManager.Instance.SpawnParticle(particleID, transform.position, Quaternion.Euler(-90, 0, 0));
+    }
 
     // Called when a player enters the interaction range
     private void OnTriggerEnter(Collider other)
