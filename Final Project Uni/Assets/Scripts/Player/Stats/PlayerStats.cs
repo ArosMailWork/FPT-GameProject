@@ -55,7 +55,6 @@ public class PlayerStats : MonoBehaviour
     #region Perma Upgrade
     public StatsUI statsUI;
 
-    //a way to save LOC, easier to read
     [FoldoutGroup("Perma Upgrade")]
     public float permaHP_Percent = 0.02f, permaSpeed_Percent = 0.02f, permaDamage_Percent = 0.02f;
 
@@ -149,7 +148,6 @@ public class PlayerStats : MonoBehaviour
         UpdateBonusValue();
     }
 
-    //Only call this shiet when interact with the perma shop npc
     public void UpdateUI()
     {
         if(statsUI != null)
