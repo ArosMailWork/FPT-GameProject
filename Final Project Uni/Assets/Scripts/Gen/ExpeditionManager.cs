@@ -33,12 +33,12 @@ public class ExpeditionManager : MonoBehaviour
     public void ExitFloor()
     {
 
-        if (currentFloorNumber < floors.Count)
+        if (currentFloorNumber + 1 < floors.Count)
         {
             currentFloorNumber += 1;
             OnExit.Invoke();
         }
-        else if (currentWorldNumber < worlds.Count)
+        else if (currentWorldNumber + 1 < worlds.Count)
         {
             currentWorldNumber += 1;
             currentFloorNumber = 0;
