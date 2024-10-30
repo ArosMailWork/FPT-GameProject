@@ -279,7 +279,7 @@ public class PlayerController : MonoBehaviour
 
     public void MeleeAnim()
     {
-        if (blockInput) return;
+        if (blockInput || !PlayerHealth.isAlive) return;
         if(currentState == PlayerState.Recalling || currentState == PlayerState.ReverseRecalling || currentState == PlayerState.Stunning) return;
         if(_arrowController.ChargingInput) return;
         _playerAnimController.Slash();
