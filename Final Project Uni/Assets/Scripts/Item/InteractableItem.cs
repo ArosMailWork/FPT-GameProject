@@ -10,7 +10,7 @@ public class InteractableItem : MonoBehaviour
     public Button interactButton;
 
     // New boolean to control if UI interaction is one-time only
-    public bool oneTimeUseUI = false;
+    public bool HideAfterUseUI = false;
 
     // Unity events for interaction and trigger range handling
     public UnityEvent InteractEvent, EnterTriggerRange, ExitTriggerRange;
@@ -26,11 +26,11 @@ public class InteractableItem : MonoBehaviour
     // Method to be called when the interact button is clicked
     public void OnInteract()
     {
-        if (oneTimeUseUI && hasInteracted) return;
+        if (HideAfterUseUI && hasInteracted) return;
 
         InteractEvent.Invoke();
 
-        if (oneTimeUseUI)
+        if (HideAfterUseUI)
         {
             hasInteracted = true;  // Mark as interacted
             interactButton.gameObject.SetActive(false);  // Hide the button after interaction
@@ -40,7 +40,7 @@ public class InteractableItem : MonoBehaviour
     // Method to show/hide the interact UI
     public void ShowUIInteract(bool toggle)
     {
-        if (!hasInteracted || !oneTimeUseUI)  // Only show the button if interaction hasn't happened (for one-time use)
+        if (!hasInteracted || !HideAfterUseUI)  // Only show the button if interaction hasn't happened (for one-time use)
         {
             interactButton.gameObject.SetActive(toggle);
         }
@@ -76,6 +76,7 @@ public class InteractableItem : MonoBehaviour
 
         // Remove the listener when exiting the trigger range to prevent stacking interactions
         interactButton.onClick.RemoveListener(OnInteract);
+        hasInteracted = false;
 
         ExitTriggerRange.Invoke();
         ShowUIInteract(false);
