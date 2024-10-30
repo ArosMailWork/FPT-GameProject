@@ -2,12 +2,13 @@ using System;
 using System.Collections;
 using System.IO;
 using System.Linq;
+using PA;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
 public class PlayerStats : MonoBehaviour
 {
-    public int playerGold = 1000;
+    public int playerGold ;
 
     #region Default
     [SerializeField]
@@ -56,10 +57,15 @@ public class PlayerStats : MonoBehaviour
     public StatsUI statsUI;
 
     [FoldoutGroup("Perma Upgrade")]
-    public float permaHP_Percent = 0.02f, permaSpeed_Percent = 0.02f, permaDamage_Percent = 0.02f;
+    public float permaHP_Percent = 0.02f,
+        permaSpeed_Percent = 0.02f,
+        permaDamage_Percent = 0.02f;
 
     [FoldoutGroup("Perma Upgrade/Debug")]
-    [ReadOnly] public float permanentHP = 1f, permanentSpeed = 1f, permanentDamage = 1f;
+    [ReadOnly]
+    public float permanentHP = 1f,
+        permanentSpeed = 1f,
+        permanentDamage = 1f;
     #endregion
 
     #region Bonus
@@ -135,7 +141,30 @@ public class PlayerStats : MonoBehaviour
     private PlayerController _pc;
     private StaminaSystem _staminaSystem;
     private ArrowController _arrowController;
-    
+
+    #region Gold
+
+    //số vàng tạm thời trước khi confirm
+    [SerializeField]
+    public int tempGoldSpent = 0;
+
+    // Thêm các hằng số cho PlayerPrefs
+    private const string PLAYER_GOLD_KEY = "PlayerGold";
+
+    private void LoadGold()
+    {
+        playerGold = PlayerPrefs.GetInt(PLAYER_GOLD_KEY, 1000); // 1000 là giá trị mặc định
+    }
+
+    // Thêm phương thức để save gold
+    public void SaveGold()
+    {
+        PlayerPrefs.SetInt(PLAYER_GOLD_KEY, playerGold);
+        PlayerPrefs.Save();
+    }
+
+    #endregion
+
     private void Start()
     {
         _pc = PlayerController.Instance;
@@ -144,21 +173,22 @@ public class PlayerStats : MonoBehaviour
         defaultDrag = _pc.PlayerRB.drag;
         defaultMass = _pc.PlayerRB.mass;
         LoadPermanentStats();
+        LoadGold();
         UpdateAllPlayerStats();
         UpdateBonusValue();
     }
 
     public void UpdateUI()
     {
-        if(statsUI != null)
-        statsUI.UpdateStatsDisplay(totalMaxHealth, speed, Damage, playerGold);
+        if (statsUI != null)
+            statsUI.UpdateStatsDisplay(totalMaxHealth, speed, Damage, playerGold - tempGoldSpent);
     }
 
     private const int UPGRADE_COST = 100; //Change this belong to the npc
 
     public void ModifyStat(string statType, bool increase) //use Guard Clause
     {
-        if (playerGold >= UPGRADE_COST)
+        if (playerGold - tempGoldSpent >= UPGRADE_COST)
         {
             int change = increase ? 1 : -1;
             bool canModify = true;
@@ -193,7 +223,7 @@ public class PlayerStats : MonoBehaviour
 
             if (canModify)
             {
-                playerGold -= UPGRADE_COST;
+                tempGoldSpent += UPGRADE_COST;
                 UpdateUI();
                 UpdateBonusValue();
             }
@@ -238,24 +268,7 @@ public class PlayerStats : MonoBehaviour
         _pc.PlayerHealth.maxHealth = totalMaxHealth;
     }
 
-    // Số lần đã upgrade
-    [FoldoutGroup("Permanent Stats")]
-    public int permaHPUpgrades = 0;
-
-    [FoldoutGroup("Permanent Stats")]
-    public int permaSpeedUpgrades = 0;
-
-    [FoldoutGroup("Permanent Stats")]
-    public int permaDamageUpgrades = 0;
-
-    private void LoadPermanentStats()
-    {
-        PermaStatsData loadedData = PermanCRUD.LoadPermanentStats();
-        permaHPUpgrades = loadedData.HPUpgradesData;
-        permaSpeedUpgrades = loadedData.SpeedUpgradesData;
-        permaDamageUpgrades = loadedData.DamageUpgradesData;
-    }
-
+    // Sửa lại phương thức ConfirmStats
     public void ConfirmStats()
     {
         var data = new PermaStatsData
@@ -265,6 +278,24 @@ public class PlayerStats : MonoBehaviour
             DamageUpgradesData = permaDamageUpgrades,
         };
         PermanCRUD.SavePermanentStats(data);
+
+        // Trừ vàng và lưu
+        playerGold -= tempGoldSpent;
+        SaveGold();
+        tempGoldSpent = 0; // Reset số vàng đã chi tạm thời
+        
+        var LobbyUI = FindObjectOfType<LobbyUI>();
+        if(LobbyUI != null) LobbyUI.UpdateGoldText(playerGold);
+    }
+
+    // Thêm phương thức để hủy các thay đổi
+    public void CancelChanges()
+    {
+        LoadPermanentStats();
+        UpdateAllPlayerStats();
+        tempGoldSpent = 0;
+        UpdateUI();
+        UpdateBonusValue();
     }
 
     private float CalculateMultiplier(int upgrades)
@@ -300,6 +331,27 @@ public class PlayerStats : MonoBehaviour
         permanentSpeed = 1f + (permaSpeed_Percent * CalculateMultiplier(permaSpeedUpgrades));
         permanentDamage = 1f + (permaDamage_Percent * CalculateMultiplier(permaDamageUpgrades));
     }
+
+    #region Permanent Stats functions
+    // Số lần đã upgrade
+    [FoldoutGroup("Permanent Stats")]
+    public int permaHPUpgrades = 0;
+
+    [FoldoutGroup("Permanent Stats")]
+    public int permaSpeedUpgrades = 0;
+
+    [FoldoutGroup("Permanent Stats")]
+    public int permaDamageUpgrades = 0;
+
+    public void LoadPermanentStats()
+    {
+        Debug.Log("load permanat stat");
+        PermaStatsData loadedData = PermanCRUD.LoadPermanentStats();
+        permaHPUpgrades = loadedData.HPUpgradesData;
+        permaSpeedUpgrades = loadedData.SpeedUpgradesData;
+        permaDamageUpgrades = loadedData.DamageUpgradesData;
+    }
+    #endregion
 }
 
 [System.Serializable]
