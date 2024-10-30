@@ -24,6 +24,9 @@ public class Health : MonoBehaviour
     [FoldoutGroup("Stats")]
     [ReadOnly, SerializeField] private int health, overHeal;
 
+    [FoldoutGroup("Stats/Buff")] 
+    public bool isTrapMaster = false;
+
 
     [FoldoutGroup("Setup")] 
     [SerializeField, CanBeNull] private StatSliderUI StatUI;
