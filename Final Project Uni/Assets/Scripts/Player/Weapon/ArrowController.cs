@@ -5,6 +5,7 @@ using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class ArrowController : MonoBehaviour
 {
@@ -36,6 +37,8 @@ public class ArrowController : MonoBehaviour
     [FoldoutGroup("Debug/Setup")] public GameObject ArrowPrefab;
     [FoldoutGroup("Debug/Setup")] public ParticleManager prefabParticleManager;
     [FoldoutGroup("Debug/Setup")] public Arrow MainArrow;
+    [FoldoutGroup("Debug/UI")] public Image ShootIcon;
+    [FoldoutGroup("Debug/UI")] public Sprite ShootSprite, RecallSprite;
     [FoldoutGroup("Debug/Buff")] public bool IsSplitShot = false;
 
     public static ArrowController Instance;
@@ -61,6 +64,7 @@ public class ArrowController : MonoBehaviour
         _playerAnimController = _playerController._playerAnimController;
 
         haveArrow = true;
+        ShootSpriteUpdate();
         _playerAnimController.UpdateHaveArrow(true);
     }
 
@@ -170,6 +174,7 @@ public class ArrowController : MonoBehaviour
         //because button up
         ChargingInput = false;
         haveArrow = false;
+        ShootSpriteUpdate();
         _playerAnimController.UpdateHaveArrow(haveArrow);
         ShootArrow(MainArrow);
         if (IsSplitShot)
@@ -267,8 +272,21 @@ public class ArrowController : MonoBehaviour
         }
 
         haveArrow = true;
+        ShootSpriteUpdate();
         isRecalling = false;
     }
 
+    #endregion
+
+    #region UI Update (not recommended do this, Im just lazy, lol)
+
+    public void ShootSpriteUpdate()
+    {
+        if(ShootIcon == null || RecallSprite == null) return;
+
+        if (haveArrow) ShootIcon.sprite = ShootSprite;
+        else ShootIcon.sprite = RecallSprite;
+    }
+    
     #endregion
 }
