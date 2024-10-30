@@ -127,7 +127,6 @@ public class PlayerStats : MonoBehaviour
         defaultDrag = _pc.PlayerRB.drag;
         defaultMass = _pc.PlayerRB.mass;
         LoadSave();
-        UpdateStats();
     }
     
     //in-game buff
@@ -155,6 +154,12 @@ public class PlayerStats : MonoBehaviour
         UpdateStats();
     }
 
+    public void SetBuffMultiplier(float amount)
+    {
+        bonusDamageMultiplier = Mathf.CeilToInt(amount);
+        UpdateStats();
+    }
+
     [Button]
     public void UpdateStats()
     {
@@ -170,7 +175,6 @@ public class PlayerStats : MonoBehaviour
         {
             arrow.bonusRicochetMultiplier = bonusRicochetMultiplier;
             arrow.hitbox.BaseDamage = Damage;
-            arrow.hitbox.MirageMultiplier = DamageMultiplier;
         }
 
         //health
@@ -186,6 +190,7 @@ public class PlayerStats : MonoBehaviour
         permaDamage_UpAmount = loadedData.DamageUpgradesData;
 
         UpdatePermaPercent();
+        UpdateStats();
     }
 
     public void UpdatePermaPercent()

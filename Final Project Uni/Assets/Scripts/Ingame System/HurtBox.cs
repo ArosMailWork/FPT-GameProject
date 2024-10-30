@@ -8,7 +8,7 @@ using UnityEngine.Events;
 
 public enum HurtType
 {
-    Bullet, Melee
+    Bullet, Melee, Trap
 }
 
 public class HurtBox : MonoBehaviour
@@ -88,7 +88,7 @@ public class HurtBox : MonoBehaviour
 
         if (other.TryGetComponent<Health>(out Health targetHealth))
         {
-            HitTarget(targetHealth, KnockDir);
+            HitTarget(targetHealth, KnockDir, type);
             hitObjects.Add(other); // Mark the object as hit
         }
     }
@@ -146,13 +146,15 @@ public class HurtBox : MonoBehaviour
 
         return false; // No matching tag found
     }
-    
+
     public void ToggleHurtBox(bool toggle)
     {
         Activate = toggle;
     }
     void HitTarget(Health targetHealth, Vector3? knockDir = null, HurtType hurtType = HurtType.Bullet)
     {
+        if(hurtType == HurtType.Trap && targetHealth.isTrapMaster) return;
+        
         //Debug.Log(knockDir);
         int Damage = Mathf.CeilToInt(BaseDamage * DamageMultiplier * MirageMultiplier);
 

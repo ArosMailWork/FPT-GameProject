@@ -20,6 +20,8 @@ public class ArrowController : MonoBehaviour
     [FoldoutGroup("Stats")]
     public float ShootForce, currentChargedTime, chargedTime = 2f;
 
+    #region Debug and Setup
+
     [FoldoutGroup("Debug")]
     public bool blockInput;
     [FoldoutGroup("Debug")]
@@ -40,9 +42,12 @@ public class ArrowController : MonoBehaviour
     [FoldoutGroup("Debug/UI")] public Image ShootIcon;
     [FoldoutGroup("Debug/UI")] public Sprite ShootSprite, RecallSprite;
     [FoldoutGroup("Debug/Buff")] public bool IsSplitShot = false;
+    [FoldoutGroup("Debug/Buff")] public bool IsPreciseArcher = false;
 
     public static ArrowController Instance;
     private PlayerController _playerController;
+    private float calForce;
+    #endregion
 
     #endregion
 
@@ -139,7 +144,13 @@ public class ArrowController : MonoBehaviour
     }
     void ShootArrow(Arrow arrow)
     {
-        float calForce = forceCurve.Evaluate(currentChargedTime / chargedTime) * ShootForce;
+        if (IsPreciseArcher && (currentChargedTime / chargedTime) >= 0.75f)
+            _playerController._stats.SetBuffMultiplier(0.5f);
+        else
+            _playerController._stats.SetBuffMultiplier(0);
+        
+
+        calForce = forceCurve.Evaluate(currentChargedTime / chargedTime) * ShootForce;
 
         // Calculate the rotation around the Y-axis based on the offset in degrees
         Quaternion rotationOffset = Quaternion.Euler(0, arrow.offsetDegree, 0);
