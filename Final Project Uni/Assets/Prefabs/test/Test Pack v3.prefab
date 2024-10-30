@@ -933,7 +933,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 63.629395, y: 37.90262}
+  m_AnchoredPosition: {x: 63.629395, y: 37.902588}
   m_SizeDelta: {x: 295.60678, y: 295.60678}
   m_Pivot: {x: 0, y: 0}
 --- !u!222 &634516113155066288
@@ -1175,7 +1175,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 1.4633789, y: 1.4633789}
+  m_AnchoredPosition: {x: 1.4633789, y: 1.4634094}
   m_SizeDelta: {x: 292.68, y: 292.68}
   m_Pivot: {x: 0, y: 0}
 --- !u!1 &634516113166656130
@@ -63209,8 +63209,6 @@ MonoBehaviour:
   StartSkill:
   - {fileID: 2424829857179758770, guid: 76a96f0e38d4bb4459e4f4bb8f8bddc8, type: 3}
   - {fileID: 464762936703557575, guid: 7674e64215c755042adb5d32681b7752, type: 3}
-  - {fileID: 3204633484197432600, guid: 29cbe985972cbc542be680de78ee308c, type: 3}
-  - {fileID: 3204633484197432600, guid: dc99a329f07cd784f98253277ff6f49d, type: 3}
   currentSkillUISprite: {fileID: 46930167723633426}
   SwitchButton: {fileID: 7848440257394057899}
 --- !u!1 &6085415222758916639
@@ -106492,18 +106490,16 @@ MonoBehaviour:
   defaultDamage: 2
   defaultDrag: 0
   defaultMass: 0
-  statsUI: {fileID: 0}
-  permaHP_Percent: 0.02
-  permaSpeed_Percent: 0.02
-  permaDamage_Percent: 0.02
-  permanentHP: 1
-  permanentSpeed: 1
-  permanentDamage: 1
+  permaHP_UpAmount: 0
+  permaSpeed_UpAmount: 0
+  permaDamage_UpAmount: 0
+  PermaHP_Percent: 1
+  PermaSpeed_Percent: 1
+  PermaDamage_Percent: 1
   bonusSpeed: 0
   bonusHealth: 0
   bonusRotationSpeed: 0
   bonusMaxSpeed: 0
-  bonusRollSpeed: 0
   bonusRollCD: 0
   bonusRollTime: 0
   bonusControlRollDirect: 0
@@ -106515,9 +106511,6 @@ MonoBehaviour:
   bonusDamage: 1
   bonusDamageMultiplier: 0
   _pc: {fileID: 0}
-  permaHPUpgrades: 0
-  permaSpeedUpgrades: 0
-  permaDamageUpgrades: 0
 --- !u!114 &821813476702798318
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -106744,6 +106737,9 @@ MonoBehaviour:
   ArrowPrefab: {fileID: 0}
   prefabParticleManager: {fileID: 245403840057983425}
   MainArrow: {fileID: 8344797348438170109}
+  ShootIcon: {fileID: 8926183465532762939}
+  ShootSprite: {fileID: -962825843, guid: d14d2f4e9d25f2c46ad4b6e0de55259b, type: 3}
+  RecallSprite: {fileID: 21300000, guid: 91445a1eeea4b9b449c2a9358431cd82, type: 3}
   IsSplitShot: 0
 --- !u!114 &5833515457251910645
 MonoBehaviour:
