@@ -8,6 +8,7 @@ public struct PlayerSkill
 {
     public string Skill_ID;
     public GameObject skillPrefab;
+    public bool defaultUnlocked;
 }
 
 [System.Serializable]
@@ -91,6 +92,7 @@ public class PlayerData : MonoBehaviour
         
         PlayerDataCRUD.SavePlayerData(saveData);
         
+        
         // Load existing Soul value
         PermaStatsData permaStats = PlayerDataCRUD.LoadPermanentStats();
         permaStats.Soul += SoulCollected;
@@ -103,14 +105,33 @@ public class PlayerData : MonoBehaviour
     public void LoadPlayerData()
     {
         PlayerDataSave saveData = PlayerDataCRUD.LoadPlayerData();
-        
+    
         unlockedSkills.Clear();
         Inventory.Clear();
+
         if (saveData != null)
         {
+            // Load skills from saved data
             unlockedSkills = new List<SkillUnlock>(saveData.SkillList);
             Inventory = new List<InventoryItem>(saveData.Inventory);
-            Debug.Log("Player data loaded.");
+
+            // Match unlockedSkills with the skillDatabase to ensure correct defaultUnlocked state
+            foreach (var savedSkill in unlockedSkills)
+            {
+                var databaseSkill = skillDatabase.allSkills.Find(skill => skill.Skill_ID == savedSkill.Skill.Skill_ID);
+                if (databaseSkill.Skill_ID != null) 
+                {
+                    // Pull defaultUnlocked from skillDatabase
+                    savedSkill.Skill.defaultUnlocked = databaseSkill.defaultUnlocked;
+
+                    // Ensure isUnlocked is true if defaultUnlocked is true
+                    if (databaseSkill.defaultUnlocked)
+                        savedSkill.isUnlocked = true;
+                    
+                }
+            }
+
+            Debug.Log("Player data loaded and updated with database defaultUnlocked values.");
         }
         else
         {
@@ -119,12 +140,17 @@ public class PlayerData : MonoBehaviour
         }
     }
 
-    //Ults
+    //First Time
     private void InitializeSkillsFromDatabase()
     {
         foreach (var skill in skillDatabase.allSkills)
         {
-            unlockedSkills.Add(new SkillUnlock { Skill = skill, isUnlocked = false });
+            // Set isUnlocked to true if the skill's defaultUnlocked property is true
+            unlockedSkills.Add(new SkillUnlock 
+            { 
+                Skill = skill, 
+                isUnlocked = skill.defaultUnlocked 
+            });
         }
     }
     public bool IsSkillUnlocked(string skillID)
