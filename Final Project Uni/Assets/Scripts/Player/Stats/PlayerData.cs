@@ -24,17 +24,30 @@ public struct InventoryItem
     public int amount;
 }
 
+[System.Serializable]
+public class PermaStatsData
+{
+    public int knowledgeLevel;
+    public int Soul;
+    public int HPUpgradesData;
+    public int SpeedUpgradesData;
+    public int DamageUpgradesData;
+    public int StaminaUpgradesData;
+    public int StaminaRegenUpgradesData;
+}
+
 // This will be used for saving/loading data to JSON
 [System.Serializable]
 public class PlayerDataSave
 {
-    public List<SkillUnlock> unlockedSkills = new List<SkillUnlock>();
+    public List<SkillUnlock> SkillList = new List<SkillUnlock>();
     public List<InventoryItem> Inventory = new List<InventoryItem>();
 }
 
 public class PlayerData : MonoBehaviour
 {
     public SkillDatabase skillDatabase; 
+    public int Gold, SoulCollected;
     public List<SkillUnlock> unlockedSkills = new List<SkillUnlock>();
     public List<InventoryItem> Inventory = new List<InventoryItem>();
 
@@ -43,6 +56,7 @@ public class PlayerData : MonoBehaviour
         LoadPlayerData();
     }
     
+    [Button]
     public void UnlockSkill(string skillID)
     {
         // Check if the skill exists in the player's unlockedSkills list
@@ -54,23 +68,37 @@ public class PlayerData : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning($"Skill ID {skillID} not found in the skill database.");
+            Debug.Log($"Skill ID {skillID} not found in the skill database.");
         }
     }
 
+    public void AdjustCurrency(float InputGold = 0, float InputSoul = 0)
+    {
+        Gold += Mathf.RoundToInt(InputGold);
+        SoulCollected += Mathf.RoundToInt(InputSoul);
+    }
 
+    
+    //Call this command whenever player pass a floor
     [Button("Save")]
     public void SavePlayerData()
     {
-        // Create a serializable save object
         var saveData = new PlayerDataSave
         {
-            unlockedSkills = new List<SkillUnlock>(unlockedSkills),
+            SkillList = new List<SkillUnlock>(unlockedSkills),
             Inventory = new List<InventoryItem>(Inventory)
         };
         
         PlayerDataCRUD.SavePlayerData(saveData);
+        
+        // Load existing Soul value
+        PermaStatsData permaStats = PlayerDataCRUD.LoadPermanentStats();
+        permaStats.Soul += SoulCollected;
+    
+        // Save the updated Soul value
+        PlayerDataCRUD.SavePermanentStats(permaStats);
     }
+    
     [Button("Load")]
     public void LoadPlayerData()
     {
@@ -80,7 +108,7 @@ public class PlayerData : MonoBehaviour
         Inventory.Clear();
         if (saveData != null)
         {
-            unlockedSkills = new List<SkillUnlock>(saveData.unlockedSkills);
+            unlockedSkills = new List<SkillUnlock>(saveData.SkillList);
             Inventory = new List<InventoryItem>(saveData.Inventory);
             Debug.Log("Player data loaded.");
         }
@@ -91,6 +119,7 @@ public class PlayerData : MonoBehaviour
         }
     }
 
+    //Ults
     private void InitializeSkillsFromDatabase()
     {
         foreach (var skill in skillDatabase.allSkills)

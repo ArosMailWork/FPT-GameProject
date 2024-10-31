@@ -12,7 +12,7 @@ public class ShopPerma : MonoBehaviour
     public float REFUND_RATE = 0.5f;
 
     [FoldoutGroup("Loaded Stats")]
-    public int playerGold;
+    public int playerSoul;
     [FoldoutGroup("Loaded Stats")]
     [ReadOnly] public int permaHPUpgrades, permaSpeedUpgrades, permaDamageUpgrades;
 
@@ -85,7 +85,7 @@ public class ShopPerma : MonoBehaviour
         confirmedSpeed = permaSpeedUpgrades;
         confirmedDamage = permaDamageUpgrades;
 
-        playerGold = _stats.playerGold;
+        playerSoul = _stats.playerSoul;
     }
 
     public void ModifyPermaStat(string statType, bool increase)
@@ -93,23 +93,23 @@ public class ShopPerma : MonoBehaviour
         int change = increase ? 1 : -1;
         bool canModify = true;
 
-        if (increase && playerGold < UPGRADE_COST) return;
+        if (increase && playerSoul < UPGRADE_COST) return;
 
         switch (statType)
         {
             case "HP":
                 if (CanUpdateReceipt(ref receiptHP, change, confirmedHP))
-                    playerGold -= increase ? UPGRADE_COST : -(int)(UPGRADE_COST * REFUND_RATE);
+                    playerSoul -= increase ? UPGRADE_COST : -(int)(UPGRADE_COST * REFUND_RATE);
                 break;
 
             case "Speed":
                 if (CanUpdateReceipt(ref receiptSpeed, change, confirmedSpeed))
-                    playerGold -= increase ? UPGRADE_COST : -(int)(UPGRADE_COST * REFUND_RATE);
+                    playerSoul -= increase ? UPGRADE_COST : -(int)(UPGRADE_COST * REFUND_RATE);
                 break;
 
             case "Damage":
                 if (CanUpdateReceipt(ref receiptDamage, change, confirmedDamage))
-                    playerGold -= increase ? UPGRADE_COST : -(int)(UPGRADE_COST * REFUND_RATE);
+                    playerSoul -= increase ? UPGRADE_COST : -(int)(UPGRADE_COST * REFUND_RATE);
                 break;
 
             default:
@@ -135,13 +135,13 @@ public class ShopPerma : MonoBehaviour
 
         var data = new PermaStatsData
         {
-            Gold = playerGold,
+            Soul = playerSoul,
             HPUpgradesData = permaHPUpgrades,
             SpeedUpgradesData = permaSpeedUpgrades,
             DamageUpgradesData = permaDamageUpgrades,
         };
 
-        PermanCRUD.SavePermanentStats(data);
+        PlayerDataCRUD.SavePermanentStats(data);
 
         _stats.LoadSave();
         Debug.Log("Permanent upgrades confirmed and saved.");
@@ -153,7 +153,7 @@ public class ShopPerma : MonoBehaviour
         if (newValue >= 0)
         {
             if (change < 0 && receiptValue > confirmedValue) // Refund part of the upgrade cost only if above confirmed baseline
-                playerGold += (int)(UPGRADE_COST * REFUND_RATE);
+                playerSoul += (int)(UPGRADE_COST * REFUND_RATE);
 
             receiptValue = newValue;
             return true;
@@ -166,7 +166,7 @@ public class ShopPerma : MonoBehaviour
         healthStat.text = $"HP: {CalculatePercent(receiptHP).ToString("F2")}%";
         speedStat.text = $"SPD: {CalculatePercent(receiptSpeed).ToString("F2")}%";
         damageStat.text = $"ATK: {CalculatePercent(receiptDamage).ToString("F2")}%";
-        goldText.text = $"Soul Well: {playerGold}";
+        goldText.text = $"Soul Well: {playerSoul}";
     }
 
     public void ToggleShopUI(bool toggle)

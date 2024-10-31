@@ -8,7 +8,7 @@ using UnityEngine;
 
 public class PlayerStats : MonoBehaviour
 {
-    public int playerGold = 0;
+    public int playerSoul = 0;
     public int knowledgeLevel;
 
     #region Default
@@ -186,8 +186,8 @@ public class PlayerStats : MonoBehaviour
 
     public void LoadSave()
     {
-        PermaStatsData loadedData = PermanCRUD.LoadPermanentStats();
-        playerGold = loadedData.Gold;
+        PermaStatsData loadedData = PlayerDataCRUD.LoadPermanentStats();
+        playerSoul = loadedData.Soul;
         knowledgeLevel = loadedData.knowledgeLevel;
         permaHP_UpAmount = loadedData.HPUpgradesData;
         permaSpeed_UpAmount = loadedData.SpeedUpgradesData;
