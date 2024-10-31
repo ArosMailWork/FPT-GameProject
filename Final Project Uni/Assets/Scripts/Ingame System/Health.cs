@@ -51,7 +51,7 @@ public class Health : MonoBehaviour
                 value = maxHealth;
             }
             this.health = value;
-            if (value <= 0) DeathEvent();
+            if (value <= 0 && isAlive) DeathEvent();
             HPUpdate();
         }
     } //use this
@@ -83,6 +83,7 @@ public class Health : MonoBehaviour
     public void DeathEvent()
     {
         Debug.Log(this.gameObject.name + " Dead");
+        isAlive = false;
         OnDeath.Invoke();
     }
     

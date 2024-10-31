@@ -114,7 +114,7 @@ public class HurtBox : MonoBehaviour
 
         if (other.TryGetComponent<Health>(out Health targetHealth))
         {
-            HitTarget(targetHealth, KnockDir.normalized);
+            HitTarget(targetHealth, KnockDir.normalized, type);
             hitObjects.Add(other); // Mark the object as hit
         }
     }
@@ -153,7 +153,11 @@ public class HurtBox : MonoBehaviour
     }
     void HitTarget(Health targetHealth, Vector3? knockDir = null, HurtType hurtType = HurtType.Bullet)
     {
-        if(hurtType == HurtType.Trap && targetHealth.isTrapMaster) return;
+        if (hurtType == HurtType.Trap && targetHealth.isTrapMaster)
+        {
+            //Debug.Log("yes ?");
+            return;
+        }
         
         //Debug.Log(knockDir);
         int Damage = Mathf.CeilToInt(BaseDamage * DamageMultiplier * MirageMultiplier);

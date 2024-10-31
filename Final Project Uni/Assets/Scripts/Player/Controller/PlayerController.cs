@@ -21,6 +21,8 @@ public class PlayerController : MonoBehaviour
     [FoldoutGroup("Stats")] 
     public bool blockInput;
     [FoldoutGroup("Stats")] 
+    public PlayerData _playerData;
+    [FoldoutGroup("Stats")] 
     public PlayerStats _stats;
     [FoldoutGroup("Stats")]
     public Health PlayerHealth;
