@@ -1,6 +1,16 @@
 using System.IO;
 using UnityEngine;
 
+
+[System.Serializable]
+public class PermaStatsData
+{
+    public int Gold;
+    public int HPUpgradesData;
+    public int SpeedUpgradesData;
+    public int DamageUpgradesData;
+}
+
 public static class PermanCRUD
 {
     private static readonly string SavePath = Path.Combine(
