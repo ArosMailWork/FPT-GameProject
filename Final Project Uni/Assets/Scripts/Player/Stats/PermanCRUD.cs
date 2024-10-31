@@ -5,10 +5,13 @@ using UnityEngine;
 [System.Serializable]
 public class PermaStatsData
 {
+    public int knowledgeLevel;
     public int Gold;
     public int HPUpgradesData;
     public int SpeedUpgradesData;
     public int DamageUpgradesData;
+    public int StaminaUpgradesData;
+    public int StaminaRegenUpgradesData;
 }
 
 public static class PermanCRUD

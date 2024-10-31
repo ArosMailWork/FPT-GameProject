@@ -9,11 +9,11 @@ using UnityEngine;
 public class PlayerStats : MonoBehaviour
 {
     public int playerGold = 0;
+    public int knowledgeLevel;
 
     #region Default
     [SerializeField]
     private int defaultMaxHealth = 10;
-    public int knowledgeLevel;
 
     [FoldoutGroup("Default Stats")]
     public float defaultSpeed = 0.7f, defaultRotationSpeed = 25, defaultMaxSpeed = 20;
@@ -41,8 +41,7 @@ public class PlayerStats : MonoBehaviour
 
     [FoldoutGroup("Default Stats/Physics")]
     [ReadOnly]
-    public float defaultDrag,
-        defaultMass;
+    public float defaultDrag, defaultMass;
 
     #endregion
 
@@ -50,9 +49,13 @@ public class PlayerStats : MonoBehaviour
     // Số lần đã upgrade
     [FoldoutGroup("Permanent Stats")]
     public int permaHP_UpAmount = 0, permaSpeed_UpAmount = 0, permaDamage_UpAmount = 0;
+    [FoldoutGroup("Permanent Stats")]
+    public int permaStamina_UpAmount = 0, permaStaminaRegen_UpAmount = 0;
     
     [FoldoutGroup("Permanent Stats/Debug Calculate")]
     [ReadOnly] public float PermaHP_Percent = 1f, PermaSpeed_Percent = 1f, PermaDamage_Percent = 1f;
+    [FoldoutGroup("Permanent Stats/Debug Calculate")]
+    [ReadOnly] public float PermaStamina_Percent = 1f, PermaStaminaRegen_Percent = 1f;
     #endregion
 
     #region Bonus
@@ -100,8 +103,8 @@ public class PlayerStats : MonoBehaviour
     public float guardTime => defaultGuardTime; // No bonus, just returns default value
 
     //Stamina
-    public int maxStamina => defaultMaxStamina + bonusMaxStamina;
-    public int regenRate => defaultRegenRate + bonusRegenRate;
+    public int maxStamina => Mathf.CeilToInt(defaultMaxStamina * PermaStamina_Percent) + bonusMaxStamina;
+    public int regenRate => Mathf.CeilToInt(defaultRegenRate * PermaStaminaRegen_Percent) + bonusRegenRate;
     public int staminaRollCost => defaultStaminaRollCost - bonusStaminaRollCost;
 
     //Arrow Controller
@@ -185,9 +188,12 @@ public class PlayerStats : MonoBehaviour
     {
         PermaStatsData loadedData = PermanCRUD.LoadPermanentStats();
         playerGold = loadedData.Gold;
+        knowledgeLevel = loadedData.knowledgeLevel;
         permaHP_UpAmount = loadedData.HPUpgradesData;
         permaSpeed_UpAmount = loadedData.SpeedUpgradesData;
         permaDamage_UpAmount = loadedData.DamageUpgradesData;
+        permaStamina_UpAmount = loadedData.StaminaUpgradesData;
+        permaStaminaRegen_UpAmount = loadedData.StaminaRegenUpgradesData;
 
         UpdatePermaPercent();
         UpdateStats();
@@ -198,6 +204,8 @@ public class PlayerStats : MonoBehaviour
         PermaHP_Percent = 1f + (CalculateMultiplier(permaHP_UpAmount));
         PermaSpeed_Percent = 1f + (CalculateMultiplier(permaSpeed_UpAmount));
         PermaDamage_Percent = 1f + (CalculateMultiplier(permaDamage_UpAmount));
+        PermaStamina_Percent = 1f + (CalculateMultiplier(permaStamina_UpAmount));
+        PermaStaminaRegen_Percent = 1f + (CalculateMultiplier(permaStaminaRegen_UpAmount));
     }
     
     public float CalculateMultiplier(int amount)

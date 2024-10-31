@@ -6,8 +6,7 @@ using UnityEngine;
 public struct ItemDrop
 {
     public GameObject itemPrefab;
-    [Range(0, 100)]
-    public float dropRate; // Percentage scale (0 - 100%)
+    [Range(0, 100)] public float dropRate; // Percentage scale (0 - 100%)
 }
 
 public class ItemDropRate : MonoBehaviour
