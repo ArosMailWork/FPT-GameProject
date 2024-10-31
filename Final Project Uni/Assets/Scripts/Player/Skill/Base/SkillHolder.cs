@@ -100,7 +100,8 @@ public class SkillHolder : MonoBehaviour
         }
 
         skillList.Add(skillInstance);  // Add all skills to the master list
-
+        Debug.Log("Add " + skillComponent.type + " Skill: " + skillComponent.name);
+        
         if(SwitchButton != null) SwitchButton.gameObject.SetActive((activeSkillList.Count > 1));
     }
 

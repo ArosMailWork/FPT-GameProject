@@ -145,6 +145,7 @@ public class Arrow : MonoBehaviour
             {
                 _playerController.currentState = PlayerState.Idle;
                 _arrowController.haveArrow = true;
+                _arrowController.ShootSpriteUpdate();
                 _arrowController._playerAnimController.UpdateHaveArrow(true);
                 _arrowController.isRecalling = false;
 

@@ -21,6 +21,8 @@ public class PlayerController : MonoBehaviour
     [FoldoutGroup("Stats")] 
     public bool blockInput;
     [FoldoutGroup("Stats")] 
+    public PlayerData _playerData;
+    [FoldoutGroup("Stats")] 
     public PlayerStats _stats;
     [FoldoutGroup("Stats")]
     public Health PlayerHealth;
@@ -279,7 +281,7 @@ public class PlayerController : MonoBehaviour
 
     public void MeleeAnim()
     {
-        if (blockInput) return;
+        if (blockInput || !PlayerHealth.isAlive) return;
         if(currentState == PlayerState.Recalling || currentState == PlayerState.ReverseRecalling || currentState == PlayerState.Stunning) return;
         if(_arrowController.ChargingInput) return;
         _playerAnimController.Slash();

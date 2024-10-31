@@ -3,9 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Skill_Active_Splitshot : ISkill
+public class Skill_Buff_Splitshot : ISkill
 {
-    // Start is called before the first frame update
     void Start()
     {
         SetToggle(true);
