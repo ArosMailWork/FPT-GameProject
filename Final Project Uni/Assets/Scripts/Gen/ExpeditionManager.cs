@@ -6,16 +6,20 @@ using UnityEngine.Events;
 public class ExpeditionManager : MonoBehaviour
 {
     public GenerationManager gen;
+    [FoldoutGroup("Debug")]
     public List<World> worlds;
+    [FoldoutGroup("Debug")]
     public List<Floor> floors;
+    [FoldoutGroup("Debug")]
     public World currentWorld;
+    [FoldoutGroup("Debug")]
     public Biome currentBiome;
     [FoldoutGroup("Expedition Number")]
     public int currentWorldNumber = 0;
     [FoldoutGroup("Expedition Number")]
     public int currentFloorNumber = 0;
     [FoldoutGroup("Event")]
-    public UnityEvent OnExit, LoadNextFloor;
+    public UnityEvent OnFloorExit, OnWorldExit, LoadNextFloor, SkillEvent, OnTransition;
 
     #region Event
 
@@ -35,19 +39,34 @@ public class ExpeditionManager : MonoBehaviour
 
         if (currentFloorNumber + 1 < floors.Count)
         {
+            CheckEvent();
             currentFloorNumber += 1;
-            OnExit.Invoke();
+            OnFloorExit.Invoke();
         }
         else if (currentWorldNumber + 1 < worlds.Count)
         {
+            CheckEvent();
             currentWorldNumber += 1;
             currentFloorNumber = 0;
             SetWorld(currentWorldNumber);
-            OnExit.Invoke();
+            OnWorldExit.Invoke();
         }
         else
         {
             ExpeditionComplete();
+        }
+    }
+    public void CheckEvent()
+    {
+        Floor f = floors[currentFloorNumber];
+        ExpeditionEvent ex = f.exEvent;
+        if (ex.eventType == EventType.SkillChoose)
+        {
+            SkillEvent.Invoke();
+        }
+        else
+        {
+            OnTransition.Invoke();
         }
     }
     public void ExpeditionStart()

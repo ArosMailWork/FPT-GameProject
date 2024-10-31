@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -14,5 +12,7 @@ public class Floor : ScriptableObject
     public bool haveBoss;
     [FoldoutGroup("Special Room")]
     public int MinPuzzleRoom, MaxPuzzleRoom, MinRewardRoom, MaxRewardRoom;
+
+    public ExpeditionEvent exEvent;
 
 }

@@ -2,10 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class SelectRandomSkillEvent : MonoBehaviour
 {
     #region Variables
+    [FoldoutGroup("Setup/Buttons")]
+    public Button SkillSelectSlot1, SkillSelectSlot2, SkillSelectSlot3;
+    public Image SkillIMG1, SkillIMG2, SkillIMG3;
 
     [FoldoutGroup("Setup")]
     public List<GameObject> SkillPool = new List<GameObject>(); // All available skills
@@ -13,6 +18,8 @@ public class SelectRandomSkillEvent : MonoBehaviour
     public List<GameObject> GachaSkillSlots = new List<GameObject>(); // The slots to choose from
     [FoldoutGroup("Stats")]
     public int selectedSlot; // The slot index for GachaSkillSlots
+    [FoldoutGroup("Event")]
+    public UnityEvent OnSkillChoose;
 
     #endregion
 
@@ -78,6 +85,26 @@ public class SelectRandomSkillEvent : MonoBehaviour
             GachaSkillSlots[randomPos] = temp;
         }
     }
+    [Button]
+    public void SkillSelectStart()
+    {
+        GachaSkill(3);
+        SkillIMG1.sprite = GachaSkillSlots[0].GetComponent<ISkill>().Icon;
+        SkillIMG2.sprite = GachaSkillSlots[1].GetComponent<ISkill>().Icon;
+        SkillIMG3.sprite = GachaSkillSlots[2].GetComponent<ISkill>().Icon;
+    }
 
+    public void SelectSkill(int choice)
+    {
+        if (choice < GachaSkillSlots.Count)
+        {
+            selectedSlot = choice;
+            AddSelectSkillFromSlot();
+            OnSkillChoose.Invoke();
+        }
+
+
+    }
     #endregion
+
 }
