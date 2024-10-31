@@ -24,61 +24,88 @@ namespace PA
             }
         }
 
-        [Header("Main Menu UI")] [SerializeField]
+        [Header("Main Menu UI")]
+        [SerializeField]
         private GameObject mainMenuPanel;
 
-        [SerializeField] private Button newGameButton;
+        [SerializeField]
+        private Button newGameButton;
 
-        [SerializeField] private Button loadGameButton;
+        [SerializeField]
+        private Button loadGameButton;
 
-        [SerializeField] private Button settingsButton;
+        [SerializeField]
+        private Button settingsButton;
 
-        [SerializeField] private Button quitGameButton;
+        [SerializeField]
+        private Button quitGameButton;
 
-        [Header("Settings Menu UI")] [SerializeField]
+        [Header("Settings Menu UI")]
+        [SerializeField]
         private GameObject settingsMenuPanel;
 
-        [SerializeField] private GameObject settingsPanel;
+        [SerializeField]
+        private GameObject settingsPanel;
 
-        [SerializeField] private Button graphicsPanelButton;
+        [SerializeField]
+        private Button graphicsPanelButton;
 
-        [SerializeField] private Button soundPanelButton;
+        [SerializeField]
+        private Button soundPanelButton;
 
-        [SerializeField] private Button backSettingsMenuButton;
+        [SerializeField]
+        private Button backSettingsMenuButton;
 
-        [SerializeField] private GameObject graphicsPanel;
+        [SerializeField]
+        private GameObject graphicsPanel;
 
-        [SerializeField] private GameObject soundPanel;
+        [SerializeField]
+        private GameObject soundPanel;
 
-        [Space(10)] [Header("Graphics Settings UI")] [SerializeField]
+        [Space(10)]
+        [Header("Graphics Settings UI")]
+        [SerializeField]
         private TMP_Dropdown fpsDropdown;
 
-        [SerializeField] private Dropdown graphicsQualityDropdown;
+        [SerializeField]
+        private Dropdown graphicsQualityDropdown;
 
-        [SerializeField] private Toggle vSyncToggle;
+        [SerializeField]
+        private Toggle vSyncToggle;
 
-        [SerializeField] private Toggle antiAliasingToggle;
+        [SerializeField]
+        private Toggle antiAliasingToggle;
 
-        [SerializeField] private Toggle shadowsToggle;
+        [SerializeField]
+        private Toggle shadowsToggle;
 
-        [SerializeField] private Toggle bloomToggle;
+        [SerializeField]
+        private Toggle bloomToggle;
 
-        [SerializeField] private Button backGraphicsSettingsButton;
+        [SerializeField]
+        private Button backGraphicsSettingsButton;
 
-        [Header("Sound Settings UI")] [SerializeField]
+        [Header("Sound Settings UI")]
+        [SerializeField]
         private Slider musicVolumeSlider;
 
-        [SerializeField] private TMP_Text musicVolumeTextBG;
+        [SerializeField]
+        private TMP_Text musicVolumeTextBG;
 
-        [SerializeField] private Slider sfxVolumeSlider;
+        [SerializeField]
+        private Slider sfxVolumeSlider;
 
-        [SerializeField] private TMP_Text musicVolumeTextSFX;
+        [SerializeField]
+        private TMP_Text musicVolumeTextSFX;
 
-        [SerializeField] private Toggle musicToggle;
+        [SerializeField]
+        private Toggle musicToggle;
 
-        [SerializeField] private Toggle sfxToggle;
+        [SerializeField]
+        private Toggle sfxToggle;
 
-        [SerializeField] private Button backSoundSettingsButton;
+        [SerializeField]
+        private Button backSoundSettingsButton;
 
         private void Start()
         {
@@ -131,8 +158,8 @@ namespace PA
             bloomToggle.isOn = settings.isBloomEnabled;
             // TODO: Set FPS and Resolution dropdown values
         }
-        
-        [Header("Transition")] 
+
+        [Header("Transition")]
         #region Change Child
 
         public GameObject maskA;
@@ -219,8 +246,10 @@ namespace PA
             }
         }
 
-        private void OnNewGameClicked()
+        private async void OnNewGameClicked()
         {
+            MakeTransition();
+            await UniTask.Delay(TimeSpan.FromSeconds(delayActive));
             GameManager.Instance.StartNewGame();
         }
 
