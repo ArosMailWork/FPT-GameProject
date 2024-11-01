@@ -14,7 +14,7 @@ namespace PA
         {
             await UniTask.DelayFrame(1);
             playerStats = GameObject.FindWithTag("Player").GetComponent<PlayerStats>();
-            UpdateGoldText(playerStats.playerGold);
+            UpdateGoldText(playerStats.playerSoul);
         }
 
         public void UpdateGoldText(int gold)
