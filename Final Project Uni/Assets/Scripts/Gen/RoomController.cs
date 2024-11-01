@@ -22,19 +22,19 @@ public class RoomController : MonoBehaviour
 
     public void SetConnector(List<Vector2Int> connection)
     {
-        if (connection.Contains(new Vector2Int(0, 1)))
+        if (connection.Contains(new Vector2Int(0, -1)))
         {
             SetDirectionActive(UpConnections, true);
         }
-        if (connection.Contains(new Vector2Int(0, -1)))
+        if (connection.Contains(new Vector2Int(0, 1)))
         {
             SetDirectionActive(DownConnections, true);
         }
-        if (connection.Contains(new Vector2Int(-1, 0)))
+        if (connection.Contains(new Vector2Int(1, 0)))
         {
             SetDirectionActive(LeftConnections, true);
         }
-        if (connection.Contains(new Vector2Int(1, 0)))
+        if (connection.Contains(new Vector2Int(-1, 0)))
         {
             SetDirectionActive(RightConnections, true);
         }

@@ -12,7 +12,7 @@ public class RoomTriggerPlate : MonoBehaviour
     public List<InteractTarget> validTargets = new List<InteractTarget>();
     public UnityEvent ToggleOn, ToggleOff;
     public float DelayActivateTime, DelayLeftTime;
-    public bool pressed;
+    private bool pressed = false;
 
 
     // Function to check if the tag matches any in the validTargets list
