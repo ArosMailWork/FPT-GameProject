@@ -27,7 +27,9 @@ public class HitParticle : MonoBehaviour
         
         //Implement Knockback shiet here
         KnockDirect.y = 0;
-        AudioManager.Instance.HitEffect();
+        
+        if(AudioManager.Instance != null)
+            AudioManager.Instance.HitEffect();
     }
 
     public void PlayExplodeParticle()
