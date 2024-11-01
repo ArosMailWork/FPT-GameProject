@@ -32,6 +32,7 @@ public abstract class ISkill : MonoBehaviour
     public void Assign(PlayerController pc)
     {
         _pc = pc;
+        _pc._playerData.UnlockSkill(Name);
     }
     #region Timer
     public void Timer()

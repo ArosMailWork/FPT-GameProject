@@ -68,7 +68,7 @@ public class HurtBox : MonoBehaviour
     {
         if (!Activate || !IsValidTarget(other) || hitObjects.Contains(other))
         {
-            Debug.Log(this.transform.name + " hitted " + other.name + " / " + other.tag);
+            //Debug.Log(this.transform.name + " hitted " + other.name + " / " + other.tag);
             hitEvent.Invoke();
             return;
         }
