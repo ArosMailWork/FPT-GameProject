@@ -21,7 +21,7 @@ public class Arrow : MonoBehaviour
     [FoldoutGroup("Stats")]
     public float lifeTime, recallSpeed, rotSpeed = 10, MaxSpeed, minShootingSpeed = 0.5f, MirageDelay = 0.5f;
 
-    [FoldoutGroup("Stats")] 
+    [FoldoutGroup("Stats")]
     public float bonusRicochetMultiplier = 0;
     [FoldoutGroup("Stats/Hover")]
     public float hoverSpeed = 2.0f;
@@ -35,7 +35,7 @@ public class Arrow : MonoBehaviour
 
     [FoldoutGroup("Setup")]
     public Rigidbody arrowRb;
-    [FoldoutGroup("Setup")] 
+    [FoldoutGroup("Setup")]
     public HurtBox hitbox;
     [FoldoutGroup("Setup")]
     [ReadOnly] public ArrowController _arrowController;
@@ -48,10 +48,17 @@ public class Arrow : MonoBehaviour
 
     #region Unity Methods
 
+    public void OnEnable()
+    {
+        hitbox.KnockDir = arrowRb.velocity;
+    }
     private void Start()
     {
+        _arrowController = ArrowController.Instance;
+        _playerController = PlayerController.Instance;
+
         RecoverEvent.Invoke();
-        if (IsMainArrow) hitbox.MirageMultiplier = 1f;
+        if (!IsMainArrow) hitbox.MirageMultiplier = 0.5f;
     }
 
     private void FixedUpdate()
@@ -72,7 +79,7 @@ public class Arrow : MonoBehaviour
         else if (currentArrowState == ArrowState.Idle)
         {
             currentHoverHeight = 0;
-            
+
             if (IsMainArrow && currentArrowState == ArrowState.Recalling)
                 _arrowController.prefabParticleManager.PlayAssignedParticle("RecallingMainArrowVFX");
         }
@@ -89,16 +96,13 @@ public class Arrow : MonoBehaviour
     {
         //HideEvent.Invoke();
 
-        _arrowController.prefabParticleManager.SpawnParticle("ArrowHideVFX", 
+        _arrowController.prefabParticleManager.SpawnParticle("ArrowHideVFX",
             transform.position, Quaternion.Euler(-90, 0, 0));
     }
 
     #endregion
-    public void AssignController()
+    public void Assign()
     {
-        _arrowController = ArrowController.Instance;
-        _playerController = PlayerController.Instance;
-        
         arrowRb = GetComponent<Rigidbody>();
         hitbox = GetComponent<HurtBox>();
     }
@@ -109,6 +113,7 @@ public class Arrow : MonoBehaviour
         AccelDirect = inputDirect;
         //Debug.Log(AccelDirect);
         arrowRb.velocity = AccelDirect;
+        hitbox.KnockDir = arrowRb.velocity;
     }
 
     #region Recalling
@@ -142,11 +147,11 @@ public class Arrow : MonoBehaviour
                 _arrowController.haveArrow = true;
                 _arrowController._playerAnimController.UpdateHaveArrow(true);
                 _arrowController.isRecalling = false;
-                
-                if(_arrowController.ShootButtonPressing)
+
+                if (_arrowController.ShootButtonPressing)
                     _arrowController.arrowRecoverFlag = true;
-                
-                if(_arrowController.IsSplitShot)
+
+                if (_arrowController.IsSplitShot)
                     _arrowController.HideAllMirageArrow(MirageDelay);
                 currentArrowState = ArrowState.Idle;
             }
@@ -157,10 +162,10 @@ public class Arrow : MonoBehaviour
     {
         //can Play an Event here
         RecoverEvent.Invoke();
-        
+
         //hide and deactivate it
-        if(!gameObject.activeSelf) return;
-            
+        if (!gameObject.activeSelf) return;
+
         arrowRb.velocity = Vector3.zero;
         gameObject.SetActive(false);
     }
@@ -170,8 +175,8 @@ public class Arrow : MonoBehaviour
         //hit anything -> allow recall
         if (currentArrowState == ArrowState.Shooting) currentArrowState = ArrowState.Idle;
 
-        if(bonusRicochetMultiplier > 0)
-        arrowRb.velocity = arrowRb.velocity * bonusRicochetMultiplier;
+        if (bonusRicochetMultiplier > 0)
+            arrowRb.velocity = arrowRb.velocity * bonusRicochetMultiplier;
     }
 
     private void OnTriggerExit(Collider other)

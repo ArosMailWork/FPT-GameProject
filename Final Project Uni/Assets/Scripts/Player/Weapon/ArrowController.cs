@@ -20,6 +20,8 @@ public class ArrowController : MonoBehaviour
     public float ShootForce, currentChargedTime, chargedTime = 2f;
 
     [FoldoutGroup("Debug")]
+    public bool blockInput;
+    [FoldoutGroup("Debug")]
     public List<Arrow> arrowsList;
     [FoldoutGroup("Debug")]
     public PhysicMaterial physicMat;
@@ -50,7 +52,7 @@ public class ArrowController : MonoBehaviour
 
         foreach (var arrow in arrowsList)
         {
-            arrow.AssignController();
+            arrow.Assign();
         }
     }
     private void Start()
@@ -97,6 +99,7 @@ public class ArrowController : MonoBehaviour
     //Mobile Input
     public void ChargeShoot(bool charge)
     {
+        if (blockInput) return;
         //have arrow and alive ? cool
         if (!haveArrow || !_playerController.PlayerHealth.isAlive) return;
         ChargingInput = charge;
@@ -105,6 +108,8 @@ public class ArrowController : MonoBehaviour
     }
     public void Recall(bool recall)
     {
+        if (blockInput) return;
+        
         ShootButtonPressing = recall;
         if (haveArrow || !_playerController.PlayerHealth.isAlive) return;
         isRecalling = recall;
@@ -155,6 +160,7 @@ public class ArrowController : MonoBehaviour
     [Button]
     public void Shoot()
     {
+        if (blockInput) return;
         if (!haveArrow || arrowRecoverFlag)
         {
             arrowRecoverFlag = false;
@@ -250,7 +256,8 @@ public class ArrowController : MonoBehaviour
 
     public void RemoteRecover()
     {
-        if(haveArrow) return;
+        if (blockInput) return;
+        if (haveArrow) return;
         
         Debug.Log("Remote Recover");
         prefabParticleManager.PlayAssignedParticle("RecallingMainArrowVFX");

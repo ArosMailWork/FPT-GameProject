@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using Sirenix.OdinInspector;
+using UnityEditor;
 
 public class AnimationEventHub : SerializedMonoBehaviour
 {
@@ -25,6 +26,11 @@ public class AnimationEventHub : SerializedMonoBehaviour
         {
             eventDic.Remove(idInput);
             Debug.Log($"Event with ID: {idInput} has been removed.");
+
+#if UNITY_EDITOR
+            // Mark the object as dirty to ensure the change is saved
+            EditorUtility.SetDirty(this);
+#endif
         }
         else
         {

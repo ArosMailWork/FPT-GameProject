@@ -37,6 +37,7 @@ public class PlayerAnimController : MonoBehaviour
     public void DieAnim(bool die)
     {
         playerAnimator.SetBool("Die", die);
+        if(die) playerAnimator.SetTrigger("DieTrigger");
     }
     
     [Button]

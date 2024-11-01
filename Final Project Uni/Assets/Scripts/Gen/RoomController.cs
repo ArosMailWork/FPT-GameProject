@@ -1,46 +1,65 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
+using Unity.AI.Navigation;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class RoomController : MonoBehaviour
 {
-    [SerializeField] private GameObject Room;
-    [SerializeField] private GameObject Up;
-    [SerializeField] private GameObject Down;
-    [SerializeField] private GameObject Left;
-    [SerializeField] private GameObject Right;
-    // Start is called before the first frame update
-    void Start()
+    [System.Serializable]
+    public struct DirectionConnector
     {
-        //Up.SetActive(false);
-        //Down.SetActive(false);
-        //Left.SetActive(false);
-        //Right.SetActive(false);
+        public GameObject roomObject;
+        public bool Invert;
     }
+
+    [SerializeField] public NavMeshSurface navmeshSurface;
+    [SerializeField] private List<DirectionConnector> UpConnections = new List<DirectionConnector>();
+    [SerializeField] private List<DirectionConnector> DownConnections = new List<DirectionConnector>();
+    [SerializeField] private List<DirectionConnector> LeftConnections = new List<DirectionConnector>();
+    [SerializeField] private List<DirectionConnector> RightConnections = new List<DirectionConnector>();
+
     public void SetConnector(List<Vector2Int> connection)
     {
         if (connection.Contains(new Vector2Int(0, 1)))
         {
-            //Debug.Log("Up");
-            Up.SetActive(true);
+            SetDirectionActive(UpConnections, true);
         }
         if (connection.Contains(new Vector2Int(0, -1)))
         {
-            //Debug.Log("Down");
-            Down.SetActive(true);
+            SetDirectionActive(DownConnections, true);
         }
         if (connection.Contains(new Vector2Int(-1, 0)))
         {
-            //Debug.Log("Left");
-            Left.SetActive(true);
+            SetDirectionActive(LeftConnections, true);
         }
         if (connection.Contains(new Vector2Int(1, 0)))
         {
-            //Debug.Log("Right");
-            Right.SetActive(true);
+            SetDirectionActive(RightConnections, true);
         }
     }
 
+    private void SetDirectionActive(List<DirectionConnector> connectors, bool isActive)
+    {
+        foreach (var connector in connectors)
+        {
+            if (connector.Invert)
+            {
+                // If inverted, do the opposite
+                connector.roomObject.SetActive(!isActive);
+            }
+            else
+            {
+                // Normal behavior
+                connector.roomObject.SetActive(isActive);
+            }
+        }
+    }
 
+    [Button]
+    public void BuildNavMesh()
+    {
+        navmeshSurface.BuildNavMesh();
+    }
 }

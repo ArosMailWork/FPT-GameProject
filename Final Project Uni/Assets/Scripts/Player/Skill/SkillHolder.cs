@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class SkillHolder : MonoBehaviour
 {
@@ -26,6 +28,10 @@ public class SkillHolder : MonoBehaviour
     public PlayerController _pc;
     [FoldoutGroup("Setup")]
     public List<GameObject> StartSkill;
+    [FoldoutGroup("Setup")] 
+    public Image currentSkillUISprite;
+    [FoldoutGroup("Setup")] 
+    [CanBeNull] public Button SwitchButton;
 
     public static SkillHolder Instance;
 
@@ -51,13 +57,17 @@ public class SkillHolder : MonoBehaviour
             currentActiveSkill = slot;
             activeSkill = activeSkillList[slot];
             currentSkill = activeSkill.GetComponent<ISkill>();
+            currentSkillUISprite.sprite = currentSkill.Icon;
         }
     }
 
     #region Util
     // Utility method for switching to the next active skill
-    public void NextSkill(InputAction.CallbackContext ctx)
+    public void NextSkill()
     {
+        if (_pc.blockInput) return;
+        Debug.Log("next");
+        
         if (currentActiveSkill + 1 < activeSkillList.Count)
             currentActiveSkill += 1;
         else
@@ -90,6 +100,8 @@ public class SkillHolder : MonoBehaviour
         }
 
         skillList.Add(skillInstance);  // Add all skills to the master list
+
+        if(SwitchButton != null) SwitchButton.gameObject.SetActive((activeSkillList.Count > 1));
     }
 
     #region Input

@@ -1,12 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.InteropServices.ComTypes;
 using Cysharp.Threading.Tasks;
-using OpenCover.Framework.Model;
+using JetBrains.Annotations;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 [Serializable]
 public enum PlayerState
@@ -18,6 +18,8 @@ public class PlayerController : MonoBehaviour
 {
     #region Variables
 
+    [FoldoutGroup("Stats")] 
+    public bool blockInput;
     [FoldoutGroup("Stats")] 
     public PlayerStats _stats;
     [FoldoutGroup("Stats")]
@@ -47,8 +49,11 @@ public class PlayerController : MonoBehaviour
     [FoldoutGroup("Debug/Reverse Recall")]
     [SerializeField, ReadOnly] public float ReverseRecallMultiplier = 1;
 
+    [FoldoutGroup("Setup")] public Button interactButton;
     [FoldoutGroup("Setup")]
     public Rigidbody PlayerRB;
+    [FoldoutGroup("Setup")]
+    [CanBeNull] public HitStop _hitStop;
     [FoldoutGroup("Setup")]
     public PlayerAnimController _playerAnimController;
     [FoldoutGroup("Setup")]
@@ -83,6 +88,8 @@ public class PlayerController : MonoBehaviour
 
         if (Instance != this || Instance != null) Destroy(Instance);
         Instance = this;
+        
+        interactButton.gameObject.SetActive(false);
     }
 
     private void FixedUpdate()
@@ -93,6 +100,9 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        _arrowController.blockInput = blockInput;
+        if (blockInput) return;
+
         UpdateRollCDTimer();
 
         Move(moveInput);
@@ -142,7 +152,8 @@ public class PlayerController : MonoBehaviour
     public async UniTaskVoid doRollingMove(Vector2 input, int staminaCost)
     {
         //prevent spam in the middle
-        if (!canRoll || !staminaSystem.HasEnoughStamina(staminaCost) || moveBuffer == Vector2.zero) return;
+        if (!canRoll || !staminaSystem.HasEnoughStamina(staminaCost) || 
+            moveBuffer == Vector2.zero || !PlayerHealth.isAlive) return;
 
         //add CD
         AddRollCD(_stats.rollCD + _stats.rollTime);
@@ -213,7 +224,6 @@ public class PlayerController : MonoBehaviour
 
     public void InputMove(InputAction.CallbackContext ctx)
     {
-        if (!PlayerHealth.isAlive) return;
         moveInput = ctx.ReadValue<Vector2>();
 
         if (moveInput != Vector2.zero && moveInput != moveBuffer) moveBuffer = moveInput;
@@ -221,7 +231,6 @@ public class PlayerController : MonoBehaviour
 
     public void InputRoll(InputAction.CallbackContext ctx)
     {
-        if (!PlayerHealth.isAlive) return;
         Roll();
     }
 
@@ -270,6 +279,7 @@ public class PlayerController : MonoBehaviour
 
     public void MeleeAnim()
     {
+        if (blockInput) return;
         if(currentState == PlayerState.Recalling || currentState == PlayerState.ReverseRecalling || currentState == PlayerState.Stunning) return;
         if(_arrowController.ChargingInput) return;
         _playerAnimController.Slash();
@@ -278,7 +288,7 @@ public class PlayerController : MonoBehaviour
     [Button]
     public void MeleeLunge()
     {
-        Debug.Log("Lunge");
+        //Debug.Log("Lunge");
         // Use OverlapSphere to detect all colliders within the radius
         Collider[] hitColliders = Physics.OverlapSphere(PlayerRB.transform.position, lungeRange);
 
@@ -337,7 +347,7 @@ public class PlayerController : MonoBehaviour
             elapsedTime += Time.deltaTime;
         }
 
-        Debug.Log("Lunge Rotation Complete");
+        //Debug.Log("Lunge Rotation Complete");
     }
 
     #endregion
@@ -348,7 +358,7 @@ public class PlayerController : MonoBehaviour
     {
         if (currentState == PlayerState.Stunning || currentState == PlayerState.Rolling ||
             currentState == PlayerState.Recalling  || currentState == PlayerState.ReverseRecalling || 
-            currentState == PlayerState.Striking) return;
+            currentState == PlayerState.Striking || !PlayerHealth.isAlive) return;
 
         if (isJoystickInput) input = joyStickInput;
 
@@ -383,11 +393,14 @@ public class PlayerController : MonoBehaviour
 
     public void Roll()
     {
+        if (blockInput) return;
+        if (!PlayerHealth.isAlive) return;
         if (currentState == PlayerState.Rolling || moveBuffer == Vector2.zero) return;
         doRollingMove(moveBuffer, _stats.staminaRollCost);
     }
     public void Guard()
     {
+        if(!PlayerHealth.isAlive) return;
         GuardAnim();
     }
     
@@ -406,10 +419,9 @@ public class PlayerController : MonoBehaviour
     #region Event
 
     [Button]
-    public void Hurt(Vector3 KnockDirect, float Damage)
+    public void Hurt(float Damage)
     {
         HurtAnim();
-        ReceiveKnockback(KnockDirect);
     }
 
     public void HurtAnim()
@@ -417,20 +429,29 @@ public class PlayerController : MonoBehaviour
         _playerAnimController.DamagedAnim();
     }
 
-    public async UniTaskVoid ReceiveKnockback(Vector3 KnockDirect, float StunTime = 0.2f)
+    public void ReceiveKnockback(Vector3 KnockDirect)
     {
-        Debug.Log("Player: ouch");
+        doReceiveKnockback(KnockDirect);
+    }
+    
+    public async UniTaskVoid doReceiveKnockback(Vector3 KnockDirect, float StunTime = 0.15f)
+    {
+        //Debug.Log("Player Knockback: " + KnockDirect);
         //Implement Knockback shiet here
-        PlayerRB.AddForce(KnockDirect, ForceMode.Impulse);
+        KnockDirect.y = 0;
+        
+        PlayerRB.AddForce(KnockDirect.normalized * KnockDirect.magnitude, ForceMode.Impulse);
 
         currentState = PlayerState.Stunning;
         await UniTask.Delay(TimeSpan.FromSeconds(StunTime));
+        currentState = PlayerState.Idle;
     }
 
     public void Die()
     {
         Debug.Log("Ded");
         _playerAnimController.DieAnim(true);
+        PlayerHealth.isAlive = false;
     }
 
     public
