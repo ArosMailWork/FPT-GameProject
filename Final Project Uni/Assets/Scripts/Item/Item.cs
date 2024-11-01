@@ -24,6 +24,11 @@ public class Item : MonoBehaviour
     [CanBeNull] public bool takeSkillIcon = true;
     [FoldoutGroup("Skill")]
     [CanBeNull] public GameObject Skill;
+
+    [FoldoutGroup("Material")] 
+    public string itemID;
+    [FoldoutGroup("Material")] 
+    public int itemAmount;
     
     [FoldoutGroup("Currency")]
     public float Gold, Soul;
@@ -40,6 +45,7 @@ public class Item : MonoBehaviour
 
     public void GrabItem()
     {
+        GrabMaterial();
         GrabMoney();
         GrabSkill();
         ApplyBuff();
@@ -49,14 +55,17 @@ public class Item : MonoBehaviour
     {
         if(Skill != null) SkillHolder.Instance.AddSkill(Skill);
     }
-    
     public void ApplyBuff()
     {
         if(amount != 0) PlayerController.Instance._stats.BuffPlayer(type, amount);
     }
-
     public void GrabMoney()
     {
-        if (Soul > 0 || Gold > 0) PlayerController.Instance._playerData.AdjustCurrency(Gold, Soul);
+        if (Soul > 0 || Gold > 0) PlayerController.Instance._playerData.AddCurrency(Gold, Soul);
+    }
+
+    public void GrabMaterial()
+    {
+        PlayerController.Instance._playerData.AddItem(itemID, itemAmount);
     }
  }

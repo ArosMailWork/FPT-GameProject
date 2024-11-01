@@ -34,6 +34,7 @@ public class InteractableItem : MonoBehaviour
         {
             hasInteracted = true;  // Mark as interacted
             interactButton.gameObject.SetActive(false);  // Hide the button after interaction
+            interactButton.onClick.RemoveListener(OnInteract);
         }
     }
 
@@ -63,6 +64,7 @@ public class InteractableItem : MonoBehaviour
         if (!other.CompareTag("Player")) return;
 
         // Add the listener when entering the trigger range
+        interactButton.onClick.RemoveListener(OnInteract);
         interactButton.onClick.AddListener(OnInteract);
         
         EnterTriggerRange.Invoke();

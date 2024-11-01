@@ -109,11 +109,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bc0b7fb170926f4d90cdc3f8dde69d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemDatabase: {fileID: 11400000, guid: 8d48a044691affc4d98c42a448de4250, type: 2}
+  recipeDatabase: {fileID: 11400000, guid: 12839061164ffb94594fc6913897608b, type: 2}
   skillDatabase: {fileID: 11400000, guid: 6dd942f9d58e21f4e9b874aaa11188a1, type: 2}
   Gold: 0
   SoulCollected: 0
   unlockedSkills: []
   Inventory: []
+  unlockedRecipes: []
 --- !u!1 &198933028673479354
 GameObject:
   m_ObjectHideFlags: 0
@@ -63476,9 +63479,7 @@ MonoBehaviour:
   activeSkill: {fileID: 0}
   currentSkill: {fileID: 0}
   _pc: {fileID: 1766675483051995058}
-  StartSkill:
-  - {fileID: 2424829857179758770, guid: 76a96f0e38d4bb4459e4f4bb8f8bddc8, type: 3}
-  - {fileID: 464762936703557575, guid: 7674e64215c755042adb5d32681b7752, type: 3}
+  StartSkill: []
   currentSkillUISprite: {fileID: 46930167723633426}
   SwitchButton: {fileID: 7848440257394057899}
 --- !u!1 &6085415222758916639
@@ -106462,6 +106463,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2557406246698506062}
+  - component: {fileID: 5785351099874809484}
   - component: {fileID: 2848056552572840065}
   - component: {fileID: 3080013085032493919}
   - component: {fileID: 1827056334233658948}
@@ -106501,8 +106503,8 @@ Transform:
   - {fileID: 843305482126273938}
   m_Father: {fileID: 3547151362967053558}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!136 &2848056552572840065
-CapsuleCollider:
+--- !u!65 &5785351099874809484
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -106519,9 +106521,30 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.84, y: 0.68, z: 1.75}
+  m_Center: {x: 0, y: -0.33710253, z: 0}
+--- !u!136 &2848056552572840065
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8778054791344151268}
+  m_Material: {fileID: 13400000, guid: 1e0c54c6e2897f14fa46c6b8f936159a, type: 2}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_Radius: 1.0925531
-  m_Height: 4.6361804
+  m_Height: 4.38
   m_Direction: 1
   m_Center: {x: 0, y: 1.3180902, z: 0}
 --- !u!54 &3080013085032493919
@@ -106705,6 +106728,7 @@ MonoBehaviour:
   defaultRegenRate: 10
   defaultStaminaRollCost: 20
   defaultRicochetFriction: 0
+  defaultRecallSpeed: 40
   defaultDamage: 2
   defaultDrag: 0
   defaultMass: 0
@@ -106712,7 +106736,6 @@ MonoBehaviour:
   permaSpeed_UpAmount: 0
   permaDamage_UpAmount: 0
   permaStamina_UpAmount: 0
-  permaStaminaRegen_UpAmount: 0
   PermaHP_Percent: 1
   PermaSpeed_Percent: 1
   PermaDamage_Percent: 1
@@ -106731,6 +106754,7 @@ MonoBehaviour:
   bonusChargedTime: 0
   bonusRicochetMultiplier: 0
   bonusDamage: 1
+  bonusRecallSpeed: 0
   bonusDamageMultiplier: 0
   _pc: {fileID: 0}
 --- !u!114 &821813476702798318

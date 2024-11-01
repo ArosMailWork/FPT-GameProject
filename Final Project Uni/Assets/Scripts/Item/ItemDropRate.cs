@@ -68,7 +68,7 @@ public class ItemDropRate : MonoBehaviour
         Soul = Random.Range(MinSoul, MaxSoul);
         
         //temporary add directly, will add item collide to add money later
-        PlayerController.Instance._playerData.AdjustCurrency(Gold, Soul);
+        PlayerController.Instance._playerData.AddCurrency(Gold, Soul);
     }
 
     private void Drop(GameObject item)
