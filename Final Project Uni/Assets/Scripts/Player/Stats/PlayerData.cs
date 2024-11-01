@@ -34,7 +34,6 @@ public class PermaStatsData
     public int SpeedUpgradesData;
     public int DamageUpgradesData;
     public int StaminaUpgradesData;
-    public int StaminaRegenUpgradesData;
 }
 
 // This will be used for saving/loading data to JSON
@@ -81,14 +80,24 @@ public class PlayerData : MonoBehaviour
 
     
     //Call this command whenever player pass a floor
-    [Button("Save")]
-    public void SavePlayerData()
+    [Button("Confirm Reward")]
+    public void ConfirmReward()
     {
-        var saveData = new PlayerDataSave
+        // Create a PlayerDataSave object to save isUnlocked states
+        var saveData = new PlayerDataSave();
+
+        foreach (var skill in skillDatabase.allSkills)
         {
-            SkillList = new List<SkillUnlock>(unlockedSkills),
-            Inventory = new List<InventoryItem>(Inventory)
-        };
+            // Find if this skill is in the current unlockedSkills list
+            var unlockedSkill = unlockedSkills.Find(s => s.Skill.Skill_ID == skill.Skill_ID);
+        
+            saveData.SkillList.Add(new SkillUnlock
+            {
+                Skill = skill,
+                // Use isUnlocked from unlockedSkills if available, or defaultUnlocked from database
+                isUnlocked = unlockedSkill != null ? unlockedSkill.isUnlocked : skill.defaultUnlocked 
+            });
+        }
         
         PlayerDataCRUD.SavePlayerData(saveData);
         
@@ -101,41 +110,41 @@ public class PlayerData : MonoBehaviour
         PlayerDataCRUD.SavePermanentStats(permaStats);
     }
     
+    //Call this when u intend to do sth with shopping, etc
     [Button("Load")]
     public void LoadPlayerData()
     {
+        // Load saved data
         PlayerDataSave saveData = PlayerDataCRUD.LoadPlayerData();
-    
+
+        // Clear current lists
         unlockedSkills.Clear();
         Inventory.Clear();
 
+        // If there’s saved data, synchronize it with skillDatabase
         if (saveData != null)
         {
-            // Load skills from saved data
-            unlockedSkills = new List<SkillUnlock>(saveData.SkillList);
+            // Load inventory data
             Inventory = new List<InventoryItem>(saveData.Inventory);
 
-            // Match unlockedSkills with the skillDatabase to ensure correct defaultUnlocked state
-            foreach (var savedSkill in unlockedSkills)
+            // Sync with skillDatabase and override properties from database
+            foreach (var skill in skillDatabase.allSkills)
             {
-                var databaseSkill = skillDatabase.allSkills.Find(skill => skill.Skill_ID == savedSkill.Skill.Skill_ID);
-                if (databaseSkill.Skill_ID != null) 
-                {
-                    // Pull defaultUnlocked from skillDatabase
-                    savedSkill.Skill.defaultUnlocked = databaseSkill.defaultUnlocked;
+                // Find the saved skill to check its unlocked state
+                var savedSkill = saveData.SkillList.Find(s => s.Skill.Skill_ID == skill.Skill_ID);
 
-                    // Ensure isUnlocked is true if defaultUnlocked is true
-                    if (databaseSkill.defaultUnlocked)
-                        savedSkill.isUnlocked = true;
-                    
-                }
+                unlockedSkills.Add(new SkillUnlock
+                {
+                    Skill = skill, // Take all properties from the database
+                    isUnlocked = savedSkill != null ? savedSkill.isUnlocked : skill.defaultUnlocked // Use saved isUnlocked or defaultUnlocked from the database
+                });
             }
 
-            Debug.Log("Player data loaded and updated with database defaultUnlocked values.");
+            Debug.Log("Player data loaded and synchronized with skill database.");
         }
         else
         {
-            Debug.LogWarning("No save data found. Initializing new data.");
+            Debug.LogWarning("No save data found. Initializing new data from database.");
             InitializeSkillsFromDatabase();
         }
     }

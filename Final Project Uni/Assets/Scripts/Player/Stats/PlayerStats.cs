@@ -31,7 +31,7 @@ public class PlayerStats : MonoBehaviour
     public int defaultMaxStamina = 100, defaultRegenRate = 10, defaultStaminaRollCost = 20;
 
     [FoldoutGroup("Default Stats/Arrow")]
-    public float defaultRicochetFriction = 0;
+    public float defaultRicochetFriction = 0, defaultRecallSpeed = 40;
 
     [FoldoutGroup("Default Stats/Arrow")]
     public int defaultDamage = 2;
@@ -50,7 +50,7 @@ public class PlayerStats : MonoBehaviour
     [FoldoutGroup("Permanent Stats")]
     public int permaHP_UpAmount = 0, permaSpeed_UpAmount = 0, permaDamage_UpAmount = 0;
     [FoldoutGroup("Permanent Stats")]
-    public int permaStamina_UpAmount = 0, permaStaminaRegen_UpAmount = 0;
+    public int permaStamina_UpAmount = 0;
     
     [FoldoutGroup("Permanent Stats/Debug Calculate")]
     [ReadOnly] public float PermaHP_Percent = 1f, PermaSpeed_Percent = 1f, PermaDamage_Percent = 1f;
@@ -75,8 +75,10 @@ public class PlayerStats : MonoBehaviour
     [FoldoutGroup("Bonus Stats/Arrow")]
     public float bonusRicochetMultiplier;
 
-    [FoldoutGroup("Bonus Stats/Arrow")]
-    public int bonusDamage;
+    [FoldoutGroup("Bonus Stats/Arrow")] 
+    public int bonusDamage; 
+    [FoldoutGroup("Bonus Stats/Arrow")] 
+    public float bonusRecallSpeed;
 
     [FoldoutGroup("Bonus Stats/Arrow")]
     public float bonusDamageMultiplier;
@@ -94,8 +96,8 @@ public class PlayerStats : MonoBehaviour
     public float maxSpeed => defaultMaxSpeed + bonusMaxSpeed;
 
     //Roll
-    public float rollSpeed => defaultRollSpeed + (PermaSpeed_Percent * defaultSpeed);
-    public float rollCD => defaultRollCD + bonusRollCD;
+    public float rollSpeed => defaultRollSpeed + (PermaSpeed_Percent * defaultSpeed) + bonusSpeed;
+    public float rollCD => defaultRollCD - bonusRollCD;
     public float rollTime => defaultRollTime + bonusRollTime;
     public float controlRollDirect => defaultControlRollDirect + bonusControlRollDirect;
 
@@ -112,6 +114,7 @@ public class PlayerStats : MonoBehaviour
 
     //Arrow
     public float staticFriction => defaultRicochetFriction * bonusRicochetMultiplier;
+    public float recallSpeed => defaultRecallSpeed + bonusRecallSpeed;
 
     public int Damage => Mathf.CeilToInt(((defaultDamage * PermaDamage_Percent) + bonusDamage) * DamageMultiplier);
     public float DamageMultiplier => defaultDamageMultiplier + bonusDamageMultiplier;
@@ -157,7 +160,7 @@ public class PlayerStats : MonoBehaviour
         UpdateStats();
     }
 
-    public void SetBuffMultiplier(float amount)
+    public void SetBuffATKMul(float amount)
     {
         bonusDamageMultiplier = Mathf.CeilToInt(amount);
         UpdateStats();
@@ -178,6 +181,7 @@ public class PlayerStats : MonoBehaviour
         {
             arrow.bonusRicochetMultiplier = bonusRicochetMultiplier;
             arrow.hitbox.BaseDamage = Damage;
+            arrow.recallSpeed = recallSpeed;
         }
 
         //health
@@ -193,7 +197,6 @@ public class PlayerStats : MonoBehaviour
         permaSpeed_UpAmount = loadedData.SpeedUpgradesData;
         permaDamage_UpAmount = loadedData.DamageUpgradesData;
         permaStamina_UpAmount = loadedData.StaminaUpgradesData;
-        permaStaminaRegen_UpAmount = loadedData.StaminaRegenUpgradesData;
 
         UpdatePermaPercent();
         UpdateStats();
@@ -205,7 +208,6 @@ public class PlayerStats : MonoBehaviour
         PermaSpeed_Percent = 1f + (CalculateMultiplier(permaSpeed_UpAmount));
         PermaDamage_Percent = 1f + (CalculateMultiplier(permaDamage_UpAmount));
         PermaStamina_Percent = 1f + (CalculateMultiplier(permaStamina_UpAmount));
-        PermaStaminaRegen_Percent = 1f + (CalculateMultiplier(permaStaminaRegen_UpAmount));
     }
     
     public float CalculateMultiplier(int amount)

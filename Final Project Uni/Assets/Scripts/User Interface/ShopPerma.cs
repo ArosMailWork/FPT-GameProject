@@ -14,10 +14,10 @@ public class ShopPerma : MonoBehaviour
     [FoldoutGroup("Loaded Stats")]
     public int playerSoul;
     [FoldoutGroup("Loaded Stats")]
-    [ReadOnly] public int permaHPUpgrades, permaSpeedUpgrades, permaDamageUpgrades;
+    [ReadOnly] public int permaHPUpgrades, permaSpeedUpgrades, permaDamageUpgrades, permaStaminaUpgrades;
 
     // Baseline values to track confirmed upgrades
-    private int confirmedHP, confirmedSpeed, confirmedDamage;
+    private int confirmedHP, confirmedSpeed, confirmedDamage, confirmedStamina;
 
     [FoldoutGroup("UI")]
     public TMP_Text goldText;
@@ -30,23 +30,26 @@ public class ShopPerma : MonoBehaviour
     [FoldoutGroup("UI/Health")]
     public Button hpPlusButton, hpMinusButton;
     #endregion
-
     #region Speed Buttons
     [FoldoutGroup("UI/Speed")]
     public TMP_Text speedStat;
     [FoldoutGroup("UI/Speed")]
     public Button speedPlusButton, speedMinusButton;
     #endregion
-
     #region Damage Buttons
     [FoldoutGroup("UI/Damage")]
     public TMP_Text damageStat;
     [FoldoutGroup("UI/Damage")]
     public Button damagePlusButton, damageMinusButton;
     #endregion
-
-    [FoldoutGroup("Debug")]
-    private int receiptHP, receiptSpeed, receiptDamage;
+    #region Stamina Buttons
+    [FoldoutGroup("UI/Stamina")]
+    public TMP_Text staminaStat;
+    [FoldoutGroup("UI/Stamina")]
+    public Button staminaPlusButton, staminaMinusButton;
+    #endregion
+    
+    private int receiptHP, receiptSpeed, receiptDamage, receiptStamina;
     private PlayerStats _stats;
 
     private void Start()
@@ -64,6 +67,8 @@ public class ShopPerma : MonoBehaviour
         speedMinusButton.onClick.AddListener(() => ModifyPermaStat("Speed", false));
         damagePlusButton.onClick.AddListener(() => ModifyPermaStat("Damage", true));
         damageMinusButton.onClick.AddListener(() => ModifyPermaStat("Damage", false));
+        staminaPlusButton.onClick.AddListener(() => ModifyPermaStat("Stamina", true));
+        staminaMinusButton.onClick.AddListener(() => ModifyPermaStat("Stamina", false));
 
         confirmModifierPermanentButton.onClick.AddListener(ConfirmUpdateStats);
         exitStatsButton.onClick.AddListener(() => ToggleShopUI(false));
@@ -76,14 +81,17 @@ public class ShopPerma : MonoBehaviour
         permaHPUpgrades = _stats.permaHP_UpAmount;
         permaSpeedUpgrades = _stats.permaSpeed_UpAmount;
         permaDamageUpgrades = _stats.permaDamage_UpAmount;
+        permaStaminaUpgrades = _stats.permaDamage_UpAmount;
 
         receiptHP = permaHPUpgrades;
         receiptSpeed = permaSpeedUpgrades;
         receiptDamage = permaDamageUpgrades;
+        receiptStamina = permaStaminaUpgrades;
 
         confirmedHP = permaHPUpgrades;
         confirmedSpeed = permaSpeedUpgrades;
         confirmedDamage = permaDamageUpgrades;
+        confirmedStamina = permaStaminaUpgrades;
 
         playerSoul = _stats.playerSoul;
     }
@@ -111,6 +119,11 @@ public class ShopPerma : MonoBehaviour
                 if (CanUpdateReceipt(ref receiptDamage, change, confirmedDamage))
                     playerSoul -= increase ? UPGRADE_COST : -(int)(UPGRADE_COST * REFUND_RATE);
                 break;
+            
+            case "Stamina":
+                if (CanUpdateReceipt(ref receiptStamina, change, confirmedStamina))
+                    playerSoul -= increase ? UPGRADE_COST : -(int)(UPGRADE_COST * REFUND_RATE);
+                break;
 
             default:
                 canModify = false;
@@ -128,10 +141,12 @@ public class ShopPerma : MonoBehaviour
         permaHPUpgrades = receiptHP;
         permaSpeedUpgrades = receiptSpeed;
         permaDamageUpgrades = receiptDamage;
+        permaStaminaUpgrades = receiptStamina;
 
         confirmedHP = permaHPUpgrades;
         confirmedSpeed = permaSpeedUpgrades;
         confirmedDamage = permaDamageUpgrades;
+        confirmedStamina = permaStaminaUpgrades;
 
         var data = new PermaStatsData
         {
@@ -139,6 +154,7 @@ public class ShopPerma : MonoBehaviour
             HPUpgradesData = permaHPUpgrades,
             SpeedUpgradesData = permaSpeedUpgrades,
             DamageUpgradesData = permaDamageUpgrades,
+            StaminaUpgradesData = permaStaminaUpgrades,
         };
 
         PlayerDataCRUD.SavePermanentStats(data);
@@ -152,7 +168,7 @@ public class ShopPerma : MonoBehaviour
         int newValue = receiptValue + change;
         if (newValue >= 0)
         {
-            if (change < 0 && receiptValue > confirmedValue) // Refund part of the upgrade cost only if above confirmed baseline
+            if (change < 0 && receiptValue > confirmedValue)
                 playerSoul += (int)(UPGRADE_COST * REFUND_RATE);
 
             receiptValue = newValue;
@@ -166,6 +182,7 @@ public class ShopPerma : MonoBehaviour
         healthStat.text = $"HP: {CalculatePercent(receiptHP).ToString("F2")}%";
         speedStat.text = $"SPD: {CalculatePercent(receiptSpeed).ToString("F2")}%";
         damageStat.text = $"ATK: {CalculatePercent(receiptDamage).ToString("F2")}%";
+        staminaStat.text = $"Stamina: {CalculatePercent(receiptStamina).ToString("F2")}%";
         goldText.text = $"Soul Well: {playerSoul}";
     }
 
