@@ -21,12 +21,46 @@ public class SelectRandomSkillEvent : MonoBehaviour
     [FoldoutGroup("Event")]
     public UnityEvent OnSkillChoose;
 
+    PlayerData playerData;
+    
     #endregion
 
     #region Methods
 
-    [FoldoutGroup("Event")]
-    [Button]
+    [FoldoutGroup("Event")] [Button]
+    public void PoolCreate()
+    {
+        // Clear the current SkillPool to refresh it with only unlocked skills
+        SkillPool.Clear();
+
+        if(playerData == null) playerData = PlayerController.Instance._playerData;
+        
+        //add only the unlocked ones to SkillPool
+        foreach (SkillUnlock skillUnlock in playerData.unlockedSkills)
+        {
+            if (skillUnlock.isUnlocked)
+            {
+                // Find the corresponding skillPrefab from skillDatabase using the Skill_ID
+                PlayerSkill playerSkill = playerData.skillDatabase.allSkills.Find(s => s.Skill_ID == skillUnlock.Skill.Skill_ID);
+                if (playerSkill.skillPrefab != null)
+                {
+                    SkillPool.Add(playerSkill.skillPrefab);
+                    Debug.Log($"Added {playerSkill.skillPrefab.name} to SkillPool.");
+                }
+                else
+                {
+                    Debug.LogWarning($"Skill prefab not found for {skillUnlock.Skill.Skill_ID}.");
+                }
+            }
+        }
+
+        Debug.Log("SkillPool created with unlocked skills.");
+    }
+
+
+    
+    
+    [FoldoutGroup("Event")] [Button]
     public void AddSelectSkillFromSlot()
     {
         if (selectedSlot >= 0 && selectedSlot < GachaSkillSlots.Count)
@@ -50,8 +84,7 @@ public class SelectRandomSkillEvent : MonoBehaviour
         }
     }
 
-    [FoldoutGroup("Event")]
-    [Button]
+    [FoldoutGroup("Event")] [Button]
     public void GachaSkill(int amount)
     {
         // Clear previous GachaSkillSlots
