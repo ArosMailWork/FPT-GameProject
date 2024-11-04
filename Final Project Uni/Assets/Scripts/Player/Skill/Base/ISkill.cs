@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -29,9 +30,10 @@ public abstract class ISkill : MonoBehaviour
     {
         Timer();
     }
-    public void Assign(PlayerController pc)
+    public async UniTaskVoid Assign(PlayerController pc)
     {
         _pc = pc;
+        await UniTask.Delay(TimeSpan.FromSeconds(0.01f));
         _pc._playerData.UnlockSkill(Name);
     }
     #region Timer
