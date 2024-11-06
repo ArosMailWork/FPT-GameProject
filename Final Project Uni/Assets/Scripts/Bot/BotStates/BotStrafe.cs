@@ -21,7 +21,7 @@ public class BotStrafe : BotActive
     public override void UpdateLogic()
     {
         base.UpdateLogic();
-        if (sm.target != null && sm.bot.unitType == UnitType.Shooter)
+        if (sm.target != null && sm.bot.unitType == UnitType.Shooter || sm.bot.unitType == UnitType.BossShooter)
         {
             sm.destination = ChooseAttackLocation(sm.target.position, sm.bot.minRange, sm.bot.maxRange, sm.bot.MoveAngle);
             sm.ChangeState(sm.chaseState);

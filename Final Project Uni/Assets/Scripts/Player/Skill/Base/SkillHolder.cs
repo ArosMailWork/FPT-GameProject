@@ -75,7 +75,7 @@ public class SkillHolder : MonoBehaviour
 
         SetActiveSkill(currentActiveSkill);
     }
-    #endregion
+    
 
     [Button]
     public void AddSkill(GameObject skillPrefab)
@@ -104,6 +104,8 @@ public class SkillHolder : MonoBehaviour
         
         if(SwitchButton != null) SwitchButton.gameObject.SetActive((activeSkillList.Count > 1));
     }
+    
+    #endregion
 
     #region Input
     public void ActivateSkill(InputAction.CallbackContext ctx)
