@@ -4622,6 +4622,7 @@ MonoBehaviour:
   maxHealth: 10
   health: 0
   overHeal: 0
+  isTrapMaster: 0
   StatUI: {fileID: 8990771688691694898}
   fillOnStart: 1
   HpValueChange:
@@ -25424,6 +25425,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cc781438c7f9624498514cb6e73fc9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerGold: 0
+  defaultMaxHealth: 10
+  knowledgeLevel: 0
   defaultSpeed: 0.7
   defaultRotationSpeed: 25
   defaultMaxSpeed: 20
@@ -25438,13 +25442,18 @@ MonoBehaviour:
   defaultStaminaRollCost: 20
   defaultRicochetFriction: 0
   defaultDamage: 2
-  defaultDamageMultiplier: 1
   defaultDrag: 0
   defaultMass: 0
+  permaHP_UpAmount: 0
+  permaSpeed_UpAmount: 0
+  permaDamage_UpAmount: 0
+  PermaHP_Percent: 1
+  PermaSpeed_Percent: 1
+  PermaDamage_Percent: 1
   bonusSpeed: 0
+  bonusHealth: 0
   bonusRotationSpeed: 0
   bonusMaxSpeed: 0
-  bonusRollSpeed: 0
   bonusRollCD: 0
   bonusRollTime: 0
   bonusControlRollDirect: 0
@@ -25455,9 +25464,7 @@ MonoBehaviour:
   bonusRicochetMultiplier: 0
   bonusDamage: 1
   bonusDamageMultiplier: 0
-  playerHealth: 0
-  HealthFromPermanent: 0
-  knowledgeLevel: 0
+  _pc: {fileID: 0}
 --- !u!4 &1407122478737453314
 Transform:
   m_ObjectHideFlags: 0
@@ -26240,6 +26247,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blockInput: 0
+  _playerData: {fileID: 0}
   _stats: {fileID: 1388413038476021904}
   PlayerHealth: {fileID: 821813475988736591}
   meleeLungeForce: 750
@@ -42598,7 +42606,11 @@ MonoBehaviour:
   ArrowPrefab: {fileID: 0}
   prefabParticleManager: {fileID: 245403840518785632}
   MainArrow: {fileID: 8344797348798960220}
+  ShootIcon: {fileID: 0}
+  ShootSprite: {fileID: 0}
+  RecallSprite: {fileID: 0}
   IsSplitShot: 0
+  IsPreciseArcher: 0
 --- !u!1 &3077926904706449619
 GameObject:
   m_ObjectHideFlags: 0
@@ -65132,7 +65144,7 @@ RectTransform:
   m_Father: {fileID: 1095136513278537685}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0.437, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: -13.358}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -66030,7 +66042,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &5720810809805406876
 MonoBehaviour:
   m_ObjectHideFlags: 0

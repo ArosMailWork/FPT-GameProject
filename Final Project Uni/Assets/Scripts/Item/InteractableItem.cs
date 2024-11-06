@@ -1,5 +1,6 @@
 using System;
 using JetBrains.Annotations;
+using Mono.CSharp;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -48,10 +49,10 @@ public class InteractableItem : MonoBehaviour
 
     public void SelfDestruct()
     {
-        if(ItemParent != null) Destroy(ItemParent);
+        if (ItemParent != null) Destroy(ItemParent);
         else Destroy(gameObject);
     }
-    
+
     public void PlayBuffParticle(string particleID)
     {
         ParticleManager.Instance.SpawnParticle(particleID, transform.position, Quaternion.Euler(-90, 0, 0));
@@ -62,9 +63,10 @@ public class InteractableItem : MonoBehaviour
     {
         if (!other.CompareTag("Player")) return;
 
+
         // Add the listener when entering the trigger range
         interactButton.onClick.AddListener(OnInteract);
-        
+
         EnterTriggerRange.Invoke();
         ShowUIInteract(true);
     }

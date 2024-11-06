@@ -1,21 +1,30 @@
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
+    public GameObject Testpack;
+    public static GameObject p { get; private set; }
+    public string Expedition;
+
 
     private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
+            p = Testpack;
+            DontDestroyOnLoad(p);
             DontDestroyOnLoad(gameObject);
         }
         else
         {
             Destroy(gameObject);
         }
+
+
     }
 
     private void Start()
@@ -51,10 +60,18 @@ public class GameManager : MonoBehaviour
     public void QuitGame()
     {
         // Logic for quitting the game
-        #if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
-        #else
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
             Application.Quit();
-        #endif
+#endif
     }
+    #region SceneLogic
+
+    public void StartExpedition()
+    {
+        SceneManager.LoadScene(Expedition);
+    }
+    #endregion 
+
 }

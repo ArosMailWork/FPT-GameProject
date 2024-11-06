@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class GenerationManager : MonoBehaviour
 {
-    [SerializeField] private PlayerController player;
+    [SerializeField] private GameObject player;
     [SerializeField] private RoomGen Gen;
     [SerializeField] private int GridSize = 1;
     [SerializeField] private int MainPathLength = 4;
@@ -26,6 +26,7 @@ public class GenerationManager : MonoBehaviour
     {
         //Generate();
         //player.transform.position = Gen.s
+        player = GameObject.Find("Player");
 
     }
     public void Generate()
