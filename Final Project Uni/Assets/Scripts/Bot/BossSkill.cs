@@ -20,6 +20,11 @@ public class BossSkill : MonoBehaviour
     [FoldoutGroup("Setup")] 
     public float offset = 3;
 
+    [FoldoutGroup("Setup/Pattern Pos")] 
+    public bool patternBossAttack, patternBossMove;
+    [FoldoutGroup("Setup/Pattern Pos")] 
+    public List<Vector3> PatternPos;
+
     [FoldoutGroup("Debug")] 
     [ReadOnly] public int RNG;
     [FoldoutGroup("Debug")] 
@@ -72,6 +77,16 @@ public class BossSkill : MonoBehaviour
         
     }
 
+    public void doTeleport(Vector3 pos)
+    {
+        
+    }
+    
+    public void doTeleportBehindPlayer()
+    {
+        sm.StrafeState.MoveToBehindPlayer(3f);
+    }
+    
     public void doSummonStrikingX()
     {
         SummonStrikingInXPattern(target.transform.position, offset);

@@ -10,9 +10,10 @@ using UnityEngine.Events;
 public class FlashAttack : MonoBehaviour
 {
     [CanBeNull] public HurtBox hb;
-    public bool playOnStart = true;
+    public bool playOnStart = true, doCamShake;
     public float delay = 1;
     public float HitDuration = 0.5f;
+    public float CamShakeAmount = 0.1f;
 
     public UnityEvent Strike, EndStrike;
 
@@ -33,6 +34,8 @@ public class FlashAttack : MonoBehaviour
 
         if(hb != null) hb.Activate = true;
         Strike.Invoke();
+        
+        if(doCamShake) CamShake.Instance.AddTrauma(CamShakeAmount, true);
         
         await UniTask.Delay(TimeSpan.FromSeconds(hitDuration));
         
