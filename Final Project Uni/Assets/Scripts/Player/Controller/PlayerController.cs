@@ -20,8 +20,6 @@ public class PlayerController : MonoBehaviour
 
     [FoldoutGroup("Stats")] 
     public bool blockInput;
-    [FoldoutGroup("Stats")] 
-    public PlayerStats _stats;
     [FoldoutGroup("Stats")]
     public Health PlayerHealth;
     [FoldoutGroup("Stats/Lunge")]
@@ -61,6 +59,11 @@ public class PlayerController : MonoBehaviour
     [FoldoutGroup("Setup")]
     public UltimateJoystick JoystickPA;
     [FoldoutGroup("Setup/Stamina")] public StaminaSystem staminaSystem;
+    
+    [FoldoutGroup("Setup/Save")] 
+    public PlayerData _playerData;
+    [FoldoutGroup("Setup/Save")] 
+    public PlayerStats _stats;
 
     #region Calculate
 
@@ -279,7 +282,7 @@ public class PlayerController : MonoBehaviour
 
     public void MeleeAnim()
     {
-        if (blockInput) return;
+        if (blockInput || !PlayerHealth.isAlive) return;
         if(currentState == PlayerState.Recalling || currentState == PlayerState.ReverseRecalling || currentState == PlayerState.Stunning) return;
         if(_arrowController.ChargingInput) return;
         _playerAnimController.Slash();

@@ -5,6 +5,7 @@ using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class ArrowController : MonoBehaviour
 {
@@ -18,6 +19,8 @@ public class ArrowController : MonoBehaviour
 
     [FoldoutGroup("Stats")]
     public float ShootForce, currentChargedTime, chargedTime = 2f;
+
+    #region Debug and Setup
 
     [FoldoutGroup("Debug")]
     public bool blockInput;
@@ -36,10 +39,15 @@ public class ArrowController : MonoBehaviour
     [FoldoutGroup("Debug/Setup")] public GameObject ArrowPrefab;
     [FoldoutGroup("Debug/Setup")] public ParticleManager prefabParticleManager;
     [FoldoutGroup("Debug/Setup")] public Arrow MainArrow;
+    [FoldoutGroup("Debug/UI")] public Image ShootIcon;
+    [FoldoutGroup("Debug/UI")] public Sprite ShootSprite, RecallSprite;
     [FoldoutGroup("Debug/Buff")] public bool IsSplitShot = false;
+    [FoldoutGroup("Debug/Buff")] public bool IsPreciseArcher = false;
 
     public static ArrowController Instance;
     private PlayerController _playerController;
+    private float calForce;
+    #endregion
 
     #endregion
 
@@ -61,6 +69,7 @@ public class ArrowController : MonoBehaviour
         _playerAnimController = _playerController._playerAnimController;
 
         haveArrow = true;
+        ShootSpriteUpdate();
         _playerAnimController.UpdateHaveArrow(true);
     }
 
@@ -135,7 +144,13 @@ public class ArrowController : MonoBehaviour
     }
     void ShootArrow(Arrow arrow)
     {
-        float calForce = forceCurve.Evaluate(currentChargedTime / chargedTime) * ShootForce;
+        if (IsPreciseArcher && (currentChargedTime / chargedTime) >= 0.75f)
+            _playerController._stats.SetBuffATKMul(0.5f);
+        else
+            _playerController._stats.SetBuffATKMul(0);
+        
+
+        calForce = forceCurve.Evaluate(currentChargedTime / chargedTime) * ShootForce;
 
         // Calculate the rotation around the Y-axis based on the offset in degrees
         Quaternion rotationOffset = Quaternion.Euler(0, arrow.offsetDegree, 0);
@@ -170,6 +185,7 @@ public class ArrowController : MonoBehaviour
         //because button up
         ChargingInput = false;
         haveArrow = false;
+        ShootSpriteUpdate();
         _playerAnimController.UpdateHaveArrow(haveArrow);
         ShootArrow(MainArrow);
         if (IsSplitShot)
@@ -267,8 +283,21 @@ public class ArrowController : MonoBehaviour
         }
 
         haveArrow = true;
+        ShootSpriteUpdate();
         isRecalling = false;
     }
 
+    #endregion
+
+    #region UI Update (not recommended do this, Im just lazy, lol)
+
+    public void ShootSpriteUpdate()
+    {
+        if(ShootIcon == null || RecallSprite == null) return;
+
+        if (haveArrow) ShootIcon.sprite = ShootSprite;
+        else ShootIcon.sprite = RecallSprite;
+    }
+    
     #endregion
 }

@@ -347,6 +347,8 @@ GameObject:
   - component: {fileID: 4018736628532281816}
   - component: {fileID: 2613820934203733979}
   - component: {fileID: 4616902962044841197}
+  - component: {fileID: 8777810476342153768}
+  - component: {fileID: 6632539812141098964}
   m_Layer: 0
   m_Name: Boss Spider Enemy
   m_TagString: Enemy
@@ -364,7 +366,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0.72675455, z: 0, w: 0.6868973}
   m_LocalPosition: {x: 0.040046815, y: 0.9606239, z: 0.0004052925}
-  m_LocalScale: {x: 1.3098701, y: 1.3098704, z: 1.3098701}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5018725656904059924}
@@ -382,7 +384,7 @@ Animator:
   m_GameObject: {fileID: 1322120292805660808}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: b4835df9d33314d4b99692b8a2aa6b54, type: 2}
+  m_Controller: {fileID: 9100000, guid: 8b3da2da622e42b4d8705a5f0c09855a, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -488,7 +490,7 @@ NavMeshAgent:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1322120292805660808}
   m_Enabled: 1
-  m_AgentTypeID: 0
+  m_AgentTypeID: -1372625422
   m_Radius: 2.67
   m_Speed: 13
   m_Acceleration: 10
@@ -535,6 +537,7 @@ MonoBehaviour:
   currState: 
   isAlive: 1
   distance: 0
+  BossSkill: {fileID: 6632539812141098964}
 --- !u!114 &2613820934203733979
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -547,7 +550,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49a32b845fb7a964a8b57cf7659f29f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitType: 1
+  unitType: 3
   minRange: 10
   maxRange: 16
   MoveAngle: 45
@@ -592,6 +595,102 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 2
+--- !u!114 &8777810476342153768
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1322120292805660808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7fdb3f6f761bc343b1b885103c25ccd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: eventDic
+      Entry: 7
+      Data: 0|System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[UnityEngine.Events.UnityEvent,
+        UnityEngine.CoreModule]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 1|System.Collections.Generic.GenericEqualityComparer`1[[System.String,
+        mscorlib]], mscorlib
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: SpiderDie
+    - Name: $v
+      Entry: 7
+      Data: 2|UnityEngine.Events.UnityEvent, UnityEngine.CoreModule
+    - Name: m_PersistentCalls
+      Entry: 7
+      Data: 3|UnityEngine.Events.PersistentCallGroup, UnityEngine.CoreModule
+    - Name: m_Calls
+      Entry: 7
+      Data: 4|System.Collections.Generic.List`1[[UnityEngine.Events.PersistentCall,
+        UnityEngine.CoreModule]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+--- !u!114 &6632539812141098964
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1322120292805660808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13238c211fb453c47a623679e7e97333, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  phase: 0
+  guns: []
+  Striking: {fileID: 9102133475487128872, guid: 7c4e9158b98cf5c418f86de07e5a78fc, type: 3}
+  RNG_Min: 0
+  RNG_Max: 4
+  offset: 3
+  RNG: 0
+  target: {fileID: 0}
+  sm: {fileID: 0}
 --- !u!1 &2042135758044632606
 GameObject:
   m_ObjectHideFlags: 0
@@ -1861,6 +1960,7 @@ MonoBehaviour:
   maxHealth: 20
   health: 0
   overHeal: 0
+  isTrapMaster: 0
   StatUI: {fileID: 0}
   fillOnStart: 1
   HpValueChange:
@@ -1925,10 +2025,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pivot: {fileID: 7812110374978662255}
-  PlaySoundEffect:
-    m_PersistentCalls:
-      m_Calls: []
-  hitParticleName: HitEffect
 --- !u!114 &6193786974130822683
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -22,7 +22,7 @@ public class BotAttacking : BotTargeting
 
         if (counter <= 0)
         {
-            Hit();
+            Attack();
             sm.ChangeState(sm.StrafeState);
         }
         else
@@ -34,8 +34,14 @@ public class BotAttacking : BotTargeting
         }
 
     }
-    public void Hit()
+    public void Attack()
     {
+        if (sm.bot.unitType == UnitType.BossShooter)
+        {
+            sm.BossSkill.Attack(sm.target);
+            return;
+        }
+        
         if (sm.target != null)
         {
             foreach (var gun in sm.bot.gun)
@@ -49,6 +55,5 @@ public class BotAttacking : BotTargeting
             
             counter = hitCooldown;
         }
-
     }
 }

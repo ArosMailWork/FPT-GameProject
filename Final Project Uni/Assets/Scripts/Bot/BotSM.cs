@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -15,6 +16,8 @@ public class BotSM : StateMachine
     public bool isAlive = true;
     public float distance;
 
+    [CanBeNull] public BossSkill BossSkill;
+    
     [HideInInspector] public BotIdle idleState;
     [HideInInspector] public BotChase chaseState;
     [HideInInspector] public BotAttacking AttackingState;
@@ -30,6 +33,12 @@ public class BotSM : StateMachine
         StrafeState = new BotStrafe(this);
         knockbackState = new BotKnockback(this);
         deathState = new BotDeath(this);
+
+        if (bot.gun != null && BossSkill != null)
+        {
+            BossSkill.guns = bot.gun;
+            BossSkill.sm = this;
+        }
         //targets = new List<Transform>();
     }
     

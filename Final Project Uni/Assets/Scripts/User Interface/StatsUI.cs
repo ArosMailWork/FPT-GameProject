@@ -1,41 +1,60 @@
+using Sirenix.OdinInspector;
+using System.Collections;
+using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace PA
+public class StatsUI : MonoBehaviour
 {
-    public class StatsUI : MonoBehaviour
+    [SerializeField, ReadOnly]
+    PlayerStats playerStat;
+    [SerializeField, ReadOnly]
+    SkillHolder skillHolder;
+    private List<GameObject> skillList = new List<GameObject>();
+    private List<Image> skillHolderObj;
+    [FoldoutGroup("Player Stats")]
+    private float baseHealth, bonusHealth, baseSpeed, bonusSpeed, baseStamina, bonusStamina, baseStaRegen, bonusStaRegen, baseAtk, bonusATK;
+    [FoldoutGroup("Player Stats Texts")]
+    public TMP_Text baseHealthText, bonusHealthText, baseSpeedText, bonusSpeedText, baseStaminaText, bonusStaminaText, baseStaRegenText, bonusStaRegenText, baseAtkText, bonusATKText;
+    // Start is called before the first frame update
+    [Button]
+    public void UpdateInfo()
     {
-        public TMP_Text healthStat, speedStat, damageStat, goldText;
-
-        public Button exitStatsButton, confirmModifierPermanentButton, upgradeButtonx2, upgradeButtonx5;
-
-        public PlayerStatsManager statsManager;
-
-        private void Start()
+        playerStat = PlayerController.Instance._stats;
+        skillHolder = SkillHolder.Instance;
+        skillList = skillHolder.skillList;
+        for (int i = 0; i < skillList.Count; i++)
         {
-            upgradeButtonx2.onClick.AddListener(() => statsManager.UpgradeStats(2));
-            upgradeButtonx5.onClick.AddListener(() => statsManager.UpgradeStats(4));
-            confirmModifierPermanentButton.onClick.AddListener(statsManager.ConfirmStats);
-            exitStatsButton.onClick.AddListener(CloseStatsUI);
-            UpdateGoldDisplay(statsManager.playerGold);
+            skillHolderObj[i].sprite = skillList[i].GetComponent<ISkill>().Icon;
         }
-
-        public void UpdateStatsDisplay(int health, float speed, int damage)
-        {
-            healthStat.text = $"Health: {health}";
-            speedStat.text = $"Speed: {speed:F2}";
-            damageStat.text = $"Damage: {damage}";
-        }
-
-        public void UpdateGoldDisplay(int gold)
-        {
-            goldText.text = $"Gold: {gold}";
-        }
-
-        private void CloseStatsUI()
-        {
-            gameObject.SetActive(false);
-        }
+        ShowStat();
     }
+
+    public void ShowStat()
+    {
+        baseHealth = (playerStat.totalMaxHealth - playerStat.bonusHealth);
+        bonusHealth = (playerStat.bonusHealth);
+        baseSpeed = playerStat.speed - playerStat.bonusSpeed;
+        bonusSpeed = playerStat.bonusSpeed;
+        baseStamina = (int)(playerStat.maxStamina - playerStat.bonusMaxStamina);
+        bonusStamina = (playerStat.bonusMaxStamina);
+        baseStaRegen = (playerStat.regenRate - playerStat.bonusRegenRate);
+        bonusStaRegen = (playerStat.bonusRegenRate);
+        baseAtk = (playerStat.defaultDamage * playerStat.PermaDamage_Percent);
+        bonusATK = (playerStat.bonusDamage);
+
+        baseHealthText.text = "" + baseHealth.ToString("0.0"); 
+        bonusHealthText.text = bonusHealth > 0 ? "+" + bonusHealth.ToString("0.0") : ""; 
+        baseSpeedText.text = "" + baseSpeed.ToString("0.0"); 
+        bonusSpeedText.text = bonusSpeed > 0 ? "+" + bonusSpeed.ToString("0.0") : "";
+        baseStaminaText.text = "" + baseStamina;
+        bonusStaminaText.text = bonusStamina > 0 ? "+" + bonusStamina.ToString("0.0") : ""; 
+        baseStaRegenText.text = "" + baseStaRegen.ToString("0.0"); 
+        bonusStaRegenText.text = bonusStaRegen > 0 ? "+" + bonusStaRegen.ToString("0.0") : ""; 
+        baseAtkText.text = "" + baseAtk.ToString("0.0"); 
+        bonusATKText.text = bonusATK > 0 ? "+" + bonusATK.ToString("0.0") : "";
+    }
+
 }

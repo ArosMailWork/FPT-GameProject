@@ -7,8 +7,6 @@ using UnityEngine.AI;
 using Random = UnityEngine.Random;
 
 
-
-
 public class EnemySpawner : MonoBehaviour
 {
     [FoldoutGroup("Stats")]
