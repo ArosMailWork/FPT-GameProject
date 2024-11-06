@@ -12,9 +12,11 @@ public class StatsUI : MonoBehaviour
     PlayerStats playerStat;
     [SerializeField, ReadOnly]
     SkillHolder skillHolder;
-    public List<GameObject> skillList = new List<GameObject>();
-    public List<Image> skillHolderObj;
+    private List<GameObject> skillList = new List<GameObject>();
+    private List<Image> skillHolderObj;
+    [FoldoutGroup("Player Stats")]
     private float baseHealth, bonusHealth, baseSpeed, bonusSpeed, baseStamina, bonusStamina, baseStaRegen, bonusStaRegen, baseAtk, bonusATK;
+    [FoldoutGroup("Player Stats Texts")]
     public TMP_Text baseHealthText, bonusHealthText, baseSpeedText, bonusSpeedText, baseStaminaText, bonusStaminaText, baseStaRegenText, bonusStaRegenText, baseAtkText, bonusATKText;
     // Start is called before the first frame update
     [Button]
