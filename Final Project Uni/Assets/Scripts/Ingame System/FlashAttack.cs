@@ -10,10 +10,16 @@ using UnityEngine.Events;
 public class FlashAttack : MonoBehaviour
 {
     [CanBeNull] public HurtBox hb;
-    public float delay = 0;
+    public bool playOnStart = true;
+    public float delay = 1;
     public float HitDuration = 0.5f;
 
     public UnityEvent Strike, EndStrike;
+
+    private void Start()
+    {
+        if(playOnStart) doFlash();
+    }
 
     [Button]
     public void doFlash()

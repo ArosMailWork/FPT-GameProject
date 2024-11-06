@@ -7,5 +7,5 @@ public enum UnitType
     Melee = 0,
     Shooter = 1,
     Special = 2,
-    Boss = 3,
+    BossShooter = 3,
 }

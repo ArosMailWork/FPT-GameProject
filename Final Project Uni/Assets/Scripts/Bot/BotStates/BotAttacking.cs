@@ -36,11 +36,12 @@ public class BotAttacking : BotTargeting
     }
     public void Attack()
     {
-        if (sm.bot.unitType == UnitType.Boss)
+        if (sm.bot.unitType == UnitType.BossShooter)
         {
             sm.BossSkill.Attack(sm.target);
             return;
         }
+        
         if (sm.target != null)
         {
             foreach (var gun in sm.bot.gun)

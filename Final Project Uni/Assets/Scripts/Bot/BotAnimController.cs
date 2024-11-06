@@ -45,6 +45,14 @@ public class BotAnimController : MonoBehaviour
         botAnimator.SetBool("Attacking", Attacking);
     }
     
+    public void SpecialAttackAnim(bool Attacking, int SpecialType = 0)
+    {
+        botAnimator.SetInteger("AttackType", SpecialType);
+        
+        if(Attacking) botAnimator.SetTrigger("SpecialAttackStart");
+        botAnimator.SetBool("Attacking", Attacking);
+    }
+    
     public async UniTaskVoid DebuffStun(float time)
     {
         botAnimator.SetBool("Stun", true);

@@ -34,8 +34,11 @@ public class BotSM : StateMachine
         knockbackState = new BotKnockback(this);
         deathState = new BotDeath(this);
 
-        if(bot.gun != null && BossSkill != null)
-        BossSkill.gun = bot.gun;
+        if (bot.gun != null && BossSkill != null)
+        {
+            BossSkill.guns = bot.gun;
+            BossSkill.sm = this;
+        }
         //targets = new List<Transform>();
     }
     

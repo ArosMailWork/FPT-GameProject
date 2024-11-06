@@ -126,7 +126,7 @@
             }
             else
             {
-                Debug.LogWarning($"Cannot add a negative or zero amount of {itemID} to inventory.");
+                Debug.Log($"Cannot add a negative or zero amount of {itemID} to inventory.");
             }
         }
         
@@ -213,7 +213,7 @@
                     }
                     else
                     {
-                        Debug.LogWarning($"Item with ID {savedItem.item?.ID} not found in the item database. Removing from save data.");
+                        Debug.Log("empty inventory");
                     }
                 }
 
@@ -229,9 +229,22 @@
                 }
 
                 // Load recipe data
+                if (recipeDatabase == null || recipeDatabase.AllRecipes == null)
+                {
+                    Debug.Log("Found no Recipe in DB");
+                    return;
+                }
+
                 foreach (var recipe in recipeDatabase.AllRecipes)
                 {
-                    var savedRecipe = saveData.RecipeList.Find(r => r.Recipe.output.name == recipe.output.name);
+                    if (recipe == null || recipe.output == null)
+                    {
+                        Debug.Log("Invalid recipe: " + recipe.RecipeID);
+                        continue;
+                    }
+
+                    var savedRecipe = saveData.RecipeList.Find(r => r.Recipe != null && r.Recipe.output != null && r.Recipe.output.name == recipe.output.name);
+
                     unlockedRecipes.Add(new RecipeUnlock
                     {
                         Recipe = recipe,
@@ -239,7 +252,7 @@
                     });
                 }
 
-                Debug.Log("Player data loaded and synchronized with skill and recipe database.");
+                //Debug.Log("Player data loaded and synchronized with skill and recipe database.");
             }
             else
             {

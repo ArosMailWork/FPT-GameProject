@@ -9,6 +9,7 @@ public class PoolManager : MonoBehaviour
     private const int DEFAULT_POOL_SIZE = 30;
     private Dictionary<GameObject, Pool> poolDict;
     public Transform poolParent;
+    public bool isRoot;
 
     private void Awake()
     {
@@ -20,6 +21,8 @@ public class PoolManager : MonoBehaviour
 
         Instance = this;
         poolDict = new Dictionary<GameObject, Pool>();
+        
+        if(isRoot)
         DontDestroyOnLoad(gameObject);  // Make the PoolManager persistent across scenes if needed
     }
 
