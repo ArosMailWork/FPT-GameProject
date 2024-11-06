@@ -15,6 +15,8 @@ public class FlashAttack : MonoBehaviour
     public float HitDuration = 0.5f;
     public float CamShakeAmount = 0.1f;
 
+    [CanBeNull] public GameObject Indicator;
+
     public UnityEvent Strike, EndStrike;
 
     private void Start()
@@ -26,6 +28,13 @@ public class FlashAttack : MonoBehaviour
     public void doFlash()
     {
         doFlashAttack(HitDuration, delay);
+    }
+
+    private void OnEnable()
+    {
+        if(Indicator != null) 
+            Indicator.SetActive(true);
+        doFlash();
     }
 
     async UniTaskVoid doFlashAttack(float hitDuration, float delay = 0)
@@ -41,5 +50,11 @@ public class FlashAttack : MonoBehaviour
         
         if(hb != null) hb.Activate = false;
         EndStrike.Invoke();
+    }
+
+    public void IndicatorHide()
+    {
+        if(Indicator != null) 
+            Indicator.SetActive(false);
     }
 }

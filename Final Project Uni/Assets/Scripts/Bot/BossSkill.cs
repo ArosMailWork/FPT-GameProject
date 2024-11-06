@@ -96,7 +96,7 @@ public class BossSkill : MonoBehaviour
     {
         if (offset == default) offset = Vector3.zero;
 
-        Instantiate(Striking, summonPos + offset, Quaternion.identity);
+        PoolManager.Instance.Spawn(Striking, summonPos + offset, Quaternion.identity);
     }
     // Method to summon in an "X" pattern
     void SummonStrikingInXPattern(Vector3 summonPos, float offsetDistance)

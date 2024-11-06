@@ -14,10 +14,9 @@ public class BotGun : MonoBehaviour
     public bool Activated = true;
     public AimType aimType;
     public GameObject projectile;
+    public List<ParticleSystem> muzzleFlash;
     public Rigidbody target;
-    public float predictionFactor = 0.5f;
-    public float projectileSpeed = 35f;
-    public float randomAngleRange = 5f;
+    public float predictionFactor = 0.5f, projectileSpeed = 35f, randomAngleRange = 5f;
 
     private BotProjectile projectileCalc;
 
@@ -48,7 +47,12 @@ public class BotGun : MonoBehaviour
                 break;
         }
     }
-    
+
+    public void PlayMuzzleFlash(int slot = 0)
+    {
+        muzzleFlash[slot].Play();
+    }
+
     // Regular fire method (straight shooting)
     public void FireStraight()
     {
