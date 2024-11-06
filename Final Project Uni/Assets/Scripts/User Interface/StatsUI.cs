@@ -13,7 +13,7 @@ public class StatsUI : MonoBehaviour
     [SerializeField, ReadOnly]
     SkillHolder skillHolder;
     private List<GameObject> skillList = new List<GameObject>();
-    private List<Image> skillHolderObj;
+    public List<Image> skillHolderObj;
     [FoldoutGroup("Player Stats")]
     private float baseHealth, bonusHealth, baseSpeed, bonusSpeed, baseStamina, bonusStamina, baseStaRegen, bonusStaRegen, baseAtk, bonusATK;
     [FoldoutGroup("Player Stats Texts")]
