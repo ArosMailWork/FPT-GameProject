@@ -18,11 +18,11 @@ public class PlayerController : MonoBehaviour
 {
     #region Variables
 
-    [FoldoutGroup("Stats")] 
+    [FoldoutGroup("Stats")]
     public bool blockInput;
-    [FoldoutGroup("Stats")] 
+    [FoldoutGroup("Stats")]
     public PlayerData _playerData;
-    [FoldoutGroup("Stats")] 
+    [FoldoutGroup("Stats")]
     public PlayerStats _stats;
     [FoldoutGroup("Stats")]
     public Health PlayerHealth;
@@ -69,7 +69,7 @@ public class PlayerController : MonoBehaviour
     public static PlayerController Instance;
 
     //Calculate
-    private Vector3 calculateMove,moveDirection;
+    private Vector3 calculateMove, moveDirection;
     private Vector3 cameraForward, cameraRight;
     private Vector3 RecallDirect, lungeDirection;
     private Vector3 leftRayDirection, rightRayDirection;
@@ -90,7 +90,7 @@ public class PlayerController : MonoBehaviour
 
         if (Instance != this || Instance != null) Destroy(Instance);
         Instance = this;
-        
+
         interactButton.gameObject.SetActive(false);
     }
 
@@ -122,7 +122,7 @@ public class PlayerController : MonoBehaviour
         //player facing
         Gizmos.color = Color.blue;
         Gizmos.DrawRay(PlayerRB.transform.position, PlayerRB.transform.forward * lungeRange);
-        
+
         // Calculate the boundaries of the lunge cone
         leftRayRotation = Quaternion.AngleAxis(-(lungeAngle / 2 + rangeAngleTolerance), Vector3.up);
         rightRayRotation = Quaternion.AngleAxis(lungeAngle / 2 + rangeAngleTolerance, Vector3.up);
@@ -154,7 +154,7 @@ public class PlayerController : MonoBehaviour
     public async UniTaskVoid doRollingMove(Vector2 input, int staminaCost)
     {
         //prevent spam in the middle
-        if (!canRoll || !staminaSystem.HasEnoughStamina(staminaCost) || 
+        if (!canRoll || !staminaSystem.HasEnoughStamina(staminaCost) ||
             moveBuffer == Vector2.zero || !PlayerHealth.isAlive) return;
 
         //add CD
@@ -175,7 +175,7 @@ public class PlayerController : MonoBehaviour
         currentState = PlayerState.Idle;
         //Might add some event here to activate particle or anything
     }
-    
+
 
     void RollApply()
     {
@@ -194,7 +194,7 @@ public class PlayerController : MonoBehaviour
             PlayerRB.velocity = RollDirect.normalized * (_stats.rollSpeed * Time.fixedDeltaTime * 240);
         }
     }
-    
+
     public void StrikingMoveApply(float speedMultiplier = 2)
     {
         if (currentState == PlayerState.Striking)
@@ -261,15 +261,15 @@ public class PlayerController : MonoBehaviour
         _playerAnimController.UpdateRunInput(currentState == PlayerState.Running);
         if (_arrowController.isRecalling) currentState = PlayerState.Recalling;
         _playerAnimController.RecallAnim(_arrowController.isRecalling);
-        
-        ReverseRecallFlag:
+
+    ReverseRecallFlag:
         if (currentState == PlayerState.ReverseRecalling)
         {
             _playerAnimController.RecallAnim(true, true);
             _playerAnimController.RecallAnimTrigger();
         }
 
-        Skip:;
+    Skip:;
     }
 
     public async UniTaskVoid GuardAnim()
@@ -282,8 +282,8 @@ public class PlayerController : MonoBehaviour
     public void MeleeAnim()
     {
         if (blockInput || !PlayerHealth.isAlive) return;
-        if(currentState == PlayerState.Recalling || currentState == PlayerState.ReverseRecalling || currentState == PlayerState.Stunning) return;
-        if(_arrowController.ChargingInput) return;
+        if (currentState == PlayerState.Recalling || currentState == PlayerState.ReverseRecalling || currentState == PlayerState.Stunning) return;
+        if (_arrowController.ChargingInput) return;
         _playerAnimController.Slash();
     }
 
@@ -324,7 +324,7 @@ public class PlayerController : MonoBehaviour
             // Update closest enemy and distance if this one is closer
             closestEnemy = hitObject;
             closestDistance = distanceToEnemy;
-            
+
             // Draw a line to this enemy for debug purposes
             Debug.DrawLine(PlayerRB.transform.position, hitObject.transform.position, Color.red, 1f);
         }
@@ -335,7 +335,7 @@ public class PlayerController : MonoBehaviour
 
         doMeleeLunge(LungeTime);
     }
-    
+
     public async UniTaskVoid doMeleeLunge(float time)
     {
         elapsedTime = 0f;  // Tracks how much time has passed
@@ -344,7 +344,7 @@ public class PlayerController : MonoBehaviour
         {
             PlayerRB.AddForce(lungeDirection * meleeLungeForce, ForceMode.Acceleration);
             RotatePlayer(lungeDirection, _stats.rotationSpeed * 0.75f);
-            
+
             await UniTask.Yield(PlayerLoopTiming.FixedUpdate);
             elapsedTime += Time.deltaTime;
         }
@@ -359,7 +359,7 @@ public class PlayerController : MonoBehaviour
     public void Move(Vector2 input)
     {
         if (currentState == PlayerState.Stunning || currentState == PlayerState.Rolling ||
-            currentState == PlayerState.Recalling  || currentState == PlayerState.ReverseRecalling || 
+            currentState == PlayerState.Recalling || currentState == PlayerState.ReverseRecalling ||
             currentState == PlayerState.Striking || !PlayerHealth.isAlive) return;
 
         if (isJoystickInput) input = joyStickInput;
@@ -372,7 +372,7 @@ public class PlayerController : MonoBehaviour
 
         moveDirection = (cameraRight * input.x + cameraForward * input.y).normalized;
         moveDirection.y = 0;
-        
+
         // Move the Rigidbody
         if (currentState != PlayerState.Rolling)
             PlayerRB.AddForce(moveDirection * (Time.deltaTime * 240 * _stats.speed), ForceMode.VelocityChange);
@@ -402,18 +402,18 @@ public class PlayerController : MonoBehaviour
     }
     public void Guard()
     {
-        if(!PlayerHealth.isAlive) return;
+        if (!PlayerHealth.isAlive) return;
         GuardAnim();
     }
-    
+
     public void ReverseRecall()
     {
-        if(currentState != PlayerState.ReverseRecalling || !_arrowController.MainArrow.isActiveAndEnabled) return;
+        if (currentState != PlayerState.ReverseRecalling || !_arrowController.MainArrow.isActiveAndEnabled) return;
         RecallDirect = _arrowController.MainArrow.transform.position - transform.position;
         PlayerRB.AddForce(RecallDirect.normalized * (ReverseRecallMultiplier * (_arrowController.MainArrow.recallSpeed * Time.fixedDeltaTime * 240)), ForceMode.Acceleration);
         LimitSpeed(_arrowController.MainArrow.MaxSpeed);
-        
-        RotatePlayer(RecallDirect, _stats.rotationSpeed/2);
+
+        RotatePlayer(RecallDirect, _stats.rotationSpeed / 2);
     }
 
     #endregion
@@ -435,13 +435,13 @@ public class PlayerController : MonoBehaviour
     {
         doReceiveKnockback(KnockDirect);
     }
-    
+
     public async UniTaskVoid doReceiveKnockback(Vector3 KnockDirect, float StunTime = 0.15f)
     {
         //Debug.Log("Player Knockback: " + KnockDirect);
         //Implement Knockback shiet here
         KnockDirect.y = 0;
-        
+
         PlayerRB.AddForce(KnockDirect.normalized * KnockDirect.magnitude, ForceMode.Impulse);
 
         currentState = PlayerState.Stunning;

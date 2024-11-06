@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class GenerationManager : MonoBehaviour
 {
-    [SerializeField] private GameObject player;
+    [SerializeField] public GameObject player;
     [SerializeField] private RoomGen Gen;
     [SerializeField] private int GridSize = 1;
     [SerializeField] private int MainPathLength = 4;
