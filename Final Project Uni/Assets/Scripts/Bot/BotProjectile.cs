@@ -12,6 +12,7 @@ public class BotProjectile : MonoBehaviour
 
     private HurtBox _hurtBox;
     List<InteractTarget> validTargets = new List<InteractTarget>(); // List of valid targets
+    private bool markedSelfDestruct;
 
     private void Awake()
     {
@@ -22,16 +23,25 @@ public class BotProjectile : MonoBehaviour
 
     public void OnEnable()
     {
+        markedSelfDestruct = true;
         rb.transform.rotation = Quaternion.Euler(0, rb.transform.rotation.eulerAngles.y, 0);
         
         // Set the velocity along the X and Z axes while keeping Y velocity zero to ensure the projectile stays level with the ground
         Vector3 forwardVelocity = transform.forward * speed;
-        rb.velocity = new Vector3(forwardVelocity.x, 0, forwardVelocity.z); // Y velocity is set to 0
+        rb.velocity = new Vector3(forwardVelocity.x, 0, forwardVelocity.z);
+        rb.transform.rotation = Quaternion.LookRotation(rb.velocity, Vector3.up);
+        Invoke(nameof(SelfDestruct), 10f);
+    }
+
+    private void OnDisable()
+    {
+        markedSelfDestruct = false;
     }
 
     public void SelfDestruct()
     {
         //Can add particle or sth here
+        if(markedSelfDestruct)
         PoolManager.Instance.Despawn(gameObject);
     }
 }
