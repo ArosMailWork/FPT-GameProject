@@ -66,7 +66,6 @@ public class InteractableItem : MonoBehaviour
 
         // Add the listener when entering the trigger range
         interactButton.onClick.AddListener(OnInteract);
-
         EnterTriggerRange.Invoke();
         ShowUIInteract(true);
     }

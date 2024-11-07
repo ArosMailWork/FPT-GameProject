@@ -4,13 +4,23 @@ using UnityEngine;
 
 public class Portal : MonoBehaviour
 {
-    public GameObject genManager;
+    public ExpeditionManager exManager;
     public void Start()
     {
-        genManager = GameObject.Find("GenerationManager");
+        exManager = GameObject.Find("GenerationManager").GetComponent<ExpeditionManager>();
+        gameObject.SetActive(false);
+        if (exManager.CheckBossRoom())
+        {
+            gameObject.SetActive(false);
+        }
     }
     public void StartPortal()
     {
-        genManager.GetComponent<ExpeditionManager>().ExitFloor();
+        Debug.Log("aaaaaa");
+        exManager.ExitFloor();
+    }
+    public void ActivatePortal()
+    {
+        gameObject.SetActive(true);
     }
 }

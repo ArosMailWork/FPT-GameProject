@@ -6,7 +6,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
     public GameObject Testpack;
-    public static GameObject p { get; private set; }
+    public GameObject genManager;
     public string Expedition;
 
 
@@ -15,8 +15,7 @@ public class GameManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            p = Testpack;
-            DontDestroyOnLoad(p);
+            DontDestroyOnLoad(Testpack);
             DontDestroyOnLoad(gameObject);
         }
         else
@@ -63,14 +62,16 @@ public class GameManager : MonoBehaviour
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #else
-            Application.Quit();
+        Application.Quit();
 #endif
     }
     #region SceneLogic
 
     public void StartExpedition()
     {
+
         SceneManager.LoadScene(Expedition);
+        genManager.SetActive(true);
     }
     #endregion 
 

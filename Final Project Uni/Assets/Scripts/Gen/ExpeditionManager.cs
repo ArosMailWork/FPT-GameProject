@@ -69,6 +69,10 @@ public class ExpeditionManager : MonoBehaviour
             OnTransition.Invoke();
         }
     }
+    public bool CheckBossRoom()
+    {
+        return floors[currentFloorNumber].haveBoss;
+    }
     public void ExpeditionStart()
     {
         SetWorld(currentWorldNumber);

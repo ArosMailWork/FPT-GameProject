@@ -19,8 +19,10 @@ public class GenerationManager : MonoBehaviour
     private List<Room> GenericRoom;
     private List<Room> RewardRoom;
     private List<Room> PuzzleRoom;
+    private List<Room> BossRoom;
+    private bool haveBoss;
     private Room StartRoom;
-    private Room EndRoom;
+    private Room ExitRoom;
 
     public void Start()
     {
@@ -40,7 +42,7 @@ public class GenerationManager : MonoBehaviour
 
     public void AssignDataToRoomGen()
     {
-        Gen.AssignData(GridSize, MainPathLength, UnityEngine.Random.Range(MinPuzzleRoom, MaxPuzzleRoom), UnityEngine.Random.Range(MinRewardRoom, MaxRewardRoom), GenericRoom, RewardRoom, PuzzleRoom, StartRoom, EndRoom);
+        Gen.AssignData(GridSize, MainPathLength, UnityEngine.Random.Range(MinPuzzleRoom, MaxPuzzleRoom), UnityEngine.Random.Range(MinRewardRoom, MaxRewardRoom), GenericRoom, RewardRoom, PuzzleRoom, BossRoom, haveBoss, StartRoom, ExitRoom);
     }
     public void LoadBiomeData(Biome biome)
     {
@@ -49,8 +51,9 @@ public class GenerationManager : MonoBehaviour
         GenericRoom = biome.GenericRoom;
         RewardRoom = biome.RewardRoom;
         PuzzleRoom = biome.PuzzleRoom;
+        BossRoom = biome.BossRoom;
         StartRoom = biome.startRoom;
-        EndRoom = biome.endRoom;
+        ExitRoom = biome.exitRoom;
 
     }
     public void LoadFloorData(Floor newFloor)
@@ -62,6 +65,7 @@ public class GenerationManager : MonoBehaviour
         MaxPuzzleRoom = newFloor.MaxPuzzleRoom;
         MinRewardRoom = newFloor.MinRewardRoom;
         MaxRewardRoom = newFloor.MaxRewardRoom;
+        haveBoss = newFloor.haveBoss;
         //StartRoom = newFloor.StartRoom;
         //EndRoom = newFloor.EndRoom;
     }
@@ -72,7 +76,7 @@ public class GenerationManager : MonoBehaviour
         RewardRoom = biome.RewardRoom;
         PuzzleRoom = biome.PuzzleRoom;
         StartRoom = biome.startRoom;
-        EndRoom = biome.endRoom;
+        ExitRoom = biome.exitRoom;
     }
 
 

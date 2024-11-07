@@ -12,8 +12,9 @@ public class Biome : ScriptableObject
     public List<Room> GenericRoom;
     public List<Room> RewardRoom;
     public List<Room> PuzzleRoom;
+    public List<Room> BossRoom;
     public Room startRoom;
-    public Room endRoom;
+    public Room exitRoom;
 }
 
 
