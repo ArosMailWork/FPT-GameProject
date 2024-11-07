@@ -6,14 +6,22 @@ using UnityEngine;
 public struct ItemDrop
 {
     public GameObject itemPrefab;
-    [Range(0, 100)]
-    public float dropRate; // Percentage scale (0 - 100%)
+    [Range(0, 100)] public float dropRate; // Percentage scale (0 - 100%)
 }
 
 public class ItemDropRate : MonoBehaviour
 {
     public bool DropOneItemOnly;
     public List<ItemDrop> itemDrops;
+    
+    public int MinSoul = 0, MaxSoul;
+    public int MinGold = 0, MaxGold;
+    
+    // Customizable offset
+    public Vector3 FixedOffset = new Vector3(0, 2f, 0); 
+    public float range = 2f;
+
+    private int Gold, Soul;
 
     [Button]
     public void CalculateDrops()
@@ -22,6 +30,8 @@ public class ItemDropRate : MonoBehaviour
             DropOneItem();
         else
             DropMultipleItems();
+        
+        DropCurrency();
     }
 
     private void DropOneItem()
@@ -40,7 +50,6 @@ public class ItemDropRate : MonoBehaviour
             }
         }
     }
-
     private void DropMultipleItems()
     {
         foreach (var itemDrop in itemDrops)
@@ -53,11 +62,28 @@ public class ItemDropRate : MonoBehaviour
         }
     }
 
+    private void DropCurrency()
+    {
+        Gold = Random.Range(MinGold, MaxGold);
+        Soul = Random.Range(MinSoul, MaxSoul);
+        
+        //temporary add directly, will add item collide to add money later
+        PlayerController.Instance._playerData.AddCurrency(Gold, Soul);
+    }
+
     private void Drop(GameObject item)
     {
         if (item != null)
         {
-            Instantiate(item, transform.position + (Vector3.up * 2f), Quaternion.identity);
+            // Generate a random offset with y set to 1
+            Vector3 randomOffset = new Vector3(
+                Random.Range(-range, range), 
+                1f, 
+                Random.Range(-range, range)
+            );
+
+            // Instantiate item with the combined offset
+            Instantiate(item, transform.position + randomOffset + FixedOffset, Quaternion.identity);
             Debug.Log($"Dropped: {item.name}");
         }
     }

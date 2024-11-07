@@ -27,6 +27,11 @@ public class DialogUI : MonoBehaviour
             originalFont = dialogText.font; // Store the original font
         }
 
+        CheckPlayerLevel();
+    }
+
+    public void CheckPlayerLevel()
+    {
         if (requireKnowledgeLevel <= PlayerController.Instance._stats.knowledgeLevel)
             ShowOriginalText();
         else

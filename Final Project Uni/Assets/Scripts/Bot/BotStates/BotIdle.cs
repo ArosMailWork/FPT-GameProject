@@ -14,6 +14,8 @@ public class BotIdle : BaseState
     {
         base.Enter();
         sm.currState = "Idle";
+        
+        if(sm.bot.unitType != UnitType.BossPattern)
         sm.ChangeState(sm.StrafeState);
 
     }

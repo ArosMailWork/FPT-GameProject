@@ -145,9 +145,9 @@ public class ArrowController : MonoBehaviour
     void ShootArrow(Arrow arrow)
     {
         if (IsPreciseArcher && (currentChargedTime / chargedTime) >= 0.75f)
-            _playerController._stats.SetBuffMultiplier(0.5f);
+            _playerController._stats.SetBuffATKMul(0.5f);
         else
-            _playerController._stats.SetBuffMultiplier(0);
+            _playerController._stats.SetBuffATKMul(0);
         
 
         calForce = forceCurve.Evaluate(currentChargedTime / chargedTime) * ShootForce;

@@ -34,14 +34,24 @@ public class BotAnimController : MonoBehaviour
     }
     
     [Button]
-    public void DamagedAnim()
+    public async UniTaskVoid DamagedAnim()
     {
-        botAnimator.SetTrigger("Damaged");
+        botAnimator.Play("Damaged");
     }
     
+    [Button("Attack")]
     public void AttackAnim(bool Attacking)
     {
         if(Attacking) botAnimator.SetTrigger("AttackStart");
+        botAnimator.SetBool("Attacking", Attacking);
+    }
+    
+    [Button("Special Attack")]
+    public void SpecialAttackAnim(bool Attacking, int SpecialType = 0)
+    {
+        botAnimator.SetInteger("AttackType", SpecialType);
+        
+        if(Attacking) botAnimator.SetTrigger("SpecialAttackStart");
         botAnimator.SetBool("Attacking", Attacking);
     }
     

@@ -91,6 +91,8 @@ public class HurtBox : MonoBehaviour
             HitTarget(targetHealth, KnockDir, type);
             hitObjects.Add(other); // Mark the object as hit
         }
+        
+        hitEvent.Invoke();
     }
 
     private void OnTriggerStay(Collider other)
@@ -175,6 +177,6 @@ public class HurtBox : MonoBehaviour
         KnockDir = Vector3.zero; // Reset knockback direction
 
         //Debug.Log("hitted");
-        hitEvent.Invoke();
+        
     }
 }

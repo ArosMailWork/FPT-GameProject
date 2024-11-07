@@ -75,7 +75,7 @@ public class SkillHolder : MonoBehaviour
 
         SetActiveSkill(currentActiveSkill);
     }
-    #endregion
+    
 
     [Button]
     public void AddSkill(GameObject skillPrefab)
@@ -100,10 +100,17 @@ public class SkillHolder : MonoBehaviour
         }
 
         skillList.Add(skillInstance);  // Add all skills to the master list
-        Debug.Log("Add " + skillComponent.type + " Skill: " + skillComponent.name);
-        
-        if(SwitchButton != null) SwitchButton.gameObject.SetActive((activeSkillList.Count > 1));
+        //Debug.Log("Add " + skillComponent.type + " Skill: " + skillComponent.name);
+
+        if (SwitchButton != null)
+        {
+            Debug.Log(activeSkillList.Count);
+            SwitchButton.gameObject.SetActive((activeSkillList.Count > 1));
+            if(activeSkillList.Count == 1) SetActiveSkill(0);
+        }
     }
+    
+    #endregion
 
     #region Input
     public void ActivateSkill(InputAction.CallbackContext ctx)

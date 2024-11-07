@@ -33,16 +33,28 @@ public class SelectRandomSkillEvent : MonoBehaviour
         // Clear the current SkillPool to refresh it with only unlocked skills
         SkillPool.Clear();
 
-        if(playerData == null) playerData = PlayerController.Instance._playerData;
-        
-        //add only the unlocked ones to SkillPool
+        if (playerData == null) playerData = PlayerController.Instance._playerData;
+
+        HashSet<GameObject> addedSkills = new HashSet<GameObject>(); // To prevent duplicates
+
+        // Add all default unlocked skills from the database
+        foreach (var skill in playerData.skillDatabase.allSkills)
+        {
+            if (skill.defaultUnlocked && skill.skillPrefab != null && addedSkills.Add(skill.skillPrefab))
+            {
+                SkillPool.Add(skill.skillPrefab);
+                // Debug.Log($"Added default unlocked skill: {skill.skillPrefab.name}");
+            }
+        }
+
+        // Add unlocked skills to SkillPool
         foreach (SkillUnlock skillUnlock in playerData.unlockedSkills)
         {
             if (skillUnlock.isUnlocked)
             {
                 // Find the corresponding skillPrefab from skillDatabase using the Skill_ID
                 PlayerSkill playerSkill = playerData.skillDatabase.allSkills.Find(s => s.Skill_ID == skillUnlock.Skill.Skill_ID);
-                if (playerSkill.skillPrefab != null)
+                if (playerSkill.skillPrefab != null && addedSkills.Add(playerSkill.skillPrefab))
                 {
                     SkillPool.Add(playerSkill.skillPrefab);
                     Debug.Log($"Added {playerSkill.skillPrefab.name} to SkillPool.");
