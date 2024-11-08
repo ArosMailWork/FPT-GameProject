@@ -8,7 +8,7 @@ public class BotKnockback : BotDisable
     // Cooldown for knockback
     protected float cooldown = 1f;
     protected float countdown;
-
+    private bool damaged;
     public Vector3 force;
     NavMeshHit hit;
 
