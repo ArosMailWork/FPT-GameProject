@@ -94,6 +94,7 @@ MonoBehaviour:
   currState: 
   isAlive: 1
   distance: 0
+  BossSkill: {fileID: 0}
 --- !u!114 &3743429227143718691
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -891,9 +892,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthState: 0
-  maxHealth: 14
+  maxHealth: 5
   health: 0
   overHeal: 0
+  isTrapMaster: 0
   StatUI: {fileID: 0}
   fillOnStart: 1
   HpValueChange:
@@ -956,6 +958,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  CheckValue:
+    m_PersistentCalls:
+      m_Calls: []
   isAlive: 1
 --- !u!114 &455605207973457101
 MonoBehaviour:
