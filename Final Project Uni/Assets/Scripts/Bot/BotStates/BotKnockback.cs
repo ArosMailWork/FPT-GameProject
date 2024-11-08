@@ -8,13 +8,15 @@ public class BotKnockback : BotDisable
     // Cooldown for knockback
     protected float cooldown = 1f;
     protected float countdown;
-    private bool damaged;
+
     public Vector3 force;
     NavMeshHit hit;
 
     // Knockback thresholds and timers
     private const float MaxKnockbackTime = 2.0f;  // Maximum time knockback can last
     private const float StillThreshold = 0.1f;    // Velocity threshold to stop knockback
+
+    private bool damaged;
 
     private bool isKnockbackActive = false;
 
@@ -50,8 +52,6 @@ public class BotKnockback : BotDisable
                 damaged = true;
                 sm.bot._animController.DamagedAnim();
             }
-            //else if(sm.bot._animController != null && sm.isAlive)
-            //sm.bot._animController.DamagedAnim();
         }
         else if (!isKnockbackActive) // Ensure knockback is finished before changing state
         {

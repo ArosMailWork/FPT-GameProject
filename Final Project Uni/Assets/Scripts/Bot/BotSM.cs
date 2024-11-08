@@ -24,6 +24,8 @@ public class BotSM : StateMachine
     [HideInInspector] public BotStrafe StrafeState;
     [HideInInspector] public BotKnockback knockbackState;
     [HideInInspector] public BotDeath deathState;
+    
+    [HideInInspector] public BotPattern BotPattern;
 
     public void Awake()
     {
@@ -33,6 +35,7 @@ public class BotSM : StateMachine
         StrafeState = new BotStrafe(this);
         knockbackState = new BotKnockback(this);
         deathState = new BotDeath(this);
+        BotPattern = new BotPattern(this);
 
         if (bot.gun != null && BossSkill != null)
         {
@@ -62,5 +65,10 @@ public class BotSM : StateMachine
             knockbackState.force = force;
             ChangeState(knockbackState);
         }
+    }
+
+    public void Teleport(Vector3 pos)
+    {
+        agent.Warp(pos);
     }
 }

@@ -1,6 +1,8 @@
     using System;
     using System.Collections.Generic;
+    using JetBrains.Annotations;
     using Sirenix.OdinInspector;
+    using TMPro;
     using UnityEngine;
 
     [System.Serializable]
@@ -31,6 +33,9 @@
         public RecipeDatabase recipeDatabase;
         [FoldoutGroup("Setup")]
         public SkillDatabase skillDatabase;
+
+        [FoldoutGroup("Setup")] 
+        [CanBeNull] public TextMeshProUGUI GoldText;
         
         [FoldoutGroup("Inventory")]
         public int Gold, SoulCollected;
@@ -82,6 +87,8 @@
         {
             Gold += Mathf.RoundToInt(InputGold);
             SoulCollected += Mathf.RoundToInt(InputSoul);
+
+            if (GoldText != null) GoldText.text = Gold.ToString();
         }
         
         [Button]

@@ -8,4 +8,5 @@ public enum UnitType
     Shooter = 1,
     Special = 2,
     BossShooter = 3,
+    BossPattern = 4,
 }

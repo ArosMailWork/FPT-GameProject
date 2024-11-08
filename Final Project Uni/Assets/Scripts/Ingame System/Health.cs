@@ -36,6 +36,8 @@ public class Health : MonoBehaviour
     public UnityEvent HpValueChange, HpReduce, OnDeath;
     [FoldoutGroup("Setup/Event")]
     public UnityEvent<Vector3> OnKnockback;
+    [FoldoutGroup("Setup/Event")]
+    public UnityEvent<int, int> CheckValue;
 
     [FoldoutGroup("Debug")] public bool isAlive = true;
     

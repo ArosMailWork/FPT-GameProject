@@ -90,8 +90,6 @@ public class BotStrafe : BotActive
     }
 
     
-    
-
     public Vector3 ChooseAttackLocation(Vector3 targetPosition, float minRadius, float maxRadius, float halfAngle = 45f)
     {
         // The enemy's current position
@@ -114,5 +112,26 @@ public class BotStrafe : BotActive
 
         // Return the calculated point
         return new Vector3(point.x, enemyPosition.y, point.z); // Keep the Y position of the enemy
+    }
+    
+    // Method to warp the bot behind the player
+    public void MoveToBehindPlayer(float offset)
+    {
+        if (sm.target == null) return;
+
+        // Get the player's position and forward direction
+        Vector3 playerPosition = sm.target.position;
+        Vector3 playerForward = sm.target.transform.forward;
+
+        // Calculate the position behind the player with the given offset
+        Vector3 behindPlayerPosition = playerPosition - playerForward * offset;
+        Vector3 telePos = new Vector3(behindPlayerPosition.x, sm.transform.position.y, behindPlayerPosition.z);
+
+        // Warp the bot to the calculated position
+        sm.Teleport(telePos);
+
+        // Optional: Update animation to reflect the warp
+        if(sm.bot._animController != null)
+            sm.bot._animController.UpdateRunInput(false);
     }
 }
