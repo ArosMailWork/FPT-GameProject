@@ -7,9 +7,9 @@ using UnityEngine.UI;
 
 namespace PA
 {
-    public class UIManager : MonoBehaviour
+    public class UIMainMenu : MonoBehaviour
     {
-        public static UIManager Instance { get; private set; }
+        public static UIMainMenu Instance { get; private set; }
 
         private void Awake()
         {
@@ -24,88 +24,59 @@ namespace PA
             }
         }
 
-        [Header("Main Menu UI")]
-        [SerializeField]
+        [Header("Main Menu UI")] [SerializeField]
         private GameObject mainMenuPanel;
 
-        [SerializeField]
-        private Button newGameButton;
+        [SerializeField] private Button newGameButton;
 
-        [SerializeField]
-        private Button loadGameButton;
+        [SerializeField] private Button optionButton;
 
-        [SerializeField]
-        private Button settingsButton;
+        [SerializeField] private Button quitGameButton;
 
-        [SerializeField]
-        private Button quitGameButton;
-
-        [Header("Settings Menu UI")]
-        [SerializeField]
+        [Header("Settings Menu UI")] [SerializeField]
         private GameObject settingsMenuPanel;
 
-        [SerializeField]
-        private GameObject settingsPanel;
+        [SerializeField] private GameObject settingsPanel;
 
-        [SerializeField]
-        private Button graphicsPanelButton;
+        [SerializeField] private Button graphicsPanelButton;
 
-        [SerializeField]
-        private Button soundPanelButton;
+        [SerializeField] private Button soundPanelButton;
 
-        [SerializeField]
-        private Button backSettingsMenuButton;
+        [SerializeField] private Button backSettingsMenuButton;
 
-        [SerializeField]
-        private GameObject graphicsPanel;
+        [SerializeField] private GameObject graphicsPanel;
 
-        [SerializeField]
-        private GameObject soundPanel;
+        [SerializeField] private GameObject soundPanel;
 
-        [Space(10)]
-        [Header("Graphics Settings UI")]
-        [SerializeField]
+        [Space(10)] [Header("Graphics Settings UI")] [SerializeField]
         private TMP_Dropdown fpsDropdown;
 
-        [SerializeField]
-        private Dropdown graphicsQualityDropdown;
+        [SerializeField] private Dropdown graphicsQualityDropdown;
 
-        [SerializeField]
-        private Toggle vSyncToggle;
+        [SerializeField] private Toggle vSyncToggle;
 
-        [SerializeField]
-        private Toggle antiAliasingToggle;
+        [SerializeField] private Toggle antiAliasingToggle;
 
-        [SerializeField]
-        private Toggle shadowsToggle;
+        [SerializeField] private Toggle shadowsToggle;
 
-        [SerializeField]
-        private Toggle bloomToggle;
+        [SerializeField] private Toggle bloomToggle;
 
-        [SerializeField]
-        private Button backGraphicsSettingsButton;
+        [SerializeField] private Button backGraphicsSettingsButton;
 
-        [Header("Sound Settings UI")]
-        [SerializeField]
+        [Header("Sound Settings UI")] [SerializeField]
         private Slider musicVolumeSlider;
 
-        [SerializeField]
-        private TMP_Text musicVolumeTextBG;
+        [SerializeField] private TMP_Text musicVolumeTextBG;
 
-        [SerializeField]
-        private Slider sfxVolumeSlider;
+        [SerializeField] private Slider sfxVolumeSlider;
 
-        [SerializeField]
-        private TMP_Text musicVolumeTextSFX;
+        [SerializeField] private TMP_Text musicVolumeTextSFX;
 
-        [SerializeField]
-        private Toggle musicToggle;
+        [SerializeField] private Toggle musicToggle;
 
-        [SerializeField]
-        private Toggle sfxToggle;
+        [SerializeField] private Toggle sfxToggle;
 
-        [SerializeField]
-        private Button backSoundSettingsButton;
+        [SerializeField] private Button backSoundSettingsButton;
 
         private void Start()
         {
@@ -116,8 +87,7 @@ namespace PA
         {
             // Main Menu
             newGameButton.onClick.AddListener(OnNewGameClicked);
-            loadGameButton.onClick.AddListener(OnLoadGameClicked);
-            settingsButton.onClick.AddListener(OnSettingsClicked);
+            optionButton.onClick.AddListener(OnSettingsClicked);
             quitGameButton.onClick.AddListener(OnQuitClicked);
 
             // Settings Menu
@@ -159,103 +129,37 @@ namespace PA
             // TODO: Set FPS and Resolution dropdown values
         }
 
-        [Header("Transition")]
-        #region Change Child
 
-        public GameObject maskA;
-        public GameObject maskB;
-
-        void ConfigTwoGameObjectOfTransition(GameObject newChild, GameObject oldChild)
-        {
-            var tempA = maskA.transform.GetChild(0);
-            var tempB = maskB.transform.GetChild(0);
-            //clear parent
-            tempA.SetParent(null);
-            tempB.SetParent(null);
-            // Ensure both new and old child have FixPosition component
-            if (!newChild.GetComponent<FixPosition>())
-            {
-                newChild.AddComponent<FixPosition>();
-            }
-
-            if (!oldChild.GetComponent<FixPosition>())
-            {
-                oldChild.AddComponent<FixPosition>();
-            }
-
-            //false mean left to right
-            //true mean right to left
-            if (!toggle)
-            {
-                newChild.transform.SetParent(maskA.transform);
-                oldChild.transform.SetParent(maskB.transform);
-            }
-            else
-            {
-                newChild.transform.SetParent(maskB.transform);
-                oldChild.transform.SetParent(maskA.transform);
-            }
-        }
-
-        #endregion
-
-        #region Playe Anim
-
-        public GameObject WipeSlider;
-        public Animator transitionAnimator;
-        public float delayActive = 0.5f;
-
-        //false mean left to right
-        //true mean right to left
-        public bool toggle = false;
-
-        public void MakeTransition()
-        {
-            if (!toggle)
-            {
-                transitionAnimator.SetTrigger("Wipe A to B");
-                toggle = true;
-                return;
-            }
-
-            if (toggle)
-            {
-                transitionAnimator.SetTrigger("Wipe B to A");
-                toggle = false;
-                return;
-            }
-        }
-
-        #endregion
-
+        public MakeTransitionUI makeTransitionUI;
         #region Button Click Handlers
 
         void GeneralClick(GameObject newChild, GameObject oldChild)
         {
             newChild.SetActive(true);
             oldChild.SetActive(true);
-            ConfigTwoGameObjectOfTransition(newChild, oldChild);
-            MakeTransition();
+            makeTransitionUI.ConfigTwoGameObjectOfTransition(newChild, oldChild);
+            makeTransitionUI.MakeTransition();
 
             DelayedDeactivationAsync().Forget();
 
             async UniTaskVoid DelayedDeactivationAsync()
             {
-                await UniTask.Delay(TimeSpan.FromSeconds(delayActive));
+                await UniTask.Delay(TimeSpan.FromSeconds(makeTransitionUI.duration));
                 oldChild.SetActive(false);
             }
         }
 
         private async void OnNewGameClicked()
         {
-            MakeTransition();
-            await UniTask.Delay(TimeSpan.FromSeconds(delayActive));
+            makeTransitionUI.isNormalTransition = true;
+            makeTransitionUI.MakeTransition();
+            
+            await UniTask.Delay(TimeSpan.FromSeconds(makeTransitionUI.duration));
             GameManager.Instance.StartNewGame();
-        }
-
-        private void OnLoadGameClicked()
-        {
-            GameManager.Instance.LoadGame();
+            
+            await UniTask.Delay(TimeSpan.FromSeconds(makeTransitionUI.duration));
+            makeTransitionUI.fadeBlackImage.GetComponent<CanvasGroup>().alpha = 1;
+            gameObject.SetActive(false);
         }
 
         private void OnSettingsClicked()
@@ -273,12 +177,6 @@ namespace PA
             ApplySettings();
             GeneralClick(mainMenuPanel, settingsMenuPanel);
         }
-
-        private void OnSettingsPanelClicked()
-        {
-            GeneralClick(settingsMenuPanel, mainMenuPanel);
-        }
-
         private void OnGraphicsPanelClicked()
         {
             GeneralClick(graphicsPanel, settingsPanel);

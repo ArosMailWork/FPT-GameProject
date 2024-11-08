@@ -14,7 +14,7 @@ public class FixPosition : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        initialPosition = transform.position;
+        transform.position = initialPosition;
     }
 
     void OnEnable()
@@ -28,7 +28,7 @@ public class FixPosition : MonoBehaviour
         transform.position = initialPosition;
         debugPosition = transform.position;
 
-        if(transform.parent == null) return;
+        if (!transform.parent) return;
         transform.localScale = new Vector3(
             initialLocalScale.x / transform.parent.lossyScale.x,
             initialLocalScale.y / transform.parent.lossyScale.y,

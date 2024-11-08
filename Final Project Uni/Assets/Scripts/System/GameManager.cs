@@ -37,7 +37,6 @@ public class GameManager : MonoBehaviour
     {
         // Logic for starting a new game
         SceneManager.LoadScene("Lobby");
-        UIManager.Instance.gameObject.SetActive(false);
     }
 
     public void GoGamePlay()
