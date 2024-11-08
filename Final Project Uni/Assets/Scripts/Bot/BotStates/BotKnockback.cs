@@ -16,7 +16,6 @@ public class BotKnockback : BotDisable
     private const float MaxKnockbackTime = 2.0f;  // Maximum time knockback can last
     private const float StillThreshold = 0.1f;    // Velocity threshold to stop knockback
 
-    private bool damaged;
 
     private bool isKnockbackActive = false;
 
