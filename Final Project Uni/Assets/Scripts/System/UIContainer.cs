@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 public class UIContainer : MonoBehaviour
@@ -7,19 +9,22 @@ public class UIContainer : MonoBehaviour
     public GameObject Gameplay;
     public GameObject SkillChoose;
     public GameObject Transition;
-
+    public GameObject Fade;
     public SelectRandomSkillEvent s;
+    public Animator FadeAnimator;
 
     void Start()
     {
         s = SkillChoose.GetComponent<SelectRandomSkillEvent>();
-        GameplayState();
+        //GameplayState();
     }
     public void GameplayState()
     {
         SkillChoose.SetActive(false);
         Transition.SetActive(false);
+        Fade.SetActive(false);
         Gameplay.SetActive(true);
+
     }
     public void SkillChooseState()
     {
@@ -32,5 +37,37 @@ public class UIContainer : MonoBehaviour
         Transition.SetActive(true);
         Gameplay.SetActive(false);
     }
+    public void FadeAnim()
+    {
+        Fade.SetActive(true);
+        Gameplay.SetActive(false);
+    }
 
+    IEnumerator FadeInAnimation()
+    {
+        FadeAnim();
+        FadeAnimator.SetTrigger("FadeIn");
+        yield return new WaitForSeconds(1f);
+    }
+    IEnumerator FadeOutAnimation()
+    {
+        FadeAnimator.SetTrigger("FadeOut");
+        yield return new WaitForSeconds(1f);
+        GameplayState();
+    }
+
+    [Button]
+    public void FadeIn()
+    {
+        //StartCoroutine(FadeInAnimation());
+        FadeAnim();
+        FadeAnimator.SetTrigger("FadeIn");
+    }
+
+
+    [Button]
+    public void FadeOut()
+    {
+        StartCoroutine(FadeOutAnimation());
+    }
 }

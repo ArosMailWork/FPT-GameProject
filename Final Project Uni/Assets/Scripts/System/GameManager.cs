@@ -1,4 +1,6 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 
@@ -6,8 +8,11 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
     public GameObject Testpack;
+    //public 
     public GameObject genManager;
     public string Expedition;
+
+    public UnityEvent fadeInAnim, fadeOutAnim;
 
 
     private void Awake()
@@ -67,12 +72,21 @@ public class GameManager : MonoBehaviour
     }
     #region SceneLogic
 
-    public void StartExpedition()
+    IEnumerator LoadExpedition()
     {
-
+        fadeInAnim.Invoke();
+        yield return new WaitForSeconds(1);
         SceneManager.LoadScene(Expedition);
         genManager.SetActive(true);
+        yield return new WaitForSeconds(0.5f);
+        fadeOutAnim.Invoke();
+
     }
-    #endregion 
+    public void StartExpedition()
+    {
+        StartCoroutine(LoadExpedition());
+    }
+    #endregion
+
 
 }

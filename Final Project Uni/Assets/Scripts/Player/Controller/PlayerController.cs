@@ -20,13 +20,6 @@ public class PlayerController : MonoBehaviour
 
     [FoldoutGroup("Stats")]
     public bool blockInput;
-<<<<<<< HEAD
-    [FoldoutGroup("Stats")]
-    public PlayerData _playerData;
-    [FoldoutGroup("Stats")]
-    public PlayerStats _stats;
-=======
->>>>>>> main
     [FoldoutGroup("Stats")]
     public Health PlayerHealth;
     [FoldoutGroup("Stats/Lunge")]
@@ -66,10 +59,10 @@ public class PlayerController : MonoBehaviour
     [FoldoutGroup("Setup")]
     public UltimateJoystick JoystickPA;
     [FoldoutGroup("Setup/Stamina")] public StaminaSystem staminaSystem;
-    
-    [FoldoutGroup("Setup/Save")] 
+
+    [FoldoutGroup("Setup/Save")]
     public PlayerData _playerData;
-    [FoldoutGroup("Setup/Save")] 
+    [FoldoutGroup("Setup/Save")]
     public PlayerStats _stats;
 
     #region Calculate
