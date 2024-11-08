@@ -46,7 +46,7 @@ public class EnemySpawner : MonoBehaviour
                 Debug.Log("No valid spawn position");
                 return;
             }
-            Instantiate(enemy, spawnPosition, Quaternion.identity, transform);
+            Instantiate(enemy, spawnPosition, Quaternion.identity);
         }
     }
 
