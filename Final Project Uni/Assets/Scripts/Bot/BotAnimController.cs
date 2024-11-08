@@ -36,7 +36,7 @@ public class BotAnimController : MonoBehaviour
     [Button]
     public void DamagedAnim()
     {
-        botAnimator.SetTrigger("Damaged");
+        botAnimator.Play("Damaged");
     }
     
     public void AttackAnim(bool Attacking)

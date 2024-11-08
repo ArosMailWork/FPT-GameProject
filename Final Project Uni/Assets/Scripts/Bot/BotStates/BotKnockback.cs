@@ -8,7 +8,7 @@ public class BotKnockback : BotDisable
     // Cooldown for knockback
     protected float cooldown = 1f;
     protected float countdown;
-
+    private bool damaged;
     public Vector3 force;
     NavMeshHit hit;
 
@@ -44,14 +44,18 @@ public class BotKnockback : BotDisable
         if (countdown >= 0)
         {
             countdown -= Time.deltaTime;
-            
-            if(sm.bot._animController != null && sm.isAlive)
-            sm.bot._animController.DamagedAnim();
+
+            if (sm.bot._animController != null && sm.isAlive && !damaged)
+            {
+                damaged = true;
+                sm.bot._animController.DamagedAnim();
+            }
             //else if(sm.bot._animController != null && sm.isAlive)
             //sm.bot._animController.DamagedAnim();
         }
         else if (!isKnockbackActive) // Ensure knockback is finished before changing state
         {
+            damaged = false;
             if(sm.isAlive) sm.ChangeState(sm.StrafeState);
         }
     }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Events;
 using Random = UnityEngine.Random;
 
 
@@ -15,6 +16,8 @@ public class EnemySpawner : MonoBehaviour
     public EnemySpawnSettings spawnSettings;
     [FoldoutGroup("Stats")]
     public float SpawnRadius = 10;
+    private List<GameObject> spawnedEnemies = new List<GameObject>();
+    public UnityEvent WaveCleared;
 
     //Calculate
     [FoldoutGroup("Debug")]
@@ -46,7 +49,9 @@ public class EnemySpawner : MonoBehaviour
                 Debug.Log("No valid spawn position");
                 return;
             }
-            Instantiate(enemy, spawnPosition, Quaternion.identity);
+            GameObject spawnedEnemy = Instantiate(enemy, spawnPosition, Quaternion.identity);
+            spawnedEnemies.Add(spawnedEnemy);
+            spawnedEnemy.AddComponent<EnemyDestructHandler>().OnDestroyed += HandleEnemyDestroyed;
         }
     }
 
@@ -124,6 +129,18 @@ public class EnemySpawner : MonoBehaviour
         //Gizmos.color = Color.green; // Set the color of the Gizmo
         DebugExtension.DrawCircle(transform.position, Vector3.up, Color.green, SpawnRadius);
     }
+    private void HandleEnemyDestroyed(GameObject enemy)
+    {
+        if (spawnedEnemies.Contains(enemy))
+        {
+            spawnedEnemies.Remove(enemy);
 
+            // Check if all enemies are destroyed
+            if (spawnedEnemies.Count == 0)
+            {
+                WaveCleared?.Invoke();
+            }
+        }
+    }
     #endregion
 }
