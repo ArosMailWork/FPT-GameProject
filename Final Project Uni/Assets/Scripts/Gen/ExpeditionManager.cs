@@ -19,7 +19,7 @@ public class ExpeditionManager : MonoBehaviour
     [FoldoutGroup("Expedition Number")]
     public int currentFloorNumber = 0;
     [FoldoutGroup("Event")]
-    public UnityEvent OnFloorExit, OnWorldExit, LoadNextFloor, SkillEvent, OnTransition;
+    public UnityEvent OnFloorExit, OnWorldExit, LoadNextFloor, SkillEvent, OnTransition, OnExpeditionExit;
 
     #region Event
 
@@ -82,6 +82,7 @@ public class ExpeditionManager : MonoBehaviour
     {
         currentWorldNumber = 0;
         currentFloorNumber = 0;
+        OnExpeditionExit.Invoke();
     }
 
     #endregion

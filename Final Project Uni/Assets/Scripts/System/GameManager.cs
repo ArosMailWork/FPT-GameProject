@@ -1,4 +1,5 @@
 using System.Collections;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Rendering;
@@ -8,10 +9,14 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
     public GameObject Testpack;
-    //public 
     public GameObject genManager;
+    //Scene Address
+    [FoldoutGroup("Scene Address")]
     public string Expedition;
+    [FoldoutGroup("Scene Address")]
+    public string Lobby;
 
+    [FoldoutGroup("Event")]
     public UnityEvent fadeInAnim, fadeOutAnim;
 
 
@@ -82,9 +87,23 @@ public class GameManager : MonoBehaviour
         fadeOutAnim.Invoke();
 
     }
+    IEnumerator LoadLobby()
+    {
+        fadeInAnim.Invoke();
+        yield return new WaitForSeconds(1);
+        SceneManager.LoadScene(Lobby);
+        genManager.SetActive(false);
+        yield return new WaitForSeconds(0.5f);
+        fadeOutAnim.Invoke();
+
+    }
     public void StartExpedition()
     {
         StartCoroutine(LoadExpedition());
+    }
+    public void StartLobby()
+    {
+        StartCoroutine(LoadLobby());
     }
     #endregion
 
