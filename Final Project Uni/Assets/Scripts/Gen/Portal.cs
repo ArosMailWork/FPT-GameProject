@@ -9,14 +9,13 @@ public class Portal : MonoBehaviour
     {
         exManager = GameObject.Find("GenerationManager").GetComponent<ExpeditionManager>();
         gameObject.SetActive(false);
-        if (exManager.CheckBossRoom())
-        {
-            gameObject.SetActive(false);
-        }
+        // if (exManager.CheckBossRoom())
+        // {
+        //     gameObject.SetActive(false);
+        // }
     }
     public void StartPortal()
     {
-        Debug.Log("aaaaaa");
         exManager.ExitFloor();
     }
     public void ActivatePortal()
