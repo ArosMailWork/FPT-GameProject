@@ -828,22 +828,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: ToggleUIElements, Assembly-CSharp
-        m_MethodName: ToggleUI
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-      - m_Target: {fileID: 4622125705065299599}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 5853905299836609042}
+        m_TargetAssemblyTypeName: UIContainer, Assembly-CSharp
+        m_MethodName: GameplayState
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -33597,10 +33585,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4622125705065299599}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 5853905299836609042}
+        m_TargetAssemblyTypeName: UIContainer, Assembly-CSharp
+        m_MethodName: InventoryState
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -33620,18 +33608,6 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 1
-        m_CallState: 2
-      - m_Target: {fileID: 208480307390033413}
-        m_TargetAssemblyTypeName: ToggleUIElements, Assembly-CSharp
-        m_MethodName: ToggleUI
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
         m_CallState: 2
 --- !u!225 &8389967101394888219
 CanvasGroup:
@@ -61581,7 +61557,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 33.694702, y: 21.829102}
+  m_AnchoredPosition: {x: 32.73471, y: 21.829102}
   m_SizeDelta: {x: 170.24762, y: 170.24762}
   m_Pivot: {x: 0, y: 0}
 --- !u!222 &340759140589772616
@@ -77815,7 +77791,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &7770840328393384974
 RectTransform:
   m_ObjectHideFlags: 0
@@ -102152,12 +102128,12 @@ GameObject:
   - component: {fileID: 22616743373170339}
   - component: {fileID: 4898708590756997494}
   m_Layer: 5
-  m_Name: StatCanvas
+  m_Name: InventoryCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5707448566326720217
 RectTransform:
   m_ObjectHideFlags: 0
@@ -127003,6 +126979,10 @@ PrefabInstance:
       propertyPath: Fade
       value: 
       objectReference: {fileID: 5269390828585680942}
+    - target: {fileID: 8323900738938993219, guid: 22d1f40c7a6923c4795cef5c54aef404, type: 3}
+      propertyPath: Inventory
+      value: 
+      objectReference: {fileID: 7120457282757047347}
     - target: {fileID: 8323900738938993219, guid: 22d1f40c7a6923c4795cef5c54aef404, type: 3}
       propertyPath: FadeAnimator
       value: 

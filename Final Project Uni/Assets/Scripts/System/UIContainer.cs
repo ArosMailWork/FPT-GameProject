@@ -9,6 +9,7 @@ public class UIContainer : MonoBehaviour
     public GameObject Gameplay;
     public GameObject SkillChoose;
     public GameObject Transition;
+    public GameObject Inventory;
     public GameObject Fade;
     public SelectRandomSkillEvent s;
     public Animator FadeAnimator;
@@ -23,8 +24,14 @@ public class UIContainer : MonoBehaviour
         SkillChoose.SetActive(false);
         Transition.SetActive(false);
         Fade.SetActive(false);
+        Inventory.SetActive(false);
         Gameplay.SetActive(true);
 
+    }
+    public void InventoryState()
+    {
+        Gameplay.SetActive(false);
+        Inventory.SetActive(true);
     }
     public void SkillChooseState()
     {
