@@ -36,7 +36,7 @@ public class BotAttacking : BotTargeting
     }
     public void Attack()
     {
-        if (sm.bot.unitType == UnitType.BossShooter)
+        if (sm.bot.unitType == UnitType.BossShooter && sm.target != null)
         {
             sm.BossSkill.Attack(sm.target);
             return;
