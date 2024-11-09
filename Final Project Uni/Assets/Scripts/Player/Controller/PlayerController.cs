@@ -332,7 +332,10 @@ public class PlayerController : MonoBehaviour
 
         // Guard clause: If no enemy was found, just lunge forward
         if (closestEnemy != null)
+        {
             lungeDirection = (closestEnemy.transform.position - PlayerRB.transform.position).normalized;
+            lungeDirection.y = 0;
+        }
 
         doMeleeLunge(LungeTime);
     }

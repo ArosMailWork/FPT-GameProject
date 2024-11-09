@@ -1,6 +1,7 @@
 using System;
 using JetBrains.Annotations;
 using Sirenix.OdinInspector;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -20,7 +21,7 @@ public class InteractableItem : MonoBehaviour
     public int Cost = 100;
     [FoldoutGroup("Shop")]
     public bool isItemShop = false;
-    
+
     // Track if the interaction has occurred when oneTimeUseUI is true
     private bool hasInteracted = false;
 

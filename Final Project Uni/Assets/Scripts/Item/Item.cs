@@ -18,7 +18,7 @@ public class Item : MonoBehaviour
     [FoldoutGroup("Buff")]
     public BuffType type;
     [FoldoutGroup("Buff")]
-    public int amount;
+    public float amount;
     
     [FoldoutGroup("Skill")]
     [CanBeNull] public bool takeSkillIcon = true;
