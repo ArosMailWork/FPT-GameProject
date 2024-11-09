@@ -3,6 +3,7 @@
     using JetBrains.Annotations;
     using Sirenix.OdinInspector;
     using TMPro;
+    using Unity.Mathematics;
     using UnityEngine;
 
     [System.Serializable]
@@ -89,6 +90,8 @@
             SoulCollected += Mathf.RoundToInt(InputSoul);
 
             if (GoldText != null) GoldText.text = Gold.ToString();
+            
+            ParticleManager.Instance.SpawnParticle("CoinReceive", PlayerController.Instance.transform.position, quaternion.identity);
         }
         
         [Button]

@@ -32,10 +32,14 @@ public class Item : MonoBehaviour
     
     [FoldoutGroup("Currency")]
     public float Gold, Soul;
+
+    [FoldoutGroup("Debug")]
+    [ReadOnly] public bool isSkillBuff;
     
-    
-    private void Awake()
+    public void Awake()
     {
+        isSkillBuff = (Skill != null);
+        
         if (Skill != null && itemSprite != null && 
             takeSkillIcon && Skill.TryGetComponent<ISkill>(out ISkill skill))
         {

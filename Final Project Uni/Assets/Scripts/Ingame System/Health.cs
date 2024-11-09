@@ -150,6 +150,7 @@ public class Health : MonoBehaviour
     public void Knockback(Vector3 Dir, float knockForce = 10)
     {
         //knockback Event
+        Dir.y = 0;
         OnKnockback.Invoke(Dir.normalized * knockForce);
     }
 

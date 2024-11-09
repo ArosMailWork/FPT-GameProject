@@ -1176,8 +1176,10 @@ MonoBehaviour:
     dropRate: 20
   MinSoul: 0
   MaxSoul: 0
+  soulDropRate: 100
   MinGold: 0
   MaxGold: 0
+  goldDropRate: 100
   FixedOffset: {x: 0, y: 2, z: 0}
   range: 2
 --- !u!1001 &244245213
@@ -1446,7 +1448,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &287349472
 Transform:
   m_ObjectHideFlags: 0
@@ -2377,6 +2379,9 @@ MonoBehaviour:
   doKnockback: 1
   KnockForce: 150
   hitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  hitTargetEvent:
     m_PersistentCalls:
       m_Calls: []
   KnockDir: {x: 0, y: 0, z: 0}
@@ -4870,6 +4875,9 @@ MonoBehaviour:
   doKnockback: 1
   KnockForce: 200
   hitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  hitTargetEvent:
     m_PersistentCalls:
       m_Calls: []
   KnockDir: {x: 0, y: 0, z: 0}
@@ -12862,7 +12870,13 @@ MonoBehaviour:
   Striking: {fileID: 0}
   RNG_Min: 0
   RNG_Max: 5
+  offset: 3
+  patternBossAttack: 0
+  patternBossMove: 0
+  PatternPos: []
   RNG: 0
+  target: {fileID: 0}
+  sm: {fileID: 0}
 --- !u!4 &1828067566 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4693225784028992, guid: 752bb20fed6c14516baa62c2fa14ac6e, type: 3}
@@ -14340,12 +14354,12 @@ PrefabInstance:
       objectReference: {fileID: 6526502324537555375, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
     - target: {fileID: 6896801385506974553, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
       propertyPath: StartSkill.Array.size
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6896801385506974553, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
       propertyPath: StartSkill.Array.data[0]
       value: 
-      objectReference: {fileID: 464762936703557575, guid: 7674e64215c755042adb5d32681b7752, type: 3}
+      objectReference: {fileID: 3204633484197432600, guid: 29cbe985972cbc542be680de78ee308c, type: 3}
     - target: {fileID: 6896801385506974553, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
       propertyPath: StartSkill.Array.data[1]
       value: 

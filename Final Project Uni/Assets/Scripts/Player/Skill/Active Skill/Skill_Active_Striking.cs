@@ -20,12 +20,16 @@ public class Skill_Active_Striking : ISkill
     [FoldoutGroup("Debug")] 
     public List<Health> MarkedEnity;
 
+    public List<TrailRenderer> trail;
+
     //Calculate
     private Health enemyMarked;
 
     private void Start()
     {
         _pc.strikeMultiplier = strikingMultiplier;
+
+        TrailEffect(false);
     }
 
     private void OnValidate()
@@ -61,12 +65,14 @@ public class Skill_Active_Striking : ISkill
         
         //consume Stamina here
         _pc.staminaSystem.Consume(staminaCost);
+        TrailEffect(true);
 
-        //roll done ? okay cool
+        //striking done ? okay cool
         await UniTask.Delay(TimeSpan.FromSeconds(_pc._stats.rollTime));
         _pc.currentState = PlayerState.Idle;
         allowMark = false;
         _pc.gameObject.layer = LayerMask.NameToLayer("Player");
+        TrailEffect(false);
         
         //Might add some event here to activate particle or anything
         await UniTask.Delay(TimeSpan.FromSeconds(strikingDelayTime));
@@ -96,6 +102,15 @@ public class Skill_Active_Striking : ISkill
                 MarkedEnity.Add(enemyMarked);
                 Debug.Log("marked " + enemyMarked.gameObject.name);
             }
+        }
+    }
+
+    void TrailEffect(bool toggle)
+    {
+        foreach (var t in trail)
+        {
+            if(t != null)
+            t.emitting = toggle;
         }
     }
 }

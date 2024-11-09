@@ -26,6 +26,7 @@
 		{
 			"RenderType" = "Opaque"
 		}
+		Cull Off
 		LOD 100
 		
 		Stencil {

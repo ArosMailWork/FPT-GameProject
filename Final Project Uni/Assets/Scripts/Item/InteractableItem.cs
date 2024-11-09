@@ -1,5 +1,6 @@
 using System;
 using JetBrains.Annotations;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -13,8 +14,13 @@ public class InteractableItem : MonoBehaviour
     public bool HideAfterUseUI = false;
 
     // Unity events for interaction and trigger range handling
-    public UnityEvent InteractEvent, EnterTriggerRange, ExitTriggerRange;
+    public UnityEvent InteractEvent, EnterTriggerRange, ExitTriggerRange, ShopFail;
 
+    [FoldoutGroup("Shop")]
+    public int Cost = 100;
+    [FoldoutGroup("Shop")]
+    public bool isItemShop = false;
+    
     // Track if the interaction has occurred when oneTimeUseUI is true
     private bool hasInteracted = false;
 
@@ -26,6 +32,11 @@ public class InteractableItem : MonoBehaviour
     // Method to be called when the interact button is clicked
     public void OnInteract()
     {
+        if (isItemShop && PlayerController.Instance._playerData.Gold <= Cost)
+        {
+            ShopFail.Invoke();
+            return;
+        }
         if (HideAfterUseUI && hasInteracted) return;
 
         InteractEvent.Invoke();

@@ -30,17 +30,28 @@ public class SelectRandomSkillEvent : MonoBehaviour
 
         HashSet<GameObject> addedSkills = new HashSet<GameObject>(); // To prevent duplicates
 
-        // Add all default unlocked skills from the database
+        // Check if SkillHolder singleton instance is available and get existing SkillIDList
+        HashSet<string> existingSkillIDs = new HashSet<string>();
+        if (SkillHolder.Instance != null)
+        {
+            existingSkillIDs = new HashSet<string>(SkillHolder.Instance.SkillIDList);
+        }
+
+        // Add all default unlocked skills from the database if they are not already in SkillIDList
         foreach (var skill in playerData.skillDatabase.allSkills)
         {
             if (skill.defaultUnlocked && skill.skillPrefab != null && addedSkills.Add(skill.skillPrefab))
             {
-                SkillPool.Add(skill.skillPrefab);
-                // Debug.Log($"Added default unlocked skill: {skill.skillPrefab.name}");
+                // Avoid adding skills already in the SkillIDList
+                if (!existingSkillIDs.Contains(skill.Skill_ID))
+                {
+                    SkillPool.Add(skill.skillPrefab);
+                    // Debug.Log($"Added default unlocked skill: {skill.skillPrefab.name}");
+                }
             }
         }
 
-        // Add unlocked skills to SkillPool
+        // Add unlocked skills to SkillPool, ensuring uniqueness in SkillIDList and addedSkills
         foreach (SkillUnlock skillUnlock in playerData.unlockedSkills)
         {
             if (skillUnlock.isUnlocked)
@@ -49,8 +60,16 @@ public class SelectRandomSkillEvent : MonoBehaviour
                 PlayerSkill playerSkill = playerData.skillDatabase.allSkills.Find(s => s.Skill_ID == skillUnlock.Skill.Skill_ID);
                 if (playerSkill.skillPrefab != null && addedSkills.Add(playerSkill.skillPrefab))
                 {
-                    SkillPool.Add(playerSkill.skillPrefab);
-                    Debug.Log($"Added {playerSkill.skillPrefab.name} to SkillPool.");
+                    // Avoid adding skills already in the SkillIDList
+                    if (!existingSkillIDs.Contains(playerSkill.Skill_ID))
+                    {
+                        SkillPool.Add(playerSkill.skillPrefab);
+                        Debug.Log($"Added {playerSkill.skillPrefab.name} to SkillPool.");
+                    }
+                    else
+                    {
+                        Debug.Log($"Skill with ID {playerSkill.Skill_ID} is already in SkillHolder.");
+                    }
                 }
                 else
                 {
@@ -59,11 +78,10 @@ public class SelectRandomSkillEvent : MonoBehaviour
             }
         }
 
-        Debug.Log("SkillPool created with unlocked skills.");
+        Debug.Log("SkillPool created with unique unlocked skills.");
     }
 
 
-    
     
     [FoldoutGroup("Event")] [Button]
     public void AddSelectSkillFromSlot()
