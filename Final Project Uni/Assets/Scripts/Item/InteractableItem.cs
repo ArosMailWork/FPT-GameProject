@@ -22,8 +22,9 @@ public class InteractableItem : MonoBehaviour
     [FoldoutGroup("Shop")]
     public bool isItemShop = false;
 
-    // Track if the interaction has occurred when oneTimeUseUI is true
+    
     private bool hasInteracted = false;
+    [HideInInspector] public int LastCost;
 
     private void Start()
     {
@@ -33,7 +34,7 @@ public class InteractableItem : MonoBehaviour
     // Method to be called when the interact button is clicked
     public void OnInteract()
     {
-        if (isItemShop && PlayerController.Instance._playerData.Gold <= Cost)
+        if (isItemShop && PlayerController.Instance._playerData.Gold <= LastCost)
         {
             ShopFail.Invoke();
             return;
@@ -41,6 +42,7 @@ public class InteractableItem : MonoBehaviour
         if (HideAfterUseUI && hasInteracted) return;
 
         InteractEvent.Invoke();
+        PlayerController.Instance._playerData.AddCurrency(-LastCost);
 
         if (HideAfterUseUI)
         {

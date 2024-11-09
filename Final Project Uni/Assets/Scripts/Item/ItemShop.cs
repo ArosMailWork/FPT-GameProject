@@ -29,6 +29,10 @@ public class ItemShop : MonoBehaviour
 
     [FoldoutGroup("Debug")]
     [ReadOnly] public List<ItemSelling> AvailableShopPool;
+
+    [FoldoutGroup("Debug")] 
+    [ReadOnly] public List<ItemSelling> nonSkillItems, skillItems;
+    [FoldoutGroup("Debug")] 
     [ReadOnly] public List<GameObject> SellingItems;
     
     private PlayerData _playerData;
@@ -36,7 +40,7 @@ public class ItemShop : MonoBehaviour
     private void Start()
     {
         _playerData = PlayerController.Instance._playerData;
-        CreatePool();
+        Invoke(nameof(CreatePool), 0.5f);
     }
     
     
@@ -53,16 +57,19 @@ public class ItemShop : MonoBehaviour
         SellingItems.Clear();  // Clear previous items
 
         // Separate skill and non-skill items
-        var nonSkillItems = AvailableShopPool.Where(item => !item.isSkill).ToList();
-        var skillItems = AvailableShopPool.Where(item => item.isSkill).ToList();
+        nonSkillItems = AvailableShopPool.Where(item => !item.isSkill).ToList();
+        skillItems = AvailableShopPool.Where(item => item.isSkill).ToList();
 
         for (int i = 0; i < ItemSellAmount; i++)
         {
+            float randomChance = Random.Range(0f, 1f);
+            Debug.Log((randomChance <= SkillPercent) + " | " + skillItems.Count);
             // 25% chance to add a skill item, otherwise add a non-skill item
-            if (skillItems.Count > 0 && Random.Range(0f, 1f) <= SkillPercent)
+            if (skillItems.Count > 0 && randomChance <= SkillPercent)
             {
                 int randomSkillIndex = Random.Range(0, skillItems.Count);
                 SellingItems.Add(skillItems[randomSkillIndex].item);
+                Debug.Log("add " + skillItems[randomSkillIndex].item);
             }
             else if (nonSkillItems.Count > 0)
             {
@@ -70,12 +77,12 @@ public class ItemShop : MonoBehaviour
                 var selectedItem = nonSkillItems[randomNonSkillIndex];
                 SellingItems.Add(selectedItem.item);
 
-                // Adjust cost for duplicates
+                // Adjust cost for duplicates by increasing by 50% of the original cost for each duplicate
                 var interactableItem = selectedItem.item.GetComponentInChildren<InteractableItem>();
-                int duplicateCount = SellingItems.Count(x => x == selectedItem.item);
-                if (duplicateCount > 1 && interactableItem != null)
+                if (interactableItem != null)
                 {
-                    interactableItem.Cost = Mathf.RoundToInt(interactableItem.Cost * Mathf.Pow(1.5f, duplicateCount - 1));
+                    int duplicateCount = SellingItems.Count(x => x == selectedItem.item) - 1; // Count duplicates after the first instance
+                    interactableItem.LastCost = interactableItem.Cost + (int)(interactableItem.Cost * 0.5f * duplicateCount);
                 }
             }
             
@@ -118,32 +125,34 @@ public class ItemShop : MonoBehaviour
 
         foreach (var itemObj in allShopItems)
         {
-            
             var item = itemObj.GetComponentInChildren<Item>();
             item.Awake();
 
-            ItemSelling itemSelling = new ItemSelling { item = itemObj };
+            ItemSelling itemSelling = new ItemSelling { item = itemObj, isSkill = item.isSkillBuff};
             
-            //Debug.Log(item.isSkillBuff);
             if (item.isSkillBuff)
             {
-                string skillID = item.Skill.GetComponent<ISkill>()?.Name;
+                string skillID = item.Skill.GetComponent<ISkill>().Name;
+                //Debug.Log(skillID);
 
                 if (IsSkillUnlockedForItem(skillID))
-                {
-                    itemSelling.isSkill = true;  // Set isSkill if skill is unlocked
                     pool.Add(itemSelling);
-                }
             }
             else
             {
-                itemSelling.isSkill = false;  // Set isSkill to false for non-skill items
                 pool.Add(itemSelling);
             }
         }
 
         return pool;
     }
+
+    [Button]
+    public void Print(string SkillID)
+    {
+        Debug.Log( "work ? " + IsSkillUnlockedForItem(SkillID));
+    }
+    
     private bool IsSkillUnlockedForItem(string skillID)
     {
         // Check in PlayerData if the skill is unlocked

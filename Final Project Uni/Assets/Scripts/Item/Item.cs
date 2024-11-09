@@ -31,7 +31,9 @@ public class Item : MonoBehaviour
     public int itemAmount;
     
     [FoldoutGroup("Currency")]
-    public float Gold, Soul;
+    public float MinGold, MaxGold;
+    [FoldoutGroup("Currency")]
+    public float MinSoul, MaxSoul;
 
     [FoldoutGroup("Debug")]
     [ReadOnly] public bool isSkillBuff;
@@ -65,7 +67,14 @@ public class Item : MonoBehaviour
     }
     public void GrabMoney()
     {
-        if (Soul > 0 || Gold > 0) PlayerController.Instance._playerData.AddCurrency(Gold, Soul);
+        // Generate random Gold and Soul values within the specified ranges
+        float goldAmount = UnityEngine.Random.Range(MinGold, MaxGold);
+        float soulAmount = UnityEngine.Random.Range(MinSoul, MaxSoul);
+
+        if (goldAmount > 0 || soulAmount > 0)
+        {
+            PlayerController.Instance._playerData.AddCurrency(goldAmount, soulAmount);
+        }
     }
 
     public void GrabMaterial()

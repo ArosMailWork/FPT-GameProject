@@ -306,7 +306,7 @@
         
         public bool IsSkillUnlocked(string skillID)
         {
-            var skill = unlockedSkills.Find(s => s.Skill.Skill_ID == skillID);
+            var skill = unlockedSkills.Find(s => s.Skill.Skill_ID == skillID && s.isUnlocked);
             return skill != null && skill.isUnlocked;
         }
         
