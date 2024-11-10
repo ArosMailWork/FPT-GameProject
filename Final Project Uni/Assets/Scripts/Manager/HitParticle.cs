@@ -12,7 +12,7 @@ public class HitParticle : MonoBehaviour
 
     public Transform pivot;
     public UnityEvent PlaySoundEffect;
-    public string hitParticleName;
+    public string hitParticleName = "HitEffect";
     #endregion
     #region UnityMethod
     public void Start()

@@ -108,7 +108,7 @@ public class SkillHolder : MonoBehaviour
 
         if (SwitchButton != null)
         {
-            Debug.Log(activeSkillList.Count);
+            //Debug.Log(activeSkillList.Count);
             SwitchButton.gameObject.SetActive((activeSkillList.Count > 1));
             if(activeSkillList.Count == 1) SetActiveSkill(0);
         }

@@ -12,8 +12,10 @@ public class DamageFlash : MonoBehaviour
 
     [SerializeField] public float flashTime = 0.25f;
 
-    private SkinnedMeshRenderer[] _meshRenderers;
+    private SkinnedMeshRenderer[] _meshSkinnedRenderers;
+    private MeshRenderer[] _meshRenderers;
     private List<Material[]> _oldMaterials = new List<Material[]>();
+    private List<Material[]> _oldMeshMaterials = new List<Material[]>();
     private Coroutine _damageFlashCoroutine;
 
     //[SerializeField, CanBeNull] private HitStop _hitStop;
@@ -25,7 +27,8 @@ public class DamageFlash : MonoBehaviour
 
     private void Awake()
     {
-        _meshRenderers = GetComponentsInChildren<SkinnedMeshRenderer>();
+        _meshSkinnedRenderers = GetComponentsInChildren<SkinnedMeshRenderer>();
+        _meshRenderers = GetComponentsInChildren<MeshRenderer>();
 
         Init();
     }
@@ -36,10 +39,8 @@ public class DamageFlash : MonoBehaviour
 
     private void Init()
     {
-        //_oldMaterials = new Material[_meshRenderers.Length];
-
         //assign mesh renderer materials to _materials
-        foreach (SkinnedMeshRenderer skinnedMeshRenderer in _meshRenderers)
+        foreach (SkinnedMeshRenderer skinnedMeshRenderer in _meshSkinnedRenderers)
         {
             Material[] materials = new Material[skinnedMeshRenderer.materials.Length];
             for (int i = 0; i < skinnedMeshRenderer.materials.Length; i++)
@@ -47,10 +48,16 @@ public class DamageFlash : MonoBehaviour
                 materials[i] = skinnedMeshRenderer.materials[i];
             }
             _oldMaterials.Add(materials);
-            //for (int i = 0; i < _meshRenderers.Length; i++)
-            //{
-            //    _oldMaterials[i] = _meshRenderers[i].material;
-            //}
+        }
+
+        foreach (var meshRenderer in _meshRenderers)
+        {
+            Material[] materials = new Material[meshRenderer.materials.Length];
+            for (int i = 0; i < meshRenderer.materials.Length; i++)
+            {
+                materials[i] = meshRenderer.materials[i];
+            }
+            _oldMeshMaterials.Add(materials);
         }
         
     }
@@ -72,7 +79,7 @@ public class DamageFlash : MonoBehaviour
 
     public void ChangeMaterial()
     {
-        foreach (SkinnedMeshRenderer skinnedMeshRenderer in _meshRenderers)
+        foreach (SkinnedMeshRenderer skinnedMeshRenderer in _meshSkinnedRenderers)
         {
             Material[] flashMaterials = skinnedMeshRenderer.materials;
             for (int i = 0; i < flashMaterials.Length; i++)
@@ -81,17 +88,31 @@ public class DamageFlash : MonoBehaviour
             }
             skinnedMeshRenderer.materials = flashMaterials;
         }
+        
+        foreach (var meshRenderer in _meshRenderers)
+        {
+            Material[] flashMaterials = new Material[meshRenderer.materials.Length];
+            for (int i = 0; i < meshRenderer.materials.Length; i++)
+            {
+                flashMaterials[i] = FlashMaterial;
+            }
+            meshRenderer.materials = flashMaterials;
+        }
         //Debug.Log("Flashed");
     }
 
     public void RevertMaterial()
     {
+        for (int i = 0; i < _meshSkinnedRenderers.Length; i++)
+        {
+            _meshSkinnedRenderers[i].materials = _oldMaterials[i];
+        }
+
         for (int i = 0; i < _meshRenderers.Length; i++)
         {
-            _meshRenderers[i].materials = _oldMaterials[i];
+            _meshRenderers[i].materials = _oldMeshMaterials[i];
         }
         //Debug.Log("Reverted");
-
     }
 
     #endregion
