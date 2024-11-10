@@ -31,6 +31,13 @@ public class InteractableItem : MonoBehaviour
         interactButton = PlayerController.Instance.interactButton;
     }
 
+    private void OnDisable()
+    {
+        hasInteracted = true;  // Mark as interacted
+        interactButton.gameObject.SetActive(false);  // Hide the button after interaction
+        interactButton.onClick.RemoveListener(OnInteract);
+    }
+
     // Method to be called when the interact button is clicked
     public void OnInteract()
     {

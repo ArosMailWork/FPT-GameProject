@@ -30,8 +30,6 @@ public class UIContainer : MonoBehaviour
         {
             obj.SetActive(true);
         }
-
-
     }
     public void InventoryState()
     {

@@ -26,12 +26,6 @@ public class DialogUI : MonoBehaviour
     float originalFontSize;
     TMP_FontAsset originalFont;
 
-    private void Awake()
-    {
-        if(DialogueNext != null)
-        DialogueNext.onClick.AddListener(TestBtn);
-    }
-
     void Start()
     {
         SetActiveMask(false);
@@ -91,10 +85,5 @@ public class DialogUI : MonoBehaviour
     {
         if(toggleScale == null) return;
         toggleScale.ForceScaleDown();
-    }
-
-    public void TestBtn()
-    {
-        Debug.Log("Test");
     }
 }
