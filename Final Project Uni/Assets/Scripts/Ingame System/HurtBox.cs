@@ -36,7 +36,7 @@ public class HurtBox : MonoBehaviour
     [FoldoutGroup("Stats/Knockback")]
     public float KnockForce;
     [FoldoutGroup("Event")]
-    public UnityEvent hitEvent;
+    public UnityEvent hitEvent, hitTargetEvent;
 
     [FoldoutGroup("Stats/Knockback")]
     public Vector3 KnockDir; // Modify this by other component
@@ -68,8 +68,8 @@ public class HurtBox : MonoBehaviour
     {
         if (!Activate || !IsValidTarget(other) || hitObjects.Contains(other))
         {
-            //Debug.Log(this.transform.name + " hitted " + other.name + " / " + other.tag);
-            hitEvent.Invoke();
+            Debug.Log(this.transform.name + " hitted " + other.name + " / " + other.tag);
+            if(!other.isTrigger) hitEvent.Invoke();
             return;
         }
 
@@ -98,9 +98,9 @@ public class HurtBox : MonoBehaviour
     private void OnTriggerStay(Collider other)
     {
         // Apply the same logic for objects already inside the HurtBox
-        if (!Activate || !IsValidTarget(other) || hitObjects.Contains(other))
+        if (!Activate || !IsValidTarget(other)|| hitObjects.Contains(other))
         {
-            //hitEvent.Invoke();
+            if(!other.isTrigger) hitEvent.Invoke();
             return;
         }
 
@@ -171,12 +171,12 @@ public class HurtBox : MonoBehaviour
 
         direction = knockDir ?? Vector3.zero;
 
+        hitTargetEvent.Invoke();
         if (doKnockback && KnockForce > 0 && direction != Vector3.zero)
             targetHealth.Knockback(direction.normalized, KnockForce);
 
         KnockDir = Vector3.zero; // Reset knockback direction
 
         //Debug.Log("hitted");
-        
     }
 }

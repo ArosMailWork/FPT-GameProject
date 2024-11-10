@@ -1,6 +1,7 @@
 using System;
 using JetBrains.Annotations;
-using Mono.CSharp;
+using Sirenix.OdinInspector;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -14,10 +15,16 @@ public class InteractableItem : MonoBehaviour
     public bool HideAfterUseUI = false;
 
     // Unity events for interaction and trigger range handling
-    public UnityEvent InteractEvent, EnterTriggerRange, ExitTriggerRange;
+    public UnityEvent InteractEvent, EnterTriggerRange, ExitTriggerRange, ShopFail;
 
-    // Track if the interaction has occurred when oneTimeUseUI is true
+    [FoldoutGroup("Shop")]
+    public int Cost = 100;
+    [FoldoutGroup("Shop")]
+    public bool isItemShop = false;
+
+    
     private bool hasInteracted = false;
+    [HideInInspector] public int LastCost;
 
     private void Start()
     {
@@ -27,9 +34,15 @@ public class InteractableItem : MonoBehaviour
     // Method to be called when the interact button is clicked
     public void OnInteract()
     {
+        if (isItemShop && PlayerController.Instance._playerData.Gold <= LastCost)
+        {
+            ShopFail.Invoke();
+            return;
+        }
         if (HideAfterUseUI && hasInteracted) return;
 
         InteractEvent.Invoke();
+        PlayerController.Instance._playerData.AddCurrency(-LastCost);
 
         if (HideAfterUseUI)
         {
@@ -50,10 +63,10 @@ public class InteractableItem : MonoBehaviour
 
     public void SelfDestruct()
     {
-        if (ItemParent != null) Destroy(ItemParent);
+        if(ItemParent != null) Destroy(ItemParent);
         else Destroy(gameObject);
     }
-
+    
     public void PlayBuffParticle(string particleID)
     {
         ParticleManager.Instance.SpawnParticle(particleID, transform.position, Quaternion.Euler(-90, 0, 0));
@@ -64,10 +77,10 @@ public class InteractableItem : MonoBehaviour
     {
         if (!other.CompareTag("Player")) return;
 
-
         // Add the listener when entering the trigger range
         interactButton.onClick.RemoveListener(OnInteract);
         interactButton.onClick.AddListener(OnInteract);
+        
         EnterTriggerRange.Invoke();
         ShowUIInteract(true);
     }

@@ -16,6 +16,8 @@ public class SkillHolder : MonoBehaviour
     public List<GameObject> passiveSkillList = new List<GameObject>();
     [FoldoutGroup("Skill List")]
     public List<GameObject> activeSkillList = new List<GameObject>();
+    [FoldoutGroup("Skill List")]
+    public List<string> SkillIDList;
 
     [FoldoutGroup("Current Active Skill")]
     public int currentActiveSkill = 0;
@@ -87,6 +89,8 @@ public class SkillHolder : MonoBehaviour
 
         ISkill skillComponent = skillInstance.GetComponent<ISkill>();
         skillComponent.Assign(_pc);
+        
+        SkillIDList.Add(skillComponent.name);
 
         // Add the skill to the appropriate list based on its type
         if (skillComponent.type == SkillType.ACTIVE)

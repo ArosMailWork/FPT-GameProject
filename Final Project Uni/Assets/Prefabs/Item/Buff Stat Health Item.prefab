@@ -1,62 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &2640481646210756824
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 6824489116641460444}
-  - component: {fileID: 2398405362211450489}
-  m_Layer: 0
-  m_Name: Stat_Health
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &6824489116641460444
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2640481646210756824}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 8136304719658458553}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &2398405362211450489
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2640481646210756824}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ad08cd3c4afb89a49b795db3e67c85bd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemSprite: {fileID: 0}
-  type: 0
-  amount: 2
-  takeSkillIcon: 0
-  Skill: {fileID: 0}
-  itemID: 
-  itemAmount: 0
-  Gold: 0
-  Soul: 0
 --- !u!1 &5147040665041462458
 GameObject:
   m_ObjectHideFlags: 0
@@ -71,6 +14,7 @@ GameObject:
   - component: {fileID: 8335692341116025531}
   - component: {fileID: 8934496088327300835}
   - component: {fileID: 8526099563380595186}
+  - component: {fileID: 5844010092757737265}
   m_Layer: 0
   m_Name: Skill Item Canvas
   m_TagString: Untagged
@@ -90,7 +34,6 @@ RectTransform:
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_ConstrainProportionsScale: 1
   m_Children:
-  - {fileID: 6824489116641460444}
   - {fileID: 8232299667191028342}
   m_Father: {fileID: 920721883980268774}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -213,9 +156,9 @@ MonoBehaviour:
           m_StringArgument: ItemBuff_Stat
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 2398405362211450489}
-        m_TargetAssemblyTypeName: BuffItem, Assembly-CSharp
-        m_MethodName: ApplyBuff
+      - m_Target: {fileID: 5844010092757737265}
+        m_TargetAssemblyTypeName: Item, Assembly-CSharp
+        m_MethodName: GrabItem
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -243,6 +186,33 @@ MonoBehaviour:
   ExitTriggerRange:
     m_PersistentCalls:
       m_Calls: []
+  ShopFail:
+    m_PersistentCalls:
+      m_Calls: []
+  Cost: 100
+  isItemShop: 0
+--- !u!114 &5844010092757737265
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5147040665041462458}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad08cd3c4afb89a49b795db3e67c85bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemSprite: {fileID: 0}
+  type: 0
+  amount: 2
+  takeSkillIcon: 0
+  Skill: {fileID: 0}
+  itemID: 
+  itemAmount: 0
+  Gold: 0
+  Soul: 0
+  isSkillBuff: 0
 --- !u!1 &5593682095780086801
 GameObject:
   m_ObjectHideFlags: 0
@@ -255,7 +225,8 @@ GameObject:
   - component: {fileID: 1511008521742495612}
   - component: {fileID: 1946240439853804908}
   - component: {fileID: 405377375708977172}
-  m_Layer: 0
+  - component: {fileID: 636212229716153498}
+  m_Layer: 16
   m_Name: Buff Stat Health Item
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -349,6 +320,33 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &636212229716153498
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5593682095780086801}
+  serializedVersion: 4
+  m_Mass: 20
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 112
+  m_CollisionDetection: 0
 --- !u!1 &5720844162435614116
 GameObject:
   m_ObjectHideFlags: 0
