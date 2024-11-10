@@ -47,7 +47,10 @@ public class PlayerController : MonoBehaviour
     [FoldoutGroup("Debug/Reverse Recall")]
     [SerializeField, ReadOnly] public float ReverseRecallMultiplier = 1;
 
-    [FoldoutGroup("Setup")] public Button interactButton;
+    [FoldoutGroup("Setup/UI")] 
+    public DialogUI dialogUI;
+    [FoldoutGroup("Setup/UI")] 
+    public Button interactButton;
     [FoldoutGroup("Setup")]
     public Rigidbody PlayerRB;
     [FoldoutGroup("Setup")]

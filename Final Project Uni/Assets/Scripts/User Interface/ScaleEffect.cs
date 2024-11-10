@@ -1,5 +1,6 @@
 using System;
 using Cysharp.Threading.Tasks;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 public class ScaleEffect : MonoBehaviour
@@ -16,6 +17,7 @@ public class ScaleEffect : MonoBehaviour
     public event Action OnScaleUpComplete; // Event triggered when scale up is complete
 
     // Method to scale up or down based on the current state
+    [Button]
     public void ScaleToggle()
     {
         if (IsScaledUp)
