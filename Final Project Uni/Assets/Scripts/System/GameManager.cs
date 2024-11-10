@@ -7,7 +7,6 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager Instance { get; private set; }
     public GameObject Testpack;
     public GenerationManager genManager;
     //Scene Address
@@ -19,6 +18,7 @@ public class GameManager : MonoBehaviour
     [FoldoutGroup("Event")]
     public UnityEvent fadeInAnim, fadeOutAnim;
 
+    public static GameManager Instance;
 
     private void Awake()
     {

@@ -37,9 +37,9 @@
 
         [FoldoutGroup("Setup")] 
         [CanBeNull] public TextMeshProUGUI GoldText;
-        
-        [FoldoutGroup("Inventory")]
-        public int KnowledgeLevel, Gold, SoulCollected;
+
+        [FoldoutGroup("Inventory")] public int KnowledgeLevel, Gold;
+        public float SoulCollected;
         [FoldoutGroup("Inventory")]
         public List<SkillUnlock> unlockedSkills = new List<SkillUnlock>();
         [FoldoutGroup("Inventory")]
@@ -191,7 +191,7 @@
 
             // Load existing Soul value
             PermaStatsData permaStats = PlayerDataCRUD.LoadPermanentStats();
-            permaStats.Soul += SoulCollected;
+            permaStats.Soul += Mathf.RoundToInt(SoulCollected);;
             permaStats.knowledgeLevel += KnowledgeLevel;
 
             // Save the updated Soul value
