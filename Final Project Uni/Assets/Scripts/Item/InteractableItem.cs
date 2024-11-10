@@ -34,6 +34,7 @@ public class InteractableItem : MonoBehaviour
     private void OnDisable()
     {
         hasInteracted = true;  // Mark as interacted
+        if(interactButton == null) return;
         interactButton.gameObject.SetActive(false);  // Hide the button after interaction
         interactButton.onClick.RemoveListener(OnInteract);
     }
