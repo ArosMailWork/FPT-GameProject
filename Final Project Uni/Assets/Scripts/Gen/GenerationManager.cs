@@ -24,13 +24,8 @@ public class GenerationManager : MonoBehaviour
     private Room StartRoom;
     private Room ExitRoom;
 
-    public static GenerationManager Instance;
-
     public void Start()
     {
-        if(Instance != null) Destroy(Instance);
-        Instance = this;
-        
         //Generate();
         //player.transform.position = Gen.s
         player = PlayerController.Instance.PlayerRB.gameObject;

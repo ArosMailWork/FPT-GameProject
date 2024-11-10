@@ -7,12 +7,11 @@ public class Portal : MonoBehaviour
     public ExpeditionManager exManager;
     public void Start()
     {
-        exManager = GameObject.Find("GenerationManager").GetComponent<ExpeditionManager>();
-        gameObject.SetActive(false);
-        // if (exManager.CheckBossRoom())
-        // {
-        //     gameObject.SetActive(false);
-        // }
+        //exManager = GameObject.Find("GenerationManager").GetComponent<ExpeditionManager>(); //ko dung vi Find rat nang nhe
+        exManager = ExpeditionManager.Instance;
+        
+        if (exManager.CheckBossRoom()) 
+            gameObject.SetActive(false);
     }
     public void StartPortal()
     {

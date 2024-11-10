@@ -100,6 +100,7 @@ public class GameManager : MonoBehaviour
     }
     public void StartExpedition()
     {
+        PlayerController.Instance._playerData.ConfirmReward();
         StartCoroutine(LoadExpedition());
     }
     public void StartLobby()

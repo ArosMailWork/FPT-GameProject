@@ -21,6 +21,16 @@ public class ExpeditionManager : MonoBehaviour
     [FoldoutGroup("Event")]
     public UnityEvent OnFloorExit, OnWorldExit, LoadNextFloor, SkillEvent, OnTransition, OnExpeditionExit;
 
+    public static ExpeditionManager Instance;
+
+    public void Start()
+    {
+        if (Instance != null) Destroy(Instance);
+        Instance = this;
+        
+        ExpeditionStart();
+    }
+
     #region Event
 
     //Load next floor after event 
@@ -36,7 +46,7 @@ public class ExpeditionManager : MonoBehaviour
     [Button]
     public void ExitFloor()
     {
-
+        PlayerController.Instance._playerData.ConfirmReward();
         if (currentFloorNumber + 1 < floors.Count)
         {
             CheckEvent();
@@ -88,11 +98,6 @@ public class ExpeditionManager : MonoBehaviour
     #endregion
 
     #region GenerationManager
-    // Start is called before the first frame update
-    void Start()
-    {
-        ExpeditionStart();
-    }
     [Button]
     void GenerateRandomFloor()
     {
