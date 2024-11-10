@@ -15,9 +15,19 @@ public class StatsUI : MonoBehaviour
     private List<GameObject> skillList = new List<GameObject>();
     public List<Image> skillHolderObj;
     [FoldoutGroup("Player Stats")]
-    private float baseHealth, bonusHealth, baseSpeed, bonusSpeed, baseStamina, bonusStamina, baseStaRegen, bonusStaRegen, baseAtk, bonusATK;
+    private float baseHealth, bonusHealth, 
+                  baseSpeed, bonusSpeed, 
+                  baseStamina, bonusStamina, 
+                  baseStaRegen, bonusStaRegen, 
+                  baseAtk, bonusATK;
+    private int level;
     [FoldoutGroup("Player Stats Texts")]
-    public TMP_Text baseHealthText, bonusHealthText, baseSpeedText, bonusSpeedText, baseStaminaText, bonusStaminaText, baseStaRegenText, bonusStaRegenText, baseAtkText, bonusATKText;
+    public TMP_Text baseHealthText, bonusHealthText, 
+                    baseSpeedText, bonusSpeedText, 
+                    baseStaminaText, bonusStaminaText, 
+                    baseStaRegenText, bonusStaRegenText, 
+                    baseAtkText, bonusATKText,
+                    levelText;
     // Start is called before the first frame update
     [Button]
     public void UpdateInfo()
@@ -44,6 +54,7 @@ public class StatsUI : MonoBehaviour
         bonusStaRegen = (playerStat.bonusRegenRate);
         baseAtk = (playerStat.defaultDamage * playerStat.PermaDamage_Percent);
         bonusATK = (playerStat.bonusDamage);
+        level = (playerStat.knowledgeLevel);
 
         baseHealthText.text = "" + baseHealth.ToString("0.0"); 
         bonusHealthText.text = bonusHealth > 0 ? "+" + bonusHealth.ToString("0.0") : ""; 
@@ -55,6 +66,7 @@ public class StatsUI : MonoBehaviour
         bonusStaRegenText.text = bonusStaRegen > 0 ? "+" + bonusStaRegen.ToString("0.0") : ""; 
         baseAtkText.text = "" + baseAtk.ToString("0.0"); 
         bonusATKText.text = bonusATK > 0 ? "+" + bonusATK.ToString("0.0") : "";
+        levelText.text = level.ToString();
     }
 
 }

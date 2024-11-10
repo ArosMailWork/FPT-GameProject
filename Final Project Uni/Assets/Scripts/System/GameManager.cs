@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
     public GameObject Testpack;
-    public GameObject genManager;
+    public GenerationManager genManager;
     //Scene Address
     [FoldoutGroup("Scene Address")]
     public string Expedition;
@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour
             Instance = this;
             DontDestroyOnLoad(Testpack);
             DontDestroyOnLoad(gameObject);
+            DontDestroyOnLoad(genManager.gameObject);
         }
         else
         {
@@ -82,7 +83,7 @@ public class GameManager : MonoBehaviour
         fadeInAnim.Invoke();
         yield return new WaitForSeconds(1);
         SceneManager.LoadScene(Expedition);
-        genManager.SetActive(true);
+        genManager.gameObject.SetActive(true);
         yield return new WaitForSeconds(0.5f);
         fadeOutAnim.Invoke();
 
@@ -92,7 +93,7 @@ public class GameManager : MonoBehaviour
         fadeInAnim.Invoke();
         yield return new WaitForSeconds(1);
         SceneManager.LoadScene(Lobby);
-        genManager.SetActive(false);
+        genManager.gameObject.SetActive(false);
         yield return new WaitForSeconds(0.5f);
         fadeOutAnim.Invoke();
 

@@ -14,6 +14,8 @@ public class ItemDropRate : MonoBehaviour
     public bool DropOneItemOnly;
     public List<ItemDrop> itemDrops;
     
+    [FoldoutGroup("Level")]
+    public int Level = 1;
     [FoldoutGroup("Soul")]
     public int MinSoul = 0, MaxSoul;
     [FoldoutGroup("Soul")]
@@ -54,7 +56,7 @@ public class ItemDropRate : MonoBehaviour
 
             if (randomValue <= totalProbability)
             {
-                Drop(itemDrop.itemPrefab);
+                DropItem(itemDrop.itemPrefab);
                 return; // Drop only one item, then exit
             }
         }
@@ -66,7 +68,7 @@ public class ItemDropRate : MonoBehaviour
             float randomValue = Random.Range(0f, 100f);
             if (randomValue <= itemDrop.dropRate)
             {
-                Drop(itemDrop.itemPrefab);
+                DropItem(itemDrop.itemPrefab);
             }
         }
     }
@@ -90,7 +92,7 @@ public class ItemDropRate : MonoBehaviour
         }
     }
 
-    private void Drop(GameObject item)
+    private void DropItem(GameObject item)
     {
         if (item != null)
         {
@@ -105,5 +107,10 @@ public class ItemDropRate : MonoBehaviour
             Instantiate(item, transform.position + randomOffset + FixedOffset, Quaternion.identity);
             Debug.Log($"Dropped: {item.name}");
         }
+    }
+
+    private void LevelUp()
+    {
+        PlayerController.Instance._playerData.KnowledgeLevel += 1;
     }
 }

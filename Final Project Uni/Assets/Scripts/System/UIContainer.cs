@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class UIContainer : MonoBehaviour
 {
-    public GameObject Gameplay;
+    public List<GameObject> Gameplay;
     public GameObject SkillChoose;
     public GameObject Transition;
     public GameObject Inventory;
@@ -25,29 +25,46 @@ public class UIContainer : MonoBehaviour
         Transition.SetActive(false);
         Fade.SetActive(false);
         Inventory.SetActive(false);
-        Gameplay.SetActive(true);
+
+        foreach (var obj in Gameplay)
+        {
+            obj.SetActive(true);
+        }
+
 
     }
     public void InventoryState()
     {
-        Gameplay.SetActive(false);
+        foreach (var obj in Gameplay)
+        {
+            obj.SetActive(false);
+        }
         Inventory.SetActive(true);
     }
     public void SkillChooseState()
     {
         SkillChoose.SetActive(true);
-        Gameplay.SetActive(false);
+        foreach (var obj in Gameplay)
+        {
+            obj.SetActive(false);
+        }
         s.SkillSelectStart();
     }
     public void TransitionState()
     {
         Transition.SetActive(true);
-        Gameplay.SetActive(false);
+        foreach (var obj in Gameplay)
+        {
+            obj.SetActive(false);
+        }
     }
     public void FadeAnim()
     {
         Fade.SetActive(true);
-        Gameplay.SetActive(false);
+        foreach (var obj in Gameplay)
+        {
+            obj.SetActive(false);
+        }
     }
 
     IEnumerator FadeInAnimation()
