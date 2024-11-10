@@ -1,9 +1,17 @@
 using System;
 using JetBrains.Annotations;
+using Mono.CSharp;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Sirenix.OdinInspector;
+
+[Serializable]
+public class Dialogue
+{
+    [TextArea] public string text;
+    public float readTime = 8f;
+}
 
 public class DialogUI : MonoBehaviour
 {
@@ -12,10 +20,17 @@ public class DialogUI : MonoBehaviour
     private bool isFontChanged = false;
     public Mask imageMask;
     [CanBeNull] public ScaleEffect toggleScale;
+    [CanBeNull] public Button DialogueNext;
 
     //Store stuffs
     float originalFontSize;
     TMP_FontAsset originalFont;
+
+    private void Awake()
+    {
+        if(DialogueNext != null)
+        DialogueNext.onClick.AddListener(TestBtn);
+    }
 
     void Start()
     {
@@ -76,5 +91,10 @@ public class DialogUI : MonoBehaviour
     {
         if(toggleScale == null) return;
         toggleScale.ForceScaleDown();
+    }
+
+    public void TestBtn()
+    {
+        Debug.Log("Test");
     }
 }
