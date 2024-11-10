@@ -20,14 +20,16 @@ public class SelectRandomSkillEvent : MonoBehaviour
     public int selectedSlot; // The slot index for GachaSkillSlots
     [FoldoutGroup("Event")]
     public UnityEvent OnSkillChoose;
+    public bool IsAdSlotEnable;
 
     PlayerData playerData;
-    
+
     #endregion
 
     #region Methods
 
-    [FoldoutGroup("Event")] [Button]
+    [FoldoutGroup("Event")]
+    [Button]
     public void PoolCreate()
     {
         // Clear the current SkillPool to refresh it with only unlocked skills
@@ -70,9 +72,10 @@ public class SelectRandomSkillEvent : MonoBehaviour
     }
 
 
-    
-    
-    [FoldoutGroup("Event")] [Button]
+
+
+    [FoldoutGroup("Event")]
+    [Button]
     public void AddSelectSkillFromSlot()
     {
         if (selectedSlot >= 0 && selectedSlot < GachaSkillSlots.Count)
@@ -96,7 +99,8 @@ public class SelectRandomSkillEvent : MonoBehaviour
         }
     }
 
-    [FoldoutGroup("Event")] [Button]
+    [FoldoutGroup("Event")]
+    [Button]
     public void GachaSkill(int amount)
     {
         // Clear previous GachaSkillSlots
