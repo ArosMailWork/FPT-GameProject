@@ -8,7 +8,7 @@ public class GateGamePlay : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            GameManager.Instance.GoGamePlay();
+            //GameManager.Instance.GoGamePlay();
         }
     }
 }

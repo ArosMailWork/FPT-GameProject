@@ -24,6 +24,7 @@ namespace PA
             }
         }
 
+        #region Main Menu UI
         [Header("Main Menu UI")] [SerializeField]
         private GameObject mainMenuPanel;
 
@@ -32,7 +33,8 @@ namespace PA
         [SerializeField] private Button optionButton;
 
         [SerializeField] private Button quitGameButton;
-
+        #endregion
+        #region Settings Menu UI
         [Header("Settings Menu UI")] [SerializeField]
         private GameObject settingsMenuPanel;
 
@@ -47,7 +49,9 @@ namespace PA
         [SerializeField] private GameObject graphicsPanel;
 
         [SerializeField] private GameObject soundPanel;
+        #endregion
 
+        #region Graphics Settings UI
         [Space(10)] [Header("Graphics Settings UI")] [SerializeField]
         private TMP_Dropdown fpsDropdown;
 
@@ -62,7 +66,9 @@ namespace PA
         [SerializeField] private Toggle bloomToggle;
 
         [SerializeField] private Button backGraphicsSettingsButton;
+        #endregion
 
+        #region Sound Settings UI
         [Header("Sound Settings UI")] [SerializeField]
         private Slider musicVolumeSlider;
 
@@ -77,7 +83,7 @@ namespace PA
         [SerializeField] private Toggle sfxToggle;
 
         [SerializeField] private Button backSoundSettingsButton;
-
+        #endregion
         private void Start()
         {
             InitializeUI();
