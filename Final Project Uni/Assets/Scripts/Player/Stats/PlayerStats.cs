@@ -149,8 +149,6 @@ public class PlayerStats : MonoBehaviour
                 break;
             case BuffType.Damage:
                 bonusDamage += Mathf.CeilToInt(amount);
-                //Set Damage Through a command setup at Arrow Controller, Duck will make it later
-                
                 break;
             case BuffType.Speed:
                 bonusSpeed += amount;
