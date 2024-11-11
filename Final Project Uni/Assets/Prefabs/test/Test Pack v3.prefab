@@ -127361,6 +127361,10 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8323900738938993219, guid: 22d1f40c7a6923c4795cef5c54aef404, type: 3}
+      propertyPath: Gameplay.Array.data[0]
+      value: 
+      objectReference: {fileID: 8926489968517725425}
+    - target: {fileID: 8323900738938993219, guid: 22d1f40c7a6923c4795cef5c54aef404, type: 3}
       propertyPath: Gameplay.Array.data[1]
       value: 
       objectReference: {fileID: 618293292986546679}
@@ -127371,11 +127375,20 @@ PrefabInstance:
     - target: {fileID: 8956081414302769218, guid: 22d1f40c7a6923c4795cef5c54aef404, type: 3}
       propertyPath: OnSkillChoose.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
+      objectReference: {fileID: 5428370872294229403}
+    - target: {fileID: 8956081414302769218, guid: 22d1f40c7a6923c4795cef5c54aef404, type: 3}
+      propertyPath: OnSkillChoose.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: SkillSelectStart
+      objectReference: {fileID: 0}
+    - target: {fileID: 8956081414302769218, guid: 22d1f40c7a6923c4795cef5c54aef404, type: 3}
+      propertyPath: OnSkillChoose.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: SelectRandomSkillEvent, Assembly-CSharp
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 2742391139772172493, guid: 22d1f40c7a6923c4795cef5c54aef404, type: 3}
     - {fileID: 2102871638599512380, guid: 22d1f40c7a6923c4795cef5c54aef404, type: 3}
+    - {fileID: 8731199502596122920, guid: 22d1f40c7a6923c4795cef5c54aef404, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 22d1f40c7a6923c4795cef5c54aef404, type: 3}
@@ -127384,3 +127397,14 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4593838890550921066, guid: 22d1f40c7a6923c4795cef5c54aef404, type: 3}
   m_PrefabInstance: {fileID: 3971917673646941657}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5428370872294229403 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8956081414302769218, guid: 22d1f40c7a6923c4795cef5c54aef404, type: 3}
+  m_PrefabInstance: {fileID: 3971917673646941657}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a9d103ba7091844c897f38e3a7c8ccb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

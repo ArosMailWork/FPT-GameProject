@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public GameObject Testpack;
+    public GameObject Player;
     public GenerationManager genManager;
     //Scene Address
     [FoldoutGroup("Scene Address")]
@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(Testpack);
+            DontDestroyOnLoad(Player);
             DontDestroyOnLoad(gameObject);
             DontDestroyOnLoad(genManager.gameObject);
         }
