@@ -27,8 +27,12 @@ public class ExpeditionManager : MonoBehaviour
     {
         if (Instance != null) Destroy(Instance);
         Instance = this;
-        
+
         ExpeditionStart();
+    }
+    public void Clear()
+    {
+        gen.Gen.Clear();
     }
 
     #region Event

@@ -10,7 +10,7 @@ public class SelectRandomSkillEvent : MonoBehaviour
     #region Variables
     [FoldoutGroup("Setup/Buttons")]
     public Button SkillSelectSlot1, SkillSelectSlot2, SkillSelectSlot3;
-    public Image SkillIMG1, SkillIMG2, SkillIMG3;
+    public Image SkillIMG1, SkillIMG2, SkillIMG3, AdLock;
 
     [FoldoutGroup("Setup")]
     public List<GameObject> SkillPool = new List<GameObject>(); // All available skills
@@ -18,16 +18,18 @@ public class SelectRandomSkillEvent : MonoBehaviour
     public List<GameObject> GachaSkillSlots = new List<GameObject>(); // The slots to choose from
     [FoldoutGroup("Stats")]
     public int selectedSlot; // The slot index for GachaSkillSlots
+    public bool IsAdSlotEnabled = true;
     [FoldoutGroup("Event")]
-    public UnityEvent OnSkillChoose;
+    public UnityEvent OnSkillChoose, OnAdSlot;
 
     PlayerData playerData;
-    
+
     #endregion
 
     #region Methods
 
-    [FoldoutGroup("Event")] [Button]
+    [FoldoutGroup("Event")]
+    [Button]
     public void PoolCreate()
     {
         // Clear the current SkillPool to refresh it with only unlocked skills
@@ -89,8 +91,9 @@ public class SelectRandomSkillEvent : MonoBehaviour
     }
 
 
-    
-    [FoldoutGroup("Event")] [Button]
+
+    [FoldoutGroup("Event")]
+    [Button]
     public void AddSelectSkillFromSlot()
     {
         if (selectedSlot >= 0 && selectedSlot < GachaSkillSlots.Count)
@@ -114,7 +117,8 @@ public class SelectRandomSkillEvent : MonoBehaviour
         }
     }
 
-    [FoldoutGroup("Event")] [Button]
+    [FoldoutGroup("Event")]
+    [Button]
     public void GachaSkill(int amount)
     {
         // Clear previous GachaSkillSlots
@@ -152,6 +156,7 @@ public class SelectRandomSkillEvent : MonoBehaviour
     public void SkillSelectStart()
     {
         GachaSkill(3);
+        AdLockToggle(true);
         SkillIMG1.sprite = GachaSkillSlots[0].GetComponent<ISkill>().Icon;
         SkillIMG2.sprite = GachaSkillSlots[1].GetComponent<ISkill>().Icon;
         SkillIMG3.sprite = GachaSkillSlots[2].GetComponent<ISkill>().Icon;
@@ -165,8 +170,29 @@ public class SelectRandomSkillEvent : MonoBehaviour
             AddSelectSkillFromSlot();
             OnSkillChoose.Invoke();
         }
+    }
 
+    public void AdLockToggle(bool enabled)
+    {
 
+        IsAdSlotEnabled = enabled;
+        AdLock.enabled = enabled;
+    }
+    [Button]
+    public void DisableAd()
+    {
+        AdLockToggle(false);
+    }
+    public void AdSlotSelect()
+    {
+        if (IsAdSlotEnabled)
+        {
+            OnAdSlot.Invoke();
+        }
+        else
+        {
+            SelectSkill(2);
+        }
     }
     #endregion
 

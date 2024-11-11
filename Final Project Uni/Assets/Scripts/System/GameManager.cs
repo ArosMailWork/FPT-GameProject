@@ -8,8 +8,10 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
-    public GameObject Testpack;
-    public GenerationManager genManager;
+    //public GameObject Testpack;
+    public ExpeditionManager genManager;
+    public AdManager adManager;
+    public PlayerController p;
     //Scene Address
     [FoldoutGroup("Scene Address")]
     public string Expedition;
@@ -25,7 +27,8 @@ public class GameManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(Testpack);
+            //DontDestroyOnLoad(adManager);
+            //DontDestroyOnLoad(Testpack);
             DontDestroyOnLoad(gameObject);
             DontDestroyOnLoad(genManager.gameObject);
         }
@@ -90,6 +93,7 @@ public class GameManager : MonoBehaviour
     {
         fadeInAnim.Invoke();
         yield return new WaitForSeconds(1);
+        //Destroy(Testpack);
         SceneManager.LoadScene(Lobby);
         genManager.gameObject.SetActive(false);
         yield return new WaitForSeconds(0.5f);
