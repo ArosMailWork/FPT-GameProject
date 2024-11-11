@@ -1,17 +1,26 @@
 using System;
+using JetBrains.Annotations;
+using Mono.CSharp;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Sirenix.OdinInspector;
 
+[Serializable]
+public class Dialogue
+{
+    [TextArea] public string text;
+    public float readTime = 8f;
+}
+
 public class DialogUI : MonoBehaviour
 {
-    public int requireKnowledgeLevel;
-    
     public TMP_Text dialogText;
     public TMP_FontAsset alternateFont;
     private bool isFontChanged = false;
     public Mask imageMask;
+    [CanBeNull] public ScaleEffect toggleScale;
+    [CanBeNull] public Button DialogueNext;
 
     //Store stuffs
     float originalFontSize;
@@ -20,25 +29,14 @@ public class DialogUI : MonoBehaviour
     void Start()
     {
         SetActiveMask(false);
-
         if (dialogText != null)
         {
             originalFontSize = dialogText.fontSize;
             originalFont = dialogText.font; // Store the original font
         }
-
-        CheckPlayerLevel();
     }
 
-    public void CheckPlayerLevel()
-    {
-        if (requireKnowledgeLevel <= PlayerController.Instance._stats.knowledgeLevel)
-            ShowOriginalText();
-        else
-            ChangeTextFontHidden();
-    }
-
-    void SetActiveMask(bool isActive)
+    public void SetActiveMask(bool isActive)
     {
         if (imageMask != null)
             imageMask.enabled = isActive;
@@ -54,7 +52,7 @@ public class DialogUI : MonoBehaviour
         }
         else if (alternateFont == null)
         {
-            Debug.LogWarning("Alternate font is not assigned.");
+            Debug.Log("Alternate font is not assigned.");
         }
     }
     [Button]
@@ -65,5 +63,27 @@ public class DialogUI : MonoBehaviour
             dialogText.font = originalFont; // Restore the original font
             isFontChanged = false;
         }
+    }
+
+    [Button]
+    public void ChangeText(string input, float fontSize = -1)
+    {
+        dialogText.text = input;
+        if (fontSize >= 0) 
+            dialogText.fontSize = fontSize;
+        else
+            dialogText.fontSize = originalFontSize;
+    }
+
+    public void changeToggle()
+    {
+        if(toggleScale == null) return;
+        toggleScale.ScaleToggle();
+    }
+    
+    public void ForcedToggleDown()
+    {
+        if(toggleScale == null) return;
+        toggleScale.ForceScaleDown();
     }
 }

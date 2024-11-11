@@ -18,7 +18,7 @@ public class Item : MonoBehaviour
     [FoldoutGroup("Buff")]
     public BuffType type;
     [FoldoutGroup("Buff")]
-    public int amount;
+    public float amount;
     
     [FoldoutGroup("Skill")]
     [CanBeNull] public bool takeSkillIcon = true;
@@ -31,11 +31,17 @@ public class Item : MonoBehaviour
     public int itemAmount;
     
     [FoldoutGroup("Currency")]
-    public float Gold, Soul;
+    public float MinGold, MaxGold;
+    [FoldoutGroup("Currency")]
+    public float MinSoul, MaxSoul;
+
+    [FoldoutGroup("Debug")]
+    [ReadOnly] public bool isSkillBuff;
     
-    
-    private void Awake()
+    public void Awake()
     {
+        isSkillBuff = (Skill != null);
+        
         if (Skill != null && itemSprite != null && 
             takeSkillIcon && Skill.TryGetComponent<ISkill>(out ISkill skill))
         {
@@ -61,7 +67,14 @@ public class Item : MonoBehaviour
     }
     public void GrabMoney()
     {
-        if (Soul > 0 || Gold > 0) PlayerController.Instance._playerData.AddCurrency(Gold, Soul);
+        // Generate random Gold and Soul values within the specified ranges
+        float goldAmount = UnityEngine.Random.Range(MinGold, MaxGold);
+        float soulAmount = UnityEngine.Random.Range(MinSoul, MaxSoul);
+
+        if (goldAmount > 0 || soulAmount > 0)
+        {
+            PlayerController.Instance._playerData.AddCurrency(goldAmount, soulAmount);
+        }
     }
 
     public void GrabMaterial()

@@ -1,13 +1,13 @@
 using System;
 using System.Collections.Generic;
+using Palmmedia.ReportGenerator.Core.Reporting.Builders;
 using UnityEngine;
 
 public class GenerationManager : MonoBehaviour
 {
-    [SerializeField] private PlayerController player;
+    [SerializeField] public GameObject player;
     [SerializeField] private RoomGen Gen;
     [SerializeField] private int GridSize = 1;
-    [SerializeField] private int MapScale_test = 15;
     [SerializeField] private int MainPathLength = 4;
     [SerializeField] private int SideRoomChance;
     [SerializeField] private Biome biome;
@@ -19,33 +19,44 @@ public class GenerationManager : MonoBehaviour
     private List<Room> GenericRoom;
     private List<Room> RewardRoom;
     private List<Room> PuzzleRoom;
+    private List<Room> BossRoom;
+    private bool haveBoss;
     private Room StartRoom;
-    private Room EndRoom;
+    private Room ExitRoom;
 
     public void Start()
     {
-        GenerateFloor();
+        //Generate();
         //player.transform.position = Gen.s
+        player = PlayerController.Instance.PlayerRB.gameObject;
 
     }
-    public void GenerateFloor()
+    public void Generate()
     {
-        LoadNewBiome();
+        Gen.Clear();
         AssignDataToRoomGen();
         Gen.Generate();
+        player.transform.position = Gen.spawn;
+    }
 
-    }
-    public void SetScale()
-    {
-        //Debug.Log("adaojsjp");
-        transform.localScale = new Vector3(MapScale_test, MapScale_test, MapScale_test); //test scale   
-    }
 
     public void AssignDataToRoomGen()
     {
-        Gen.AssignData(GridSize, MainPathLength, UnityEngine.Random.Range(MinPuzzleRoom, MaxPuzzleRoom), UnityEngine.Random.Range(MinRewardRoom, MaxRewardRoom), GenericRoom, RewardRoom, PuzzleRoom, StartRoom, EndRoom);
+        Gen.AssignData(GridSize, MainPathLength, UnityEngine.Random.Range(MinPuzzleRoom, MaxPuzzleRoom), UnityEngine.Random.Range(MinRewardRoom, MaxRewardRoom), GenericRoom, RewardRoom, PuzzleRoom, BossRoom, haveBoss, StartRoom, ExitRoom);
     }
-    public void LoadNewFloor(Floor newFloor)
+    public void LoadBiomeData(Biome biome)
+    {
+        BiomeName = biome.biomeName;
+        GridSize = biome.GridSize;
+        GenericRoom = biome.GenericRoom;
+        RewardRoom = biome.RewardRoom;
+        PuzzleRoom = biome.PuzzleRoom;
+        BossRoom = biome.BossRoom;
+        StartRoom = biome.startRoom;
+        ExitRoom = biome.exitRoom;
+
+    }
+    public void LoadFloorData(Floor newFloor)
     {
 
         MainPathLength = newFloor.MainPathLength;
@@ -54,18 +65,19 @@ public class GenerationManager : MonoBehaviour
         MaxPuzzleRoom = newFloor.MaxPuzzleRoom;
         MinRewardRoom = newFloor.MinRewardRoom;
         MaxRewardRoom = newFloor.MaxRewardRoom;
-        StartRoom = newFloor.StartRoom;
-        EndRoom = newFloor.EndRoom;
+        haveBoss = newFloor.haveBoss;
+        //StartRoom = newFloor.StartRoom;
+        //EndRoom = newFloor.EndRoom;
     }
     public void LoadNewBiome()
     {
-
         BiomeName = biome.biomeName;
         GenericRoom = biome.GenericRoom;
         RewardRoom = biome.RewardRoom;
         PuzzleRoom = biome.PuzzleRoom;
         StartRoom = biome.startRoom;
-        EndRoom = biome.endRoom;
-
+        ExitRoom = biome.exitRoom;
     }
+
+
 }

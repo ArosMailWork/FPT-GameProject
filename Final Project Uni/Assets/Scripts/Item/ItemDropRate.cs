@@ -14,8 +14,19 @@ public class ItemDropRate : MonoBehaviour
     public bool DropOneItemOnly;
     public List<ItemDrop> itemDrops;
     
+    [FoldoutGroup("Level")]
+    public int Level = 1;
+    [FoldoutGroup("Soul")]
     public int MinSoul = 0, MaxSoul;
+    [FoldoutGroup("Soul")]
+    [Range(0, 100)] public float soulDropRate = 100f; // 100% drop by default
+    [FoldoutGroup("Gold")]
     public int MinGold = 0, MaxGold;
+    [FoldoutGroup("Gold")]
+    [Range(0, 100)] public float goldDropRate = 100f; // 100% drop by default
+    
+    
+    // Drop rates for Gold and Soul
     
     // Customizable offset
     public Vector3 FixedOffset = new Vector3(0, 2f, 0); 
@@ -45,7 +56,7 @@ public class ItemDropRate : MonoBehaviour
 
             if (randomValue <= totalProbability)
             {
-                Drop(itemDrop.itemPrefab);
+                DropItem(itemDrop.itemPrefab);
                 return; // Drop only one item, then exit
             }
         }
@@ -57,21 +68,31 @@ public class ItemDropRate : MonoBehaviour
             float randomValue = Random.Range(0f, 100f);
             if (randomValue <= itemDrop.dropRate)
             {
-                Drop(itemDrop.itemPrefab);
+                DropItem(itemDrop.itemPrefab);
             }
         }
     }
 
     private void DropCurrency()
     {
-        Gold = Random.Range(MinGold, MaxGold);
-        Soul = Random.Range(MinSoul, MaxSoul);
-        
-        //temporary add directly, will add item collide to add money later
-        PlayerController.Instance._playerData.AddCurrency(Gold, Soul);
+        // Drop Gold based on the drop rate
+        if (Random.Range(0f, 100f) <= goldDropRate)
+        {
+            Gold = Random.Range(MinGold, MaxGold);
+            PlayerController.Instance._playerData.AddCurrency(Gold, 0); // Add Gold
+            Debug.Log($"Dropped Gold: {Gold}");
+        }
+
+        // Drop Soul based on the drop rate
+        if (Random.Range(0f, 100f) <= soulDropRate)
+        {
+            Soul = Random.Range(MinSoul, MaxSoul);
+            PlayerController.Instance._playerData.AddCurrency(0, Soul); // Add Soul
+            Debug.Log($"Dropped Soul: {Soul}");
+        }
     }
 
-    private void Drop(GameObject item)
+    private void DropItem(GameObject item)
     {
         if (item != null)
         {
@@ -86,5 +107,10 @@ public class ItemDropRate : MonoBehaviour
             Instantiate(item, transform.position + randomOffset + FixedOffset, Quaternion.identity);
             Debug.Log($"Dropped: {item.name}");
         }
+    }
+
+    private void LevelUp()
+    {
+        PlayerController.Instance._playerData.KnowledgeLevel += 1;
     }
 }

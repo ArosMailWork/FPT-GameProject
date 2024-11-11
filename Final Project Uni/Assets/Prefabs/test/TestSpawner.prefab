@@ -9,14 +9,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4224803202059738430}
-  - component: {fileID: 6428149033133853795}
+  - component: {fileID: 1749129633638906640}
   m_Layer: 2
   m_Name: TestSpawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4224803202059738430
 Transform:
   m_ObjectHideFlags: 0
@@ -27,12 +27,12 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.1134, y: 0.1, z: 0.1505}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.01, y: 0.2, z: 0.01}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6428149033133853795
+--- !u!114 &1749129633638906640
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,7 +41,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 949588615354492065}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4b07638ce36ec094d8f42f3d5136cd54, type: 3}
+  m_Script: {fileID: 11500000, guid: e4998ccd6bce7a84685eeb2c3a1caaeb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefab: {fileID: 4176462532912772118, guid: 96d3166b83d3e6a46915ec7bfa33f325, type: 3}
+  enemyPool: {fileID: 11400000, guid: 860aae614ad50024db6311ef5a5042e7, type: 2}
+  spawnSettings: {fileID: 11400000, guid: 8a67bedc51fe82649859091b73ede85b, type: 2}
+  SpawnRadius: 35
+  enemiesToSpawn: []
+  matchingPrefabs: []
+  enemies: []

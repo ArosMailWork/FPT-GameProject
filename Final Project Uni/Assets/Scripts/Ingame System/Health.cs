@@ -16,7 +16,7 @@ public enum HealthState
 public class Health : MonoBehaviour
 {
     #region Variables
-    
+
     [FoldoutGroup("Stats")]
     public HealthState healthState;
     [FoldoutGroup("Stats")]
@@ -28,7 +28,7 @@ public class Health : MonoBehaviour
     public bool isTrapMaster = false;
 
 
-    [FoldoutGroup("Setup")] 
+    [FoldoutGroup("Setup")]
     [SerializeField, CanBeNull] private StatSliderUI StatUI;
     [FoldoutGroup("Setup")]
     public bool fillOnStart = true;
@@ -36,9 +36,11 @@ public class Health : MonoBehaviour
     public UnityEvent HpValueChange, HpReduce, OnDeath;
     [FoldoutGroup("Setup/Event")]
     public UnityEvent<Vector3> OnKnockback;
+    [FoldoutGroup("Setup/Event")]
+    public UnityEvent<int, int> CheckValue;
 
     [FoldoutGroup("Debug")] public bool isAlive = true;
-    
+
     //Calculate
     public int currentHealth
     {
@@ -55,7 +57,7 @@ public class Health : MonoBehaviour
             HPUpdate();
         }
     } //use this
-    
+
     #endregion
 
     #region Unity Method
@@ -67,11 +69,11 @@ public class Health : MonoBehaviour
 
     private void Start()
     {
-        if(fillOnStart) currentHealth = maxHealth;
+        if (fillOnStart) currentHealth = maxHealth;
     }
 
     #endregion
-    
+
     #region Event
 
     public void HPUpdate()
@@ -86,23 +88,25 @@ public class Health : MonoBehaviour
         isAlive = false;
         OnDeath.Invoke();
     }
-    
+
     #endregion
 
     #region Ults
-    
-    [FoldoutGroup("Event Test")] [Button]
+
+    [FoldoutGroup("Event Test")]
+    [Button]
     public void Invincible(float time)
     {
         InvincibleTimer(time);
     }
-    
-    [FoldoutGroup("Event Test")] [Button]
+
+    [FoldoutGroup("Event Test")]
+    [Button]
     public void Absorbtion(float time)
     {
         AbsorbtionTimer(time);
     }
-    
+
     [FoldoutGroup("Event Test/Basic")]
     [Button]
     public void Hurt(int damage)
@@ -117,37 +121,42 @@ public class Health : MonoBehaviour
             case HealthState.Absorbtion:
                 Heal(damage);
                 break;
-            
+
         }
     }
-    
-    [FoldoutGroup("Event Test/Extend")] [Button]
+
+    [FoldoutGroup("Event Test/Extend")]
+    [Button]
     public void DamageOverTime(int damage, float time)
     {
         Debug.Log("Damage Over Time: " + damage + " in " + time + " secs");
         DoT(damage, time);
     }
-    
-    
-    [FoldoutGroup("Event Test/Basic")] [Button]
+
+
+    [FoldoutGroup("Event Test/Basic")]
+    [Button]
     public void Heal(int heal)
     {
         Debug.Log("Heal " + heal);
         currentHealth += heal;
     }
-    
-    [FoldoutGroup("Event Test/Extend")] [Button]
+
+    [FoldoutGroup("Event Test/Extend")]
+    [Button]
     public void HealOverTime(int heal, float time)
     {
         Debug.Log("Heal Over Time: " + heal + " in " + time + " secs");
         HoT(heal, time);
     }
-    
-    
-    [FoldoutGroup("Event Test/Basic")] [Button]
+
+
+    [FoldoutGroup("Event Test/Basic")]
+    [Button]
     public void Knockback(Vector3 Dir, float knockForce = 10)
     {
         //knockback Event
+        Dir.y = 0;
         OnKnockback.Invoke(Dir.normalized * knockForce);
     }
 
@@ -158,14 +167,14 @@ public class Health : MonoBehaviour
         await UniTask.Delay(TimeSpan.FromSeconds(time));
         healthState = HealthState.Idle;
     }
-    
+
     private async UniTaskVoid AbsorbtionTimer(float time)
     {
         healthState = HealthState.Absorbtion;
         await UniTask.Delay(TimeSpan.FromSeconds(time));
         healthState = HealthState.Idle;
     }
-    
+
     void DealDamage(int damage)
     {
         Debug.Log("Received " + damage);
@@ -194,6 +203,6 @@ public class Health : MonoBehaviour
             await UniTask.Delay(TimeSpan.FromSeconds(timePerTick)); // Wait before the next tick
         }
     }
-    
+
     #endregion
 }

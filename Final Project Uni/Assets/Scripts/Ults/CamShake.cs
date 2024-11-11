@@ -92,7 +92,7 @@ public class CamShake : MonoBehaviour
     float scaledValue;
     float scaledAdd;
     float traumaBuffer;
-    public void AddTrauma(float add, bool allowBreakLimit, float extraAddBuffer)
+    public void AddTrauma(float add, bool allowBreakLimit = false, float extraAddBuffer = 0)
     {
         if (!Shaking)
         {

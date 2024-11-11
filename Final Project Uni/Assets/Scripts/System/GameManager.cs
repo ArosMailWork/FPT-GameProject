@@ -1,17 +1,33 @@
-using PA;
+using System.Collections;
+using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager Instance { get; private set; }
+    public GameObject Testpack;
+    public GenerationManager genManager;
+    //Scene Address
+    [FoldoutGroup("Scene Address")]
+    public string Expedition;
+    [FoldoutGroup("Scene Address")]
+    public string Lobby;
+
+    [FoldoutGroup("Event")]
+    public UnityEvent fadeInAnim, fadeOutAnim;
+
+    public static GameManager Instance;
 
     private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
+            DontDestroyOnLoad(Testpack);
             DontDestroyOnLoad(gameObject);
+            DontDestroyOnLoad(genManager.gameObject);
         }
         else
         {
@@ -36,13 +52,9 @@ public class GameManager : MonoBehaviour
     public void StartNewGame()
     {
         // Logic for starting a new game
-        SceneManager.LoadScene("Lobby");
+        //SceneManager.LoadScene("MainGameScene");
     }
 
-    public void GoGamePlay()
-    {
-        SceneManager.LoadScene("Gameplay");
-    }
     public void LoadGame()
     {
         // Logic for loading a saved game
@@ -62,4 +74,38 @@ public class GameManager : MonoBehaviour
         Application.Quit();
 #endif
     }
+    #region SceneLogic
+
+    IEnumerator LoadExpedition()
+    {
+        fadeInAnim.Invoke();
+        yield return new WaitForSeconds(1);
+        SceneManager.LoadScene(Expedition);
+        genManager.gameObject.SetActive(true);
+        yield return new WaitForSeconds(0.5f);
+        fadeOutAnim.Invoke();
+
+    }
+    IEnumerator LoadLobby()
+    {
+        fadeInAnim.Invoke();
+        yield return new WaitForSeconds(1);
+        SceneManager.LoadScene(Lobby);
+        genManager.gameObject.SetActive(false);
+        yield return new WaitForSeconds(0.5f);
+        fadeOutAnim.Invoke();
+
+    }
+    public void StartExpedition()
+    {
+        PlayerController.Instance._playerData.ConfirmReward();
+        StartCoroutine(LoadExpedition());
+    }
+    public void StartLobby()
+    {
+        StartCoroutine(LoadLobby());
+    }
+    #endregion
+
+
 }

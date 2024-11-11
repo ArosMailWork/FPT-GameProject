@@ -9,7 +9,7 @@ public class TestSpawner : MonoBehaviour
     void Start()
     {
         Vector3 spawnPos = new Vector3(transform.position.x, transform.position.y, transform.position.z);
-        GameObject.Instantiate(prefab, spawnPos, transform.rotation);
+        //GameObject.Instantiate(prefab, spawnPos, transform.rotation);
         //PoolManager.Instance.Spawn(prefab, spawnPos, transform.rotation);
     }
 

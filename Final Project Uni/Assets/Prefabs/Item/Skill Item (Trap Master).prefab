@@ -277,6 +277,11 @@ MonoBehaviour:
   ExitTriggerRange:
     m_PersistentCalls:
       m_Calls: []
+  ShopFail:
+    m_PersistentCalls:
+      m_Calls: []
+  Cost: 100
+  isItemShop: 0
 --- !u!114 &9002432407860162433
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -294,8 +299,11 @@ MonoBehaviour:
   amount: 0
   takeSkillIcon: 1
   Skill: {fileID: 5543831279937719370, guid: 856b855a3be5bdc4791fe4988863708d, type: 3}
+  itemID: 
+  itemAmount: 0
   Gold: 0
   Soul: 0
+  isSkillBuff: 1
 --- !u!1 &3482879533164945080
 GameObject:
   m_ObjectHideFlags: 0
@@ -308,7 +316,8 @@ GameObject:
   - component: {fileID: 8285254741177630771}
   - component: {fileID: 165030950518128420}
   - component: {fileID: 5033160504504148575}
-  m_Layer: 0
+  - component: {fileID: 8526425122939442892}
+  m_Layer: 16
   m_Name: Skill Item (Trap Master)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -346,7 +355,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3482879533164945080}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -402,3 +411,30 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &8526425122939442892
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3482879533164945080}
+  serializedVersion: 4
+  m_Mass: 20
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 112
+  m_CollisionDetection: 0

@@ -6,5 +6,6 @@ using UnityEngine;
 public class gameItem : ScriptableObject
 {
     public string ID;
+    public string itemName;
     public Sprite icon;
 }

@@ -15,8 +15,10 @@ public class RoomGen : MonoBehaviour
     private List<Room> GenericRoom;
     private List<Room> PuzzleRoom;
     private List<Room> RewardRoom;
+    private List<Room> BossRoom;
+    private bool IsBossRoom = false;
     private Room StartRoom;
-    private Room EndRoom;
+    private Room ExitRoom;
     private int TotalRewardRoom = 3;
     private int TotalPuzzleRoom = 3;
     // A 2D array that will store our collapsed tiles so we can reference them later.
@@ -25,7 +27,7 @@ public class RoomGen : MonoBehaviour
     private List<Node> Nodes = new List<Node>();
     private List<GameObject> allRoom = new List<GameObject>();
     private Node origin = new Node();
-    private Vector3 spawn;
+    public Vector3 spawn;
     public GenerationManager gm;
     //An array of offset to make it easier to check neighbours
     // without duplicating code.
@@ -36,15 +38,15 @@ public class RoomGen : MonoBehaviour
         new Vector2Int(-1,0) //Left
     };
     private List<Vector2Int> mainOffsets = new List<Vector2Int>{
-        new Vector2Int(0,1), //Top
-        new Vector2Int(1,0), //Right
+        new Vector2Int(0,-1), //Bottom
+        new Vector2Int(-1,0), //Left
         //new Vector2Int(-1,0) //Left
     };
     // public Vector3 GetSpawnPosition()
     // {
     //     return origin
     // }
-    public void AssignData(int GridSize, int MainPathLength, int TotalPuzzleRoom, int TotalRewardRoom, List<Room> genericRoom, List<Room> rewardRoom, List<Room> puzzleRoom, Room StartRoom, Room EndRoom)
+    public void AssignData(int GridSize, int MainPathLength, int TotalPuzzleRoom, int TotalRewardRoom, List<Room> genericRoom, List<Room> rewardRoom, List<Room> puzzleRoom, List<Room> bossRoom, bool haveBoss, Room StartRoom, Room ExitRoom)
     {
         this.GridSize = GridSize;
         this.MainPathLength = MainPathLength;
@@ -53,8 +55,10 @@ public class RoomGen : MonoBehaviour
         this.GenericRoom = genericRoom;
         this.RewardRoom = rewardRoom;
         this.PuzzleRoom = puzzleRoom;
+        this.BossRoom = bossRoom;
+        this.IsBossRoom = haveBoss;
         this.StartRoom = StartRoom;
-        this.EndRoom = EndRoom;
+        this.ExitRoom = ExitRoom;
 
     }
 
@@ -73,6 +77,7 @@ public class RoomGen : MonoBehaviour
         origin.ConnectedPos = CheckConnectedDirection(origin.currentPos, sideOffsets);
         //Debug.Log(origin.ConnectedPos.Count);
         GameObject o = GameObject.Instantiate(origin.room.Prefab, new Vector3(origin.currentPos.x * GridSize, 0f, origin.currentPos.y * GridSize), Quaternion.identity);
+        spawn = new Vector3(origin.currentPos.x * GridSize, 2f, origin.currentPos.y * GridSize);
         o.GetComponent<RoomController>().SetConnector(origin.ConnectedPos);
         //o.transform.localScale = new Vector3(Size, 1, Size);
         o.transform.SetParent(this.transform);
@@ -99,7 +104,7 @@ public class RoomGen : MonoBehaviour
                 }
             }
         }
-        gm.SetScale();
+        //gm.SetScale();
 
     }
     [Button]
@@ -136,11 +141,20 @@ public class RoomGen : MonoBehaviour
     {
         origin.nodes.Clear();
         //Vector2Int pointer = new Vector2Int(Width / 2, Height / 2);
-        Vector2Int pointer = new Vector2Int(0, 0);
+        Vector2Int pointer = new Vector2Int(Width / 2, Height / 2);
         origin.currentPos = pointer;
         origin.room = StartRoom;
         origin.IsSpecialRoom = true;
         _grid[pointer.x, pointer.y] = origin;
+        Room EndRoom;
+        if (IsBossRoom)
+        {
+            EndRoom = BossRoom[Random.Range(0, BossRoom.Count)];
+        }
+        else
+        {
+            EndRoom = ExitRoom;
+        }
         for (int i = 1; i <= MainPathLength; i++)
         {
             List<Vector2Int> ValidDir = CheckAvailableDirection(pointer, mainOffsets);

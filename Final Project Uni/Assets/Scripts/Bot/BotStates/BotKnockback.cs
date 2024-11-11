@@ -16,6 +16,8 @@ public class BotKnockback : BotDisable
     private const float MaxKnockbackTime = 2.0f;  // Maximum time knockback can last
     private const float StillThreshold = 0.1f;    // Velocity threshold to stop knockback
 
+    private bool damaged;
+
     private bool isKnockbackActive = false;
 
     public BotKnockback(BotSM stateMachine) : base("Knockback", stateMachine)
@@ -44,14 +46,16 @@ public class BotKnockback : BotDisable
         if (countdown >= 0)
         {
             countdown -= Time.deltaTime;
-            
-            if(sm.bot._animController != null && sm.isAlive)
-            sm.bot._animController.DamagedAnim();
-            //else if(sm.bot._animController != null && sm.isAlive)
-            //sm.bot._animController.DamagedAnim();
+
+            if (sm.bot._animController != null && sm.isAlive && !damaged)
+            {
+                damaged = true;
+                sm.bot._animController.DamagedAnim();
+            }
         }
         else if (!isKnockbackActive) // Ensure knockback is finished before changing state
         {
+            damaged = false;
             if(sm.isAlive) sm.ChangeState(sm.StrafeState);
         }
     }

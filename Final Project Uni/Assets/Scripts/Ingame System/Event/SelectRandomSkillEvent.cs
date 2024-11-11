@@ -2,10 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class SelectRandomSkillEvent : MonoBehaviour
 {
     #region Variables
+    [FoldoutGroup("Setup/Buttons")]
+    public Button SkillSelectSlot1, SkillSelectSlot2, SkillSelectSlot3;
+    public Image SkillIMG1, SkillIMG2, SkillIMG3;
 
     [FoldoutGroup("Setup")]
     public List<GameObject> SkillPool = new List<GameObject>(); // All available skills
@@ -13,6 +18,8 @@ public class SelectRandomSkillEvent : MonoBehaviour
     public List<GameObject> GachaSkillSlots = new List<GameObject>(); // The slots to choose from
     [FoldoutGroup("Stats")]
     public int selectedSlot; // The slot index for GachaSkillSlots
+    [FoldoutGroup("Event")]
+    public UnityEvent OnSkillChoose;
 
     PlayerData playerData;
     
@@ -30,17 +37,28 @@ public class SelectRandomSkillEvent : MonoBehaviour
 
         HashSet<GameObject> addedSkills = new HashSet<GameObject>(); // To prevent duplicates
 
-        // Add all default unlocked skills from the database
+        // Check if SkillHolder singleton instance is available and get existing SkillIDList
+        HashSet<string> existingSkillIDs = new HashSet<string>();
+        if (SkillHolder.Instance != null)
+        {
+            existingSkillIDs = new HashSet<string>(SkillHolder.Instance.SkillIDList);
+        }
+
+        // Add all default unlocked skills from the database if they are not already in SkillIDList
         foreach (var skill in playerData.skillDatabase.allSkills)
         {
             if (skill.defaultUnlocked && skill.skillPrefab != null && addedSkills.Add(skill.skillPrefab))
             {
-                SkillPool.Add(skill.skillPrefab);
-                // Debug.Log($"Added default unlocked skill: {skill.skillPrefab.name}");
+                // Avoid adding skills already in the SkillIDList
+                if (!existingSkillIDs.Contains(skill.Skill_ID))
+                {
+                    SkillPool.Add(skill.skillPrefab);
+                    // Debug.Log($"Added default unlocked skill: {skill.skillPrefab.name}");
+                }
             }
         }
 
-        // Add unlocked skills to SkillPool
+        // Add unlocked skills to SkillPool, ensuring uniqueness in SkillIDList and addedSkills
         foreach (SkillUnlock skillUnlock in playerData.unlockedSkills)
         {
             if (skillUnlock.isUnlocked)
@@ -49,8 +67,16 @@ public class SelectRandomSkillEvent : MonoBehaviour
                 PlayerSkill playerSkill = playerData.skillDatabase.allSkills.Find(s => s.Skill_ID == skillUnlock.Skill.Skill_ID);
                 if (playerSkill.skillPrefab != null && addedSkills.Add(playerSkill.skillPrefab))
                 {
-                    SkillPool.Add(playerSkill.skillPrefab);
-                    Debug.Log($"Added {playerSkill.skillPrefab.name} to SkillPool.");
+                    // Avoid adding skills already in the SkillIDList
+                    if (!existingSkillIDs.Contains(playerSkill.Skill_ID))
+                    {
+                        SkillPool.Add(playerSkill.skillPrefab);
+                        Debug.Log($"Added {playerSkill.skillPrefab.name} to SkillPool.");
+                    }
+                    else
+                    {
+                        Debug.Log($"Skill with ID {playerSkill.Skill_ID} is already in SkillHolder.");
+                    }
                 }
                 else
                 {
@@ -59,11 +85,10 @@ public class SelectRandomSkillEvent : MonoBehaviour
             }
         }
 
-        Debug.Log("SkillPool created with unlocked skills.");
+        Debug.Log("SkillPool created with unique unlocked skills.");
     }
 
 
-    
     
     [FoldoutGroup("Event")] [Button]
     public void AddSelectSkillFromSlot()
@@ -123,6 +148,26 @@ public class SelectRandomSkillEvent : MonoBehaviour
             GachaSkillSlots[randomPos] = temp;
         }
     }
+    [Button]
+    public void SkillSelectStart()
+    {
+        GachaSkill(3);
+        SkillIMG1.sprite = GachaSkillSlots[0].GetComponent<ISkill>().Icon;
+        SkillIMG2.sprite = GachaSkillSlots[1].GetComponent<ISkill>().Icon;
+        SkillIMG3.sprite = GachaSkillSlots[2].GetComponent<ISkill>().Icon;
+    }
 
+    public void SelectSkill(int choice)
+    {
+        if (choice < GachaSkillSlots.Count)
+        {
+            selectedSlot = choice;
+            AddSelectSkillFromSlot();
+            OnSkillChoose.Invoke();
+        }
+
+
+    }
     #endregion
+
 }

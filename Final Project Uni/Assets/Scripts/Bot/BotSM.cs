@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -15,12 +16,16 @@ public class BotSM : StateMachine
     public bool isAlive = true;
     public float distance;
 
+    [CanBeNull] public BossSkill BossSkill;
+    
     [HideInInspector] public BotIdle idleState;
     [HideInInspector] public BotChase chaseState;
     [HideInInspector] public BotAttacking AttackingState;
     [HideInInspector] public BotStrafe StrafeState;
     [HideInInspector] public BotKnockback knockbackState;
     [HideInInspector] public BotDeath deathState;
+    
+    [HideInInspector] public BotPattern BotPattern;
 
     public void Awake()
     {
@@ -30,6 +35,13 @@ public class BotSM : StateMachine
         StrafeState = new BotStrafe(this);
         knockbackState = new BotKnockback(this);
         deathState = new BotDeath(this);
+        BotPattern = new BotPattern(this);
+
+        if (bot.gun != null && BossSkill != null)
+        {
+            BossSkill.guns = bot.gun;
+            BossSkill.sm = this;
+        }
         //targets = new List<Transform>();
     }
     
@@ -53,5 +65,10 @@ public class BotSM : StateMachine
             knockbackState.force = force;
             ChangeState(knockbackState);
         }
+    }
+
+    public void Teleport(Vector3 pos)
+    {
+        agent.Warp(pos);
     }
 }

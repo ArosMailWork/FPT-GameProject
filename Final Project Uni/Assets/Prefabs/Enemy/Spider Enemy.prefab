@@ -206,6 +206,7 @@ MonoBehaviour:
   bot: {fileID: 4004114171866760815}
   currState: 
   isAlive: 1
+  distance: 0
 --- !u!114 &4004114171866760815
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -224,6 +225,10 @@ MonoBehaviour:
   MoveAngle: 45
   cooldown: 0
   countdown: 0
+  attackRange: 1.5
+  UseMovementPrediction: 0
+  MovementPredictionThreshold: 0
+  MovementPredictionTime: 1
   rg: {fileID: 6036468495442058585}
   Health: {fileID: 3120639686030684393}
   gun:
@@ -2386,6 +2391,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pivot: {fileID: 9204618953382928091}
+  PlaySoundEffect:
+    m_PersistentCalls:
+      m_Calls: []
+  hitParticleName: HitEffect
 --- !u!114 &5054042338331652015
 MonoBehaviour:
   m_ObjectHideFlags: 0
