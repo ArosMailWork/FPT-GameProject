@@ -445,10 +445,9 @@ public class PlayerController : MonoBehaviour
 
     public async UniTaskVoid doReceiveKnockback(Vector3 KnockDirect, float StunTime = 0.15f)
     {
-        //Debug.Log("Player Knockback: " + KnockDirect);
-        //Implement Knockback shiet here
-        KnockDirect.y = 0;
+        if(!PlayerHealth.isAlive) return;
 
+        KnockDirect.y = 0;
         PlayerRB.AddForce(KnockDirect.normalized * KnockDirect.magnitude, ForceMode.Impulse);
 
         currentState = PlayerState.Stunning;
