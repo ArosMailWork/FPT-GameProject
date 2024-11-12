@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class PauseMenu : MonoBehaviour
 {
-    void PauseGame ()
+    public void PauseGame()
     {
         Time.timeScale = 0f;
         AudioListener.pause = true;
     }
 
-    void ResumeGame ()
+    public void ResumeGame()
     {
         Time.timeScale = 1;
         AudioListener.pause = false;

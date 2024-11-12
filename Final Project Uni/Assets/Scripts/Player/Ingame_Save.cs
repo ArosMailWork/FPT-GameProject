@@ -20,11 +20,19 @@ public class Ingame_Save : MonoBehaviour
     public Biome currentBiome;
 
     private string saveFilePath;
+    
+    public static Ingame_Save Instance;
 
     private void Awake()
     {
         saveFilePath = Path.Combine(Application.persistentDataPath, "ExpeditionSaveData.json");
         AllowLoadSave = File.Exists(saveFilePath); // Check if save file exists at startup
+    }
+    
+    public void Start()
+    {
+        if (Instance != null) Destroy(Instance);
+        Instance = this;
     }
 
     [Button]
