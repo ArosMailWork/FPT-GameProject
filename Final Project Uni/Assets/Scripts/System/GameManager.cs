@@ -1,4 +1,5 @@
 using System.Collections;
+using JetBrains.Annotations;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Events;
@@ -7,8 +8,8 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public GameObject Player;
-    public GenerationManager genManager;
+    [CanBeNull] public GameObject Player;
+    [CanBeNull] public GenerationManager genManager;
     //Scene Address
     [FoldoutGroup("Scene Address")]
     public string Expedition;
@@ -25,9 +26,9 @@ public class GameManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(Player);
+            if(Player != null) DontDestroyOnLoad(Player);
+            if(genManager != null) DontDestroyOnLoad(genManager.gameObject);
             DontDestroyOnLoad(gameObject);
-            DontDestroyOnLoad(genManager.gameObject);
         }
         else
         {

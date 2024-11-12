@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 
@@ -6,37 +7,20 @@ public class SoundManager : MonoBehaviour
     public static SoundManager Instance { get; private set; }
 
     [SerializeField] private AudioMixer audioMixer;
-    [SerializeField] private AudioSource musicSource;
-    [SerializeField] private AudioSource sfxSource;
 
-    private void Awake(){
-        if(Instance == null){
+    private void Awake()
+    {
+        if(Instance == null)
+        {
             Instance = this;
             DontDestroyOnLoad(gameObject);
         }
-        else{
+        else
+        {
             Destroy(gameObject);
         }
     }
 
-    private void Start(){
-        PlayMusic("MainMenuMusic");
-    }
-    
-    public void PlayMusic(string clipName){
-        AudioClip clip = Resources.Load<AudioClip>(clipName);
-        if(clip != null){
-            musicSource.clip = clip;
-            musicSource.Play();
-        }
-    }
-
-    public void PlaySFX(string clipName){
-        AudioClip clip = Resources.Load<AudioClip>(clipName);
-        if(clip != null){
-            sfxSource.PlayOneShot(clip);
-        }
-    }
 
     public void SetMusicVolume(float sliderValue)
     {

@@ -7,6 +7,7 @@ public class ExpeditionReport : MonoBehaviour
     public int EnemyDefeated = 0;
     public int BossDefeated = 0;
     public int ChestOpened = 0;
+    public int ItemCollected = 0;
     
     public static ExpeditionReport Instance;
     

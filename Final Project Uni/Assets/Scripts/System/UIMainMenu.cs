@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 namespace PA
 {
@@ -166,7 +167,8 @@ namespace PA
             makeTransitionUI.MakeTransition();
             
             await UniTask.Delay(TimeSpan.FromSeconds(makeTransitionUI.duration));
-            GameManager.Instance.StartNewGame();
+            //GameManager.Instance.StartNewGame();
+            SceneManager.LoadScene("Lobby");
             
             await UniTask.Delay(TimeSpan.FromSeconds(makeTransitionUI.duration));
             makeTransitionUI.fadeBlackImage.GetComponent<CanvasGroup>().alpha = 1;

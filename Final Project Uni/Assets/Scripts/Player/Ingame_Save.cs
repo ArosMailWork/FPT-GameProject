@@ -11,7 +11,7 @@ public class Ingame_Save : MonoBehaviour
     public List<GameObject> skillList = new List<GameObject>();
     public PlayerData runData;
     public bool AllowLoadSave;
-    
+
     [FoldoutGroup("Expedition")]
     public int Floor, World;
     [FoldoutGroup("Expedition")]
@@ -20,7 +20,7 @@ public class Ingame_Save : MonoBehaviour
     public Biome currentBiome;
 
     private string saveFilePath;
-    
+
     public static Ingame_Save Instance;
 
     private void Awake()
@@ -28,7 +28,7 @@ public class Ingame_Save : MonoBehaviour
         saveFilePath = Path.Combine(Application.persistentDataPath, "ExpeditionSaveData.json");
         AllowLoadSave = File.Exists(saveFilePath); // Check if save file exists at startup
     }
-    
+
     public void Start()
     {
         if (Instance != null) Destroy(Instance);
@@ -48,13 +48,12 @@ public class Ingame_Save : MonoBehaviour
         currentBiome = ExpeditionManager.Instance.currentBiome;
         Floor = ExpeditionManager.Instance.currentFloorNumber;
         World = ExpeditionManager.Instance.currentWorldNumber;
-        
 
         // Serialize to JSON
         string jsonData = JsonUtility.ToJson(this, true);
         File.WriteAllText(saveFilePath, jsonData);
         AllowLoadSave = true;
-        
+
         Debug.Log("Game saved successfully!");
     }
 
@@ -83,15 +82,19 @@ public class Ingame_Save : MonoBehaviour
             {
                 SkillHolder.Instance.AddSkill(skill);
             }
-            
-            //Expedition Load
+
+            // Expedition Load
             ExpeditionManager.Instance.currentWorld = currentWorld;
             ExpeditionManager.Instance.currentBiome = currentBiome;
             ExpeditionManager.Instance.currentFloorNumber = Floor;
             ExpeditionManager.Instance.currentWorldNumber = World;
-            
+            ExpeditionManager.Instance.gen.Generate();
 
-            Debug.Log("Game loaded successfully!");
+            // Delete the save file after loading it so it can't be used again
+            File.Delete(saveFilePath);
+            AllowLoadSave = false;
+
+            Debug.Log("Game loaded and save file deleted successfully!");
         }
         else
         {

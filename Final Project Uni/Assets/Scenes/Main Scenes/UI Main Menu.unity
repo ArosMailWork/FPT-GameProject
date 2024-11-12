@@ -11070,15 +11070,15 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 429319536}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.09398922, y: 0.9060007, z: -0.2940287, w: -0.28961357}
-  m_LocalPosition: {x: -6, y: 7.938963, z: 9}
+  m_LocalRotation: {x: -0.07153707, y: 0.9252698, z: -0.30028132, w: -0.22043027}
+  m_LocalPosition: {x: -14.42, y: 7.938963, z: 17.39}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1343829472}
   - {fileID: 552773939}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 35.96, y: 215.454, z: 0}
+  m_LocalEulerAnglesHint: {x: 35.96, y: 206.8, z: 0}
 --- !u!4 &432133419 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2478699414056017307, guid: 2785c691edf3a2542acfe0324f4ed237, type: 3}
@@ -39541,13 +39541,14 @@ GameObject:
   m_Component:
   - component: {fileID: 2139621916}
   - component: {fileID: 2139621917}
+  - component: {fileID: 2139621918}
   m_Layer: 0
   m_Name: Sound Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2139621916
 Transform:
   m_ObjectHideFlags: 0
@@ -39580,6 +39581,61 @@ MonoBehaviour:
   audioMixer: {fileID: 24100000, guid: a1357bdeec2966c4e881ffb2abbaa4ce, type: 2}
   musicSource: {fileID: 289628250}
   sfxSource: {fileID: 1460306657}
+--- !u!114 &2139621918
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2139621915}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c96b2322732f0844bf9141a71a899ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: soundEffectsDict
+      Entry: 6
+      Data: 
+    - Name: backgroundMusicDict
+      Entry: 6
+      Data: 
+  audioSource: {fileID: 0}
+  musicSource: {fileID: 0}
+  musicSource2: {fileID: 0}
+  transitionCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  volume: 0
 --- !u!1001 &2142598563
 PrefabInstance:
   m_ObjectHideFlags: 0
