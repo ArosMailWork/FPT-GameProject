@@ -80,6 +80,11 @@ public class InteractableItem : MonoBehaviour
         ParticleManager.Instance.SpawnParticle(particleID, transform.position, Quaternion.Euler(-90, 0, 0));
     }
 
+    public void TogglePlayerUI(bool toggle)
+    {
+        ToggleUIElements.Instance.ToggleUI(toggle);
+    }
+
     // Called when a player enters the interaction range
     private void OnTriggerEnter(Collider other)
     {
