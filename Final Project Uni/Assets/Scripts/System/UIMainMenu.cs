@@ -91,10 +91,16 @@ namespace PA
 
         private void InitializeUI()
         {
+            // bỏ hết mớ AddListener này hộ t với D: bind thẳng vô nút và chia ra script lẻ nhé
+            // chia thành setting, graphic, Main menu
+            // và sửa cái transition tách module ra, lúc bấm chuyển loại faded 
+            // cho mỗi start mà nó lại chạy quẹt kia là không được
+            
+            
             // Main Menu
-            newGameButton.onClick.AddListener(OnNewGameClicked);
-            optionButton.onClick.AddListener(OnSettingsClicked);
-            quitGameButton.onClick.AddListener(OnQuitClicked);
+            //newGameButton.onClick.AddListener(OnNewGameClicked);
+            //optionButton.onClick.AddListener(OnSettingsClicked);
+            //quitGameButton.onClick.AddListener(OnQuitClicked);
 
             // Settings Menu
             backSettingsMenuButton.onClick.AddListener(OnBackSettingsClicked);
@@ -106,7 +112,6 @@ namespace PA
             //graphicsQualityDropdown.onValueChanged.AddListener(OnGraphicsQualityChanged);
             vSyncToggle.onValueChanged.AddListener(OnVSyncToggled);
             antiAliasingToggle.onValueChanged.AddListener(OnAntiAliasingToggled);
-            //            shadowsToggle.onValueChanged.AddListener(OnShadowsToggled);
             bloomToggle.onValueChanged.AddListener(OnBloomToggled);
             backGraphicsSettingsButton.onClick.AddListener(OnBackGraphicsSettingsClicked);
 
@@ -155,7 +160,7 @@ namespace PA
             }
         }
 
-        private async void OnNewGameClicked()
+        public async void OnNewGameClicked()
         {
             makeTransitionUI.isNormalTransition = true;
             makeTransitionUI.MakeTransition();
@@ -168,12 +173,12 @@ namespace PA
             gameObject.SetActive(false);
         }
 
-        private void OnSettingsClicked()
+        public void OnSettingsClicked()
         {
             GeneralClick(settingsPanel, mainMenuPanel);
         }
 
-        private void OnQuitClicked()
+        public void OnQuitClicked()
         {
             GameManager.Instance.QuitGame();
         }

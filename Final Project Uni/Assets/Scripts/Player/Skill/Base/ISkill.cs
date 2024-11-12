@@ -23,7 +23,9 @@ public abstract class ISkill : MonoBehaviour
     public float Cooldown, currentCD;
     [FoldoutGroup("Base Skill")]
     public SkillType type;
-    // Start is called before the first frame update
+
+    [TextArea]
+    public string Description;
     public virtual void Activate() { }
     public virtual void Deactivate() { }
     void Update()

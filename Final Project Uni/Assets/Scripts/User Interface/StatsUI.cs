@@ -13,8 +13,18 @@ public class StatsUI : MonoBehaviour
     [SerializeField, ReadOnly]
     SkillHolder skillHolder;
     private List<GameObject> skillList = new List<GameObject>();
-    public List<Image> skillHolderObj;
+    [FoldoutGroup("Setup")]
+    public List<Image> skillIconUI;
+    [FoldoutGroup("Setup")]
+    public List<Button> skillBtn;
+    [FoldoutGroup("Setup")]
+    public GameObject DescriptionObj;
+    [FoldoutGroup("Setup")]
+    public TMP_Text Description;
+    [FoldoutGroup("Setup")]
+    public Image DescriptionIcon;
     [FoldoutGroup("Player Stats")]
+    
     private float baseHealth, bonusHealth, 
                   baseSpeed, bonusSpeed, 
                   baseStamina, bonusStamina, 
@@ -28,6 +38,8 @@ public class StatsUI : MonoBehaviour
                     baseStaRegenText, bonusStaRegenText, 
                     baseAtkText, bonusATKText,
                     levelText;
+
+    
     // Start is called before the first frame update
     [Button]
     public void UpdateInfo()
@@ -35,11 +47,33 @@ public class StatsUI : MonoBehaviour
         playerStat = PlayerController.Instance._stats;
         skillHolder = SkillHolder.Instance;
         skillList = skillHolder.skillList;
-        for (int i = 0; i < skillList.Count; i++)
+
+        if (skillList.Count > 0)
         {
-            skillHolderObj[i].sprite = skillList[i].GetComponent<ISkill>().Icon;
+            for (int i = 0; i < skillList.Count; i++)
+            {
+                var skill = skillList[i].GetComponent<ISkill>();
+                
+                // Clear previous listeners to avoid duplication
+                skillBtn[i].onClick.RemoveAllListeners();
+
+                if (skill != null)
+                {
+                    skillIconUI[i].sprite = skill.Icon;
+                    skillBtn[i].onClick.AddListener(() => SetSkillDes(skill.Description, skill.Icon));
+                }
+            }
         }
+        
         ShowStat();
+    }
+
+    public void SetSkillDes(string des, Sprite skillIcon)
+    {
+        DescriptionIcon.sprite = skillIcon;
+        Description.text = des;
+        DescriptionObj.SetActive(true);
+        this.gameObject.SetActive(false);
     }
 
     public void ShowStat()
