@@ -38,7 +38,9 @@
         [FoldoutGroup("Setup")] 
         [CanBeNull] public TextMeshProUGUI GoldText;
 
-        [FoldoutGroup("Inventory")] public int KnowledgeLevel, Gold;
+        [FoldoutGroup("Inventory")] 
+        public int KnowledgeLevel, Gold;
+        [FoldoutGroup("Inventory")] 
         public float SoulCollected;
         [FoldoutGroup("Inventory")]
         public List<SkillUnlock> unlockedSkills = new List<SkillUnlock>();

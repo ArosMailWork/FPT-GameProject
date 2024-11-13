@@ -3155,7 +3155,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2925859944336296309}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6908615470586490122}
+        m_TargetAssemblyTypeName: InteractableItem, Assembly-CSharp
+        m_MethodName: TogglePlayerUI
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!1 &6199358238415078229
 GameObject:
   m_ObjectHideFlags: 0
@@ -3574,6 +3586,7 @@ MonoBehaviour:
   alternateFont: {fileID: 11400000, guid: 62f15b8063ac4e24399014c2565b9a53, type: 2}
   imageMask: {fileID: 7815113608533480594}
   toggleScale: {fileID: 0}
+  DialogueNext: {fileID: 0}
 --- !u!1 &7292462556584002094
 GameObject:
   m_ObjectHideFlags: 0
@@ -4161,7 +4174,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ItemParent: {fileID: 0}
   interactButton: {fileID: 0}
-  HideAfterUseUI: 1
+  HideAfterUseUI: 0
   InteractEvent:
     m_PersistentCalls:
       m_Calls:
@@ -4176,6 +4189,18 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 6908615470586490122}
+        m_TargetAssemblyTypeName: InteractableItem, Assembly-CSharp
+        m_MethodName: TogglePlayerUI
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
         m_CallState: 2
   EnterTriggerRange:
     m_PersistentCalls:

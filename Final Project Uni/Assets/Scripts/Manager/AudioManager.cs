@@ -17,7 +17,7 @@ public class AudioManager : SerializedMonoBehaviour
     [Range(0, 1)] public float volume;
     #endregion
 
-    #region UnityMethod
+    #region Unity Method
     public void Awake()
     {
         if (Instance != null && Instance != this)

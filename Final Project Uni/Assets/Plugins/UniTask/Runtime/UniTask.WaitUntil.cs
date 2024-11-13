@@ -49,7 +49,6 @@ namespace Cysharp.Threading.Tasks
             Func<bool> predicate;
             CancellationToken cancellationToken;
             CancellationTokenRegistration cancellationTokenRegistration;
-            bool cancelImmediately;
 
             UniTaskCompletionSourceCore<object> core;
 
@@ -71,7 +70,6 @@ namespace Cysharp.Threading.Tasks
 
                 result.predicate = predicate;
                 result.cancellationToken = cancellationToken;
-                result.cancelImmediately = cancelImmediately;
 
                 if (cancelImmediately && cancellationToken.CanBeCanceled)
                 {
@@ -98,10 +96,7 @@ namespace Cysharp.Threading.Tasks
                 }
                 finally
                 {
-                    if (!(cancelImmediately && cancellationToken.IsCancellationRequested))
-                    {
-                        TryReturn();
-                    }
+                    TryReturn();
                 }
             }
 
@@ -152,7 +147,6 @@ namespace Cysharp.Threading.Tasks
                 predicate = default;
                 cancellationToken = default;
                 cancellationTokenRegistration.Dispose();
-                cancelImmediately = default;
                 return pool.TryPush(this);
             }
         }
@@ -171,7 +165,6 @@ namespace Cysharp.Threading.Tasks
             Func<bool> predicate;
             CancellationToken cancellationToken;
             CancellationTokenRegistration cancellationTokenRegistration;
-            bool cancelImmediately;
 
             UniTaskCompletionSourceCore<object> core;
 
@@ -219,10 +212,7 @@ namespace Cysharp.Threading.Tasks
                 }
                 finally
                 {
-                    if (!(cancelImmediately && cancellationToken.IsCancellationRequested))
-                    {
-                        TryReturn();
-                    }
+                    TryReturn();
                 }
             }
 
@@ -273,7 +263,6 @@ namespace Cysharp.Threading.Tasks
                 predicate = default;
                 cancellationToken = default;
                 cancellationTokenRegistration.Dispose();
-                cancelImmediately = default;
                 return pool.TryPush(this);
             }
         }
@@ -291,7 +280,6 @@ namespace Cysharp.Threading.Tasks
 
             CancellationToken cancellationToken;
             CancellationTokenRegistration cancellationTokenRegistration;
-            bool cancelImmediately;
 
             UniTaskCompletionSourceCore<object> core;
 
@@ -299,7 +287,7 @@ namespace Cysharp.Threading.Tasks
             {
             }
 
-            public static IUniTaskSource Create(CancellationToken cancellationToken, PlayerLoopTiming timing, bool cancelImmediately, out short token)
+            public static IUniTaskSource Create(CancellationToken cancellationToken, PlayerLoopTiming timing, bool completeImmediately, out short token)
             {
                 if (cancellationToken.IsCancellationRequested)
                 {
@@ -312,9 +300,8 @@ namespace Cysharp.Threading.Tasks
                 }
 
                 result.cancellationToken = cancellationToken;
-                result.cancelImmediately = cancelImmediately;
 
-                if (cancelImmediately && cancellationToken.CanBeCanceled)
+                if (completeImmediately && cancellationToken.CanBeCanceled)
                 {
                     result.cancellationTokenRegistration = cancellationToken.RegisterWithoutCaptureExecutionContext(state =>
                     {
@@ -339,10 +326,7 @@ namespace Cysharp.Threading.Tasks
                 }
                 finally
                 {
-                    if (!(cancelImmediately && cancellationToken.IsCancellationRequested))
-                    {
-                        TryReturn();
-                    }
+                    TryReturn();
                 }
             }
 
@@ -378,7 +362,6 @@ namespace Cysharp.Threading.Tasks
                 core.Reset();
                 cancellationToken = default;
                 cancellationTokenRegistration.Dispose();
-                cancelImmediately = default;
                 return pool.TryPush(this);
             }
         }
@@ -402,7 +385,6 @@ namespace Cysharp.Threading.Tasks
             IEqualityComparer<U> equalityComparer;
             CancellationToken cancellationToken;
             CancellationTokenRegistration cancellationTokenRegistration;
-            bool cancelImmediately;
 
             UniTaskCompletionSourceCore<U> core;
 
@@ -428,7 +410,6 @@ namespace Cysharp.Threading.Tasks
                 result.currentValue = monitorFunction(target);
                 result.equalityComparer = equalityComparer ?? UnityEqualityComparer.GetDefault<U>();
                 result.cancellationToken = cancellationToken;
-                result.cancelImmediately = cancelImmediately;
                 
                 if (cancelImmediately && cancellationToken.CanBeCanceled)
                 {
@@ -455,10 +436,7 @@ namespace Cysharp.Threading.Tasks
                 }
                 finally
                 {
-                    if (!(cancelImmediately && cancellationToken.IsCancellationRequested))
-                    {
-                        TryReturn();
-                    }
+                    TryReturn();
                 }
             }
 
@@ -519,7 +497,6 @@ namespace Cysharp.Threading.Tasks
                 equalityComparer = default;
                 cancellationToken = default;
                 cancellationTokenRegistration.Dispose();
-                cancelImmediately = default;
                 return pool.TryPush(this);
             }
         }
@@ -542,7 +519,6 @@ namespace Cysharp.Threading.Tasks
             IEqualityComparer<U> equalityComparer;
             CancellationToken cancellationToken;
             CancellationTokenRegistration cancellationTokenRegistration;
-            bool cancelImmediately;
 
             UniTaskCompletionSourceCore<U> core;
 
@@ -567,7 +543,6 @@ namespace Cysharp.Threading.Tasks
                 result.currentValue = monitorFunction(target);
                 result.equalityComparer = equalityComparer ?? UnityEqualityComparer.GetDefault<U>();
                 result.cancellationToken = cancellationToken;
-                result.cancelImmediately = cancelImmediately;
                 
                 if (cancelImmediately && cancellationToken.CanBeCanceled)
                 {
@@ -594,10 +569,7 @@ namespace Cysharp.Threading.Tasks
                 }
                 finally
                 {
-                    if (!(cancelImmediately && cancellationToken.IsCancellationRequested))
-                    {
-                        TryReturn();
-                    }
+                    TryReturn();
                 }
             }
 
@@ -658,7 +630,6 @@ namespace Cysharp.Threading.Tasks
                 equalityComparer = default;
                 cancellationToken = default;
                 cancellationTokenRegistration.Dispose();
-                cancelImmediately = default;
                 return pool.TryPush(this);
             }
         }

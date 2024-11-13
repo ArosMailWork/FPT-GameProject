@@ -33,7 +33,7 @@ public class GameSettings : MonoBehaviour
         }
     }
 
-    private void Start()
+    private void OnEnable()
     {
         LoadSettings();
     }

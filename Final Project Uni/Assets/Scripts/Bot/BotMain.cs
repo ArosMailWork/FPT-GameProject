@@ -38,6 +38,11 @@ public class BotMain : MonoBehaviour
     }
     public void Dead()
     {
+        if (unitType == UnitType.BossPattern || unitType == UnitType.BossShooter) 
+            ExpeditionReport.Instance.BossDefeated += 1;
+        
+        ExpeditionReport.Instance.EnemyDefeated += 1;
+        
         Destroy(this.gameObject);
     }
 

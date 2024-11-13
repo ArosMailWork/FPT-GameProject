@@ -51,6 +51,8 @@ public class Item : MonoBehaviour
 
     public void GrabItem()
     {
+        ExpeditionReport.Instance.ItemCollected += 1;
+        
         GrabMaterial();
         GrabMoney();
         GrabSkill();

@@ -73,6 +73,7 @@ public class PlayerController : MonoBehaviour
     public static PlayerController Instance;
 
     //Calculate
+    private Vector3 rollDir;
     private Vector3 calculateMove, moveDirection;
     private Vector3 cameraForward, cameraRight;
     private Vector3 RecallDirect, lungeDirection;
@@ -166,6 +167,7 @@ public class PlayerController : MonoBehaviour
         canRoll = false; //just want to save calculate so I place here, hehe
 
         //this lead to the Roll Apply
+        rollDir = transform.forward.normalized;
         currentState = PlayerState.Rolling;
         _playerAnimController.DodgeAnim();
 
@@ -189,7 +191,8 @@ public class PlayerController : MonoBehaviour
             moveDirection = (cameraRight * moveBuffer.x + cameraForward * moveBuffer.y).normalized;
 
             // Mix the directions
-            Vector3 mixedDirection = Vector3.Lerp(transform.forward.normalized, moveDirection, _stats.controlRollDirect).normalized;
+            Vector3 ControlRoll = Vector3.Lerp(transform.forward.normalized, moveDirection, 0.2f).normalized;
+            Vector3 mixedDirection = Vector3.Lerp(rollDir, ControlRoll, _stats.controlRollDirect).normalized;
 
             // Implement Roll Logic here
             RollDirect.x = mixedDirection.x;
@@ -445,10 +448,9 @@ public class PlayerController : MonoBehaviour
 
     public async UniTaskVoid doReceiveKnockback(Vector3 KnockDirect, float StunTime = 0.15f)
     {
-        //Debug.Log("Player Knockback: " + KnockDirect);
-        //Implement Knockback shiet here
-        KnockDirect.y = 0;
+        if(!PlayerHealth.isAlive) return;
 
+        KnockDirect.y = 0;
         PlayerRB.AddForce(KnockDirect.normalized * KnockDirect.magnitude, ForceMode.Impulse);
 
         currentState = PlayerState.Stunning;

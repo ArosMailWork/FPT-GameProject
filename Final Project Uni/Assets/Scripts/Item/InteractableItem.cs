@@ -34,6 +34,7 @@ public class InteractableItem : MonoBehaviour
     private void OnDisable()
     {
         hasInteracted = true;  // Mark as interacted
+        if(interactButton == null) return;
         interactButton.gameObject.SetActive(false);  // Hide the button after interaction
         interactButton.onClick.RemoveListener(OnInteract);
     }
@@ -77,6 +78,11 @@ public class InteractableItem : MonoBehaviour
     public void PlayBuffParticle(string particleID)
     {
         ParticleManager.Instance.SpawnParticle(particleID, transform.position, Quaternion.Euler(-90, 0, 0));
+    }
+
+    public void TogglePlayerUI(bool toggle)
+    {
+        ToggleUIElements.Instance.ToggleUI(toggle);
     }
 
     // Called when a player enters the interaction range
