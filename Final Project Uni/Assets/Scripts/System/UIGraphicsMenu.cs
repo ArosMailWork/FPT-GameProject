@@ -24,17 +24,7 @@ namespace PA
 
         private void Start()
         {
-            InitializeUI();
             LoadSettings();
-        }
-
-        private void InitializeUI()
-        {
-            fpsDropdown.onValueChanged.AddListener(DropdownFPSChanged);
-            vSyncToggle.onValueChanged.AddListener(OnVSyncToggled);
-            antiAliasingToggle.onValueChanged.AddListener(OnAntiAliasingToggled);
-            bloomToggle.onValueChanged.AddListener(OnBloomToggled);
-            backGraphicsSettingsButton.onClick.AddListener(OnBackGraphicsSettingsClicked);
         }
 
         private void LoadSettings()
@@ -45,27 +35,27 @@ namespace PA
             bloomToggle.isOn = settings.isBloomEnabled;
         }
 
-        private void OnBackGraphicsSettingsClicked()
+        public void OnBackGraphicsSettingsClicked()
         {
             mainMenu.GeneralClick(mainMenu.SettingsMenu.SettingsPanel, graphicsPanel);
         }
 
-        private void OnVSyncToggled(bool isOn)
+        public void OnVSyncToggled(bool isOn)
         {
             GameSettings.Instance.isVSyncEnabled = isOn;
         }
 
-        private void OnAntiAliasingToggled(bool isOn)
+        public void OnAntiAliasingToggled(bool isOn)
         {
             GameSettings.Instance.isAntiAliasingEnabled = isOn;
         }
 
-        private void OnBloomToggled(bool isOn)
+        public void OnBloomToggled(bool isOn)
         {
             GameSettings.Instance.isBloomEnabled = isOn;
         }
 
-        private void DropdownFPSChanged(int value)
+        public void DropdownFPSChanged(int value)
         {
             QualitySettings.SetFPS(value);
         }

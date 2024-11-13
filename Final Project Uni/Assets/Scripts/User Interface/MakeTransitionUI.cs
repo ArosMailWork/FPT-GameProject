@@ -44,7 +44,7 @@ public class MakeTransitionUI : MonoBehaviour
     public float transitionSpeed = 2000f;
     public float screenEdgeOffset = 100f; // Thêm offset để slider đi ra ngoài màn hình
     public float duration;
-    private bool toggle = false;
+    public bool toggle = false;
     public bool isNormalTransition;
     public async void MakeTransition()
     {

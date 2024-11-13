@@ -24,16 +24,9 @@ namespace PA
 
         private void Start()
         {
-            InitializeUI();
             LoadSettings();
         }
 
-        private void InitializeUI()
-        {
-            musicVolumeSlider.onValueChanged.AddListener(OnMusicVolumeChanged);
-            sfxVolumeSlider.onValueChanged.AddListener(OnSFXVolumeChanged);
-            backSoundSettingsButton.onClick.AddListener(OnBackSoundSettingsClicked);
-        }
 
         private void LoadSettings()
         {
@@ -42,19 +35,19 @@ namespace PA
             sfxVolumeSlider.value = settings.sfxVolume;
         }
 
-        private void OnBackSoundSettingsClicked()
+        public void OnBackSoundSettingsClicked()
         {
             mainMenu.GeneralClick(mainMenu.SettingsMenu.SettingsPanel, soundPanel);
         }
 
-        private void OnMusicVolumeChanged(float value)
+        public void OnMusicVolumeChanged(float value)
         {
             GameSettings.Instance.musicVolume = value;
             SoundManager.Instance.SetMusicVolume(value);
             musicVolumeTextBG.text = value.ToString();
         }
 
-        private void OnSFXVolumeChanged(float value)
+        public void OnSFXVolumeChanged(float value)
         {
             GameSettings.Instance.sfxVolume = value;
             SoundManager.Instance.SetSFXVolume(value);

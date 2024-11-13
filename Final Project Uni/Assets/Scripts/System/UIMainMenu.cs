@@ -34,18 +34,6 @@ namespace PA
             }
         }
 
-        private void Start()
-        {
-            InitializeUI();
-        }
-
-        private void InitializeUI()
-        {
-            newGameButton.onClick.AddListener(OnNewGameClicked);
-            optionButton.onClick.AddListener(OnSettingsClicked);
-            quitGameButton.onClick.AddListener(OnQuitClicked);
-        }
-
         public void GeneralClick(GameObject newChild, GameObject oldChild)
         {
             newChild.SetActive(true);

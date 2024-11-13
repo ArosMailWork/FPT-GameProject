@@ -19,29 +19,17 @@ namespace PA
             makeTransitionUI = mainMenu.makeTransitionUI;
         }
 
-        private void Start()
-        {
-            InitializeUI();
-        }
-
-        private void InitializeUI()
-        {
-            backSettingsMenuButton.onClick.AddListener(OnBackSettingsClicked);
-            graphicsPanelButton.onClick.AddListener(OnGraphicsPanelClicked);
-            soundPanelButton.onClick.AddListener(OnSoundPanelClicked);
-        }
-
-        private void OnBackSettingsClicked()
+        public void OnBackSettingsClicked()
         {
             mainMenu.GeneralClick(mainMenu.MainMenuPanel, settingsPanel);
         }
 
-        private void OnGraphicsPanelClicked()
+        public void OnGraphicsPanelClicked()
         {
             mainMenu.GeneralClick(mainMenu.GraphicsMenu.GraphicsPanel, settingsPanel);
         }
 
-        private void OnSoundPanelClicked()
+        public void OnSoundPanelClicked()
         {
             mainMenu.GeneralClick(mainMenu.SoundMenu.SoundPanel, settingsPanel);
         }
