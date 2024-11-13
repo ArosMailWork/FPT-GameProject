@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.010939782, g: 0.003536607, b: 0.08848828, a: 1}
+  m_IndirectSpecularColor: {r: 0.010756945, g: 0.0033852775, b: 0.08828975, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -10000,17 +10000,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 350492297}
   m_Mesh: {fileID: 8656641049051232401, guid: 6869b781bfa7caf42b9cf219b4fc2d65, type: 3}
---- !u!114 &360964283 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 127881432047217581, guid: 5e498d9b5d8b1fc42b581a609e66abb4, type: 3}
-  m_PrefabInstance: {fileID: 8505688993151933848}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &362674185 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2391592622866982656, guid: 9fc078659e4c7284cb81288abbc31998, type: 3}
@@ -15449,6 +15438,7 @@ GameObject:
   m_Component:
   - component: {fileID: 694133094}
   - component: {fileID: 694133095}
+  - component: {fileID: 694133096}
   m_Layer: 5
   m_Name: Sound Panel
   m_TagString: Untagged
@@ -15505,6 +15495,24 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &694133096
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 694133093}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdd2e3046ea999a469715b7f3a2a8ca3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundPanel: {fileID: 694133093}
+  musicVolumeSlider: {fileID: 882387831}
+  musicVolumeTextBG: {fileID: 1852436761}
+  sfxVolumeSlider: {fileID: 1952269225}
+  musicVolumeTextSFX: {fileID: 861143740}
+  backSoundSettingsButton: {fileID: 1626821935}
 --- !u!1001 &699745831
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17531,6 +17539,17 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 860604817}
   m_Mesh: {fileID: 1137299953661961149, guid: 6869b781bfa7caf42b9cf219b4fc2d65, type: 3}
+--- !u!114 &861143740 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 312620555280811097, guid: 5e498d9b5d8b1fc42b581a609e66abb4, type: 3}
+  m_PrefabInstance: {fileID: 218630072}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &861370340
 GameObject:
   m_ObjectHideFlags: 0
@@ -26732,6 +26751,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1506752190}
+  - component: {fileID: 1506752196}
   - component: {fileID: 1506752193}
   - component: {fileID: 1506752192}
   - component: {fileID: 1506752191}
@@ -26951,6 +26971,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ee314c274497b34e909e848d9256b80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1506752196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1506752189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1f9ce77c64be0744b866b07813f0539, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  settingsPanel: {fileID: 1506752189}
+  graphicsPanelButton: {fileID: 1254288249}
+  soundPanelButton: {fileID: 461273243}
+  backSettingsMenuButton: {fileID: 750515785}
 --- !u!4 &1507157801 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3736146156699845347, guid: 2d16901f418cd7b40ace1a4d69970310, type: 3}
@@ -36111,6 +36147,17 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1848680689}
   m_Mesh: {fileID: -7523700912054182646, guid: 6869b781bfa7caf42b9cf219b4fc2d65, type: 3}
+--- !u!114 &1852436761 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 312620555280811097, guid: 5e498d9b5d8b1fc42b581a609e66abb4, type: 3}
+  m_PrefabInstance: {fileID: 8505688993151933848}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1852766289 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4358876289065421827, guid: 3d5f5603ab9d291468c77d20b04274ab, type: 3}
@@ -36126,6 +36173,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1854076542}
   - component: {fileID: 1854076544}
+  - component: {fileID: 1854076545}
   m_Layer: 5
   m_Name: Graphic Panel
   m_TagString: Untagged
@@ -36184,6 +36232,25 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &1854076545
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1854076541}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee55314cbcd3ac34cae5bb49744edbf7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  graphicsPanel: {fileID: 1854076541}
+  fpsDropdown: {fileID: 673217493}
+  vSyncToggle: {fileID: 1617385045}
+  antiAliasingToggle: {fileID: 1319594292}
+  shadowsToggle: {fileID: 0}
+  bloomToggle: {fileID: 1009155774}
+  backGraphicsSettingsButton: {fileID: 1702651258}
 --- !u!4 &1859888450 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5483775784268199159, guid: 2be5c9dd55e8dfd4c9088cfe76995af7, type: 3}
@@ -37175,17 +37242,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7ca820039f17aac4797a28402c7d1e7a, type: 3}
---- !u!114 &1968029305 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 127881432047217581, guid: 5e498d9b5d8b1fc42b581a609e66abb4, type: 3}
-  m_PrefabInstance: {fileID: 218630072}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1970178320
 GameObject:
   m_ObjectHideFlags: 0
@@ -38771,28 +38827,10 @@ MonoBehaviour:
   newGameButton: {fileID: 1103381890}
   optionButton: {fileID: 443255062}
   quitGameButton: {fileID: 1309307773}
-  settingsMenuPanel: {fileID: 486721855}
-  settingsPanel: {fileID: 1506752189}
-  graphicsPanelButton: {fileID: 1254288249}
-  soundPanelButton: {fileID: 461273243}
-  backSettingsMenuButton: {fileID: 750515785}
-  graphicsPanel: {fileID: 1854076541}
-  soundPanel: {fileID: 694133093}
-  fpsDropdown: {fileID: 673217493}
-  graphicsQualityDropdown: {fileID: 0}
-  vSyncToggle: {fileID: 1617385045}
-  antiAliasingToggle: {fileID: 1319594292}
-  shadowsToggle: {fileID: 0}
-  bloomToggle: {fileID: 1009155774}
-  backGraphicsSettingsButton: {fileID: 1702651258}
-  musicVolumeSlider: {fileID: 882387831}
-  musicVolumeTextBG: {fileID: 360964283}
-  sfxVolumeSlider: {fileID: 1952269225}
-  musicVolumeTextSFX: {fileID: 1968029305}
-  musicToggle: {fileID: 0}
-  sfxToggle: {fileID: 0}
-  backSoundSettingsButton: {fileID: 1626821935}
   makeTransitionUI: {fileID: 1865522869}
+  settingsMenu: {fileID: 1506752196}
+  graphicsMenu: {fileID: 1854076545}
+  soundMenu: {fileID: 694133096}
 --- !u!114 &2075254713
 MonoBehaviour:
   m_ObjectHideFlags: 0
