@@ -148,7 +148,7 @@
 
         // Call this command whenever player passes a floor
         [Button("Confirm Reward")]
-        public void ConfirmReward()
+        public void SaveClaimReward()
         {
             // Create a PlayerDataSave object to save isUnlocked states and inventory
             var saveData = new PlayerDataSave();
@@ -198,6 +198,14 @@
 
             // Save the updated Soul value
             PlayerDataCRUD.SavePermanentStats(permaStats);
+
+            ResetRewardList();
+        }
+
+        void ResetRewardList()
+        {
+            SoulCollected = 0;
+            KnowledgeLevel = 0;
         }
 
         // Call this when you intend to do something with shopping, etc.

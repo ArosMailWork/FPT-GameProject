@@ -46,7 +46,7 @@ public class ExpeditionManager : MonoBehaviour
     [Button]
     public void ExitFloor()
     {
-        PlayerController.Instance._playerData.ConfirmReward();
+        PlayerController.Instance._playerData.SaveClaimReward();
         if (currentFloorNumber + 1 < floors.Count)
         {
             CheckEvent();
