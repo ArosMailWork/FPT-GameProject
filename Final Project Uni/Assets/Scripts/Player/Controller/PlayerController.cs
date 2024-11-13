@@ -465,6 +465,14 @@ public class PlayerController : MonoBehaviour
         PlayerHealth.isAlive = false;
     }
 
+    public void Revive(int InstantHP = 1, int RegenHP = 4)
+    {
+        _playerAnimController.DieAnim(false);
+        PlayerHealth.Heal(InstantHP);
+        PlayerHealth.HealOverTime(RegenHP, 4);
+        PlayerHealth.isAlive = true;
+    }
+
     public
 
     #endregion

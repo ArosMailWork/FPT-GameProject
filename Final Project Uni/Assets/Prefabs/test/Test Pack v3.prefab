@@ -418,6 +418,7 @@ MonoBehaviour:
   BossDefeated: 0
   ChestOpened: 0
   ItemCollected: 0
+  RoomDiscovered: 0
 --- !u!1 &198933028673479354
 GameObject:
   m_ObjectHideFlags: 0
@@ -66904,7 +66905,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 925de5fe77c973a44aafe55bd7a142de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  holdDuration: 2
+  holdDuration: 1
   onLongPress:
     m_PersistentCalls:
       m_Calls:
@@ -67520,6 +67521,7 @@ MonoBehaviour:
   currentActiveSkill: 0
   activeSkill: {fileID: 0}
   currentSkill: {fileID: 0}
+  SoulRecover: 20
   _pc: {fileID: 1766675483051995058}
   StartSkill:
   - {fileID: 5543831279937719370, guid: 20bdd0b78e71ad54ba10b0d3a3e11e0a, type: 3}
@@ -100499,12 +100501,12 @@ MonoBehaviour:
   rb: {fileID: 0}
   type: 1
   validTargets: 02000000
-  BaseDamage: 4
+  BaseDamage: 1
   DamageMultiplier: 1
   MirageMultiplier: 1
   DotTime: 0
   doKnockback: 1
-  KnockForce: 500
+  KnockForce: 400
   hitEvent:
     m_PersistentCalls:
       m_Calls:
@@ -113126,7 +113128,7 @@ MonoBehaviour:
   defaultStaminaRollCost: 20
   defaultRicochetFriction: 0
   defaultRecallSpeed: 40
-  defaultDamage: 2
+  defaultDamage: 4
   defaultDrag: 0
   defaultMass: 0
   permaHP_UpAmount: 0
@@ -129879,6 +129881,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7493454146118536273, guid: 22d1f40c7a6923c4795cef5c54aef404, type: 3}
+      propertyPath: m_UpdateMode
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 8323900738938993219, guid: 22d1f40c7a6923c4795cef5c54aef404, type: 3}
       propertyPath: Gameplay
       value: 
@@ -130041,6 +130047,78 @@ PrefabInstance:
     - target: {fileID: 3586384449932917246, guid: 3a140b31cdd80204580276d4562e951e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3586384449932917247, guid: 3a140b31cdd80204580276d4562e951e, type: 3}
+      propertyPath: States.Array.data[7].Progress
+      value: 55
+      objectReference: {fileID: 0}
+    - target: {fileID: 3586384449932917247, guid: 3a140b31cdd80204580276d4562e951e, type: 3}
+      propertyPath: States.Array.data[8].Progress
+      value: 54
+      objectReference: {fileID: 0}
+    - target: {fileID: 3586384449932917247, guid: 3a140b31cdd80204580276d4562e951e, type: 3}
+      propertyPath: States.Array.data[9].Progress
+      value: 53
+      objectReference: {fileID: 0}
+    - target: {fileID: 3586384449932917247, guid: 3a140b31cdd80204580276d4562e951e, type: 3}
+      propertyPath: States.Array.data[10].Progress
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3586384449932917247, guid: 3a140b31cdd80204580276d4562e951e, type: 3}
+      propertyPath: AchievementList.Array.data[2].Key
+      value: Trailblazer
+      objectReference: {fileID: 0}
+    - target: {fileID: 3586384449932917247, guid: 3a140b31cdd80204580276d4562e951e, type: 3}
+      propertyPath: AchievementList.Array.data[3].Key
+      value: No Pain No Gain
+      objectReference: {fileID: 0}
+    - target: {fileID: 3586384449932917247, guid: 3a140b31cdd80204580276d4562e951e, type: 3}
+      propertyPath: States.Array.data[7].LastProgressUpdate
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 3586384449932917247, guid: 3a140b31cdd80204580276d4562e951e, type: 3}
+      propertyPath: AchievementList.Array.data[2].Description
+      value: What u searching ? a Firefly ?
+      objectReference: {fileID: 0}
+    - target: {fileID: 3586384449932917247, guid: 3a140b31cdd80204580276d4562e951e, type: 3}
+      propertyPath: AchievementList.Array.data[2].DisplayName
+      value: Trailblazer
+      objectReference: {fileID: 0}
+    - target: {fileID: 3586384449932917247, guid: 3a140b31cdd80204580276d4562e951e, type: 3}
+      propertyPath: AchievementList.Array.data[2].Progression
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3586384449932917247, guid: 3a140b31cdd80204580276d4562e951e, type: 3}
+      propertyPath: AchievementList.Array.data[3].Description
+      value: First Time ?
+      objectReference: {fileID: 0}
+    - target: {fileID: 3586384449932917247, guid: 3a140b31cdd80204580276d4562e951e, type: 3}
+      propertyPath: AchievementList.Array.data[3].DisplayName
+      value: No Pain No Gain
+      objectReference: {fileID: 0}
+    - target: {fileID: 3586384449932917247, guid: 3a140b31cdd80204580276d4562e951e, type: 3}
+      propertyPath: AchievementList.Array.data[3].Progression
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3586384449932917247, guid: 3a140b31cdd80204580276d4562e951e, type: 3}
+      propertyPath: AchievementList.Array.data[2].ProgressGoal
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 3586384449932917247, guid: 3a140b31cdd80204580276d4562e951e, type: 3}
+      propertyPath: AchievementList.Array.data[4].ProgressGoal
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 3586384449932917247, guid: 3a140b31cdd80204580276d4562e951e, type: 3}
+      propertyPath: AchievementList.Array.data[2].ProgressSuffix
+      value: Rooms Enter
+      objectReference: {fileID: 0}
+    - target: {fileID: 3586384449932917247, guid: 3a140b31cdd80204580276d4562e951e, type: 3}
+      propertyPath: AchievementList.Array.data[4].ProgressSuffix
+      value: Sign Broken
+      objectReference: {fileID: 0}
+    - target: {fileID: 3586384449932917247, guid: 3a140b31cdd80204580276d4562e951e, type: 3}
+      propertyPath: AchievementList.Array.data[2].NotificationFrequency
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 3663927468270663735, guid: 3a140b31cdd80204580276d4562e951e, type: 3}
       propertyPath: m_SizeDelta.x

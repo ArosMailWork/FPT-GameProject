@@ -68,7 +68,7 @@ public class CraftingTable : MonoBehaviour
         Instantiate(recipe.Recipe.output, CraftedItemPlacement.position, Quaternion.identity);
 
         // Save the updated inventory to maintain persistence
-        _playerData.ConfirmReward();
+        _playerData.SaveClaimReward();
         
         Debug.Log($"Crafted {recipe.Recipe.output.name} successfully!");
     }

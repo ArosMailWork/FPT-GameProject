@@ -26,6 +26,8 @@ public class SkillHolder : MonoBehaviour
     [FoldoutGroup("Current Active Skill")]
     [ReadOnly] public ISkill currentSkill;
 
+    [FoldoutGroup("Setup")] 
+    public float SoulRecover = 20;
     [FoldoutGroup("Setup")]
     public PlayerController _pc;
     [FoldoutGroup("Setup")]
@@ -82,15 +84,25 @@ public class SkillHolder : MonoBehaviour
     [Button]
     public void AddSkill(GameObject skillPrefab)
     {
+        ISkill skillComponent = skillPrefab.GetComponent<ISkill>();
+        string skillName = skillComponent.name;
+
+        // Check if the skill already exists
+        if (SkillIDList.Contains(skillName))
+        {
+            PlayerController.Instance._playerData.SoulCollected += SoulRecover;
+            Debug.Log("Skill already exists: " + skillName);
+            return;
+        }
+
+        // Instantiate the skill and set it up
         GameObject skillInstance = Instantiate(skillPrefab);
         skillInstance.transform.SetParent(this.transform);
         skillInstance.transform.localPosition = Vector3.zero;
         skillInstance.transform.localRotation = Quaternion.identity;
 
-        ISkill skillComponent = skillInstance.GetComponent<ISkill>();
         skillComponent.Assign(_pc);
-        
-        SkillIDList.Add(skillComponent.name);
+        SkillIDList.Add(skillName);  // Add to skill ID list to track uniqueness
 
         // Add the skill to the appropriate list based on its type
         if (skillComponent.type == SkillType.ACTIVE)
@@ -104,15 +116,15 @@ public class SkillHolder : MonoBehaviour
         }
 
         skillList.Add(skillInstance);  // Add all skills to the master list
-        //Debug.Log("Add " + skillComponent.type + " Skill: " + skillComponent.name);
 
+        // Update the switch button's active state if it exists
         if (SwitchButton != null)
         {
-            //Debug.Log(activeSkillList.Count);
-            SwitchButton.gameObject.SetActive((activeSkillList.Count > 1));
-            if(activeSkillList.Count == 1) SetActiveSkill(0);
+            SwitchButton.gameObject.SetActive(activeSkillList.Count > 1);
+            if (activeSkillList.Count == 1) SetActiveSkill(0);
         }
     }
+
     
     #endregion
 

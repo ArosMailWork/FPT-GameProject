@@ -34,7 +34,7 @@ public class Gachapon : MonoBehaviour
 
         // Deduct the cost and increment gacha count
         PlayerController.Instance._playerData.SoulCollected -= Cost;
-        PlayerController.Instance._playerData.ConfirmReward();
+        PlayerController.Instance._playerData.SaveClaimReward();
         GachaTime++;
 
         // Instantiate the gacha item at the specified position

@@ -17,6 +17,7 @@ public class UIContainer : MonoBehaviour
     void Start()
     {
         s = SkillChoose.GetComponent<SelectRandomSkillEvent>();
+        FadeAnimator.SetTrigger("FadeOut");
         //GameplayState();
     }
     public void GameplayState()

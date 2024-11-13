@@ -8,6 +8,7 @@ public class ExpeditionReport : MonoBehaviour
     public int BossDefeated = 0;
     public int ChestOpened = 0;
     public int ItemCollected = 0;
+    public int RoomDiscovered = 0;
     
     public static ExpeditionReport Instance;
     
@@ -24,5 +25,6 @@ public class ExpeditionReport : MonoBehaviour
         AchievementManager.instance.AddAchievementProgress("Monster Nightmare", EnemyDefeated);
         AchievementManager.instance.AddAchievementProgress("Overlord", BossDefeated);
         AchievementManager.instance.AddAchievementProgress("Chest Opener", ChestOpened);
+        AchievementManager.instance.AddAchievementProgress("Trailblazer", RoomDiscovered);
     }
 }
