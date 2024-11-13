@@ -175,7 +175,7 @@ GameObject:
   - component: {fileID: 4547386913242769852}
   m_Layer: 0
   m_Name: Slime Enemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -231,7 +231,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 578d66cbf8729184280e8826889dccef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  botAnimator: {fileID: 0}
+  botAnimator: {fileID: 150358200663625539}
 --- !u!114 &6204819800959030820
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -275,8 +275,8 @@ MonoBehaviour:
   UseMovementPrediction: 0
   MovementPredictionThreshold: 0
   MovementPredictionTime: 1
-  rg: {fileID: 0}
-  Health: {fileID: 0}
+  rg: {fileID: 4547386913242769852}
+  Health: {fileID: 1396993310854485460}
   gun:
   - {fileID: 4797008441739539393}
   _animController: {fileID: 2286137087644117827}
@@ -361,67 +361,75 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -5751844933641995695, guid: f688eaecc2cfc9f4dac43a13ff57140f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 89.9802
+      value: 87.892166
       objectReference: {fileID: 0}
     - target: {fileID: -5751844933641995695, guid: f688eaecc2cfc9f4dac43a13ff57140f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: -51.84
       objectReference: {fileID: 0}
     - target: {fileID: -5751844933641995695, guid: f688eaecc2cfc9f4dac43a13ff57140f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
+      value: -51.84
       objectReference: {fileID: 0}
     - target: {fileID: -2451521955120290549, guid: f688eaecc2cfc9f4dac43a13ff57140f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 9.927302
+      value: -8.644705
       objectReference: {fileID: 0}
     - target: {fileID: -2451521955120290549, guid: f688eaecc2cfc9f4dac43a13ff57140f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 5.916918
+      value: -0.6787983
       objectReference: {fileID: 0}
     - target: {fileID: -2451521955120290549, guid: f688eaecc2cfc9f4dac43a13ff57140f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 20.34885
+      value: -5.592965
       objectReference: {fileID: 0}
     - target: {fileID: 784128466317329057, guid: f688eaecc2cfc9f4dac43a13ff57140f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 9.9273
+      value: -8.644705
       objectReference: {fileID: 0}
     - target: {fileID: 784128466317329057, guid: f688eaecc2cfc9f4dac43a13ff57140f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: -5.9169154
+      value: 0.6787982
       objectReference: {fileID: 0}
     - target: {fileID: 784128466317329057, guid: f688eaecc2cfc9f4dac43a13ff57140f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: -20.348845
+      value: 5.5929637
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: f688eaecc2cfc9f4dac43a13ff57140f, type: 3}
       propertyPath: m_Name
       value: Slime
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: f688eaecc2cfc9f4dac43a13ff57140f, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: f688eaecc2cfc9f4dac43a13ff57140f, type: 3}
+      propertyPath: m_TagString
+      value: Enemy
+      objectReference: {fileID: 0}
     - target: {fileID: 953354984915967464, guid: f688eaecc2cfc9f4dac43a13ff57140f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 88.02393
+      value: 80.64816
       objectReference: {fileID: 0}
     - target: {fileID: 953354984915967464, guid: f688eaecc2cfc9f4dac43a13ff57140f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 180
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 953354984915967464, guid: f688eaecc2cfc9f4dac43a13ff57140f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 180
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7095695048174874824, guid: f688eaecc2cfc9f4dac43a13ff57140f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 8.348771
+      value: 1.161433e-10
       objectReference: {fileID: 0}
     - target: {fileID: 7095695048174874824, guid: f688eaecc2cfc9f4dac43a13ff57140f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: -0.013584313
+      value: -0.000000043992635
       objectReference: {fileID: 0}
     - target: {fileID: 7095695048174874824, guid: f688eaecc2cfc9f4dac43a13ff57140f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0.04871088
+      value: 0.30252868
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -448,6 +456,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f688eaecc2cfc9f4dac43a13ff57140f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 150358200663625539}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f688eaecc2cfc9f4dac43a13ff57140f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 278059431385917580}
   m_SourcePrefab: {fileID: 100100000, guid: f688eaecc2cfc9f4dac43a13ff57140f, type: 3}
 --- !u!1 &173631997640097808 stripped
 GameObject:
@@ -493,7 +504,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b47b45aa37e31814d9c8bada024063c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pivot: {fileID: 0}
+  pivot: {fileID: 2310506516792842958}
   PlaySoundEffect:
     m_PersistentCalls:
       m_Calls: []
@@ -523,7 +534,7 @@ MonoBehaviour:
   HpReduce:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 278059431385917580}
         m_TargetAssemblyTypeName: DamageFlash, Assembly-CSharp
         m_MethodName: DoDamageFlash
         m_Mode: 1
@@ -538,7 +549,7 @@ MonoBehaviour:
   OnDeath:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 6204819800959030820}
         m_TargetAssemblyTypeName: BotSM, Assembly-CSharp
         m_MethodName: GoDeath
         m_Mode: 1
@@ -553,7 +564,7 @@ MonoBehaviour:
   OnKnockback:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 3245896547608366198}
         m_TargetAssemblyTypeName: HitParticle, Assembly-CSharp
         m_MethodName: SpawnKnockbackParticle
         m_Mode: 0
@@ -565,7 +576,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 6204819800959030820}
         m_TargetAssemblyTypeName: BotSM, Assembly-CSharp
         m_MethodName: GoKnockback
         m_Mode: 0
@@ -827,9 +838,28 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &278059431385917580
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 173631997640097808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bfaa6d5a23f78649a1fe0693f79c3fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FlashMaterial: {fileID: 2100000, guid: 73a5375836121b8448283f5da0c9ddee, type: 2}
+  flashTime: 0.25
 --- !u!4 &658385146227628714 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: f688eaecc2cfc9f4dac43a13ff57140f, type: 3}
+  m_PrefabInstance: {fileID: 1056574256155458881}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &2310506516792842958 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -5856608199228102769, guid: f688eaecc2cfc9f4dac43a13ff57140f, type: 3}
   m_PrefabInstance: {fileID: 1056574256155458881}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &4978577153987507099 stripped
