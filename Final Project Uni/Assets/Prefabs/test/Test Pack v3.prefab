@@ -1886,7 +1886,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 61.005005, y: 34.695038}
+  m_AnchoredPosition: {x: 61.004944, y: 34.695007}
   m_SizeDelta: {x: 354.51, y: 354.51}
   m_Pivot: {x: 0, y: 0}
 --- !u!222 &634516113155066288
@@ -43198,7 +43198,7 @@ Transform:
   m_GameObject: {fileID: 3696407578007481472}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.9511644, z: -0.30868497, w: 0}
-  m_LocalPosition: {x: 0, y: 8.35, z: 8.999999}
+  m_LocalPosition: {x: 0, y: 8.35, z: -34.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -65984,6 +65984,81 @@ Transform:
   - {fileID: 4575601134359377193}
   m_Father: {fileID: 5510654461688011696}
   m_LocalEulerAnglesHint: {x: -11.30323, y: 36.92466, z: -179.99998}
+--- !u!1 &5234065030988567143
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8495409160839685446}
+  - component: {fileID: 6058229836348512831}
+  - component: {fileID: 7533129090967112828}
+  m_Layer: 5
+  m_Name: Cooldown
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &8495409160839685446
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5234065030988567143}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.88687, y: 0.88687, z: 0}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1193186658598167384}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: -2.9, y: 2.9}
+  m_SizeDelta: {x: 53.78369, y: 54.164307}
+  m_Pivot: {x: 1, y: 0}
+--- !u!222 &6058229836348512831
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5234065030988567143}
+  m_CullTransparentMesh: 1
+--- !u!114 &7533129090967112828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5234065030988567143}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 6ae12bd29e33a3d4e9768cb794bf361f, type: 3}
+  m_Type: 3
+  m_PreserveAspect: 1
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 0
+  m_FillClockwise: 0
+  m_FillOrigin: 2
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &5272323907777174227
 GameObject:
   m_ObjectHideFlags: 0
@@ -67513,6 +67588,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentCD: 0
+  coolDownUI: 0
   skillList: []
   passiveSkillList: []
   activeSkillList: []
@@ -67523,7 +67599,10 @@ MonoBehaviour:
   _pc: {fileID: 1766675483051995058}
   StartSkill:
   - {fileID: 5543831279937719370, guid: 20bdd0b78e71ad54ba10b0d3a3e11e0a, type: 3}
+  - {fileID: 3204633484197432600, guid: 29cbe985972cbc542be680de78ee308c, type: 3}
+  - {fileID: 3204633484197432600, guid: dc99a329f07cd784f98253277ff6f49d, type: 3}
   currentSkillUISprite: {fileID: 46930167723633426}
+  CDOverlay: {fileID: 7533129090967112828}
   SwitchButton: {fileID: 7848440257394057899}
 --- !u!1 &6033602241425422007
 GameObject:
@@ -67762,7 +67841,7 @@ Transform:
   m_GameObject: {fileID: 6085415222758916639}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.9511644, z: -0.30868497, w: 0}
-  m_LocalPosition: {x: 0, y: 8.35, z: 8.999999}
+  m_LocalPosition: {x: 0, y: 8.35, z: -34.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -101329,6 +101408,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 365632255387665742}
+  - {fileID: 8495409160839685446}
   m_Father: {fileID: 3816101195660023805}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
@@ -112864,12 +112944,12 @@ GameObject:
   - component: {fileID: 2848056552572840065}
   - component: {fileID: 3080013085032493919}
   - component: {fileID: 1827056334233658948}
-  - component: {fileID: 1388413037981834033}
   - component: {fileID: 821813476702798318}
-  - component: {fileID: 585268556335021191}
-  - component: {fileID: 1766675483051995058}
-  - component: {fileID: 3065971099060943978}
   - component: {fileID: 5833515457251910645}
+  - component: {fileID: 1388413037981834033}
+  - component: {fileID: 1766675483051995058}
+  - component: {fileID: 585268556335021191}
+  - component: {fileID: 3065971099060943978}
   - component: {fileID: 8993129277533770346}
   - component: {fileID: 1788685529072977768}
   - component: {fileID: 4661537032941486174}
@@ -112890,7 +112970,7 @@ Transform:
   m_GameObject: {fileID: 8778054791344151268}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -43.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -113097,63 +113177,6 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!114 &1388413037981834033
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8778054791344151268}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1cc781438c7f9624498514cb6e73fc9e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerSoul: 0
-  knowledgeLevel: 0
-  defaultMaxHealth: 10
-  defaultSpeed: 0.7
-  defaultRotationSpeed: 25
-  defaultMaxSpeed: 20
-  defaultRollSpeed: 13
-  defaultRollCD: 0.6
-  defaultRollTime: 0.25
-  defaultControlRollDirect: 0.4
-  defaultChargedTime: 2
-  defaultGuardTime: 2
-  defaultMaxStamina: 100
-  defaultRegenRate: 10
-  defaultStaminaRollCost: 20
-  defaultRicochetFriction: 0
-  defaultRecallSpeed: 40
-  defaultDamage: 2
-  defaultDrag: 0
-  defaultMass: 0
-  permaHP_UpAmount: 0
-  permaSpeed_UpAmount: 0
-  permaDamage_UpAmount: 0
-  permaStamina_UpAmount: 0
-  PermaHP_Percent: 1
-  PermaSpeed_Percent: 1
-  PermaDamage_Percent: 1
-  PermaStamina_Percent: 1
-  PermaStaminaRegen_Percent: 1
-  bonusSpeed: 0
-  bonusHealth: 0
-  bonusRotationSpeed: 0
-  bonusMaxSpeed: 0
-  bonusRollCD: 0
-  bonusRollTime: 0
-  bonusControlRollDirect: 0
-  bonusMaxStamina: 0
-  bonusRegenRate: 0
-  bonusStaminaRollCost: 0
-  bonusChargedTime: 0
-  bonusRicochetMultiplier: 0
-  bonusDamage: 1
-  bonusRecallSpeed: 0
-  bonusDamageMultiplier: 0
-  _pc: {fileID: 0}
 --- !u!114 &821813476702798318
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -113273,7 +113296,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   isAlive: 1
---- !u!114 &585268556335021191
+--- !u!114 &5833515457251910645
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -113282,13 +113305,73 @@ MonoBehaviour:
   m_GameObject: {fileID: 8778054791344151268}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 398bb7f1c4a3a364eb8235f22a989327, type: 3}
+  m_Script: {fileID: 11500000, guid: 9ce338a6b65e03049a11a4ca10c24469, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerAnimator: {fileID: 6243395569525662344}
-  bowPivotAnimator: {fileID: 378445488537681525}
-  bowAnimator: {fileID: 1385410100420358400}
-  isDrawed: 0
+  MaxStamina: 100
+  RegenRate: 10
+  currentValue: 0
+  fulled: 0
+  isRegen: 0
+  canRegen: 1
+  StatUI: {fileID: 7820128342638310007}
+--- !u!114 &1388413037981834033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8778054791344151268}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1cc781438c7f9624498514cb6e73fc9e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerSoul: 0
+  knowledgeLevel: 0
+  defaultMaxHealth: 10
+  defaultSpeed: 0.7
+  defaultRotationSpeed: 25
+  defaultMaxSpeed: 20
+  defaultRollSpeed: 13
+  defaultRollCD: 0.6
+  defaultRollTime: 0.25
+  defaultControlRollDirect: 0.4
+  defaultChargedTime: 2
+  defaultGuardTime: 2
+  defaultMaxStamina: 100
+  defaultRegenRate: 10
+  defaultStaminaRollCost: 20
+  defaultRicochetFriction: 0
+  defaultRecallSpeed: 40
+  defaultDamage: 2
+  defaultDrag: 0
+  defaultMass: 0
+  permaHP_UpAmount: 0
+  permaSpeed_UpAmount: 0
+  permaDamage_UpAmount: 0
+  permaStamina_UpAmount: 0
+  PermaHP_Percent: 1
+  PermaSpeed_Percent: 1
+  PermaDamage_Percent: 1
+  PermaStamina_Percent: 1
+  PermaStaminaRegen_Percent: 1
+  bonusSpeed: 0
+  bonusHealth: 0
+  bonusRotationSpeed: 0
+  bonusMaxSpeed: 0
+  bonusRollCD: 0
+  bonusRollTime: 0
+  bonusControlRollDirect: 0
+  bonusMaxStamina: 0
+  bonusRegenRate: 0
+  bonusStaminaRollCost: 0
+  bonusChargedTime: 0
+  bonusRicochetMultiplier: 0
+  bonusDamage: 1
+  bonusRecallSpeed: 0
+  bonusDamageMultiplier: 0
+  _pc: {fileID: 0}
 --- !u!114 &1766675483051995058
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -113329,6 +113412,22 @@ MonoBehaviour:
   staminaSystem: {fileID: 5833515457251910645}
   _playerData: {fileID: 4095507687245354997}
   _stats: {fileID: 1388413037981834033}
+--- !u!114 &585268556335021191
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8778054791344151268}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 398bb7f1c4a3a364eb8235f22a989327, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerAnimator: {fileID: 6243395569525662344}
+  bowPivotAnimator: {fileID: 378445488537681525}
+  bowAnimator: {fileID: 1385410100420358400}
+  isDrawed: 0
 --- !u!114 &3065971099060943978
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -113391,25 +113490,6 @@ MonoBehaviour:
   RecallSprite: {fileID: 21300000, guid: 91445a1eeea4b9b449c2a9358431cd82, type: 3}
   IsSplitShot: 0
   IsPreciseArcher: 0
---- !u!114 &5833515457251910645
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8778054791344151268}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ce338a6b65e03049a11a4ca10c24469, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MaxStamina: 100
-  RegenRate: 10
-  currentValue: 0
-  fulled: 0
-  isRegen: 0
-  canRegen: 1
-  StatUI: {fileID: 7820128342638310007}
 --- !u!114 &8993129277533770346
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -130041,6 +130121,46 @@ PrefabInstance:
     - target: {fileID: 3586384449932917246, guid: 3a140b31cdd80204580276d4562e951e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3586384449932917247, guid: 3a140b31cdd80204580276d4562e951e, type: 3}
+      propertyPath: States.Array.data[7].Progress
+      value: 27
+      objectReference: {fileID: 0}
+    - target: {fileID: 3586384449932917247, guid: 3a140b31cdd80204580276d4562e951e, type: 3}
+      propertyPath: States.Array.data[8].Progress
+      value: 26
+      objectReference: {fileID: 0}
+    - target: {fileID: 3586384449932917247, guid: 3a140b31cdd80204580276d4562e951e, type: 3}
+      propertyPath: States.Array.data[9].Progress
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 3586384449932917247, guid: 3a140b31cdd80204580276d4562e951e, type: 3}
+      propertyPath: AchievementList.Array.data[7].Key
+      value: MonsterHunter
+      objectReference: {fileID: 0}
+    - target: {fileID: 3586384449932917247, guid: 3a140b31cdd80204580276d4562e951e, type: 3}
+      propertyPath: AchievementList.Array.data[8].Key
+      value: MonsterSlayer
+      objectReference: {fileID: 0}
+    - target: {fileID: 3586384449932917247, guid: 3a140b31cdd80204580276d4562e951e, type: 3}
+      propertyPath: AchievementList.Array.data[9].Key
+      value: MonsterNightmare
+      objectReference: {fileID: 0}
+    - target: {fileID: 3586384449932917247, guid: 3a140b31cdd80204580276d4562e951e, type: 3}
+      propertyPath: States.Array.data[7].LastProgressUpdate
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3586384449932917247, guid: 3a140b31cdd80204580276d4562e951e, type: 3}
+      propertyPath: AchievementList.Array.data[8].NotificationFrequency
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 3586384449932917247, guid: 3a140b31cdd80204580276d4562e951e, type: 3}
+      propertyPath: AchievementList.Array.data[9].NotificationFrequency
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 3586384449932917247, guid: 3a140b31cdd80204580276d4562e951e, type: 3}
+      propertyPath: AchievementList.Array.data[10].NotificationFrequency
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3663927468270663735, guid: 3a140b31cdd80204580276d4562e951e, type: 3}
       propertyPath: m_SizeDelta.x

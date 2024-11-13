@@ -9,6 +9,7 @@ using UnityEngine.UI;
 public class SkillHolder : MonoBehaviour
 {
     [ReadOnly] public float currentCD;
+    [ReadOnly] public float coolDownUI; // This will store the cooldown progress (0 to 1)
 
     [FoldoutGroup("Skill List")]
     public List<GameObject> skillList = new List<GameObject>();
@@ -31,7 +32,7 @@ public class SkillHolder : MonoBehaviour
     [FoldoutGroup("Setup")]
     public List<GameObject> StartSkill;
     [FoldoutGroup("Setup")] 
-    public Image currentSkillUISprite;
+    public Image currentSkillUISprite, CDOverlay;
     [FoldoutGroup("Setup")] 
     [CanBeNull] public Button SwitchButton;
 
@@ -50,6 +51,11 @@ public class SkillHolder : MonoBehaviour
         // Set the initial active skill from the ActiveSkillList
         SetActiveSkill(currentActiveSkill);
     }
+    
+    void Update()
+    {
+        UpdateCooldownUI();
+    }
 
     [Button]
     void SetActiveSkill(int slot)
@@ -60,6 +66,10 @@ public class SkillHolder : MonoBehaviour
             activeSkill = activeSkillList[slot];
             currentSkill = activeSkill.GetComponent<ISkill>();
             currentSkillUISprite.sprite = currentSkill.Icon;
+            
+            // Set initial cooldown values
+            currentCD = currentSkill.currentCD;
+            coolDownUI = (currentSkill.Cooldown > 0) ? Mathf.Clamp01(currentSkill.currentCD / currentSkill.Cooldown) : 0;
         }
     }
 
@@ -149,6 +159,19 @@ public class SkillHolder : MonoBehaviour
     public void TimerAdd(float addTime)
     {
         currentCD += addTime;
+    }
+    
+    private void UpdateCooldownUI()
+    {
+        if (currentSkill == null) return;
+
+        // Update current cooldown and calculate cooldown percentage (0 to 1)
+        currentCD = currentSkill.currentCD;
+        coolDownUI = (currentSkill.Cooldown > 0) ? Mathf.Clamp01(currentSkill.currentCD / currentSkill.Cooldown) : 0;
+
+        // update the UI image or any other visual indicator using coolDownUI here
+        if(CDOverlay != null)
+        CDOverlay.fillAmount = coolDownUI;
     }
     #endregion
 }

@@ -219,16 +219,14 @@ public class ArrowController : MonoBehaviour
         if (arrow.currentArrowState == ArrowState.Shooting)
         {
             RecallBuffer = true;
-            return;
+            //return;
         }
 
         if (isRecalling)
         {
             RecallBuffer = false;
             
-            
-            //cant call while shooting
-            if (arrow.currentArrowState != ArrowState.Shooting)
+            //if (arrow.currentArrowState != ArrowState.Shooting)
             {
                 arrow.StartRecallEvent.Invoke();
                 
