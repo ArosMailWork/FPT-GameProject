@@ -1,6 +1,7 @@
 using System;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace PA
@@ -51,12 +52,10 @@ namespace PA
         }
 
         public async void OnNewGameClicked()
-        {
-            makeTransitionUI.isNormalTransition = true;
-            makeTransitionUI.MakeTransition();
-            
+        {           
+            makeTransitionUI.MakeFadeTransition();            
             await UniTask.Delay(TimeSpan.FromSeconds(makeTransitionUI.duration));
-            GameManager.Instance.StartNewGame();
+            SceneManager.LoadScene("Lobby");
             
             await UniTask.Delay(TimeSpan.FromSeconds(makeTransitionUI.duration));
             makeTransitionUI.fadeBlackImage.GetComponent<CanvasGroup>().alpha = 1;

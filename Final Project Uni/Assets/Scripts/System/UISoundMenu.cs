@@ -24,9 +24,15 @@ namespace PA
 
         private void Start()
         {
+            InitializeUI();
             LoadSettings();
         }
 
+        private void InitializeUI()
+        {
+            musicVolumeSlider.onValueChanged.AddListener(OnMusicVolumeChanged);
+            sfxVolumeSlider.onValueChanged.AddListener(OnSFXVolumeChanged);
+        }
 
         private void LoadSettings()
         {

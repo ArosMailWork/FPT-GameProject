@@ -42,16 +42,32 @@ public class MakeTransitionUI : MonoBehaviour
 
     public GameObject WipeSlider;
     public float transitionSpeed = 2000f;
-    public float screenEdgeOffset = 100f; // Thêm offset để slider đi ra ngoài màn hình
+    public float percentScreenEdgeOffset = 0.1f; // Thêm offset để slider đi ra ngoài màn hình
     public float duration;
     public bool toggle = false;
-    public bool isNormalTransition;
+    public Canvas mainCanvas;
+    private void SetUIInteractable(bool interactable)
+    {
+        if (mainCanvas != null)
+        {
+            CanvasGroup canvasGroup = mainCanvas.GetComponent<CanvasGroup>();
+            if (canvasGroup == null)
+            {
+                canvasGroup = mainCanvas.gameObject.AddComponent<CanvasGroup>();
+            }
+            canvasGroup.interactable = interactable;
+            canvasGroup.blocksRaycasts = interactable;
+        }
+    }
+
     public async void MakeTransition()
     {
+        // Disable UI interaction at start
+        SetUIInteractable(false);
+
         RectTransform wipeRect = WipeSlider.GetComponent<RectTransform>();
         float startX, targetX;
-        float halfScreenWidth = (Screen.width + screenEdgeOffset) / 2f; // Half screen width with offset
-       
+        float halfScreenWidth = mainCanvas.GetComponent<RectTransform>().rect.width * (1+percentScreenEdgeOffset) / 2f; // Half screen width with offset
         if (!toggle)
         {
             // Left to right
@@ -78,18 +94,38 @@ public class MakeTransitionUI : MonoBehaviour
             elapsedTime += Time.deltaTime;
             float t = elapsedTime / duration;
             float currentX = Mathf.Lerp(startX, targetX, t);
-            wipeRect.anchoredPosition = new Vector2(currentX, wipeRect.anchoredPosition.y);
-            if (elapsedTime >= 0.7f * duration && isNormalTransition)
-            {
-                float fadeProgress = (elapsedTime - 0.7f * duration) / (0.3f * duration);
-                fadeProgress = Mathf.Clamp01(fadeProgress);
-                fadeBlackImage.GetComponent<CanvasGroup>().alpha = fadeProgress;
-            }
+            wipeRect.anchoredPosition = new Vector2(currentX, wipeRect.anchoredPosition.y);          
             await UniTask.Yield();
         }
 
         wipeRect.anchoredPosition = new Vector2(targetX, wipeRect.anchoredPosition.y);
+        
+        // Re-enable UI interaction after transition
+        SetUIInteractable(true);
     }  
+
+    public async void MakeFadeTransition()
+    {
+        // Disable UI interaction at start
+        SetUIInteractable(false);
+
+        float elapsedTime = 0f;
+        CanvasGroup canvasGroup = fadeBlackImage.GetComponent<CanvasGroup>();
+
+        while (elapsedTime < duration)
+        {
+            elapsedTime += Time.deltaTime;
+            float fadeProgress = elapsedTime / duration;
+            fadeProgress = Mathf.Clamp01(fadeProgress);
+            canvasGroup.alpha = fadeProgress;
+            await UniTask.Yield();
+        }
+
+        canvasGroup.alpha = 1f;
+        
+        // Re-enable UI interaction after transition
+        SetUIInteractable(true);
+    }
     public GameObject fadeBlackImage;
 
 }
