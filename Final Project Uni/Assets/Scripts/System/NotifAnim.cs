@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
@@ -11,6 +13,14 @@ public class NotifAnim : MonoBehaviour
     public TMP_Text notifText;
     public Animator NotifTextAnimator;
 
+    public void FloorNotif()
+    {
+        Debug.Log("yay");
+        EditText(ExpeditionManager.Instance.currentFloorNumber++ + " - " + 
+                 ExpeditionManager.Instance.currentWorldNumber++);
+        Show(1);
+    }
+    
     public void Notif(string input)
     {
         EditText(input);
@@ -21,8 +31,9 @@ public class NotifAnim : MonoBehaviour
     {
         notifText.text = input;
     }
-    public void Show()
+    async UniTaskVoid Show(float timeDelay = 0)
     {
+        await UniTask.Delay(TimeSpan.FromSeconds(timeDelay));
         NotifTextAnimator.SetTrigger("Show");
     }
 }

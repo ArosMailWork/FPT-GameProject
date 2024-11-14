@@ -92,12 +92,12 @@ public class PlayerController : MonoBehaviour
     #region Unity Methods
     private void Awake()
     {
-        if (PlayerHealth == null) PlayerHealth = GetComponent<Health>();
-        PlayerRB = GetComponent<Rigidbody>();
-
         if (Instance != this || Instance != null) Destroy(Instance);
         Instance = this;
-
+        
+        if (PlayerHealth == null) PlayerHealth = GetComponent<Health>();
+        PlayerRB = GetComponent<Rigidbody>();
+        
         interactButton.gameObject.SetActive(false);
     }
 

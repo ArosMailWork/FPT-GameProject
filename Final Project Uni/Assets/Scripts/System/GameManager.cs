@@ -57,6 +57,7 @@ public class GameManager : MonoBehaviour
         Application.Quit();
 #endif
     }
+    
     #region SceneLogic
 
     IEnumerator LoadExpedition()
@@ -90,7 +91,6 @@ public class GameManager : MonoBehaviour
     #endregion
 
     #region Ults
-
 
     #endregion
 }

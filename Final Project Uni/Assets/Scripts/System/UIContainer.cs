@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,7 +10,7 @@ public class UIContainer : MonoBehaviour
 {
     public List<GameObject> Gameplay;
     public GameObject SkillChoose;
-    public GameObject Transition;
+    [CanBeNull] public GameObject Transition;
     public GameObject Inventory;
     public GameObject Fade;
     public Image FadeImage;
@@ -25,7 +26,7 @@ public class UIContainer : MonoBehaviour
     public void GameplayState()
     {
         SkillChoose.SetActive(false);
-        Transition.SetActive(false);
+        if(Transition != null) Transition.SetActive(false);
         Fade.SetActive(false);
         Inventory.SetActive(false);
 
@@ -53,7 +54,7 @@ public class UIContainer : MonoBehaviour
     }
     public void TransitionState()
     {
-        Transition.SetActive(true);
+        if(Transition != null) Transition.SetActive(true);
         foreach (var obj in Gameplay)
         {
             obj.SetActive(false);

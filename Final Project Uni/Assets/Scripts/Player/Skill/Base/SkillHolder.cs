@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -43,7 +45,14 @@ public class SkillHolder : MonoBehaviour
     void Start()
     {
         Instance = this;
-        
+        _pc = PlayerController.Instance;
+
+        InitStartSkill();
+    }
+
+    async UniTaskVoid InitStartSkill()
+    {
+        await UniTask.Delay(TimeSpan.FromSeconds(0.1f));
         // Instantiate and categorize skills based on their type
         foreach (GameObject skillPrefab in StartSkill)
         {
