@@ -9,6 +9,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     [CanBeNull] public GameObject Player;
+    [CanBeNull] public GameObject ManagerObj;
     [CanBeNull] public GenerationManager genManager;
     //Scene Address
     [FoldoutGroup("Scene Address")]
@@ -18,6 +19,7 @@ public class GameManager : MonoBehaviour
 
     [FoldoutGroup("Event")]
     public UnityEvent fadeInAnim, fadeOutAnim;
+    public UnityEvent<Color> changeColorTransition;
 
     public static GameManager Instance;
 
@@ -27,27 +29,12 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
             if(Player != null) DontDestroyOnLoad(Player);
-            if(genManager != null) DontDestroyOnLoad(genManager.gameObject);
-            DontDestroyOnLoad(gameObject);
+            if (ManagerObj != null) DontDestroyOnLoad(ManagerObj);
         }
         else
         {
             Destroy(gameObject);
         }
-    }
-
-    private void Start()
-    {
-        InitializeGame();
-    }
-
-    private void InitializeGame()
-    {
-        // Initialize game systems here
-        // For example:
-        // LoadPlayerData();
-        // SetupAudio();
-        // InitializeUI();
     }
 
     public void StartNewGame()
@@ -59,11 +46,6 @@ public class GameManager : MonoBehaviour
     public void LoadGame()
     {
         // Logic for loading a saved game
-    }
-
-    public void SaveGame()
-    {
-        // Logic for saving the game
     }
 
     public void QuitGame()
@@ -85,7 +67,6 @@ public class GameManager : MonoBehaviour
         genManager.gameObject.SetActive(true);
         yield return new WaitForSeconds(0.5f);
         fadeOutAnim.Invoke();
-
     }
     IEnumerator LoadLobby()
     {
@@ -108,5 +89,8 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
+    #region Ults
 
+
+    #endregion
 }

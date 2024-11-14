@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -45,6 +46,21 @@ public class ExpeditionManager : MonoBehaviour
     //setup number pre-event to prepare for next floor load
     [Button]
     public void ExitFloor()
+    {
+        LoadFloor();
+    }
+    
+    IEnumerator LoadFloor()
+    {
+        GameManager.Instance.fadeInAnim.Invoke();
+        yield return new WaitForSeconds(1);
+        doExitFloor();
+        yield return new WaitForSeconds(0.5f);
+        GameManager.Instance.fadeOutAnim.Invoke();
+    }
+
+    
+    void doExitFloor()
     {
         PlayerController.Instance._playerData.SaveClaimReward();
         if (currentFloorNumber + 1 < floors.Count)

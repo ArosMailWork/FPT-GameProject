@@ -51,6 +51,8 @@ public class PlayerController : MonoBehaviour
     public DialogUI dialogUI;
     [FoldoutGroup("Setup/UI")] 
     public Button interactButton;
+    [FoldoutGroup("Setup/UI")] 
+    [CanBeNull] public NotifAnim notif;
     [FoldoutGroup("Setup")]
     public Rigidbody PlayerRB;
     [FoldoutGroup("Setup")]

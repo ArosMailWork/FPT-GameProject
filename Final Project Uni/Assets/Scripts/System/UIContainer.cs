@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIContainer : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class UIContainer : MonoBehaviour
     public GameObject Transition;
     public GameObject Inventory;
     public GameObject Fade;
+    public Image FadeImage;
     public SelectRandomSkillEvent s;
     public Animator FadeAnimator;
 
@@ -65,6 +67,16 @@ public class UIContainer : MonoBehaviour
             obj.SetActive(false);
         }
     }
+
+    public void SetColorFade(Color color = default)
+    {
+        if (color == default) color = Color.black; // Set default to black if not provided
+    
+        Color currentColor = FadeImage.color;
+        FadeImage.color = new Color(color.r, color.g, color.b, currentColor.a);
+    }
+
+
 
     IEnumerator FadeInAnimation()
     {

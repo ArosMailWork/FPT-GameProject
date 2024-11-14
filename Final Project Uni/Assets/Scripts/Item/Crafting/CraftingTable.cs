@@ -6,8 +6,15 @@ using UnityEngine;
 public class CraftingTable : MonoBehaviour
 {
     public Transform CraftedItemPlacement;
+    public CraftingTableUI craftingTableUI;
 
     PlayerData _playerData;
+
+    private void Awake()
+    {
+        if(craftingTableUI != null)
+        craftingTableUI.craftingTable = this;
+    }
 
     private void Start()
     {
