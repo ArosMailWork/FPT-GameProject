@@ -1,7 +1,7 @@
 using UnityEngine;
 using TMPro;
 
-public class Timer : MonoBehaviour
+public class SpeedrunTimer : MonoBehaviour
 {
     // Reference to the TextMeshPro component
     public TextMeshProUGUI timerText;

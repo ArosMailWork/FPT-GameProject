@@ -120,7 +120,7 @@ public class SkillHolder : MonoBehaviour
         skillInstance.transform.localPosition = Vector3.zero;
         skillInstance.transform.localRotation = Quaternion.identity;
 
-        skillComponent.Assign(_pc);
+        skillComponent.Assign();
         SkillIDList.Add(skillName);  // Add to skill ID list to track uniqueness
 
         // Add the skill to the appropriate list based on its type
