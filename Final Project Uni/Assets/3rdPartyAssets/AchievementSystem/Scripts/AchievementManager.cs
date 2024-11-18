@@ -284,6 +284,7 @@ public class AchievementManager : MonoBehaviour
             //If not achieved
             if (AchievementList[Index].Progression && States[Index].Progress < AchievementList[Index].ProgressGoal)
             {
+                if((int)AchievementList[Index].NotificationFrequency <= 0) return;
                 int Steps = (int)AchievementList[Index].ProgressGoal / (int)AchievementList[Index].NotificationFrequency;
 
                 //Loop through all notification point backwards from last possible option

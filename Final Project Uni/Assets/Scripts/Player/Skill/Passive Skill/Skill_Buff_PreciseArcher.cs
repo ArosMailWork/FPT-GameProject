@@ -5,13 +5,14 @@ using UnityEngine;
 
 public class Skill_Buff_PreciseArcher : ISkill
 {
-    void Start()
+    void OnEnable()
     {
         SetToggle(true);
     }
     
     void SetToggle(bool toggle)
     {
+        if(_pc == null) _pc = PlayerController.Instance;
         _pc._arrowController.IsPreciseArcher = toggle;
     }
 }

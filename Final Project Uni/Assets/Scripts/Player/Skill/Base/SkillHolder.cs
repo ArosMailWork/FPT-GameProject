@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -9,6 +11,7 @@ using UnityEngine.UI;
 public class SkillHolder : MonoBehaviour
 {
     [ReadOnly] public float currentCD;
+    [ReadOnly] public float coolDownUI; // This will store the cooldown progress (0 to 1)
 
     [FoldoutGroup("Skill List")]
     public List<GameObject> skillList = new List<GameObject>();
@@ -26,12 +29,14 @@ public class SkillHolder : MonoBehaviour
     [FoldoutGroup("Current Active Skill")]
     [ReadOnly] public ISkill currentSkill;
 
+    [FoldoutGroup("Setup")] 
+    public float SoulRecover = 20;
     [FoldoutGroup("Setup")]
     public PlayerController _pc;
     [FoldoutGroup("Setup")]
     public List<GameObject> StartSkill;
     [FoldoutGroup("Setup")] 
-    public Image currentSkillUISprite;
+    public Image currentSkillUISprite, CDOverlay;
     [FoldoutGroup("Setup")] 
     [CanBeNull] public Button SwitchButton;
 
@@ -40,7 +45,14 @@ public class SkillHolder : MonoBehaviour
     void Start()
     {
         Instance = this;
-        
+        _pc = PlayerController.Instance;
+
+        InitStartSkill();
+    }
+
+    async UniTaskVoid InitStartSkill()
+    {
+        await UniTask.Delay(TimeSpan.FromSeconds(0.1f));
         // Instantiate and categorize skills based on their type
         foreach (GameObject skillPrefab in StartSkill)
         {
@@ -49,6 +61,11 @@ public class SkillHolder : MonoBehaviour
 
         // Set the initial active skill from the ActiveSkillList
         SetActiveSkill(currentActiveSkill);
+    }
+    
+    void Update()
+    {
+        UpdateCooldownUI();
     }
 
     [Button]
@@ -60,6 +77,10 @@ public class SkillHolder : MonoBehaviour
             activeSkill = activeSkillList[slot];
             currentSkill = activeSkill.GetComponent<ISkill>();
             currentSkillUISprite.sprite = currentSkill.Icon;
+            
+            // Set initial cooldown values
+            currentCD = currentSkill.currentCD;
+            coolDownUI = (currentSkill.Cooldown > 0) ? Mathf.Clamp01(currentSkill.currentCD / currentSkill.Cooldown) : 0;
         }
     }
 
@@ -82,15 +103,25 @@ public class SkillHolder : MonoBehaviour
     [Button]
     public void AddSkill(GameObject skillPrefab)
     {
+        ISkill skillComponent = skillPrefab.GetComponent<ISkill>();
+        string skillName = skillComponent.name;
+
+        // Check if the skill already exists
+        if (SkillIDList.Contains(skillName))
+        {
+            PlayerController.Instance._playerData.SoulCollected += SoulRecover;
+            Debug.Log("Skill already exists: " + skillName);
+            return;
+        }
+
+        // Instantiate the skill and set it up
         GameObject skillInstance = Instantiate(skillPrefab);
         skillInstance.transform.SetParent(this.transform);
         skillInstance.transform.localPosition = Vector3.zero;
         skillInstance.transform.localRotation = Quaternion.identity;
 
-        ISkill skillComponent = skillInstance.GetComponent<ISkill>();
-        skillComponent.Assign(_pc);
-        
-        SkillIDList.Add(skillComponent.name);
+        skillComponent.Assign();
+        SkillIDList.Add(skillName);  // Add to skill ID list to track uniqueness
 
         // Add the skill to the appropriate list based on its type
         if (skillComponent.type == SkillType.ACTIVE)
@@ -104,15 +135,15 @@ public class SkillHolder : MonoBehaviour
         }
 
         skillList.Add(skillInstance);  // Add all skills to the master list
-        //Debug.Log("Add " + skillComponent.type + " Skill: " + skillComponent.name);
 
+        // Update the switch button's active state if it exists
         if (SwitchButton != null)
         {
-            //Debug.Log(activeSkillList.Count);
-            SwitchButton.gameObject.SetActive((activeSkillList.Count > 1));
-            if(activeSkillList.Count == 1) SetActiveSkill(0);
+            SwitchButton.gameObject.SetActive(activeSkillList.Count > 1);
+            if (activeSkillList.Count == 1) SetActiveSkill(0);
         }
     }
+
     
     #endregion
 
@@ -149,6 +180,19 @@ public class SkillHolder : MonoBehaviour
     public void TimerAdd(float addTime)
     {
         currentCD += addTime;
+    }
+    
+    private void UpdateCooldownUI()
+    {
+        if (currentSkill == null) return;
+
+        // Update current cooldown and calculate cooldown percentage (0 to 1)
+        currentCD = currentSkill.currentCD;
+        coolDownUI = (currentSkill.Cooldown > 0) ? Mathf.Clamp01(currentSkill.currentCD / currentSkill.Cooldown) : 0;
+
+        // update the UI image or any other visual indicator using coolDownUI here
+        if(CDOverlay != null)
+        CDOverlay.fillAmount = coolDownUI;
     }
     #endregion
 }

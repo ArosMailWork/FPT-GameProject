@@ -10,7 +10,7 @@ using UnityEngine.Events;
 [Serializable]
 public enum HealthState
 {
-    Idle, Invincible, Absorbtion
+    Idle, Invincible, Absorbtion, Survivor
 }
 
 public class Health : MonoBehaviour
@@ -121,6 +121,9 @@ public class Health : MonoBehaviour
             case HealthState.Absorbtion:
                 Heal(damage);
                 break;
+            case HealthState.Survivor:
+                DealDamageSurvivor(damage);
+                break;
 
         }
     }
@@ -175,6 +178,12 @@ public class Health : MonoBehaviour
         healthState = HealthState.Idle;
     }
 
+    void DealDamageSurvivor(int damage)
+    {
+        currentHealth -= damage;
+        if (currentHealth <= 0) currentHealth = 1;
+        HpReduce.Invoke();
+    }
     void DealDamage(int damage)
     {
         Debug.Log("Received " + damage);

@@ -59,6 +59,7 @@ public class BotGun : MonoBehaviour
         // Get the world space rotation directly (without local rotation adjustments)
         Quaternion worldRotation = Quaternion.LookRotation(transform.forward, Vector3.up);
         
+        projectileCalc.FlyVector = transform.forward;
         // Spawn the projectile with the world space rotation
         PoolManager.Instance.Spawn(projectile, transform.position, worldRotation);
     }
@@ -70,7 +71,9 @@ public class BotGun : MonoBehaviour
         // Add random offset to the Y-axis
         float randomYRotation = Random.Range(-randomAngleRange, randomAngleRange);
         Quaternion randomRotation = Quaternion.Euler(0, randomYRotation, 0) * baseRotation;
-        
+
+
+        projectileCalc.FlyVector = transform.forward;
         // Spawn the projectile with the random rotation
         PoolManager.Instance.Spawn(projectile, transform.position, randomRotation);
     }
@@ -93,6 +96,7 @@ public class BotGun : MonoBehaviour
         Vector3 flattenedDirection = new Vector3(targetDirection.x, 0, targetDirection.z); // Flatten the direction to ignore Y-axis
         Quaternion predictedRotation = Quaternion.LookRotation(flattenedDirection, Vector3.up); // Look at the target only on the Y-axis
 
+        projectileCalc.FlyVector = transform.forward;
         // Spawn the projectile with the predicted rotation
         PoolManager.Instance.Spawn(projectile, transform.position, predictedRotation);
     }
@@ -121,6 +125,7 @@ public class BotGun : MonoBehaviour
         Vector3 flattenedDirection = new Vector3(targetDirection.x, 0, targetDirection.z); // Flatten the direction to ignore Y-axis
         Quaternion predictedRotation = Quaternion.LookRotation(flattenedDirection, Vector3.up); // Look at the target only on the Y-axis
 
+        projectileCalc.FlyVector = transform.forward;
         // Spawn the projectile with the predicted rotation
         PoolManager.Instance.Spawn(projectile, transform.position, predictedRotation);
     }

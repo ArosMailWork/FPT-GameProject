@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -19,7 +20,7 @@ public class ExpeditionManager : MonoBehaviour
     [FoldoutGroup("Expedition Number")]
     public int currentFloorNumber = 0;
     [FoldoutGroup("Event")]
-    public UnityEvent OnFloorExit, OnWorldExit, LoadNextFloor, SkillEvent, OnTransition, OnExpeditionExit;
+    public UnityEvent OnFloorExit, OnWorldExit, LoadNextFloor, SkillEvent, OnTransition, OnExpeditionStart, OnExpeditionExit;
 
     public static ExpeditionManager Instance;
 
@@ -46,7 +47,22 @@ public class ExpeditionManager : MonoBehaviour
     [Button]
     public void ExitFloor()
     {
-        PlayerController.Instance._playerData.ConfirmReward();
+        LoadFloor();
+    }
+    
+    IEnumerator LoadFloor()
+    {
+        GameManager.Instance.fadeInAnim.Invoke();
+        yield return new WaitForSeconds(1);
+        doExitFloor();
+        yield return new WaitForSeconds(0.5f);
+        GameManager.Instance.fadeOutAnim.Invoke();
+    }
+
+    
+    void doExitFloor()
+    {
+        PlayerController.Instance._playerData.SaveClaimReward();
         if (currentFloorNumber + 1 < floors.Count)
         {
             CheckEvent();
@@ -87,6 +103,7 @@ public class ExpeditionManager : MonoBehaviour
     {
         SetWorld(currentWorldNumber);
         GenerateFloor(currentFloorNumber);
+        OnExpeditionStart.Invoke();
     }
     public void ExpeditionComplete()
     {

@@ -32,10 +32,10 @@ public abstract class ISkill : MonoBehaviour
     {
         Timer();
     }
-    public async UniTaskVoid Assign(PlayerController pc)
+    public async UniTaskVoid Assign()
     {
-        _pc = pc;
-        await UniTask.Delay(TimeSpan.FromSeconds(0.01f));
+        _pc = PlayerController.Instance;
+        await UniTask.Delay(TimeSpan.FromSeconds(0.05f));
         _pc._playerData.UnlockSkill(Name);
     }
     #region Timer

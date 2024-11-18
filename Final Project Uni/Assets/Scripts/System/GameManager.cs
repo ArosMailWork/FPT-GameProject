@@ -1,4 +1,5 @@
 using System.Collections;
+using JetBrains.Annotations;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Events;
@@ -7,8 +8,9 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public GameObject Player;
-    public GenerationManager genManager;
+    [CanBeNull] public GameObject Player;
+    [CanBeNull] public GameObject ManagerObj;
+    [CanBeNull] public GenerationManager genManager;
     //Scene Address
     [FoldoutGroup("Scene Address")]
     public string Expedition;
@@ -17,6 +19,7 @@ public class GameManager : MonoBehaviour
 
     [FoldoutGroup("Event")]
     public UnityEvent fadeInAnim, fadeOutAnim;
+    public UnityEvent<Color> changeColorTransition;
 
     public static GameManager Instance;
 
@@ -25,28 +28,13 @@ public class GameManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(Player);
-            DontDestroyOnLoad(gameObject);
-            DontDestroyOnLoad(genManager.gameObject);
+            if(Player != null) DontDestroyOnLoad(Player);
+            if (ManagerObj != null) DontDestroyOnLoad(ManagerObj);
         }
         else
         {
             Destroy(gameObject);
         }
-    }
-
-    private void Start()
-    {
-        InitializeGame();
-    }
-
-    private void InitializeGame()
-    {
-        // Initialize game systems here
-        // For example:
-        // LoadPlayerData();
-        // SetupAudio();
-        // InitializeUI();
     }
 
     public void StartNewGame()
@@ -60,11 +48,6 @@ public class GameManager : MonoBehaviour
         // Logic for loading a saved game
     }
 
-    public void SaveGame()
-    {
-        // Logic for saving the game
-    }
-
     public void QuitGame()
     {
         // Logic for quitting the game
@@ -74,6 +57,7 @@ public class GameManager : MonoBehaviour
         Application.Quit();
 #endif
     }
+    
     #region SceneLogic
 
     IEnumerator LoadExpedition()
@@ -84,7 +68,6 @@ public class GameManager : MonoBehaviour
         genManager.gameObject.SetActive(true);
         yield return new WaitForSeconds(0.5f);
         fadeOutAnim.Invoke();
-
     }
     IEnumerator LoadLobby()
     {
@@ -98,7 +81,7 @@ public class GameManager : MonoBehaviour
     }
     public void StartExpedition()
     {
-        PlayerController.Instance._playerData.ConfirmReward();
+        PlayerController.Instance._playerData.SaveClaimReward();
         StartCoroutine(LoadExpedition());
     }
     public void StartLobby()
@@ -107,5 +90,7 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
+    #region Ults
 
+    #endregion
 }

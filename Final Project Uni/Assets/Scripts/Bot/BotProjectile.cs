@@ -13,6 +13,7 @@ public class BotProjectile : MonoBehaviour
     private HurtBox _hurtBox;
     List<InteractTarget> validTargets = new List<InteractTarget>(); // List of valid targets
     private bool markedSelfDestruct;
+    public Vector3 FlyVector;
 
     private void Awake()
     {
@@ -24,7 +25,6 @@ public class BotProjectile : MonoBehaviour
     public void OnEnable()
     {
         markedSelfDestruct = true;
-        rb.transform.rotation = Quaternion.Euler(0, rb.transform.rotation.eulerAngles.y, 0);
         
         // Set the velocity along the X and Z axes while keeping Y velocity zero to ensure the projectile stays level with the ground
         Vector3 forwardVelocity = transform.forward * speed;
@@ -35,6 +35,7 @@ public class BotProjectile : MonoBehaviour
 
     private void OnDisable()
     {
+        CancelInvoke(nameof(SelfDestruct));
         markedSelfDestruct = false;
     }
 

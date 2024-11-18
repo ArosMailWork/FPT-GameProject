@@ -165,8 +165,11 @@ public class SelectRandomSkillEvent : MonoBehaviour
             AddSelectSkillFromSlot();
             OnSkillChoose.Invoke();
         }
+    }
 
-
+    public void MoveFloor()
+    {
+        ExpeditionManager.Instance.LoadNextFloor.Invoke();
     }
     #endregion
 

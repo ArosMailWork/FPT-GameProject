@@ -51,6 +51,8 @@ public class PlayerController : MonoBehaviour
     public DialogUI dialogUI;
     [FoldoutGroup("Setup/UI")] 
     public Button interactButton;
+    [FoldoutGroup("Setup/UI")] 
+    [CanBeNull] public NotifAnim notif;
     [FoldoutGroup("Setup")]
     public Rigidbody PlayerRB;
     [FoldoutGroup("Setup")]
@@ -90,12 +92,12 @@ public class PlayerController : MonoBehaviour
     #region Unity Methods
     private void Awake()
     {
-        if (PlayerHealth == null) PlayerHealth = GetComponent<Health>();
-        PlayerRB = GetComponent<Rigidbody>();
-
         if (Instance != this || Instance != null) Destroy(Instance);
         Instance = this;
-
+        
+        if (PlayerHealth == null) PlayerHealth = GetComponent<Health>();
+        PlayerRB = GetComponent<Rigidbody>();
+        
         interactButton.gameObject.SetActive(false);
     }
 
@@ -463,6 +465,14 @@ public class PlayerController : MonoBehaviour
         Debug.Log("Ded");
         _playerAnimController.DieAnim(true);
         PlayerHealth.isAlive = false;
+    }
+
+    public void Revive(int InstantHP = 1, int RegenHP = 4)
+    {
+        _playerAnimController.DieAnim(false);
+        PlayerHealth.Heal(InstantHP);
+        PlayerHealth.HealOverTime(RegenHP, 4);
+        PlayerHealth.isAlive = true;
     }
 
     public

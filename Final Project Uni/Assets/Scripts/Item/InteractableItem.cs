@@ -22,7 +22,7 @@ public class InteractableItem : MonoBehaviour
     [FoldoutGroup("Shop")]
     public bool isItemShop = false;
 
-    
+
     private bool hasInteracted = false;
     [HideInInspector] public int LastCost;
 
@@ -34,7 +34,7 @@ public class InteractableItem : MonoBehaviour
     private void OnDisable()
     {
         hasInteracted = true;  // Mark as interacted
-        if(interactButton == null) return;
+        if (interactButton == null) return;
         interactButton.gameObject.SetActive(false);  // Hide the button after interaction
         interactButton.onClick.RemoveListener(OnInteract);
     }
@@ -105,7 +105,7 @@ public class InteractableItem : MonoBehaviour
 
         // Remove the listener when exiting the trigger range to prevent stacking interactions
         interactButton.onClick.RemoveListener(OnInteract);
-        hasInteracted = false;
+        //hasInteracted = false;
 
         ExitTriggerRange.Invoke();
         ShowUIInteract(false);
