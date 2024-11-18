@@ -16,7 +16,7 @@ public class ReviveCountdownTimer : MonoBehaviour
     [FoldoutGroup("Settings")]
     public int startTimeInSeconds = 10;
     [FoldoutGroup("Settings/Events")]
-    public UnityEvent OnCountdownComplete; 
+    public UnityEvent OnCountdownStart, OnCountdownComplete; 
     
     [FoldoutGroup("Debug")]
     public bool isRunning = false;
@@ -25,12 +25,14 @@ public class ReviveCountdownTimer : MonoBehaviour
 
     private void OnEnable()
     {
+        ResetCountdown();
         StartCountdown();
     }
 
     [Button]
     public void StartCountdown()
     {
+        OnCountdownStart.Invoke();
         if (isRunning) return; // Prevent multiple countdowns at the same time
         cts = new CancellationTokenSource();
         CountdownAsync(cts.Token).Forget();
@@ -45,6 +47,15 @@ public class ReviveCountdownTimer : MonoBehaviour
             cts = null;
         }
         isRunning = false;
+    }
+    [Button]
+    public void ResetCountdown()
+    {
+        StopCountdown(); // Stop any ongoing countdown
+        if (countdownText != null)
+        {
+            countdownText.text = startTimeInSeconds.ToString(); // Reset the displayed time
+        }
     }
 
     public void EnableDelay(float delay)

@@ -23,4 +23,12 @@ public class ToggleUIElements : MonoBehaviour
             uiElement.SetActive(isUIEnabled);
         }
     }
+    
+    public void ToggleUISkip(bool isUIEnabled, int slot = 0)
+    {
+        for (int i = 0; i < uiElements.Count; i++)
+        {
+            if(i != slot) uiElements[i].SetActive(isUIEnabled);
+        }
+    }
 }

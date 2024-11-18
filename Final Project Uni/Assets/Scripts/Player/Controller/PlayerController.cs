@@ -467,8 +467,15 @@ public class PlayerController : MonoBehaviour
         PlayerHealth.isAlive = false;
     }
 
-    public void Revive(int InstantHP = 1, int RegenHP = 4)
+    public async void Revive(float delay = 1)
     {
+        await UniTask.Delay(TimeSpan.FromSeconds(delay));
+        doRevive();
+    }
+
+    public void doRevive(int InstantHP = 1, int RegenHP = 4)
+    {
+        ToggleUIElements.Instance.ToggleUI(true);
         _playerAnimController.DieAnim(false);
         PlayerHealth.Heal(InstantHP);
         PlayerHealth.HealOverTime(RegenHP, 4);

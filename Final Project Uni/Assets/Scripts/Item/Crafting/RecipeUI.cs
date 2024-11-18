@@ -22,7 +22,7 @@ public class RecipeUI : MonoBehaviour
     /// </summary>
     public void SetRecipeUI(CraftingRecipe recipe, bool canCraft, CraftingTable table, bool unlocked)
     {
-        UnlockedSprite.SetActive(unlocked);
+        UnlockedSprite.SetActive(!unlocked);
         if(!unlocked) return;
         
 

@@ -188,6 +188,7 @@ public class Health : MonoBehaviour
     {
         Debug.Log("Received " + damage);
         currentHealth -= damage;
+        if (currentHealth <= 0) currentHealth = 0;
         HpReduce.Invoke();
     }
     async UniTaskVoid DoT(int damage, float duration)

@@ -1,9 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ExpeditionReportUI : MonoBehaviour
 {
@@ -61,5 +63,13 @@ public class ExpeditionReportUI : MonoBehaviour
                 else elementUI.icon.sprite = defaultSprite;
             }
         }
+    }
+    
+    public async void OnNewGameClicked()
+    {
+        GameManager.Instance.fadeInAnim.Invoke();
+            
+        await UniTask.Delay(TimeSpan.FromSeconds(0.5f));
+        GameManager.Instance.StartNewGame();
     }
 }
