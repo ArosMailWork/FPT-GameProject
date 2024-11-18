@@ -36,6 +36,7 @@ public class DialogUI : MonoBehaviour
         }
     }
 
+    [Button]
     public void SetActiveMask(bool isActive)
     {
         if (imageMask != null)

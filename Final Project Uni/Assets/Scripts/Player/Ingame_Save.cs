@@ -6,10 +6,15 @@ using UnityEngine;
 [System.Serializable]
 public class Ingame_Save : MonoBehaviour
 {
+    [FoldoutGroup("Setup")]
     public PlayerStats Stats;
+    [FoldoutGroup("Setup")]
     public Health playerHealth;
-    public List<GameObject> skillList = new List<GameObject>();
+    [FoldoutGroup("Setup")]
     public PlayerData runData;
+    [FoldoutGroup("Setup")]
+    public List<GameObject> skillList = new List<GameObject>();
+    [FoldoutGroup("Setup")]
     public bool AllowLoadSave;
 
     [FoldoutGroup("Expedition")]

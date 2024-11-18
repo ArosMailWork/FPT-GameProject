@@ -12555,6 +12555,11 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1008555448}
   m_Mesh: {fileID: 1834669080731125816, guid: 6869b781bfa7caf42b9cf219b4fc2d65, type: 3}
+--- !u!198 &1011105635 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 3012583678135781112, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
+  m_PrefabInstance: {fileID: 1591485546}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1011764442
 GameObject:
   m_ObjectHideFlags: 0
@@ -14344,6 +14349,11 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1110952820}
   m_Mesh: {fileID: -4793511486003975370, guid: 6869b781bfa7caf42b9cf219b4fc2d65, type: 3}
+--- !u!198 &1119640581 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 3012583678135775710, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
+  m_PrefabInstance: {fileID: 1591485546}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1129272584
 GameObject:
   m_ObjectHideFlags: 0
@@ -15703,6 +15713,7 @@ GameObject:
   - component: {fileID: 1240341958}
   - component: {fileID: 1240341960}
   - component: {fileID: 1240341959}
+  - component: {fileID: 1240341961}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -15739,9 +15750,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Stats: {fileID: 1380544752}
   playerHealth: {fileID: 1380544739}
-  skillList: []
   runData: {fileID: 1173453493}
-  AllowLoadSave: 0
+  skillList: []
+  AllowLoadSave: 1
   Floor: 0
   World: 0
   currentWorld: {fileID: 0}
@@ -15794,6 +15805,21 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   changeColorTransition:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &1240341961
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1240341957}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eff7a8ab63536814abf0850c6c5c9865, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Reward:
     m_PersistentCalls:
       m_Calls: []
 --- !u!4 &1245842504 stripped
@@ -17573,6 +17599,11 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1411745904}
   m_Mesh: {fileID: 5247750683029895133, guid: 6869b781bfa7caf42b9cf219b4fc2d65, type: 3}
+--- !u!198 &1414142849 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 3012583678135859308, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
+  m_PrefabInstance: {fileID: 1591485546}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1416406131
 GameObject:
   m_ObjectHideFlags: 0
@@ -24542,6 +24573,38 @@ PrefabInstance:
       propertyPath: serializationData.Prefab
       value: 
       objectReference: {fileID: 447597212470285656, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
+    - target: {fileID: 447597212470285656, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
+      propertyPath: serializationData.PrefabModifications.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 447597212470285656, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
+      propertyPath: serializationData.PrefabModifications.Array.data[0]
+      value: '"path":"particleDictionary.{\"Trail\"}.[0]","value":$eref:0'
+      objectReference: {fileID: 0}
+    - target: {fileID: 447597212470285656, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
+      propertyPath: serializationData.PrefabModifications.Array.data[1]
+      value: '"path":"particleDictionary.{\"Trail\"}.[1]","value":$eref:1'
+      objectReference: {fileID: 0}
+    - target: {fileID: 447597212470285656, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
+      propertyPath: serializationData.PrefabModifications.Array.data[2]
+      value: '"path":"particleDictionary.{\"Trail\"}.[2]","value":$eref:2'
+      objectReference: {fileID: 0}
+    - target: {fileID: 447597212470285656, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
+      propertyPath: serializationData.PrefabModificationsReferencedUnityObjects.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 447597212470285656, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
+      propertyPath: serializationData.PrefabModificationsReferencedUnityObjects.Array.data[0]
+      value: 
+      objectReference: {fileID: 1119640581}
+    - target: {fileID: 447597212470285656, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
+      propertyPath: serializationData.PrefabModificationsReferencedUnityObjects.Array.data[1]
+      value: 
+      objectReference: {fileID: 1011105635}
+    - target: {fileID: 447597212470285656, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
+      propertyPath: serializationData.PrefabModificationsReferencedUnityObjects.Array.data[2]
+      value: 
+      objectReference: {fileID: 1414142849}
     - target: {fileID: 3547151362967053558, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
       propertyPath: m_LocalPosition.x
       value: -14.42
@@ -24582,6 +24645,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4983654508392788291, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4983654508392788291, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5651562747678274370, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
       propertyPath: m_Name
       value: Test Pack v3
@@ -24590,10 +24661,38 @@ PrefabInstance:
       propertyPath: serializationData.Prefab
       value: 
       objectReference: {fileID: 5730805165408421809, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
+    - target: {fileID: 6400441189395592141, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
+      propertyPath: Stats
+      value: 
+      objectReference: {fileID: 1380544752}
+    - target: {fileID: 6400441189395592141, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
+      propertyPath: runData
+      value: 
+      objectReference: {fileID: 1173453493}
+    - target: {fileID: 6400441189395592141, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
+      propertyPath: playerHealth
+      value: 
+      objectReference: {fileID: 1380544739}
     - target: {fileID: 6526502324537555375, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
       propertyPath: serializationData.Prefab
       value: 
       objectReference: {fileID: 6526502324537555375, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
+    - target: {fileID: 8114548762273780579, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8114548762273780579, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9204411441316609827, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9204411441316609827, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

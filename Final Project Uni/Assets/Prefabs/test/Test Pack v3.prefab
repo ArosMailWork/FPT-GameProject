@@ -224,6 +224,7 @@ GameObject:
   - component: {fileID: 3814480453365747856}
   - component: {fileID: 4095507687245354997}
   - component: {fileID: 8041768506463176455}
+  - component: {fileID: 6400441189395592141}
   m_Layer: 0
   m_Name: Player Save
   m_TagString: Untagged
@@ -280,17 +281,44 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 720501611895e704d9c01c64eb6b42d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EnemyDefeated: 0
+  EnemyDefeated: 2
   BossDefeated: 0
   ChestOpened: 0
   ItemCollected: 0
   RoomDiscovered: 0
   KnowledgeLevelCollected: 0
-  GoldCollected: 0
+  GoldCollected: 10
   SoulCollected: 0
   DamageDeal: 0
   SignBreak: 0
-  ReportElements: []
+  ReportElements:
+  - icon: {fileID: -479084891, guid: 55973579ccd60e849ae7aeb51c174854, type: 3}
+    text: hello world
+  - icon: {fileID: 0}
+    text: hehe
+  - icon: {fileID: -1422012143, guid: d14d2f4e9d25f2c46ad4b6e0de55259b, type: 3}
+    text: Absorb Unlocked !!!
+--- !u!114 &6400441189395592141
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 198828648532077036}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e2b922f832070647aafde73cc497e27, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Stats: {fileID: 0}
+  playerHealth: {fileID: 0}
+  skillList: []
+  runData: {fileID: 0}
+  AllowLoadSave: 0
+  Floor: 0
+  World: 0
+  currentWorld: {fileID: 0}
+  currentBiome: {fileID: 0}
 --- !u!1 &198933028673479354
 GameObject:
   m_ObjectHideFlags: 0
@@ -122549,6 +122577,14 @@ PrefabInstance:
       propertyPath: Gameplay.Array.data[2]
       value: 
       objectReference: {fileID: 8926489968517725425}
+    - target: {fileID: 2020555756585340735, guid: f6cf11909393cdf40b5541c2ed713796, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 4105256988996498328}
+    - target: {fileID: 2020555756585340735, guid: f6cf11909393cdf40b5541c2ed713796, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ToggleOnSkip
+      objectReference: {fileID: 0}
     - target: {fileID: 2859283857361922258, guid: f6cf11909393cdf40b5541c2ed713796, type: 3}
       propertyPath: m_Camera
       value: 
@@ -122567,7 +122603,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3135972534739353543, guid: f6cf11909393cdf40b5541c2ed713796, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Mode
-      value: 4
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3135972534739353543, guid: f6cf11909393cdf40b5541c2ed713796, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -122580,7 +122616,7 @@ PrefabInstance:
     - target: {fileID: 3135972534739353543, guid: f6cf11909393cdf40b5541c2ed713796, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
-      objectReference: {fileID: 1766675483051995058}
+      objectReference: {fileID: 4923688658281488188}
     - target: {fileID: 3135972534739353543, guid: f6cf11909393cdf40b5541c2ed713796, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
       value: 2
@@ -122611,7 +122647,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3135972534739353543, guid: f6cf11909393cdf40b5541c2ed713796, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
-      value: PlayerController, Assembly-CSharp
+      value: ReviveCountdownTimer, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 3135972534739353543, guid: f6cf11909393cdf40b5541c2ed713796, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_BoolArgument

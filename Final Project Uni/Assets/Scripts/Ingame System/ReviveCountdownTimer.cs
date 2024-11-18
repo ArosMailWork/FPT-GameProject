@@ -102,4 +102,17 @@ public class ReviveCountdownTimer : MonoBehaviour
 
         isRunning = false;
     }
+
+    public void Revive()
+    {
+        AdsManager.Instance.Reward.AddListener(doRevive);
+        AdsManager.Instance.ShowRewardedVideo();
+    }
+    
+    public void doRevive()
+    {
+        // Perform the revive logic here
+        Debug.Log("Player revived!");
+        PlayerController.Instance.Revive();
+    }
 }
