@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
 public class CraftingTable : MonoBehaviour
 {
-    public Transform CraftedItemPlacement;
+    [CanBeNull] public Transform CraftedItemPlacement;
     public CraftingTableUI craftingTableUI;
 
     PlayerData _playerData;
@@ -71,8 +72,10 @@ public class CraftingTable : MonoBehaviour
                 _playerData.Inventory.Remove(inventoryItem);
         }
 
+        Vector3 pos = transform.position;
+        if (CraftedItemPlacement != null) pos = CraftedItemPlacement.position;
         // Instantiate the crafted item at the specified location
-        Instantiate(recipe.Recipe.output, CraftedItemPlacement.position, Quaternion.identity);
+        Instantiate(recipe.Recipe.output, pos, Quaternion.identity);
 
         // Save the updated inventory to maintain persistence
         _playerData.SaveClaimReward();

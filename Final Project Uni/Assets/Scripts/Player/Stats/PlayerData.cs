@@ -59,18 +59,32 @@
         [Button]
         public void UnlockSkill(string skillID)
         {
-            // Check if the skill exists in the player's unlockedSkills list
+            // Guard clause: Check if skill exists
             var skill = unlockedSkills.Find(s => s.Skill.Skill_ID == skillID);
-            if (skill != null)
-            {
-                skill.isUnlocked = true; // Unlock the skill
-                Debug.Log($"Skill {skillID} unlocked.");
-            }
-            else
+            if (skill == null)
             {
                 Debug.Log($"Skill ID {skillID} not found in the skill database.");
+                return;
             }
+
+            // Guard clause: Skip if already unlocked
+            if (skill.isUnlocked)
+                return;
+
+            var skillPrefab = skill.Skill.skillPrefab;
+            var skillComponent = skillPrefab?.GetComponent<ISkill>();
+            if (skillComponent != null)
+            {
+                ExpeditionReport.Instance.ReportElements.Add(new ReportElement
+                {
+                    text = "Unlock new skill: " + skillComponent.Name
+                });
+            }
+
+            skill.isUnlocked = true;
+            Debug.Log($"Skill {skillID} unlocked.");
         }
+
         [Button]
         public void UnlockRecipe(string recipeID)
         {
@@ -92,6 +106,9 @@
             SoulCollected += Mathf.RoundToInt(InputSoul);
 
             if (GoldText != null) GoldText.text = Gold.ToString();
+            
+            ExpeditionReport.Instance.GoldCollected += Mathf.RoundToInt(InputGold);
+            ExpeditionReport.Instance.SoulCollected += Mathf.RoundToInt(InputSoul);
             
             ParticleManager.Instance.SpawnParticle("CoinReceive", PlayerController.Instance.transform.position, quaternion.identity);
         }
@@ -195,6 +212,8 @@
             PermaStatsData permaStats = PlayerDataCRUD.LoadPermanentStats();
             permaStats.Soul += Mathf.RoundToInt(SoulCollected);;
             permaStats.knowledgeLevel += KnowledgeLevel;
+
+            ExpeditionReport.Instance.KnowledgeLevelCollected = KnowledgeLevel;
 
             // Save the updated Soul value
             PlayerDataCRUD.SavePermanentStats(permaStats);

@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 
 public class CraftingTableUI : MonoBehaviour
 {
@@ -9,17 +10,17 @@ public class CraftingTableUI : MonoBehaviour
 
     private PlayerData playerData;
 
-    private void Start()
+    [Button("Update Recipe")]
+    public void OnEnable()
     {
-        playerData = PlayerController.Instance._playerData;
         UpdateRecipeList();
     }
 
-    /// <summary>
     /// Updates the list of recipes displayed in the crafting UI.
-    /// </summary>
     public void UpdateRecipeList()
     {
+        playerData = PlayerController.Instance._playerData;
+        
         // Clear existing UI elements
         foreach (Transform child in RecipeListContent)
         {
@@ -34,13 +35,11 @@ public class CraftingTableUI : MonoBehaviour
             RecipeUI recipeUI = recipeUIObj.GetComponent<RecipeUI>();
 
             // Initialize the RecipeUI element
-            recipeUI.SetRecipeUI(recipe.Recipe, canCraft, craftingTable);
+            recipeUI.SetRecipeUI(recipe.Recipe, canCraft, craftingTable, playerData.IsRecipeUnlocked(recipe.Recipe.RecipeID));
         }
     }
 
-    /// <summary>
     /// Checks if the player has enough materials for a given recipe.
-    /// </summary>
     private bool CheckIfCanCraft(CraftingRecipe recipe)
     {
         foreach (var inputItem in recipe.input)
