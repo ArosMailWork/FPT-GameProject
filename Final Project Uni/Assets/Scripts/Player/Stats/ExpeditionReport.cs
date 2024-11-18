@@ -1,15 +1,25 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[Serializable]
+public struct ReportElement
+{
+    public Sprite icon;
+    public string text;
+}
+
 public class ExpeditionReport : MonoBehaviour
 {
-    public int EnemyDefeated = 0;
-    public int BossDefeated = 0;
-    public int ChestOpened = 0;
-    public int ItemCollected = 0;
+    public int EnemyDefeated = 0, BossDefeated = 0;
+    public int ChestOpened = 0, ItemCollected = 0;
     public int RoomDiscovered = 0;
-    
+    public int KnowledgeLevelCollected = 0, GoldCollected = 0, SoulCollected = 0;
+    public int DamageDeal = 0;
+    //public List<string> Notif;
+    public List<ReportElement> ReportElements;
+
     public static ExpeditionReport Instance;
     
     public void Start()
