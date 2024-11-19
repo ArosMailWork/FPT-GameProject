@@ -15,6 +15,7 @@ public class Skill_Buff_Skater : ISkill
 
     void SetStat()
     {
+        if(_pc == null) _pc = PlayerController.Instance;
         _pc.PlayerRB.drag = drag;
         _pc._stats.bonusSpeed += bonusSpeed;
     }

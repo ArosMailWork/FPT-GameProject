@@ -55,8 +55,7 @@ public class ArrowController : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance != this || Instance != null) Destroy(Instance);
-        Instance = this;
+        if (Instance == null) Instance = this;
 
         foreach (var arrow in arrowsList)
         {

@@ -12,6 +12,11 @@ public class Skill_Active_Absorb : ISkill
     public float AbsorbTime = 5;
     [CanBeNull] public GameObject effect;
 
+    private void Start()
+    {
+        if(_pc == null) _pc = PlayerController.Instance;
+    }
+
     public override void Activate()
     {
         if (currentCD <= 0)

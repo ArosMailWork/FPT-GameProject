@@ -50,6 +50,17 @@ namespace PA
                 oldChild.SetActive(false);
             }
         }
+        
+        public async void OnContinueClicked()
+        {           
+            makeTransitionUI.MakeFadeTransition();            
+            await UniTask.Delay(TimeSpan.FromSeconds(makeTransitionUI.duration));
+            SceneManager.LoadScene("TestGenMap");
+            
+            await UniTask.Delay(TimeSpan.FromSeconds(makeTransitionUI.duration));
+            makeTransitionUI.fadeBlackImage.GetComponent<CanvasGroup>().alpha = 1;
+            gameObject.SetActive(false);
+        }
 
         public async void OnNewGameClicked()
         {           

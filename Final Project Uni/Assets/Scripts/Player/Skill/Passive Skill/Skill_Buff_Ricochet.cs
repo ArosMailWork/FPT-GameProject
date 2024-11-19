@@ -14,6 +14,7 @@ public class Skill_Buff_Ricochet : ISkill
     
     void SetStat()
     {
+        if(_pc == null) _pc = PlayerController.Instance;
         //Debug.Log("Add Ricochet!!");
         _pc._stats.bonusRicochetMultiplier = ricochetValue;
         _pc._stats.UpdateStats();

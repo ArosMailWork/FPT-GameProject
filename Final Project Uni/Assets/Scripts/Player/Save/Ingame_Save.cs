@@ -1,16 +1,21 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
+using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [System.Serializable]
 public class Ingame_Save : MonoBehaviour
 {
-    public PlayerStats Stats;
-    public Health playerHealth;
-    public PlayerData runData;
+    // Fields changed to Data classes
+    public PlayerStatsData Stats;
+    public HealthData playerHealth;
+    public PlayerRunData runData;
+
     public bool AllowLoadSave;
-    public List<GameObject> skillList = new List<GameObject>();
+    public List<string> skillList = new List<string>();
 
     [FoldoutGroup("Expedition")]
     public int Floor, World;
@@ -23,24 +28,34 @@ public class Ingame_Save : MonoBehaviour
 
     public static Ingame_Save Instance;
 
-    private void Awake()
+    private void OnEnable()
     {
-        if (Instance != null) Destroy(Instance);
-        Instance = this;
+        if (Instance == null) Instance = this;
         
         saveFilePath = Path.Combine(Application.dataPath, "ExpeditionSaveData.json");
         AllowLoadSave = File.Exists(saveFilePath); // Check if save file exists at startup
     }
 
+    private void Start()
+    {
+        Load();  // Load data at the start
+    }
+
     [Button]
     public void Save()
     {
-        // Collect current data from game objects
-        skillList = SkillHolder.Instance.skillList;
-        playerHealth = PlayerController.Instance.PlayerHealth;
-        Stats = PlayerController.Instance._stats;
-        runData = PlayerController.Instance._playerData;
+        // Convert Player objects to Data objects using ToData()
+        var clonedStats = PlayerController.Instance._stats.ToData();
+        var clonedHealth = PlayerController.Instance.PlayerHealth.ToData();
+        var clonedRunData = PlayerController.Instance._playerData.ToData();
 
+        // Assign the converted data to Ingame_Save fields
+        Stats = clonedStats;  
+        playerHealth = clonedHealth; 
+        runData = clonedRunData;
+
+        // Collect additional game data
+        skillList = SkillHolder.Instance.SkillIDList;
         currentWorld = ExpeditionManager.Instance.currentWorld;
         currentBiome = ExpeditionManager.Instance.currentBiome;
         Floor = ExpeditionManager.Instance.currentFloorNumber;
@@ -55,7 +70,7 @@ public class Ingame_Save : MonoBehaviour
     }
 
     [Button]
-    public void Load()
+    public async void Load()
     {
         if (!AllowLoadSave)
         {
@@ -69,15 +84,25 @@ public class Ingame_Save : MonoBehaviour
             string jsonData = File.ReadAllText(saveFilePath);
             JsonUtility.FromJsonOverwrite(jsonData, this);
 
-            // Apply loaded data to game objects
-            PlayerController.Instance.PlayerHealth = playerHealth;
-            PlayerController.Instance._stats = Stats;
-            PlayerController.Instance._playerData = runData;
-
-            SkillHolder.Instance.skillList.Clear();
-            foreach (var skill in skillList)
+            // Check if the current scene is "TestGenMap"
+            if (SceneManager.GetActiveScene().name != "TestGenMap")
             {
-                SkillHolder.Instance.AddSkill(skill);
+                Debug.Log("Skipping skill loading in 'UI Main Menu' scene.");
+                return;
+            }
+
+            await UniTask.Delay(TimeSpan.FromSeconds(1f));
+
+            // Apply the loaded data to the PlayerController components
+            PlayerController.Instance.PlayerHealth.CopyFromData(playerHealth);
+            PlayerController.Instance._stats.CopyFromData(Stats);
+            PlayerController.Instance._playerData.CopyFromData(runData);
+
+            // Load skills
+            SkillHolder.Instance.skillList.Clear();
+            foreach (var skillID in skillList)
+            {
+                SkillHolder.Instance.AddSkillWithID(skillID);
             }
 
             // Expedition Load
@@ -88,8 +113,7 @@ public class Ingame_Save : MonoBehaviour
             ExpeditionManager.Instance.gen.Generate();
 
             // Delete the save file after loading it so it can't be used again
-            File.Delete(saveFilePath);
-            AllowLoadSave = false;
+            DestroySave();
 
             Debug.Log("Game loaded and save file deleted successfully!");
         }
@@ -98,6 +122,8 @@ public class Ingame_Save : MonoBehaviour
             Debug.LogWarning("Save file not found!");
         }
     }
+
+
 
     public void DestroySave()
     {
@@ -120,5 +146,4 @@ public class Ingame_Save : MonoBehaviour
             return File.Exists(saveFilePath) && Path.GetFileName(saveFilePath) == "ExpeditionSaveData.json";
         }
     }
-
 }

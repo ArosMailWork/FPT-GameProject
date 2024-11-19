@@ -7,6 +7,7 @@ public class Skill_Buff_Splitshot : ISkill
 {
     void Start()
     {
+        if(_pc == null) _pc = PlayerController.Instance;
         SetToggle(true);
     }
     void SetToggle(bool toggle)
