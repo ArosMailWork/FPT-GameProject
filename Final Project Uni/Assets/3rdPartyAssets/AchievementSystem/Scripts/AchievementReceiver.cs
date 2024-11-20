@@ -3,11 +3,20 @@ using System.Collections;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Events;
 
-public class AchievementGetter : MonoBehaviour
+[Serializable]
+public struct AchievementEvent
+{
+    public string Key;
+    public UnityEvent Event;
+}
+
+public class AchievementReceiver : MonoBehaviour
 {
     [SerializeField] private GameObject viewObj;
-    
+    public List<AchievementEvent> AchievementEventList;
+
     private void Start()
     {
         viewObj.SetActive(false);
@@ -20,9 +29,13 @@ public class AchievementGetter : MonoBehaviour
     
     public void UnlockEvent(AchievementInfromation AUnlocked)
     {
+        //Debug.Log(AUnlocked.Key);
         Debug.Log(AUnlocked.DisplayName);
+        
+        
     }
     
+    //Event Test
     [Button]
     public void Add(string Name, float amount)
     {

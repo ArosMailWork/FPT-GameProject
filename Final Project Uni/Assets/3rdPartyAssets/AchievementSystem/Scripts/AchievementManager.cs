@@ -132,6 +132,7 @@ public class AchievementManager : MonoBehaviour
             
             //Call Event here
             completeAchievement.Invoke(AchievementList[Index]);
+            AchievementList[Index].CompleteEvent.Invoke();
             DisplayUnlock(Index);
             AutoSaveStates();
 
