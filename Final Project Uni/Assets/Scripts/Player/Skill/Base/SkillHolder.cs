@@ -109,7 +109,7 @@ public class SkillHolder : MonoBehaviour
         // Check if the skill already exists
         if (SkillIDList.Contains(skillID))
         {
-            PlayerController.Instance._playerData.SoulCollected += SoulRecover;
+            PlayerController.Instance._playerData.Soul += SoulRecover;
             Debug.Log("Skill already exists: " + skillID);
             return;
         }

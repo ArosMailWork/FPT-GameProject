@@ -23,7 +23,7 @@ public class ArrowController : MonoBehaviour
     #region Debug and Setup
 
     [FoldoutGroup("Debug")]
-    public bool blockInput;
+    public bool blockInput, allowRecall = true;
     [FoldoutGroup("Debug")]
     public List<Arrow> arrowsList;
     [FoldoutGroup("Debug")]
@@ -116,7 +116,7 @@ public class ArrowController : MonoBehaviour
     }
     public void Recall(bool recall)
     {
-        if (blockInput) return;
+        if (blockInput || !allowRecall) return;
         
         ShootButtonPressing = recall;
         if (haveArrow || !_playerController.PlayerHealth.isAlive) return;

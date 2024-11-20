@@ -40,7 +40,7 @@ public class GameManager : MonoBehaviour
     public void StartNewGame()
     {
         // Logic for starting a new game
-        // SceneManager.LoadScene("Lobby");
+        SceneManager.LoadScene("Lobby");
     }
 
     public void LoadGame()
@@ -63,10 +63,10 @@ public class GameManager : MonoBehaviour
     IEnumerator LoadExpedition()
     {
         fadeInAnim.Invoke();
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(1.5f);
         SceneManager.LoadScene(Expedition);
         genManager.gameObject.SetActive(true);
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(1);
         fadeOutAnim.Invoke();
     }
     IEnumerator LoadLobby()
@@ -88,9 +88,5 @@ public class GameManager : MonoBehaviour
     {
         StartCoroutine(LoadLobby());
     }
-    #endregion
-
-    #region Ults
-
     #endregion
 }

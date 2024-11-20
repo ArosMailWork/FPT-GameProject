@@ -41,7 +41,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8833261399519980588}
   m_Layer: 0
-  m_Name: RewardChest
+  m_Name: RewardChestPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -55,10 +55,10 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6357962580521284107}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.0066666664, y: 0.13333334, z: 0.0066666664}
-  m_ConstrainProportionsScale: 1
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6132451200312253163}
   - {fileID: 4822143397956333438}
@@ -84,7 +84,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4822143397956333438
 Transform:
   m_ObjectHideFlags: 0
@@ -233,10 +233,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 8833261399519980588}
     m_Modifications:
-    - target: {fileID: 800026866730910062, guid: 841f9f2a4c9f9194f8781859eb2ae697, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 4faedc1cd62285a41a62546ecbaaff53, type: 2}
     - target: {fileID: 1745586055381339179, guid: 841f9f2a4c9f9194f8781859eb2ae697, type: 3}
       propertyPath: m_LocalRotation.w
       value: 0.9239463
@@ -317,10 +313,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: chest
       objectReference: {fileID: 0}
-    - target: {fileID: 7524470849959139552, guid: 841f9f2a4c9f9194f8781859eb2ae697, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 4faedc1cd62285a41a62546ecbaaff53, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -384,20 +376,21 @@ MonoBehaviour:
   minUpForce: 30
   maxUpForce: 35
   rarity: 0
-  isRandomized: 1
+  isRandomized: 0
   minRarity: 0
-  maxRarity: 3
-  commonRate: 0.5
-  uncommonRate: 0.3
-  rareRate: 0.2
-  epicRate: 0.1
+  maxRarity: 0
+  commonRate: 0
+  uncommonRate: 0
+  rareRate: 0
+  epicRate: 0
   legendaryRate: 0
   itemToSpawn: {fileID: 0}
   items:
   - {fileID: 2313412115391769234, guid: 7385b57b419cc7f4baf0f32f63cc4d61, type: 3}
-  coinPrefabSmall: {fileID: 3516268508413389787, guid: f915f31186791fc4c8acc034eb78fd7f, type: 3}
-  coinPrefabMedium: {fileID: 3516268508413389787, guid: cfbd14804d3ac8a4eb43139b836705f3, type: 3}
-  coinPrefabBig: {fileID: 3516268508413389787, guid: 8919995c866cff74888a9fc9757128f9, type: 3}
+  - {fileID: 2313412115391769234, guid: 7385b57b419cc7f4baf0f32f63cc4d61, type: 3}
+  coinPrefabSmall: {fileID: 0}
+  coinPrefabMedium: {fileID: 0}
+  coinPrefabBig: {fileID: 0}
   minCoins: 5
   maxCoins: 10
   coinType1Rate: 0.33

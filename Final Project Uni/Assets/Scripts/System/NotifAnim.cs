@@ -16,8 +16,8 @@ public class NotifAnim : MonoBehaviour
     public void FloorNotif()
     {
         //Debug.Log("yay");
-        EditText(ExpeditionManager.Instance.currentFloorNumber++ + " - " + 
-                 ExpeditionManager.Instance.currentWorldNumber++);
+        EditText((ExpeditionManager.Instance.currentWorldNumber + 1) + " - " + 
+                 (ExpeditionManager.Instance.currentFloorNumber + 1));
         Show(1);
     }
     

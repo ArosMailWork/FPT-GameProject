@@ -33,8 +33,9 @@ public class HealthData
 public class PlayerRunData
 {
     public int KnowledgeLevel;
-    public int Gold;
+    public int Gold, GoldRecord;
     public int SoulCollected;
+    public float SoulRecord;
     public List<SkillUnlock> unlockedSkills = new List<SkillUnlock>();
     public List<InventoryItem> Inventory = new List<InventoryItem>();
     public List<RecipeUnlock> unlockedRecipes = new List<RecipeUnlock>();
@@ -78,7 +79,9 @@ public static class DataCopier
 
         target.KnowledgeLevel = source.KnowledgeLevel;
         target.Gold = source.Gold;
-        target.SoulCollected = source.SoulCollected;
+        target.Soul = source.SoulCollected;
+        target.GoldRecord = source.GoldRecord;
+        target.SoulRecord = source.SoulRecord;
 
         target.unlockedSkills = new List<SkillUnlock>(source.unlockedSkills);
         target.Inventory = new List<InventoryItem>(source.Inventory);
@@ -149,7 +152,7 @@ public static class DataExtensions
         if (source == null) return;
         target.KnowledgeLevel = source.KnowledgeLevel;
         target.Gold = source.Gold;
-        target.SoulCollected = source.SoulCollected;
+        target.Soul = source.Soul;
     
         // Copy skills, inventory, and recipes
         target.unlockedSkills = new List<SkillUnlock>(source.unlockedSkills);
@@ -211,7 +214,7 @@ public static class SaveDataMapper
         {
             KnowledgeLevel = source.KnowledgeLevel,
             Gold = source.Gold,
-            SoulCollected = Mathf.RoundToInt(source.SoulCollected),
+            SoulCollected = Mathf.RoundToInt(source.Soul),
             unlockedSkills = new List<SkillUnlock>(source.unlockedSkills),
             Inventory = new List<InventoryItem>
             (
@@ -262,7 +265,7 @@ public static class SaveDataMapper
         {
             KnowledgeLevel = source.KnowledgeLevel,
             Gold = source.Gold,
-            SoulCollected = source.SoulCollected,
+            Soul = source.SoulCollected,
             unlockedSkills = new List<SkillUnlock>(source.unlockedSkills),
             Inventory = new List<InventoryItem>(source.Inventory),
             unlockedRecipes = new List<RecipeUnlock>(source.unlockedRecipes)

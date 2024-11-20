@@ -39,9 +39,9 @@
         [CanBeNull] public TextMeshProUGUI GoldText;
 
         [FoldoutGroup("Inventory")] 
-        public int KnowledgeLevel, Gold;
+        public int KnowledgeLevel, Gold, GoldRecord;
         [FoldoutGroup("Inventory")] 
-        public float SoulCollected;
+        public float Soul, SoulRecord;
         [FoldoutGroup("Inventory")]
         public List<SkillUnlock> unlockedSkills = new List<SkillUnlock>();
         [FoldoutGroup("Inventory")]
@@ -103,12 +103,12 @@
         public void AddCurrency(float InputGold = 0, float InputSoul = 0)
         {
             Gold += Mathf.RoundToInt(InputGold);
-            SoulCollected += Mathf.RoundToInt(InputSoul);
+            Soul += Mathf.RoundToInt(InputSoul);
 
             if (GoldText != null) GoldText.text = Gold.ToString();
             
-            ExpeditionReport.Instance.GoldCollected += Mathf.RoundToInt(InputGold);
-            ExpeditionReport.Instance.SoulCollected += Mathf.RoundToInt(InputSoul);
+            if(InputGold > 0) GoldRecord += Mathf.RoundToInt(InputGold);
+            if(SoulRecord > 0) SoulRecord += Mathf.RoundToInt(InputSoul);
             
             ParticleManager.Instance.SpawnParticle("CoinReceive", PlayerController.Instance.transform.position, quaternion.identity);
         }
@@ -163,7 +163,7 @@
 
         #region Save Load
 
-        // Call this command whenever player passes a floor
+        // Save Progress
         [Button("Confirm Reward")]
         public void SaveClaimReward()
         {
@@ -210,10 +210,12 @@
 
             // Load existing Soul value
             PermaStatsData permaStats = PlayerDataCRUD.LoadPermanentStats();
-            permaStats.Soul += Mathf.RoundToInt(SoulCollected);;
+            permaStats.Soul += Mathf.RoundToInt(Soul);;
             permaStats.knowledgeLevel += KnowledgeLevel;
 
             ExpeditionReport.Instance.KnowledgeLevelCollected = KnowledgeLevel;
+            ExpeditionReport.Instance.GoldCollected = GoldRecord;
+            ExpeditionReport.Instance.SoulCollected = Mathf.RoundToInt(SoulRecord);
 
             // Save the updated Soul value
             PlayerDataCRUD.SavePermanentStats(permaStats);
@@ -223,7 +225,7 @@
 
         void ResetRewardList()
         {
-            SoulCollected = 0;
+            Soul = 0;
             KnowledgeLevel = 0;
         }
 

@@ -1,8 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Events;
+using Random = UnityEngine.Random;
 
 public class ExpeditionManager : MonoBehaviour
 {
@@ -15,6 +18,8 @@ public class ExpeditionManager : MonoBehaviour
     public World currentWorld;
     [FoldoutGroup("Debug")]
     public Biome currentBiome;
+    [FoldoutGroup("Debug")] 
+    public Floor currFloor;
     [FoldoutGroup("Expedition Number")]
     public int currentWorldNumber = 0;
     [FoldoutGroup("Expedition Number")]
@@ -35,7 +40,7 @@ public class ExpeditionManager : MonoBehaviour
     #region Event
 
     //Load next floor after event 
-    [Button]
+    //[Button]
     public void NextFloor()
     {
         Debug.Log("World : " + currentWorldNumber + " - " + " Floor :" + currentFloorNumber);
@@ -50,12 +55,13 @@ public class ExpeditionManager : MonoBehaviour
         LoadFloor();
     }
     
-    IEnumerator LoadFloor()
+    async void LoadFloor()
     {
+        Debug.Log("try to Exit");
         GameManager.Instance.fadeInAnim.Invoke();
-        yield return new WaitForSeconds(1);
+        await UniTask.Delay(TimeSpan.FromSeconds(2));
         doExitFloor();
-        yield return new WaitForSeconds(0.5f);
+        await UniTask.Delay(TimeSpan.FromSeconds(0.5f));
         GameManager.Instance.fadeOutAnim.Invoke();
     }
 
@@ -63,6 +69,7 @@ public class ExpeditionManager : MonoBehaviour
     void doExitFloor()
     {
         PlayerController.Instance._playerData.SaveClaimReward();
+        //Ingame_Save.Instance.Save(); //bring to Exit Event
         if (currentFloorNumber + 1 < floors.Count)
         {
             CheckEvent();
@@ -141,9 +148,11 @@ public class ExpeditionManager : MonoBehaviour
         currentBiome = biomes[UnityEngine.Random.Range(0, biomes.Count)];
         gen.LoadBiomeData(currentBiome);
     }
-    void SetFloorData(int floor)
+    
+    [Button]
+    public void SetFloorData(int floor)
     {
-        Floor currFloor = floors[floor];
+        currFloor = floors[floor];
         gen.LoadFloorData(currFloor);
     }
     #endregion

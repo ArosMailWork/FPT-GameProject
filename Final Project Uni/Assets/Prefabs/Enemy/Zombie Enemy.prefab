@@ -280,6 +280,9 @@ MonoBehaviour:
   hitEvent:
     m_PersistentCalls:
       m_Calls: []
+  hitTargetEvent:
+    m_PersistentCalls:
+      m_Calls: []
   KnockDir: {x: 0, y: 0, z: 0}
   dotDam: 0
   isProjectile: 0
@@ -821,6 +824,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f9902cb66c54a5b4f80c2a063726ffaa, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2159572410402407373}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f9902cb66c54a5b4f80c2a063726ffaa, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8477187224183792264}
     - targetCorrespondingSourceObject: {fileID: 5528860797864257434, guid: f9902cb66c54a5b4f80c2a063726ffaa, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3860152780757078181}
@@ -1142,6 +1148,29 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+--- !u!114 &8477187224183792264
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2254896319304738677}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 658f0d3242819a84ab5a883f6bf2753e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DropOneItemOnly: 0
+  itemDrops: []
+  Level: 0
+  MinSoul: 0
+  MaxSoul: 2
+  soulDropRate: 50
+  MinGold: 0
+  MaxGold: 3
+  goldDropRate: 50
+  FixedOffset: {x: 0, y: 2, z: 0}
+  range: 2
 --- !u!4 &3753046257191369945 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -6368346887284349187, guid: f9902cb66c54a5b4f80c2a063726ffaa, type: 3}

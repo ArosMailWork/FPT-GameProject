@@ -106,7 +106,7 @@ public class MakeTransitionUI : MonoBehaviour
 
     public async void MakeFadeTransition()
     {
-        // Disable UI interaction at start
+        // Disable UI interaction at the start of the transition
         SetUIInteractable(false);
 
         float elapsedTime = 0f;
@@ -114,18 +114,20 @@ public class MakeTransitionUI : MonoBehaviour
 
         while (elapsedTime < duration)
         {
+            // Calculate the fade progress using Lerp
+            canvasGroup.alpha = Mathf.Lerp(0f, 1f, elapsedTime / duration);
+
             elapsedTime += Time.deltaTime;
-            float fadeProgress = elapsedTime / duration;
-            fadeProgress = Mathf.Clamp01(fadeProgress);
-            canvasGroup.alpha = fadeProgress;
-            await UniTask.Yield();
+            await UniTask.Yield(); // Yield execution to ensure smooth frame updates
         }
 
+        // Ensure the final alpha value is set to 1
         canvasGroup.alpha = 1f;
-        
+
         // Re-enable UI interaction after transition
         SetUIInteractable(true);
     }
+
     public GameObject fadeBlackImage;
 
 }

@@ -6,8 +6,14 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.UI;
 
+public enum UIState
+{
+    Gameplay, Event, Inventory
+}
+
 public class UIContainer : MonoBehaviour
 {
+    public UIState CurrentUIState;
     public List<GameObject> Gameplay;
     public GameObject SkillChoose;
     [CanBeNull] public GameObject Transition;
@@ -17,7 +23,7 @@ public class UIContainer : MonoBehaviour
     public SelectRandomSkillEvent s;
     public Animator FadeAnimator;
 
-    void Start()
+    void OnEnable()
     {
         s = SkillChoose.GetComponent<SelectRandomSkillEvent>();
         FadeAnimator.SetTrigger("FadeOut");
@@ -25,6 +31,8 @@ public class UIContainer : MonoBehaviour
     }
     public void GameplayState()
     {
+        CurrentUIState = UIState.Gameplay;
+        
         SkillChoose.SetActive(false);
         if(Transition != null) Transition.SetActive(false);
         Fade.SetActive(false);
@@ -37,6 +45,8 @@ public class UIContainer : MonoBehaviour
     }
     public void InventoryState()
     {
+        CurrentUIState = UIState.Inventory;
+        
         foreach (var obj in Gameplay)
         {
             obj.SetActive(false);
@@ -45,6 +55,8 @@ public class UIContainer : MonoBehaviour
     }
     public void SkillChooseState()
     {
+        CurrentUIState = UIState.Event;
+        
         SkillChoose.SetActive(true);
         foreach (var obj in Gameplay)
         {
@@ -88,7 +100,9 @@ public class UIContainer : MonoBehaviour
     IEnumerator FadeOutAnimation()
     {
         FadeAnimator.SetTrigger("FadeOut");
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1.5f);
+        
+        if(CurrentUIState != UIState.Event)
         GameplayState();
     }
 

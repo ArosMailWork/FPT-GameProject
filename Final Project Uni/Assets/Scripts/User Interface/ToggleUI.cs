@@ -11,8 +11,7 @@ public class ToggleUIElements : MonoBehaviour
     
     public void Start()
     {
-        if (Instance != null) Destroy(Instance);
-        Instance = this;
+        if (Instance == null) Instance = this;
     }
 
     // Method to toggle the UI elements

@@ -193,8 +193,7 @@ public class Arrow : MonoBehaviour
         //hit anything -> allow recall
         if (currentArrowState == ArrowState.Shooting) currentArrowState = ArrowState.Idle;
 
-        if (bonusRicochetMultiplier > 0)
-            arrowRb.velocity = arrowRb.velocity * bonusRicochetMultiplier;
+        arrowRb.velocity = arrowRb.velocity * bonusRicochetMultiplier;
     }
 
     private void OnTriggerExit(Collider other)
