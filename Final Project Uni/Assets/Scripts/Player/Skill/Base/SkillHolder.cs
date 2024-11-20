@@ -20,7 +20,7 @@ public class SkillHolder : MonoBehaviour
     [FoldoutGroup("Skill List")]
     public List<GameObject> activeSkillList = new List<GameObject>();
     [FoldoutGroup("Skill List")]
-    public List<string> SkillIDList;
+    public List<string> SkillIDList, SkillOBJNameList;
 
     [FoldoutGroup("Current Active Skill")]
     public int currentActiveSkill = 0;
@@ -42,17 +42,16 @@ public class SkillHolder : MonoBehaviour
 
     public static SkillHolder Instance;
 
-    void Start()
+    void Awake()
     {
-        Instance = this;
+        if (Instance == null) Instance = this;
         _pc = PlayerController.Instance;
 
         InitStartSkill();
     }
 
-    async UniTaskVoid InitStartSkill()
+    void InitStartSkill()
     {
-        await UniTask.Delay(TimeSpan.FromSeconds(0.1f));
         // Instantiate and categorize skills based on their type
         foreach (GameObject skillPrefab in StartSkill)
         {
@@ -101,16 +100,17 @@ public class SkillHolder : MonoBehaviour
     
 
     [Button]
-    public void AddSkill(GameObject skillPrefab)
+    public async void AddSkill(GameObject skillPrefab)
     {
         ISkill skillComponent = skillPrefab.GetComponent<ISkill>();
-        string skillName = skillComponent.name;
+        string skillID = skillComponent.Name;
+        string skillOBJName = skillComponent.name;
 
         // Check if the skill already exists
-        if (SkillIDList.Contains(skillName))
+        if (SkillIDList.Contains(skillID))
         {
             PlayerController.Instance._playerData.SoulCollected += SoulRecover;
-            Debug.Log("Skill already exists: " + skillName);
+            Debug.Log("Skill already exists: " + skillID);
             return;
         }
 
@@ -120,8 +120,10 @@ public class SkillHolder : MonoBehaviour
         skillInstance.transform.localPosition = Vector3.zero;
         skillInstance.transform.localRotation = Quaternion.identity;
 
+        await UniTask.Delay(TimeSpan.FromSeconds(0.05f));
         skillComponent.Assign();
-        SkillIDList.Add(skillName);  // Add to skill ID list to track uniqueness
+        SkillIDList.Add(skillID);  // Add to skill ID list to track uniqueness
+        SkillOBJNameList.Add(skillOBJName);
 
         // Add the skill to the appropriate list based on its type
         if (skillComponent.type == SkillType.ACTIVE)
@@ -144,7 +146,30 @@ public class SkillHolder : MonoBehaviour
         }
     }
 
-    
+    [Button]
+    public void AddSkillWithID(string skillID)
+    {
+        // Validate the input skillID
+        if (string.IsNullOrEmpty(skillID))
+        {
+            Debug.LogWarning("Skill ID is empty or null.");
+            return;
+        }
+
+        // Retrieve the skill prefab from the SkillDatabase
+        GameObject skill = PlayerController.Instance._playerData.
+            skillDatabase.allSkills.Find(s => s.Skill_ID == skillID).skillPrefab;
+
+        if (skill == null)
+        {
+            Debug.Log($"Skill with ID '{skillID}' not found in the skill database.");
+            return;
+        }
+
+        AddSkill(skill);
+    }
+
+
     #endregion
 
     #region Input

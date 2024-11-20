@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Skill_Buff_PreciseArcher : ISkill
 {
-    void OnEnable()
+    void Start()
     {
         SetToggle(true);
     }

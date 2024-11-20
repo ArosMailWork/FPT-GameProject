@@ -44,7 +44,9 @@ public class Arrow : MonoBehaviour
     [FoldoutGroup("Setup/Events")]
     public UnityEvent StartRecallEvent, StopRecallEvent, RecoverEvent, HideEvent;
     public float offsetDegree;
-    public bool IsMainArrow;
+    public bool IsMainArrow, startRecallFlag;
+    
+    bool hasBuffBeenReset = false;
 
     #region Unity Methods
 
@@ -68,9 +70,23 @@ public class Arrow : MonoBehaviour
 
     private void Update()
     {
+        startRecallFlag = (currentArrowState == ArrowState.Shooting);
+
+        // Ensure SetBuffATKMul(0) is called only once
+        if (!startRecallFlag && !hasBuffBeenReset)
+        {
+            _playerController._stats.SetBuffATKMul(0);
+            hasBuffBeenReset = true; // Set the flag to true after the method is called
+        }
+
+        // Reset the flag when the arrow starts shooting again
+        if (startRecallFlag)
+        {
+            hasBuffBeenReset = false;
+        }
+
         if (currentArrowState == ArrowState.Shooting && arrowRb.velocity.magnitude <= minShootingSpeed)
         {
-            //Debug.Log("Idle");
             currentArrowState = ArrowState.Idle;
         }
 
@@ -88,9 +104,10 @@ public class Arrow : MonoBehaviour
         if (arrowRb.velocity.magnitude > 0 && arrowRb.velocity != Vector3.zero)
         {
             Quaternion targetRotation = Quaternion.LookRotation(arrowRb.velocity.normalized);
-            arrowRb.rotation = Quaternion.Slerp(arrowRb.rotation, targetRotation, Time.deltaTime * rotSpeed); // Adjust the speed of rotation here
+            arrowRb.rotation = Quaternion.Slerp(arrowRb.rotation, targetRotation, Time.deltaTime * rotSpeed);
         }
     }
+
 
     private void OnDisable()
     {

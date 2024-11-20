@@ -41,7 +41,7 @@ public class SelectRandomSkillEvent : MonoBehaviour
         HashSet<string> existingSkillIDs = new HashSet<string>();
         if (SkillHolder.Instance != null)
         {
-            existingSkillIDs = new HashSet<string>(SkillHolder.Instance.SkillIDList);
+            existingSkillIDs = new HashSet<string>(SkillHolder.Instance.SkillOBJNameList);
         }
 
         // Add all default unlocked skills from the database if they are not already in SkillIDList

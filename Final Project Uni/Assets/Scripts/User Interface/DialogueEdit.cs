@@ -79,6 +79,9 @@ public class DialogueEdit : MonoBehaviour
 
     public void EditText(int index)
     {
+        // Toggle Mask visibility
+        PlayerController.Instance.dialogUI.SetActiveMask(Mask);
+        
         if (index < 0 || index >= dialogues.Count) return;
 
         Dialogue dialogue = dialogues[index];
@@ -91,9 +94,6 @@ public class DialogueEdit : MonoBehaviour
             PlayerController.Instance.dialogUI.ShowOriginalText();
         else
             PlayerController.Instance.dialogUI.ChangeTextFontHidden();
-
-        // Toggle Mask visibility
-        PlayerController.Instance.dialogUI.SetActiveMask(Mask);
     }
 
     public void ToggleDialogue()

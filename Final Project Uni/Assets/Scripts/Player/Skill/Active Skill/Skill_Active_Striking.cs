@@ -27,6 +27,7 @@ public class Skill_Active_Striking : ISkill
 
     private void Start()
     {
+        if(_pc == null) _pc = PlayerController.Instance;
         _pc.strikeMultiplier = strikingMultiplier;
 
         TrailEffect(false);

@@ -27,6 +27,7 @@ public class AudioManager : SerializedMonoBehaviour
         else
         {
             Instance = this;
+            DontDestroyOnLoad(gameObject);
         }
     }
 
