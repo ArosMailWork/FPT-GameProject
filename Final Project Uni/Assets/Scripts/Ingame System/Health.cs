@@ -22,7 +22,7 @@ public class Health : MonoBehaviour
     [FoldoutGroup("Stats")]
     public int maxHealth;
     [FoldoutGroup("Stats")]
-    [ReadOnly, SerializeField] private int health, overHeal;
+    [ReadOnly, SerializeField] public int health, overHeal;
 
     [FoldoutGroup("Stats/Buff")] 
     public bool isTrapMaster = false;
@@ -141,6 +141,15 @@ public class Health : MonoBehaviour
     [Button]
     public void Heal(int heal)
     {
+        Debug.Log("Heal " + heal);
+        currentHealth += heal;
+    }
+    
+    [FoldoutGroup("Event Test/Basic")]
+    [Button]
+    public void HealPercent(float healPercent)
+    {
+        int heal = Mathf.CeilToInt(maxHealth * healPercent);
         Debug.Log("Heal " + heal);
         currentHealth += heal;
     }

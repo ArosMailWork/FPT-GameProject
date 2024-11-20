@@ -40,7 +40,7 @@ public class GameManager : MonoBehaviour
     public void StartNewGame()
     {
         // Logic for starting a new game
-        SceneManager.LoadScene("Lobby");
+        // SceneManager.LoadScene("Lobby");
     }
 
     public void LoadGame()

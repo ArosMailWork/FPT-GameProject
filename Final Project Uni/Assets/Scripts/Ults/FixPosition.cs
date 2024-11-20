@@ -6,35 +6,34 @@ using UnityEngine;
 [ExecuteInEditMode]
 public class FixPosition : MonoBehaviour
 {
-    public Vector3 initialPosition = new Vector3(900, 540, 0);
-    public Vector3 initialLocalScale = Vector3.one;
+    //ở tỉ lệ FullHD
+    //public Vector3 initialPosition = new Vector3(246.6f, 594.6f, 0);
     public Vector3 debugPosition;
-    public Vector3 debugScale;
+    public Vector2 screenRatio = new Vector2(1920f, 1080f);
+    //ti lệ so với màn hình
+    public Vector2 screenPosition = new Vector2(0.09247496f, 0.605611f);
 
     // Start is called before the first frame update
     void Start()
     {
-        transform.position = initialPosition;
+        // screenPosition = new Vector2(
+        //     initialPosition.x / Screen.width,
+        //     initialPosition.y / Screen.height
+        // );
+
     }
 
-    void OnEnable()
-    {
-        initialLocalScale = transform.localScale;
-    }
 
     // Update is called once per frame
     void Update()
     {
-        transform.position = initialPosition;
-        debugPosition = transform.position;
-
-        if (!transform.parent) return;
-        transform.localScale = new Vector3(
-            initialLocalScale.x / transform.parent.lossyScale.x,
-            initialLocalScale.y / transform.parent.lossyScale.y,
-            initialLocalScale.z / transform.parent.lossyScale.z
+        Vector3 newPosition = new Vector3(
+            screenPosition.x * Screen.width,
+            screenPosition.y * Screen.height,
+            0
         );
-        //print($"Lc: {transform.localScale} and Gb: {transform.parent.lossyScale}");
-        debugScale = transform.localScale;
+
+        transform.position = newPosition;
+        debugPosition = transform.position;
     }
 }

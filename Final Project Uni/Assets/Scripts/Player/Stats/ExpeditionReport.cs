@@ -24,8 +24,7 @@ public class ExpeditionReport : MonoBehaviour
     
     public void Start()
     {
-        if (Instance != null) Destroy(Instance);
-        Instance = this;
+        if (Instance == null) Instance = this;
     }
 
     public void AchievementProgress()

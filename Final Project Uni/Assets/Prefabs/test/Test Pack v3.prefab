@@ -224,7 +224,7 @@ GameObject:
   - component: {fileID: 3814480453365747856}
   - component: {fileID: 4095507687245354997}
   - component: {fileID: 8041768506463176455}
-  - component: {fileID: 6400441189395592141}
+  - component: {fileID: 4054232620870563492}
   m_Layer: 0
   m_Name: Player Save
   m_TagString: Untagged
@@ -298,7 +298,7 @@ MonoBehaviour:
     text: hehe
   - icon: {fileID: -1422012143, guid: d14d2f4e9d25f2c46ad4b6e0de55259b, type: 3}
     text: Absorb Unlocked !!!
---- !u!114 &6400441189395592141
+--- !u!114 &4054232620870563492
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -307,18 +307,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 198828648532077036}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e2b922f832070647aafde73cc497e27, type: 3}
+  m_Script: {fileID: 11500000, guid: eff7a8ab63536814abf0850c6c5c9865, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Stats: {fileID: 0}
-  playerHealth: {fileID: 0}
-  skillList: []
-  runData: {fileID: 0}
-  AllowLoadSave: 0
-  Floor: 0
-  World: 0
-  currentWorld: {fileID: 0}
-  currentBiome: {fileID: 0}
+  Reward:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4923688658281488188}
+        m_TargetAssemblyTypeName: ReviveCountdownTimer, Assembly-CSharp
+        m_MethodName: Revive
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &198933028673479354
 GameObject:
   m_ObjectHideFlags: 0
@@ -23782,6 +23788,7 @@ MonoBehaviour:
       m_Calls: []
   offsetDegree: 15
   IsMainArrow: 0
+  startRecallFlag: 0
 --- !u!114 &6173802205020416321
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24434,6 +24441,7 @@ MonoBehaviour:
       m_Calls: []
   offsetDegree: 0
   IsMainArrow: 1
+  startRecallFlag: 0
 --- !u!114 &6123833372231583965
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40427,6 +40435,7 @@ MonoBehaviour:
       m_Calls: []
   offsetDegree: -15
   IsMainArrow: 0
+  startRecallFlag: 0
 --- !u!114 &7328969460272619473
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63145,6 +63154,7 @@ MonoBehaviour:
   passiveSkillList: []
   activeSkillList: []
   SkillIDList: []
+  SkillOBJNameList: []
   currentActiveSkill: 0
   activeSkill: {fileID: 0}
   currentSkill: {fileID: 0}

@@ -15,7 +15,7 @@ public class Skill_Buff_TheForce : ISkill
     void SetStat()
     {
         //Debug.Log("Add Ricochet!!");
-        _pc = PlayerController.Instance;
+        if(_pc == null) _pc = PlayerController.Instance;
         _pc._stats.bonusRecallSpeed += bonusRecallSpeed;
         _pc._stats.UpdateStats();
     }

@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour
     [FoldoutGroup("Debug")]
     public PlayerState currentState;
     [FoldoutGroup("Debug")]
-    [ReadOnly] public Vector2 moveInput, moveBuffer;
+    [ReadOnly] public Vector2 moveInput = Vector2.zero, moveBuffer;
     [FoldoutGroup("Debug")]
     public Vector2 joyStickInput;
     [FoldoutGroup("Debug")]
@@ -92,8 +92,7 @@ public class PlayerController : MonoBehaviour
     #region Unity Methods
     private void Awake()
     {
-        if (Instance != this || Instance != null) Destroy(Instance);
-        Instance = this;
+        if (Instance == null) Instance = this;
         
         if (PlayerHealth == null) PlayerHealth = GetComponent<Health>();
         PlayerRB = GetComponent<Rigidbody>();
@@ -368,7 +367,7 @@ public class PlayerController : MonoBehaviour
 
     #region Movement
 
-    public void Move(Vector2 input)
+    public void Move(Vector2 input = default)
     {
         if (currentState == PlayerState.Stunning || currentState == PlayerState.Rolling ||
             currentState == PlayerState.Recalling || currentState == PlayerState.ReverseRecalling ||
@@ -467,17 +466,10 @@ public class PlayerController : MonoBehaviour
         PlayerHealth.isAlive = false;
     }
 
-    public async void Revive(float delay = 1)
+    public void Revive(float InstantHPPercent = 0.5f, int RegenHP = 4)
     {
-        await UniTask.Delay(TimeSpan.FromSeconds(delay));
-        doRevive();
-    }
-
-    public void doRevive(int InstantHP = 1, int RegenHP = 4)
-    {
-        ToggleUIElements.Instance.ToggleUI(true);
         _playerAnimController.DieAnim(false);
-        PlayerHealth.Heal(InstantHP);
+        PlayerHealth.HealPercent(InstantHPPercent);
         PlayerHealth.HealOverTime(RegenHP, 4);
         PlayerHealth.isAlive = true;
     }
