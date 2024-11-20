@@ -13,6 +13,7 @@ public class InteractableItem : MonoBehaviour
 
     // New boolean to control if UI interaction is one-time only
     public bool HideAfterUseUI = false;
+    public bool dontShowUI = false;
 
     // Unity events for interaction and trigger range handling
     public UnityEvent InteractEvent, EnterTriggerRange, ExitTriggerRange, ShopFail;
@@ -63,6 +64,7 @@ public class InteractableItem : MonoBehaviour
     // Method to show/hide the interact UI
     public void ShowUIInteract(bool toggle)
     {
+        if(dontShowUI) return;
         if (!hasInteracted || !HideAfterUseUI)  // Only show the button if interaction hasn't happened (for one-time use)
         {
             interactButton.gameObject.SetActive(toggle);

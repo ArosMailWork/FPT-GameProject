@@ -60,7 +60,7 @@ public class ChestOpeningEffect : MonoBehaviour
 
     public void BurstItems()
     {
-        if (items.Count < 0) return;
+        if (items.Count < 0 || isOpened) return;
         foreach (GameObject item in items)
         {
             GameObject newItem = Instantiate(item, spawnPoint.position, Quaternion.identity);
@@ -76,6 +76,7 @@ public class ChestOpeningEffect : MonoBehaviour
             }
         }
         BurstCoins();
+        isOpened = true;
     }
 
     private void BurstCoins()
