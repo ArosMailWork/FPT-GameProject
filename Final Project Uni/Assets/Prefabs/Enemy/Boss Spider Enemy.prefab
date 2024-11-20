@@ -241,7 +241,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 845216265009435762}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b2d8418b0b9634b1892b0268dd9c2743, type: 3}
   m_Name: 
@@ -688,6 +688,9 @@ MonoBehaviour:
   RNG_Min: 0
   RNG_Max: 4
   offset: 3
+  patternBossAttack: 0
+  patternBossMove: 0
+  PatternPos: []
   RNG: 0
   target: {fileID: 0}
   sm: {fileID: 0}
@@ -1287,6 +1290,7 @@ MonoBehaviour:
   Activated: 1
   aimType: 2
   projectile: {fileID: 3324548520128070669, guid: 0605064c50fda5c4fa84e35176a8f3a7, type: 3}
+  muzzleFlash: []
   target: {fileID: 0}
   predictionFactor: 1
   projectileSpeed: 35
@@ -1338,6 +1342,7 @@ MonoBehaviour:
   Activated: 1
   aimType: 3
   projectile: {fileID: 3324548520128070669, guid: 0605064c50fda5c4fa84e35176a8f3a7, type: 3}
+  muzzleFlash: []
   target: {fileID: 0}
   predictionFactor: 1
   projectileSpeed: 35
@@ -1754,6 +1759,7 @@ MonoBehaviour:
   Activated: 1
   aimType: 1
   projectile: {fileID: 3324548520128070669, guid: 0605064c50fda5c4fa84e35176a8f3a7, type: 3}
+  muzzleFlash: []
   target: {fileID: 0}
   predictionFactor: 1
   projectileSpeed: 35
@@ -2011,6 +2017,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  CheckValue:
+    m_PersistentCalls:
+      m_Calls: []
   isAlive: 1
 --- !u!114 &5515614557198953450
 MonoBehaviour:
@@ -2025,6 +2034,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pivot: {fileID: 7812110374978662255}
+  PlaySoundEffect:
+    m_PersistentCalls:
+      m_Calls: []
+  hitParticleName: HitEffect
 --- !u!114 &6193786974130822683
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2086,6 +2099,7 @@ MonoBehaviour:
   Activated: 1
   aimType: 3
   projectile: {fileID: 3324548520128070669, guid: 0605064c50fda5c4fa84e35176a8f3a7, type: 3}
+  muzzleFlash: []
   target: {fileID: 0}
   predictionFactor: 1
   projectileSpeed: 35
