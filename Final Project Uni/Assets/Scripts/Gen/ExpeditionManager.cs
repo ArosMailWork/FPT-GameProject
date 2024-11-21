@@ -29,12 +29,27 @@ public class ExpeditionManager : MonoBehaviour
 
     public static ExpeditionManager Instance;
 
-    public void Start()
+    public void OnEnable()
     {
-        if (Instance != null) Destroy(Instance);
-        Instance = this;
+        if (Instance == null)
+        {
+            Instance = this;
+            Debug.Log("Set Singleton " + Instance);
+        }
+
+        if (Ingame_Save.Instance.haveFileLoad)
+        {
+            Debug.Log("Load " + Ingame_Save.Instance);
+            currentWorldNumber = Ingame_Save.Instance.World;
+            currentFloorNumber = Ingame_Save.Instance.Floor;
+        }
+        else
+        {
+            currentWorldNumber = 0;
+            currentFloorNumber = 0;
+        }
         
-        ExpeditionStart();
+        ExpeditionStart(currentWorldNumber, currentFloorNumber);
     }
 
     #region Event
@@ -106,10 +121,12 @@ public class ExpeditionManager : MonoBehaviour
     {
         return floors[currentFloorNumber].haveBoss;
     }
-    public void ExpeditionStart()
+    public void ExpeditionStart(int world, int floor)
     {
-        SetWorld(currentWorldNumber);
-        GenerateFloor(currentFloorNumber);
+        Debug.Log((currentWorldNumber + 1) + " " + (currentFloorNumber + 1));
+        
+        SetWorld(world);
+        GenerateFloor(floor);
         OnExpeditionStart.Invoke();
     }
     public void ExpeditionComplete()
@@ -122,13 +139,7 @@ public class ExpeditionManager : MonoBehaviour
     #endregion
 
     #region GenerationManager
-    [Button]
-    void GenerateRandomFloor()
-    {
-        SetFloorData(Random.Range(0, floors.Count));
-        gen.Generate();
-    }
-    void GenerateFloor(int floor)
+    public void GenerateFloor(int floor)
     {
         SetFloorData(floor);
         gen.Generate();
@@ -140,7 +151,6 @@ public class ExpeditionManager : MonoBehaviour
         currentWorldNumber = worldIndex;
         ChooseRandomBiome();
         floors = currentWorld.floors;
-        currentFloorNumber = 0;
     }
     void ChooseRandomBiome()
     {
@@ -152,6 +162,7 @@ public class ExpeditionManager : MonoBehaviour
     [Button]
     public void SetFloorData(int floor)
     {
+        Debug.Log("Set Floor " + (floor + 1));
         currFloor = floors[floor];
         gen.LoadFloorData(currFloor);
     }

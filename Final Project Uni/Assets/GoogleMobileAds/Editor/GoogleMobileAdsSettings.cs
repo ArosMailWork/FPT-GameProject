@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace GoogleMobileAds.Editor
 {
-    internal class GoogleMobileAdsSettings : ScriptableObject
+    public class GoogleMobileAdsSettings : ScriptableObject
     {
         private const string MobileAdsSettingsResDir = "Assets/GoogleMobileAds/Resources";
 
@@ -13,7 +13,7 @@ namespace GoogleMobileAds.Editor
 
         private const string MobileAdsSettingsFileExtension = ".asset";
 
-        internal static GoogleMobileAdsSettings LoadInstance()
+        public static GoogleMobileAdsSettings LoadInstance()
         {
             //Read from resources.
             var instance = Resources.Load<GoogleMobileAdsSettings>(MobileAdsSettingsFile);

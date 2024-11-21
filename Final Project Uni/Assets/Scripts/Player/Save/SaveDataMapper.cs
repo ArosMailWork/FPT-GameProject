@@ -88,11 +88,13 @@ public static class DataCopier
         target.unlockedRecipes = new List<RecipeUnlock>(source.unlockedRecipes);
 
         // Log Inventory items for debugging
+        /*
         Debug.Log("Loaded Inventory!!");
         foreach (var item in target.Inventory)
         {
-            Debug.Log(item.item.itemName + " " + item.amount);
+            //Debug.Log(item.item.itemName + " " + item.amount);
         }
+        */
     }
 }
 

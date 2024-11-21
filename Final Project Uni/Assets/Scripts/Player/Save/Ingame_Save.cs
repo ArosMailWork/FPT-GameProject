@@ -14,7 +14,7 @@ public class Ingame_Save : MonoBehaviour
     public HealthData playerHealth;
     public PlayerRunData runData;
 
-    public bool AllowLoadSave;
+    public bool haveProgressSave_Debug;
     public List<string> skillList = new List<string>();
 
     [FoldoutGroup("Expedition")]
@@ -33,7 +33,7 @@ public class Ingame_Save : MonoBehaviour
         if (Instance == null) Instance = this;
         
         saveFilePath = Path.Combine(Application.dataPath, "ExpeditionSaveData.json");
-        AllowLoadSave = File.Exists(saveFilePath); // Check if save file exists at startup
+        haveProgressSave_Debug = File.Exists(saveFilePath); // Check if save file exists at startup
     }
 
     private void Start()
@@ -64,7 +64,7 @@ public class Ingame_Save : MonoBehaviour
         // Serialize to JSON
         string jsonData = JsonUtility.ToJson(this, true);
         File.WriteAllText(saveFilePath, jsonData);
-        AllowLoadSave = true;
+        //haveProgressSave_Debug = true;
 
         Debug.Log("Game saved successfully!");
     }
@@ -72,11 +72,13 @@ public class Ingame_Save : MonoBehaviour
     [Button]
     public async void Load()
     {
-        if (!AllowLoadSave)
+        /*
+        if (!haveProgressSave_Debug)
         {
             Debug.LogWarning("No save data available to load.");
             return;
         }
+        */
 
         // Read JSON file
         if (File.Exists(saveFilePath))
@@ -91,7 +93,7 @@ public class Ingame_Save : MonoBehaviour
                 return;
             }
 
-            await UniTask.Delay(TimeSpan.FromSeconds(1f));
+            //await UniTask.Delay(TimeSpan.FromSeconds(1f));
 
             // Apply the loaded data to the PlayerController components
             PlayerController.Instance.PlayerHealth.CopyFromData(playerHealth);
@@ -99,7 +101,13 @@ public class Ingame_Save : MonoBehaviour
             PlayerController.Instance._playerData.CopyFromData(runData);
 
             // Load skills
+            foreach (var skill in SkillHolder.Instance.skillList)
+            {
+                if (skill != null) Destroy(skill); // Destroy the skill object
+            }
             SkillHolder.Instance.skillList.Clear();
+            SkillHolder.Instance.SkillIDList.Clear();
+            SkillHolder.Instance.SkillOBJNameList.Clear();
             foreach (var skillID in skillList)
             {
                 SkillHolder.Instance.AddSkillWithID(skillID);
@@ -108,14 +116,10 @@ public class Ingame_Save : MonoBehaviour
             // Expedition Load
             ExpeditionManager.Instance.currentWorld = currentWorld;
             ExpeditionManager.Instance.currentBiome = currentBiome;
-            ExpeditionManager.Instance.currentFloorNumber = Floor;
-            ExpeditionManager.Instance.currentWorldNumber = World;
-            ExpeditionManager.Instance.gen.Generate();
-
-            // Delete the save file after loading it so it can't be used again
+            //Delete the save file after loading it so it can't be used again
             DestroySave();
 
-            Debug.Log("Game loaded and save file deleted successfully!");
+            Debug.Log("Game Progress loaded successfully!");
         }
         else
         {
@@ -130,7 +134,7 @@ public class Ingame_Save : MonoBehaviour
         if (File.Exists(saveFilePath))
         {
             File.Delete(saveFilePath);
-            AllowLoadSave = false;
+            //haveProgressSave_Debug = false;
             Debug.Log("Save data deleted successfully!");
         }
         else
