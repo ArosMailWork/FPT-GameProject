@@ -73,13 +73,13 @@ public static class DataCopier
     }
 
     // Static method to copy data from PlayerRunData to PlayerData
-    public static void CopyFromData(this PlayerData target, PlayerRunData source)
+    public static void CopyFromData(this PlayerProgressData target, PlayerRunData source)
     {
         if (source == null || target == null) return;
 
         target.KnowledgeLevel = source.KnowledgeLevel;
         target.Gold = source.Gold;
-        target.Soul = source.SoulCollected;
+        target.SoulCollected = source.SoulCollected;
         target.GoldRecord = source.GoldRecord;
         target.SoulRecord = source.SoulRecord;
 
@@ -149,12 +149,12 @@ public static class DataExtensions
     }
 
     // PlayerData
-    public static void CopyFrom(this PlayerData target, PlayerData source)
+    public static void CopyFrom(this PlayerProgressData target, PlayerProgressData source)
     {
         if (source == null) return;
         target.KnowledgeLevel = source.KnowledgeLevel;
         target.Gold = source.Gold;
-        target.Soul = source.Soul;
+        target.SoulCollected = source.SoulCollected;
     
         // Copy skills, inventory, and recipes
         target.unlockedSkills = new List<SkillUnlock>(source.unlockedSkills);
@@ -170,7 +170,7 @@ public static class DataExtensions
     }
 
 
-    public static void UpdateFrom(this PlayerData target, PlayerData source)
+    public static void UpdateFrom(this PlayerProgressData target, PlayerProgressData source)
     {
         target.CopyFrom(source);
     }
@@ -210,13 +210,13 @@ public static class SaveDataMapper
     }
 
     // Map PlayerData to PlayerRunData
-    public static PlayerRunData ToData(this PlayerData source)
+    public static PlayerRunData ToData(this PlayerProgressData source)
     {
         return new PlayerRunData
         {
             KnowledgeLevel = source.KnowledgeLevel,
             Gold = source.Gold,
-            SoulCollected = Mathf.RoundToInt(source.Soul),
+            SoulCollected = Mathf.RoundToInt(source.SoulCollected),
             unlockedSkills = new List<SkillUnlock>(source.unlockedSkills),
             Inventory = new List<InventoryItem>
             (
@@ -261,13 +261,13 @@ public static class SaveDataMapper
     }
 
     // Map PlayerRunData to PlayerData
-    public static PlayerData FromData(this PlayerRunData source)
+    public static PlayerProgressData FromData(this PlayerRunData source)
     {
-        var playerData = new PlayerData
+        var playerData = new PlayerProgressData
         {
             KnowledgeLevel = source.KnowledgeLevel,
             Gold = source.Gold,
-            Soul = source.SoulCollected,
+            SoulCollected = source.SoulCollected,
             unlockedSkills = new List<SkillUnlock>(source.unlockedSkills),
             Inventory = new List<InventoryItem>(source.Inventory),
             unlockedRecipes = new List<RecipeUnlock>(source.unlockedRecipes)

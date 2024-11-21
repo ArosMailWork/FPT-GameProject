@@ -16,11 +16,11 @@ public class RandomItem : MonoBehaviour
     [FoldoutGroup("Debug")] [ReadOnly] public List<ItemPoolEntry> availableItemsPool;
     [FoldoutGroup("Debug")] [ReadOnly] public List<ItemPoolEntry> skillItems, nonSkillItems;
 
-    private PlayerData _playerData;
+    private PlayerProgressData _playerProgressData;
 
     private void Start()
     {
-        _playerData = PlayerController.Instance._playerData; // Access player data for skill checks
+        _playerProgressData = PlayerController.Instance.PlayerProgressData; // Access player data for skill checks
         Invoke(nameof(CreateAvailableItemsPool), 0.2f); // Delay to ensure PlayerData is initialized
     }
     
@@ -104,6 +104,6 @@ public class RandomItem : MonoBehaviour
     private bool IsSkillUnlocked(string skillID)
     {
         // Check in PlayerData if the skill is unlocked
-        return _playerData.IsSkillUnlocked(skillID);
+        return _playerProgressData.IsSkillUnlocked(skillID);
     }
 }

@@ -79,7 +79,7 @@ public class ItemDropRate : MonoBehaviour
         if (Random.Range(0f, 100f) <= goldDropRate)
         {
             Gold = Random.Range(MinGold, MaxGold);
-            PlayerController.Instance._playerData.AddCurrency(Gold, 0); // Add Gold
+            PlayerController.Instance.PlayerProgressData.AddCurrency(Gold, 0); // Add Gold
             Debug.Log($"Dropped Gold: {Gold}");
         }
 
@@ -87,7 +87,7 @@ public class ItemDropRate : MonoBehaviour
         if (Random.Range(0f, 100f) <= soulDropRate)
         {
             Soul = Random.Range(MinSoul, MaxSoul);
-            PlayerController.Instance._playerData.AddCurrency(0, Soul); // Add Soul
+            PlayerController.Instance.PlayerProgressData.AddCurrency(0, Soul); // Add Soul
             Debug.Log($"Dropped Soul: {Soul}");
         }
     }
@@ -111,6 +111,6 @@ public class ItemDropRate : MonoBehaviour
 
     private void LevelUp()
     {
-        PlayerController.Instance._playerData.KnowledgeLevel += 1;
+        PlayerController.Instance.PlayerProgressData.KnowledgeLevel += 1;
     }
 }

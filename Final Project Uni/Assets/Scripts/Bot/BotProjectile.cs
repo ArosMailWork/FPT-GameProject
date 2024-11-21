@@ -29,7 +29,7 @@ public class BotProjectile : MonoBehaviour
         // Set the velocity along the X and Z axes while keeping Y velocity zero to ensure the projectile stays level with the ground
         Vector3 forwardVelocity = transform.forward * speed;
         rb.velocity = new Vector3(forwardVelocity.x, 0, forwardVelocity.z);
-        rb.transform.rotation = Quaternion.LookRotation(rb.velocity, Vector3.up);
+        rb.transform.rotation = Quaternion.LookRotation(new Vector3(forwardVelocity.x, 0, forwardVelocity.z), Vector3.up);
         Invoke(nameof(SelfDestruct), 10f);
     }
 

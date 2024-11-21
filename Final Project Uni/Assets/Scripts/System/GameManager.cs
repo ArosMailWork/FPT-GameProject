@@ -81,7 +81,7 @@ public class GameManager : MonoBehaviour
     }
     public void StartExpedition()
     {
-        PlayerController.Instance._playerData.SaveClaimReward();
+        PlayerController.Instance.PlayerProgressData.SaveClaimReward();
         StartCoroutine(LoadExpedition());
     }
     public void StartLobby()

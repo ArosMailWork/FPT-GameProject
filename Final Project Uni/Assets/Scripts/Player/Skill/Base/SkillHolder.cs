@@ -109,7 +109,7 @@ public class SkillHolder : MonoBehaviour
         // Check if the skill already exists
         if (SkillIDList.Contains(skillID))
         {
-            PlayerController.Instance._playerData.Soul += SoulRecover;
+            PlayerController.Instance.PlayerProgressData.SoulCollected += SoulRecover;
             Debug.Log("Skill already exists: " + skillID);
             return;
         }
@@ -157,7 +157,7 @@ public class SkillHolder : MonoBehaviour
         }
 
         // Retrieve the skill prefab from the SkillDatabase
-        GameObject skill = PlayerController.Instance._playerData.
+        GameObject skill = PlayerController.Instance.PlayerProgressData.
             skillDatabase.allSkills.Find(s => s.Skill_ID == skillID).skillPrefab;
 
         if (skill == null)

@@ -26,7 +26,7 @@
         public List<InventoryItem> Inventory = new List<InventoryItem>();
     }
 
-    public class PlayerData : MonoBehaviour
+    public class PlayerProgressData : MonoBehaviour
     {
         [FoldoutGroup("Setup")]
         public ItemDatabase itemDatabase;
@@ -35,13 +35,10 @@
         [FoldoutGroup("Setup")]
         public SkillDatabase skillDatabase;
 
-        [FoldoutGroup("Setup")] 
-        [CanBeNull] public TextMeshProUGUI GoldText;
-
         [FoldoutGroup("Inventory")] 
         public int KnowledgeLevel, Gold, GoldRecord;
         [FoldoutGroup("Inventory")] 
-        public float Soul, SoulRecord;
+        public float SoulCollected, SoulRecord;
         [FoldoutGroup("Inventory")]
         public List<SkillUnlock> unlockedSkills = new List<SkillUnlock>();
         [FoldoutGroup("Inventory")]
@@ -103,15 +100,17 @@
         public void AddCurrency(float InputGold = 0, float InputSoul = 0)
         {
             Gold += Mathf.RoundToInt(InputGold);
-            Soul += Mathf.RoundToInt(InputSoul);
+            SoulCollected += Mathf.RoundToInt(InputSoul);
 
-            if (GoldText != null) GoldText.text = Gold.ToString();
-            
+            PlayerController.Instance.UpdateUI(Gold.ToString(), (SoulCollected + PlayerController.Instance._stats.playerSoul).ToString());
+
             if(InputGold > 0) GoldRecord += Mathf.RoundToInt(InputGold);
             if(SoulRecord > 0) SoulRecord += Mathf.RoundToInt(InputSoul);
             
             ParticleManager.Instance.SpawnParticle("CoinReceive", PlayerController.Instance.transform.position, quaternion.identity);
         }
+
+        
         
         [Button]
         public void AddItem(string itemID, int amount, bool minus = false)
@@ -210,7 +209,7 @@
 
             // Load existing Soul value
             PermaStatsData permaStats = PlayerDataCRUD.LoadPermanentStats();
-            permaStats.Soul += Mathf.RoundToInt(Soul);;
+            permaStats.Soul += Mathf.RoundToInt(SoulCollected);;
             permaStats.knowledgeLevel += KnowledgeLevel;
 
             ExpeditionReport.Instance.KnowledgeLevelCollected = KnowledgeLevel;
@@ -225,7 +224,7 @@
 
         void ResetRewardList()
         {
-            Soul = 0;
+            SoulCollected = 0;
             KnowledgeLevel = 0;
         }
 
@@ -241,6 +240,9 @@
 
             if (saveData != null)
             {
+                //Update Currency 
+                PlayerController.Instance.UpdateUI(Gold.ToString(), (SoulCollected + PlayerController.Instance._stats.playerSoul).ToString());
+                
                 // Load inventory data
                 foreach (var savedItem in saveData.Inventory)
                 {
@@ -306,8 +308,7 @@
 
 
         #endregion
-
-
+        
         #region Calculate Ults
 
         //First Time

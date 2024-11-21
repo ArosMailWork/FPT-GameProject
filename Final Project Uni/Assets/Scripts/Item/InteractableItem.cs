@@ -42,7 +42,7 @@ public class InteractableItem : MonoBehaviour
     // Method to be called when the interact button is clicked
     public void OnInteract()
     {
-        if (isItemShop && PlayerController.Instance._playerData.Gold <= LastCost)
+        if (isItemShop && PlayerController.Instance.PlayerProgressData.Gold <= LastCost)
         {
             ShopFail.Invoke();
             return;
@@ -50,7 +50,7 @@ public class InteractableItem : MonoBehaviour
         if (HideAfterUseUI && hasInteracted) return;
 
         InteractEvent.Invoke();
-        PlayerController.Instance._playerData.AddCurrency(-LastCost);
+        PlayerController.Instance.PlayerProgressData.AddCurrency(-LastCost);
 
         if (HideAfterUseUI)
         {

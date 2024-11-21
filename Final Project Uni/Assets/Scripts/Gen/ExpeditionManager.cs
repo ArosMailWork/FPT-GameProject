@@ -83,7 +83,7 @@ public class ExpeditionManager : MonoBehaviour
     
     void doExitFloor()
     {
-        PlayerController.Instance._playerData.SaveClaimReward();
+        PlayerController.Instance.PlayerProgressData.SaveClaimReward();
         //Ingame_Save.Instance.Save(); //bring to Exit Event
         if (currentFloorNumber + 1 < floors.Count)
         {
@@ -109,13 +109,9 @@ public class ExpeditionManager : MonoBehaviour
         Floor f = floors[currentFloorNumber];
         ExpeditionEvent ex = f.exEvent;
         if (ex.eventType == EventType.SkillChoose)
-        {
             SkillEvent.Invoke();
-        }
         else
-        {
             OnTransition.Invoke();
-        }
     }
     public bool CheckBossRoom()
     {
@@ -168,8 +164,4 @@ public class ExpeditionManager : MonoBehaviour
     }
     #endregion
 
-    #region EventManager
-
-
-    #endregion
 }

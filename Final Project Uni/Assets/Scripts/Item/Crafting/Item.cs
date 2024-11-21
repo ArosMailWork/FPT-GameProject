@@ -75,12 +75,12 @@ public class Item : MonoBehaviour
 
         if (goldAmount > 0 || soulAmount > 0)
         {
-            PlayerController.Instance._playerData.AddCurrency(goldAmount, soulAmount);
+            PlayerController.Instance.PlayerProgressData.AddCurrency(goldAmount, soulAmount);
         }
     }
 
     public void GrabMaterial()
     {
-        PlayerController.Instance._playerData.AddItem(itemID, itemAmount);
+        PlayerController.Instance.PlayerProgressData.AddItem(itemID, itemAmount);
     }
  }

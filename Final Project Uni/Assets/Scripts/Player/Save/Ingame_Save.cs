@@ -47,7 +47,7 @@ public class Ingame_Save : MonoBehaviour
         // Convert Player objects to Data objects using ToData()
         var clonedStats = PlayerController.Instance._stats.ToData();
         var clonedHealth = PlayerController.Instance.PlayerHealth.ToData();
-        var clonedRunData = PlayerController.Instance._playerData.ToData();
+        var clonedRunData = PlayerController.Instance.PlayerProgressData.ToData();
 
         // Assign the converted data to Ingame_Save fields
         Stats = clonedStats;  
@@ -93,12 +93,10 @@ public class Ingame_Save : MonoBehaviour
                 return;
             }
 
-            //await UniTask.Delay(TimeSpan.FromSeconds(1f));
-
             // Apply the loaded data to the PlayerController components
             PlayerController.Instance.PlayerHealth.CopyFromData(playerHealth);
             PlayerController.Instance._stats.CopyFromData(Stats);
-            PlayerController.Instance._playerData.CopyFromData(runData);
+            PlayerController.Instance.PlayerProgressData.CopyFromData(runData);
 
             // Load skills
             foreach (var skill in SkillHolder.Instance.skillList)
@@ -116,6 +114,7 @@ public class Ingame_Save : MonoBehaviour
             // Expedition Load
             ExpeditionManager.Instance.currentWorld = currentWorld;
             ExpeditionManager.Instance.currentBiome = currentBiome;
+            
             //Delete the save file after loading it so it can't be used again
             DestroySave();
 
@@ -126,8 +125,6 @@ public class Ingame_Save : MonoBehaviour
             Debug.LogWarning("Save file not found!");
         }
     }
-
-
 
     public void DestroySave()
     {

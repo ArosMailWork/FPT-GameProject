@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
 using Sirenix.OdinInspector;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -48,11 +49,15 @@ public class PlayerController : MonoBehaviour
     [SerializeField, ReadOnly] public float ReverseRecallMultiplier = 1;
 
     [FoldoutGroup("Setup/UI")] 
+    public UIContainer _UIContainer;
+    [FoldoutGroup("Setup/UI")] 
     public DialogUI dialogUI;
     [FoldoutGroup("Setup/UI")] 
     public Button interactButton;
     [FoldoutGroup("Setup/UI")] 
     [CanBeNull] public NotifAnim notif;
+    [FoldoutGroup("Setup/UI")] 
+    [CanBeNull] public TMP_Text GoldAmount, SoulAmount;
     [FoldoutGroup("Setup")]
     public Rigidbody PlayerRB;
     [FoldoutGroup("Setup")]
@@ -66,7 +71,7 @@ public class PlayerController : MonoBehaviour
     [FoldoutGroup("Setup/Stamina")] public StaminaSystem staminaSystem;
 
     [FoldoutGroup("Setup/Save")]
-    public PlayerData _playerData;
+    public PlayerProgressData PlayerProgressData;
     [FoldoutGroup("Setup/Save")]
     public PlayerStats _stats;
 
@@ -430,13 +435,7 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region Event
-
-    [Button]
-    public void Hurt(float Damage)
-    {
-        HurtAnim();
-    }
-
+    
     public void HurtAnim()
     {
         _playerAnimController.DamagedAnim();
@@ -470,6 +469,7 @@ public class PlayerController : MonoBehaviour
     {
         _playerAnimController.DieAnim(false);
         PlayerHealth.HealPercent(InstantHPPercent);
+        _UIContainer.GameplayState();
         PlayerHealth.HealOverTime(RegenHP, 4);
         PlayerHealth.isAlive = true;
     }
@@ -490,6 +490,16 @@ public class PlayerController : MonoBehaviour
     public void forceChangeState(PlayerState state)
     {
         currentState = state;
+    }
+
+    #endregion
+
+    #region UI (temp)
+
+    public void UpdateUI(string Gold, string Soul)
+    {
+        if (GoldAmount != null) GoldAmount.text = Gold;
+        if(SoulAmount != null) SoulAmount.text = Soul;
     }
 
     #endregion

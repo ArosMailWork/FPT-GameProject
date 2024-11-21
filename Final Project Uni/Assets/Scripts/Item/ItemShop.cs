@@ -35,11 +35,11 @@ public class ItemShop : MonoBehaviour
     [FoldoutGroup("Debug")] 
     [ReadOnly] public List<GameObject> SellingItems;
     
-    private PlayerData _playerData;
+    private PlayerProgressData _playerProgressData;
     
     private void Start()
     {
-        _playerData = PlayerController.Instance._playerData;
+        _playerProgressData = PlayerController.Instance.PlayerProgressData;
         Invoke(nameof(CreatePool), 0.5f);
     }
     
@@ -156,6 +156,6 @@ public class ItemShop : MonoBehaviour
     private bool IsSkillUnlockedForItem(string skillID)
     {
         // Check in PlayerData if the skill is unlocked
-        return _playerData.IsSkillUnlocked(skillID);
+        return _playerProgressData.IsSkillUnlocked(skillID);
     }
 }

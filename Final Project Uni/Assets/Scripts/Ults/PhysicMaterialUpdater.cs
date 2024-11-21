@@ -7,16 +7,12 @@ public class PhysicMaterialUpdater : MonoBehaviour
 {
     private Collider collider;
 
-    // Start is called before the first frame update
-    void Awake()
+    void Start()
     {
         collider = GetComponent<Collider>();
         if (collider == null || collider.sharedMaterial == null)
-        {
             return;
-        }
 
-      
         collider.material = new PhysicMaterial()
         {
             dynamicFriction = collider.sharedMaterial.dynamicFriction,

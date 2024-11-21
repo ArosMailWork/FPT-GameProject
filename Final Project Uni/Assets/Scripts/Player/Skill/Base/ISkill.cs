@@ -35,7 +35,7 @@ public abstract class ISkill : MonoBehaviour
     public async UniTaskVoid Assign()
     {
         _pc = PlayerController.Instance;
-        _pc._playerData.UnlockSkill(Name);
+        _pc.PlayerProgressData.UnlockSkill(Name);
     }
     #region Timer
     public void Timer()

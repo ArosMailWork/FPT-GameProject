@@ -14253,6 +14253,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4358876289065421827, guid: 3d5f5603ab9d291468c77d20b04274ab, type: 3}
   m_PrefabInstance: {fileID: 1976328204}
   m_PrefabAsset: {fileID: 0}
+--- !u!20 &1108827390 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 5622717278135671852, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
+  m_PrefabInstance: {fileID: 1591485546}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1109374883
 GameObject:
   m_ObjectHideFlags: 0
@@ -15841,7 +15846,7 @@ MonoBehaviour:
     unlockedSkills: []
     Inventory: []
     unlockedRecipes: []
-  AllowLoadSave: 0
+  haveProgressSave_Debug: 0
   skillList: []
   Floor: 0
   World: 0
@@ -24617,6 +24622,10 @@ PrefabInstance:
       propertyPath: serializationData.Prefab
       value: 
       objectReference: {fileID: 447597212470285656, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
+    - target: {fileID: 2405717321235058067, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3547151362967053558, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
       propertyPath: m_LocalPosition.x
       value: -14.42
@@ -24683,6 +24692,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8114548762273780579, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8847071872035363240, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9204411441316609827, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
@@ -36641,7 +36654,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 274797af932b4b7984beb14faa6cee7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetCamera: {fileID: 0}
+  targetCamera: {fileID: 1108827390}
   useMainCamera: 1
   offset: {x: 0, y: 0, z: 0}
 --- !u!1 &6290182631094679768
