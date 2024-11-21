@@ -7,21 +7,41 @@ using UnityEngine;
 public class CraftingTable : MonoBehaviour
 {
     [CanBeNull] public Transform CraftedItemPlacement;
-    public CraftingTableUI craftingTableUI;
+    
+    public GameObject RecipeUIPrefab;
+    public Transform RecipeListContent;
+    [HideInInspector] public CraftingTable craftingTable;
 
     PlayerData _playerData;
-
-    private void Awake()
-    {
-        if(craftingTableUI != null)
-        craftingTableUI.craftingTable = this;
-    }
-
+    
     private void Start()
     {
         _playerData = PlayerController.Instance._playerData;
     }
 
+    [Button("Update Recipe")]
+    public void UpdateRecipeList()
+    {
+        _playerData = PlayerController.Instance._playerData;
+        
+        // Clear existing UI elements
+        foreach (Transform child in RecipeListContent)
+        {
+            Destroy(child.gameObject);
+        }
+
+        // Get recipes and display each in the UI
+        foreach (var recipe in _playerData.unlockedRecipes)
+        {
+            bool canCraft = CheckIfCanCraft(recipe.Recipe);
+            var recipeUIObj = Instantiate(RecipeUIPrefab, RecipeListContent);
+            RecipeUI recipeUI = recipeUIObj.GetComponent<RecipeUI>();
+
+            // Initialize the RecipeUI element
+            recipeUI.SetRecipeUI(recipe.Recipe, canCraft, craftingTable, _playerData.IsRecipeUnlocked(recipe.Recipe.RecipeID));
+        }
+    }
+    
     [Button]
     public void Crafting(string recipeID)
     {
@@ -81,5 +101,19 @@ public class CraftingTable : MonoBehaviour
         _playerData.SaveClaimReward();
         
         Debug.Log($"Crafted {recipe.Recipe.output.name} successfully!");
+    }
+    
+    /// Checks if the player has enough materials for a given recipe.
+    private bool CheckIfCanCraft(CraftingRecipe recipe)
+    {
+        foreach (var inputItem in recipe.input)
+        {
+            var inventoryItem = _playerData.Inventory.Find(i => i.item.ID == inputItem.item.ID);
+            if (inventoryItem == null || inventoryItem.amount < inputItem.amount)
+            {
+                return false;
+            }
+        }
+        return true;
     }
 }
