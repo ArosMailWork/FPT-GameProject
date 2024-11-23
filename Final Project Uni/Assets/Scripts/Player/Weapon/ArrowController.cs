@@ -43,6 +43,7 @@ public class ArrowController : MonoBehaviour, IWeapon
     [FoldoutGroup("Debug/UI")] public Sprite ShootSprite, RecallSprite;
     [FoldoutGroup("Debug/Buff")] public bool IsSplitShot = false;
     [FoldoutGroup("Debug/Buff")] public bool IsPreciseArcher = false;
+    [FoldoutGroup("Debug/Buff")] public bool IsExplosionExpert = false;
 
     public static ArrowController Instance;
     private PlayerController _playerController;
@@ -278,7 +279,7 @@ public class ArrowController : MonoBehaviour, IWeapon
         prefabParticleManager.PlayAssignedParticle("RecallingMainArrowVFX");
         foreach (var arrow in arrowsList)
         {
-            arrow.HideArrow();
+            arrow.HideArrow(true);
         }
 
         haveArrow = true;

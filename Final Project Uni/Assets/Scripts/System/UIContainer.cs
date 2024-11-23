@@ -14,18 +14,20 @@ public enum UIState
 public class UIContainer : MonoBehaviour
 {
     public UIState CurrentUIState;
+    
+    [FoldoutGroup("UI Setup")]
     public List<GameObject> Gameplay;
-    public GameObject SkillChoose;
-    [CanBeNull] public GameObject Transition;
-    public GameObject Inventory;
-    public GameObject Fade;
+    [FoldoutGroup("UI Setup")]
+    public GameObject SkillChoose, Inventory, Fade;
+    [FoldoutGroup("UI Setup")]
     public Image FadeImage;
-    public SelectRandomSkillEvent s;
+    
+    public SelectRandomSkillEvent selectRandomSkillEvent;
     public Animator FadeAnimator;
 
     void OnEnable()
     {
-        s = SkillChoose.GetComponent<SelectRandomSkillEvent>();
+        selectRandomSkillEvent = SkillChoose.GetComponent<SelectRandomSkillEvent>();
         FadeAnimator.SetTrigger("FadeOut");
         //GameplayState();
     }
@@ -34,7 +36,6 @@ public class UIContainer : MonoBehaviour
         CurrentUIState = UIState.Gameplay;
         
         SkillChoose.SetActive(false);
-        if(Transition != null) Transition.SetActive(false);
         Fade.SetActive(false);
         Inventory.SetActive(false);
 
@@ -62,11 +63,10 @@ public class UIContainer : MonoBehaviour
         {
             obj.SetActive(false);
         }
-        s.SkillSelectStart();
+        selectRandomSkillEvent.SkillSelectStart();
     }
     public void TransitionState()
     {
-        if(Transition != null) Transition.SetActive(true);
         foreach (var obj in Gameplay)
         {
             obj.SetActive(false);

@@ -34,6 +34,10 @@ public class Arrow : MonoBehaviour
     public float currentHoverHeight;
 
     [FoldoutGroup("Setup")]
+    public bool IsMainArrow, startRecallFlag;
+    [FoldoutGroup("Setup")]
+    public float offsetDegree;
+    [FoldoutGroup("Setup")]
     public Rigidbody arrowRb;
     [FoldoutGroup("Setup")]
     public HurtBox hitbox;
@@ -42,9 +46,12 @@ public class Arrow : MonoBehaviour
     [FoldoutGroup("Setup")]
     [ReadOnly] public PlayerController _playerController;
     [FoldoutGroup("Setup/Events")]
-    public UnityEvent StartRecallEvent, StopRecallEvent, RecoverEvent, HideEvent;
-    public float offsetDegree;
-    public bool IsMainArrow, startRecallFlag;
+    public UnityEvent StartRecallEvent, StopRecallEvent, RecoverEvent, HideEvent, RemoteRecoverEvent;
+    [FoldoutGroup("Setup/Skill")] 
+    public bool isExplodeOnRemote;
+    [FoldoutGroup("Setup/Skill")] 
+    [CanBeNull] public GameObject MiniExplode;
+    
     
     bool hasBuffBeenReset = false;
 
@@ -176,10 +183,13 @@ public class Arrow : MonoBehaviour
             HideArrow();
         }
     }
-    public void HideArrow()
+    public void HideArrow(bool isRemote = false)
     {
         //can Play an Event here
-        RecoverEvent.Invoke();
+        if (!isRemote)
+            RecoverEvent.Invoke();
+        else
+            RemoteRecoverEvent.Invoke();
 
         //hide and deactivate it
         if (!gameObject.activeSelf) return;
@@ -202,4 +212,16 @@ public class Arrow : MonoBehaviour
             _arrowController.haveArrow = false;
     }
 
+    public void ExplosionArrow()
+    {
+        if(isExplodeOnRemote) return;
+        _playerController.staminaSystem.Consume(10);
+        if (MiniExplode != null)
+            PoolManager.Instance.Spawn(MiniExplode, transform.position + Vector3.up, Quaternion.identity, 2f);
+    }
+    
+    public void DebugTest(string test)
+    {
+        Debug.Log(test);
+    }
 }

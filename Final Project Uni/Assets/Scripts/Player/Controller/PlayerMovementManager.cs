@@ -6,6 +6,7 @@ using JetBrains.Annotations;
 using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
@@ -20,6 +21,11 @@ using UnityEngine.UI;
         public Health PlayerHealth;
         [FoldoutGroup("Stats/Lunge")]
         public float meleeLungeForce = 100f, lungeAngle = 60f, rangeAngleTolerance = 5f, lungeRange = 25f, LungeTime = 0.3f;
+
+        [FoldoutGroup("Stats/Skill")] 
+        public bool isSonicDash;
+        [FoldoutGroup("Stats/Skill")] 
+        public GameObject SonicBoomPrefab;
         
         [FoldoutGroup("Debug")]
         [SerializeField, ReadOnly] public float currentAccel;
@@ -33,6 +39,10 @@ using UnityEngine.UI;
         [SerializeField, ReadOnly] public float strikeMultiplier = 1.75f;
         [FoldoutGroup("Debug/Reverse Recall")]
         [SerializeField, ReadOnly] public float ReverseRecallMultiplier = 1;
+
+        [FoldoutGroup("Setup Event")] 
+        public UnityEvent StartDodge;
+        
 
         private Vector3 rollDir;
         [HideInInspector] public Vector3 calculateMove, moveDirection;
@@ -72,6 +82,7 @@ using UnityEngine.UI;
             rollDir = transform.forward.normalized;
             pController.currentState = PlayerState.Rolling;
             pController.playerAnimManager.DodgeAnim();
+            StartDodge.Invoke();
 
             pController._arrowController.isRecalling = false;
 
@@ -119,6 +130,13 @@ using UnityEngine.UI;
 
                 PlayerRB.velocity = RollDirect.normalized * (pController._stats.rollSpeed * speedMultiplier * Time.fixedDeltaTime * 240);
             }
+        }
+
+        public void SonicBoom()
+        {
+            if(!isSonicDash) return;
+
+            PoolManager.Instance.Spawn(SonicBoomPrefab, PlayerRB.transform.position, Quaternion.identity, 1.25f);
         }
 
         void LimitSpeed(float MaxSpeed)

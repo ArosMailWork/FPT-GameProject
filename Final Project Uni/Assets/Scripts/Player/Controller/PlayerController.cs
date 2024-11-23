@@ -48,6 +48,7 @@ public class PlayerController : MonoBehaviour
     [CanBeNull] public TMP_Text GoldAmount, SoulAmount;
     [FoldoutGroup("Setup/UI")]
     public UltimateJoystick JoystickPA;
+    
     [FoldoutGroup("Setup")]
     public PlayerMovementManager _playerMovementManager;
     [FoldoutGroup("Setup")]
