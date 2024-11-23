@@ -15,7 +15,7 @@ public class ItemDropRate : MonoBehaviour
     public List<ItemDrop> itemDrops;
     
     [FoldoutGroup("Level")]
-    public int Level = 1;
+    public int Level = 0;
     [FoldoutGroup("Soul")]
     public int MinSoul = 0, MaxSoul;
     [FoldoutGroup("Soul")]

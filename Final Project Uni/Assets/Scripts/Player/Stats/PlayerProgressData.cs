@@ -209,7 +209,7 @@
 
             // Load existing Soul value
             PermaStatsData permaStats = PlayerDataCRUD.LoadPermanentStats();
-            permaStats.Soul += Mathf.RoundToInt(SoulCollected);;
+            permaStats.Soul += Mathf.RoundToInt(SoulCollected);
             permaStats.knowledgeLevel += KnowledgeLevel;
 
             ExpeditionReport.Instance.KnowledgeLevelCollected = KnowledgeLevel;

@@ -147,94 +147,7 @@ public class PlayerController : MonoBehaviour
     }
 
     #endregion
-
-    #region Calculate
-
-    void UpdateRollCDTimer()
-    {
-        if (currentRollCD > 0)
-            currentRollCD -= Time.deltaTime;
-        else
-            canRoll = true;
-    }
-    void AddRollCD(float time)
-    {
-        currentRollCD += time;
-    }
-
-    public async UniTaskVoid doRollingMove(Vector2 input, int staminaCost)
-    {
-        //prevent spam in the middle
-        if (!canRoll || !staminaSystem.HasEnoughStamina(staminaCost) ||
-            moveBuffer == Vector2.zero || !PlayerHealth.isAlive) return;
-
-        //add CD
-        AddRollCD(_stats.rollCD + _stats.rollTime);
-        canRoll = false; //just want to save calculate so I place here, hehe
-
-        //this lead to the Roll Apply
-        rollDir = transform.forward.normalized;
-        currentState = PlayerState.Rolling;
-        _playerAnimController.DodgeAnim();
-
-        _arrowController.isRecalling = false;
-
-        //consume Stamina here
-        staminaSystem.Consume(staminaCost);
-
-        //roll done ? okay cool
-        await UniTask.Delay(TimeSpan.FromSeconds(_stats.rollTime));
-        currentState = PlayerState.Idle;
-        //Might add some event here to activate particle or anything
-    }
-
-
-    void RollApply()
-    {
-        if (currentState == PlayerState.Rolling)
-        {
-            // Take from buffer
-            moveDirection = (cameraRight * moveBuffer.x + cameraForward * moveBuffer.y).normalized;
-
-            // Mix the directions
-            Vector3 ControlRoll = Vector3.Lerp(transform.forward.normalized, moveDirection, 0.2f).normalized;
-            Vector3 mixedDirection = Vector3.Lerp(rollDir, ControlRoll, _stats.controlRollDirect).normalized;
-
-            // Implement Roll Logic here
-            RollDirect.x = mixedDirection.x;
-            RollDirect.z = mixedDirection.z;
-
-            PlayerRB.velocity = RollDirect.normalized * (_stats.rollSpeed * Time.fixedDeltaTime * 240);
-        }
-    }
-
-    public void StrikingMoveApply(float speedMultiplier = 2)
-    {
-        if (currentState == PlayerState.Striking)
-        {
-            // Take from buffer
-            moveDirection = (cameraRight * moveBuffer.x + cameraForward * moveBuffer.y).normalized;
-
-            // Mix the directions
-            Vector3 mixedDirection = Vector3.Lerp(transform.forward.normalized, moveDirection, _stats.controlRollDirect).normalized;
-
-            // Implement Roll Logic here
-            RollDirect.x = mixedDirection.x;
-            RollDirect.z = mixedDirection.z;
-
-            PlayerRB.velocity = RollDirect.normalized * (_stats.rollSpeed * speedMultiplier * Time.fixedDeltaTime * 240);
-        }
-    }
-
-    void LimitSpeed(float MaxSpeed)
-    {
-        Mathf.Clamp(PlayerRB.velocity.magnitude, 0, MaxSpeed);
-        if (PlayerRB.velocity.magnitude > MaxSpeed)
-            PlayerRB.velocity = PlayerRB.velocity.normalized * MaxSpeed;
-    }
-
-    #endregion
-
+    
     #region Input
 
     public void InputMove(InputAction.CallbackContext ctx)
@@ -369,7 +282,94 @@ public class PlayerController : MonoBehaviour
     }
 
     #endregion
+    
+    #region Calculate
 
+    void UpdateRollCDTimer()
+    {
+        if (currentRollCD > 0)
+            currentRollCD -= Time.deltaTime;
+        else
+            canRoll = true;
+    }
+    void AddRollCD(float time)
+    {
+        currentRollCD += time;
+    }
+
+    public async UniTaskVoid doRollingMove(Vector2 input, int staminaCost)
+    {
+        //prevent spam in the middle
+        if (!canRoll || !staminaSystem.HasEnoughStamina(staminaCost) ||
+            moveBuffer == Vector2.zero || !PlayerHealth.isAlive) return;
+
+        //add CD
+        AddRollCD(_stats.rollCD + _stats.rollTime);
+        canRoll = false; //just want to save calculate so I place here, hehe
+
+        //this lead to the Roll Apply
+        rollDir = transform.forward.normalized;
+        currentState = PlayerState.Rolling;
+        _playerAnimController.DodgeAnim();
+
+        _arrowController.isRecalling = false;
+
+        //consume Stamina here
+        staminaSystem.Consume(staminaCost);
+
+        //roll done ? okay cool
+        await UniTask.Delay(TimeSpan.FromSeconds(_stats.rollTime));
+        currentState = PlayerState.Idle;
+        //Might add some event here to activate particle or anything
+    }
+
+
+    void RollApply()
+    {
+        if (currentState == PlayerState.Rolling)
+        {
+            // Take from buffer
+            moveDirection = (cameraRight * moveBuffer.x + cameraForward * moveBuffer.y).normalized;
+
+            // Mix the directions
+            Vector3 ControlRoll = Vector3.Lerp(transform.forward.normalized, moveDirection, 0.2f).normalized;
+            Vector3 mixedDirection = Vector3.Lerp(rollDir, ControlRoll, _stats.controlRollDirect).normalized;
+
+            // Implement Roll Logic here
+            RollDirect.x = mixedDirection.x;
+            RollDirect.z = mixedDirection.z;
+
+            PlayerRB.velocity = RollDirect.normalized * (_stats.rollSpeed * Time.fixedDeltaTime * 240);
+        }
+    }
+
+    public void StrikingMoveApply(float speedMultiplier = 2)
+    {
+        if (currentState == PlayerState.Striking)
+        {
+            // Take from buffer
+            moveDirection = (cameraRight * moveBuffer.x + cameraForward * moveBuffer.y).normalized;
+
+            // Mix the directions
+            Vector3 mixedDirection = Vector3.Lerp(transform.forward.normalized, moveDirection, _stats.controlRollDirect).normalized;
+
+            // Implement Roll Logic here
+            RollDirect.x = mixedDirection.x;
+            RollDirect.z = mixedDirection.z;
+
+            PlayerRB.velocity = RollDirect.normalized * (_stats.rollSpeed * speedMultiplier * Time.fixedDeltaTime * 240);
+        }
+    }
+
+    void LimitSpeed(float MaxSpeed)
+    {
+        Mathf.Clamp(PlayerRB.velocity.magnitude, 0, MaxSpeed);
+        if (PlayerRB.velocity.magnitude > MaxSpeed)
+            PlayerRB.velocity = PlayerRB.velocity.normalized * MaxSpeed;
+    }
+
+    #endregion
+    
     #region Movement
 
     public void Move(Vector2 input = default)
@@ -406,7 +406,7 @@ public class PlayerController : MonoBehaviour
     }
 
     #endregion
-
+    
     #region Special Move
 
     public void Roll()

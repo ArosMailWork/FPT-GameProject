@@ -30,7 +30,7 @@ public abstract class ISkill : MonoBehaviour
     public virtual void Deactivate() { }
     void Update()
     {
-        Timer();
+        CooldownTimer();
     }
     public async UniTaskVoid Assign()
     {
@@ -38,7 +38,7 @@ public abstract class ISkill : MonoBehaviour
         _pc.PlayerProgressData.UnlockSkill(Name);
     }
     #region Timer
-    public void Timer()
+    public void CooldownTimer()
     {
         if (currentCD >= 0)
             currentCD -= Time.deltaTime;

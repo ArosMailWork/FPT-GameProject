@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
+
 public class ArrowController : MonoBehaviour
 {
     #region Variables
@@ -143,6 +144,7 @@ public class ArrowController : MonoBehaviour
     }
     void ShootArrow(Arrow arrow)
     {
+        //Stat adjust
         if (IsPreciseArcher && (currentChargedTime / chargedTime) >= 0.75f)
             _playerController._stats.SetBuffATKMul(0.5f);
         else

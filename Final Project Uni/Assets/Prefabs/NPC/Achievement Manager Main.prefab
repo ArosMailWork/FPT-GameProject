@@ -490,7 +490,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3664113356245092063
 RectTransform:
   m_ObjectHideFlags: 0
@@ -776,7 +776,7 @@ RectTransform:
   m_Father: {fileID: 3663900972974905875}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -2143,14 +2143,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3586384449932917232}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 524.6, y: 225.70755, z: -1.8201513}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3586384449437795140}
   - {fileID: 3664113356245092063}
-  - {fileID: 3332895313208340273}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3586384449932917245
@@ -2216,30 +2215,33 @@ MonoBehaviour:
   - Progress: 0
     LastProgressUpdate: 0
     Achieved: 0
-  - Progress: 55
-    LastProgressUpdate: 11
-    Achieved: 0
-  - Progress: 54
+  - Progress: 0
     LastProgressUpdate: 0
     Achieved: 0
-  - Progress: 53
+  - Progress: 0
     LastProgressUpdate: 0
     Achieved: 0
-  - Progress: 1
+  - Progress: 0
+    LastProgressUpdate: 0
+    Achieved: 0
+  - Progress: 0
     LastProgressUpdate: 0
     Achieved: 0
   AchievementList:
-  - Key: GoalExample
-    DisplayName: Goal Example
-    Description: An example of a goal achievement
+  - Key: Runner
+    DisplayName: Runner
+    Description: Upgrade SPD 20 times
     LockedIcon: {fileID: 21300000, guid: eaf6b4fc727cf034ebd1f72705fb4162, type: 3}
     LockOverlay: 0
     AchievedIcon: {fileID: 21300000, guid: c44233c69e3ab144299a378bc9a4f01c, type: 3}
     Spoiler: 0
-    Progression: 0
-    ProgressGoal: 0
-    NotificationFrequency: 0
+    Progression: 1
+    ProgressGoal: 20
+    NotificationFrequency: 10
     ProgressSuffix: 
+    CompleteEvent:
+      m_PersistentCalls:
+        m_Calls: []
   - Key: Smartie
     DisplayName: Who Smartie Smartie ?
     Description: Time to reveal some lores
@@ -2250,40 +2252,52 @@ MonoBehaviour:
     Progression: 1
     ProgressGoal: 100
     NotificationFrequency: 25
-    ProgressSuffix: ' Knowledge Level'
-  - Key: Test
-    DisplayName: nothing to see here
-    Description: hehe
+    ProgressSuffix: Knowledge Level
+    CompleteEvent:
+      m_PersistentCalls:
+        m_Calls: []
+  - Key: Trailblazer
+    DisplayName: Trailblazer
+    Description: What u searching ? a Firefly ?
     LockedIcon: {fileID: 21300000, guid: 24d0082db3d21fb4bb8470bb70b2b0ca, type: 3}
     LockOverlay: 1
     AchievedIcon: {fileID: 21300000, guid: 710f308d078ea9040ac06f6a665bb92d, type: 3}
     Spoiler: 0
-    Progression: 0
-    ProgressGoal: 0
-    NotificationFrequency: 0
-    ProgressSuffix: 
-  - Key: Good Runner
-    DisplayName: Want a Running Shoes ?
-    Description: Overlay icon example
+    Progression: 1
+    ProgressGoal: 500
+    NotificationFrequency: 100
+    ProgressSuffix: Rooms Enter
+    CompleteEvent:
+      m_PersistentCalls:
+        m_Calls: []
+  - Key: No Pain No Gain
+    DisplayName: No Pain No Gain
+    Description: First Time ?
     LockedIcon: {fileID: 21300000, guid: 24d0082db3d21fb4bb8470bb70b2b0ca, type: 3}
     LockOverlay: 1
     AchievedIcon: {fileID: 21300000, guid: 5c00ee8e0ff0af840a0b185b1d89698a, type: 3}
     Spoiler: 0
     Progression: 1
-    ProgressGoal: 1000
-    NotificationFrequency: 50
-    ProgressSuffix: KM
-  - Key: SpoilerExample
-    DisplayName: How did u got this one ?
-    Description: Shhhh
+    ProgressGoal: 100
+    NotificationFrequency: 25
+    ProgressSuffix: Die Time
+    CompleteEvent:
+      m_PersistentCalls:
+        m_Calls: []
+  - Key: Board Cutter
+    DisplayName: Board Cutter
+    Description: How did u got this one ?
     LockedIcon: {fileID: 21300000, guid: 24d0082db3d21fb4bb8470bb70b2b0ca, type: 3}
     LockOverlay: 0
     AchievedIcon: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
     Spoiler: 1
     Progression: 1
-    ProgressGoal: 10
+    ProgressGoal: 50
     NotificationFrequency: 0
-    ProgressSuffix: 
+    ProgressSuffix: Sign Broken
+    CompleteEvent:
+      m_PersistentCalls:
+        m_Calls: []
   - Key: Mobile Akashic Record
     DisplayName: Mobile Akashic Record
     Description: Complete All Other Achevements
@@ -2295,17 +2309,23 @@ MonoBehaviour:
     ProgressGoal: 4
     NotificationFrequency: 0
     ProgressSuffix: 
-  - Key: Gay
-    DisplayName: gay
-    Description: really ?
+    CompleteEvent:
+      m_PersistentCalls:
+        m_Calls: []
+  - Key: Steroid
+    DisplayName: Steroid
+    Description: Upgrade ATK stats 100 times
     LockedIcon: {fileID: 0}
     LockOverlay: 1
     AchievedIcon: {fileID: 0}
-    Spoiler: 1
+    Spoiler: 0
     Progression: 0
     ProgressGoal: 0
     NotificationFrequency: 0
     ProgressSuffix: 
+    CompleteEvent:
+      m_PersistentCalls:
+        m_Calls: []
   - Key: Monster Hunter
     DisplayName: Monster Hunter
     Description: Not a Start for a novice
@@ -2317,6 +2337,9 @@ MonoBehaviour:
     ProgressGoal: 100
     NotificationFrequency: 5
     ProgressSuffix: 
+    CompleteEvent:
+      m_PersistentCalls:
+        m_Calls: []
   - Key: Monster Slayer
     DisplayName: Monster Slayer
     Description: U became a professinal now
@@ -2328,6 +2351,9 @@ MonoBehaviour:
     ProgressGoal: 1000
     NotificationFrequency: 0
     ProgressSuffix: 
+    CompleteEvent:
+      m_PersistentCalls:
+        m_Calls: []
   - Key: Monster Nightmare
     DisplayName: Monster Nightmare
     Description: WTF, how ?
@@ -2339,6 +2365,9 @@ MonoBehaviour:
     ProgressGoal: 5000
     NotificationFrequency: 0
     ProgressSuffix: 
+    CompleteEvent:
+      m_PersistentCalls:
+        m_Calls: []
   - Key: Overlord
     DisplayName: Overlord
     Description: who the Boss now ?
@@ -2350,24 +2379,15 @@ MonoBehaviour:
     ProgressGoal: 20
     NotificationFrequency: 0
     ProgressSuffix: 
+    CompleteEvent:
+      m_PersistentCalls:
+        m_Calls: []
   UseFinalAchievement: 1
   FinalAchievementKey: Mobile Akashic Record
   Stack: {fileID: 3586384449437795139}
   completeAchievement:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1923895835}
-        m_TargetAssemblyTypeName: AchievementGetter, Assembly-CSharp
-        m_MethodName: UnlockEvent
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!82 &859350399
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2477,6 +2497,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   viewObj: {fileID: 3584904081031562675}
+  AchievementEventList: []
 --- !u!1 &3586384450071287135
 GameObject:
   m_ObjectHideFlags: 0
@@ -2787,8 +2808,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -0.000015258789}
+  m_SizeDelta: {x: -593.5256, y: -318.241}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3662129694703449671
 CanvasRenderer:
@@ -2980,7 +3001,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -18, y: -39}
+  m_AnchoredPosition: {x: 0, y: -50}
   m_SizeDelta: {x: 654.1, y: 420}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2395425342527956701
@@ -3143,74 +3164,6 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!1 &7958029227854144319
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 3332895313208340273}
-  - component: {fileID: 6404216517506999059}
-  - component: {fileID: 4982523749851036183}
-  m_Layer: 0
-  m_Name: EventSystem
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &3332895313208340273
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7958029227854144319}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -522, y: -222.45755, z: 6.520151}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 3586384449932917246}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6404216517506999059
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7958029227854144319}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_FirstSelected: {fileID: 0}
-  m_sendNavigationEvents: 1
-  m_DragThreshold: 10
---- !u!114 &4982523749851036183
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7958029227854144319}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SendPointerHoverToParent: 1
-  m_HorizontalAxis: Horizontal
-  m_VerticalAxis: Vertical
-  m_SubmitButton: Submit
-  m_CancelButton: Cancel
-  m_InputActionsPerSecond: 10
-  m_RepeatDelay: 0.5
-  m_ForceModuleActive: 0
 --- !u!1 &8799254953073776820
 GameObject:
   m_ObjectHideFlags: 0

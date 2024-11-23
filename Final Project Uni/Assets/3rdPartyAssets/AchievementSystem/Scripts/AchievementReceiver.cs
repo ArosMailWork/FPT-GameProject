@@ -27,12 +27,18 @@ public class AchievementReceiver : MonoBehaviour
         ToggleUIElements.Instance.ToggleUI(toggle);
     }
     
-    public void UnlockEvent(AchievementInfromation AUnlocked)
+    public void UnlockSkill(string SkillID)
     {
-        //Debug.Log(AUnlocked.Key);
-        Debug.Log(AUnlocked.DisplayName);
+        PlayerController.Instance.PlayerProgressData.UnlockSkill(SkillID);
+    }
+
+    public void AwardSoul(int soulAmount)
+    {
+        // Load existing Soul value
+        PermaStatsData permaStats = PlayerDataCRUD.LoadPermanentStats();
+        permaStats.Soul += Mathf.RoundToInt(soulAmount);
         
-        
+        PlayerDataCRUD.SavePermanentStats(permaStats);
     }
     
     //Event Test
