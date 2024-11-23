@@ -106729,6 +106729,7 @@ GameObject:
   - component: {fileID: 5833515457251910645}
   - component: {fileID: 585268556335021191}
   - component: {fileID: 1766675483051995058}
+  - component: {fileID: 952447404437745628}
   - component: {fileID: 3065971099060943978}
   - component: {fileID: 8993129277533770346}
   - component: {fileID: 1788685529072977768}
@@ -107194,36 +107195,55 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   blockInput: 0
   PlayerHealth: {fileID: 821813476702798318}
-  meleeLungeForce: 750
-  lungeAngle: 60
-  rangeAngleTolerance: 5
-  lungeRange: 15
-  LungeTime: 0.2125
+  PlayerRB: {fileID: 3080013085032493919}
   currentState: 0
   moveInput: {x: 0, y: 0}
   moveBuffer: {x: 0, y: 0}
   joyStickInput: {x: 0, y: 0}
   isJoystickInput: 0
-  currentAccel: 0
-  canRoll: 0
-  currentRollCD: 0
-  RollDirect: {x: 0, y: 0, z: 0}
-  strikeMultiplier: 1.75
-  ReverseRecallMultiplier: 1
   _UIContainer: {fileID: 4943678652748636058}
   dialogUI: {fileID: 4091194437052629753}
   interactButton: {fileID: 1423101612462197061}
   notif: {fileID: 4737444519992027156}
   GoldAmount: {fileID: 7816495289132644917}
   SoulAmount: {fileID: 4977254509983151226}
-  PlayerRB: {fileID: 3080013085032493919}
-  _hitStop: {fileID: 4661537032941486174}
-  _playerAnimController: {fileID: 585268556335021191}
-  _arrowController: {fileID: 3065971099060943978}
   JoystickPA: {fileID: 634516113159488524}
+  _playerMovementManager: {fileID: 952447404437745628}
+  playerAnimManager: {fileID: 585268556335021191}
+  _arrowController: {fileID: 3065971099060943978}
+  _hitStop: {fileID: 4661537032941486174}
   staminaSystem: {fileID: 5833515457251910645}
   PlayerProgressData: {fileID: 4095507687245354997}
   _stats: {fileID: 1388413037981834033}
+--- !u!114 &952447404437745628
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8778054791344151268}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cd6fe35be6d44ba95e1d56c0d965700, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pController: {fileID: 1766675483051995058}
+  PlayerRB: {fileID: 3080013085032493919}
+  blockInput: 0
+  PlayerHealth: {fileID: 821813476702798318}
+  meleeLungeForce: 750
+  lungeAngle: 60
+  rangeAngleTolerance: 5
+  lungeRange: 15
+  LungeTime: 0.2125
+  currentAccel: 0
+  canRoll: 0
+  currentRollCD: 0
+  RollDirect: {x: 0, y: 0, z: 0}
+  strikeMultiplier: 0
+  ReverseRecallMultiplier: 1
+  calculateMove: {x: 0, y: 0, z: 0}
+  moveDirection: {x: 0, y: 0, z: 0}
 --- !u!114 &3065971099060943978
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -107236,7 +107256,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 146d118f5e5068140bf4e7dd726412fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerAnimController: {fileID: 585268556335021191}
   _StatSliderUI: {fileID: 8696499614820900276}
   forceCurve:
     serializedVersion: 2
@@ -107287,6 +107306,7 @@ MonoBehaviour:
   RecallSprite: {fileID: 21300000, guid: 91445a1eeea4b9b449c2a9358431cd82, type: 3}
   IsSplitShot: 0
   IsPreciseArcher: 0
+  playerAnimManager: {fileID: 585268556335021191}
 --- !u!114 &8993129277533770346
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -123132,6 +123152,30 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2190289590135332969, guid: f6cf11909393cdf40b5541c2ed713796, type: 3}
       propertyPath: OnSkillChoose.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2745134763841447464, guid: f6cf11909393cdf40b5541c2ed713796, type: 3}
+      propertyPath: States.Array.data[7].Progress
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2745134763841447464, guid: f6cf11909393cdf40b5541c2ed713796, type: 3}
+      propertyPath: States.Array.data[8].Progress
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2745134763841447464, guid: f6cf11909393cdf40b5541c2ed713796, type: 3}
+      propertyPath: States.Array.data[9].Progress
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2745134763841447464, guid: f6cf11909393cdf40b5541c2ed713796, type: 3}
+      propertyPath: States.Array.data[10].Progress
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2745134763841447464, guid: f6cf11909393cdf40b5541c2ed713796, type: 3}
+      propertyPath: States.Array.data[7].LastProgressUpdate
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2745134763841447464, guid: f6cf11909393cdf40b5541c2ed713796, type: 3}
+      propertyPath: AchievementList.Array.data[3].Progression
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2859283857361922258, guid: f6cf11909393cdf40b5541c2ed713796, type: 3}

@@ -7,7 +7,7 @@ using Sirenix.OdinInspector;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class PlayerAnimController : MonoBehaviour
+public class PlayerAnimManager : MonoBehaviour
 {
     public Animator playerAnimator;
     [CanBeNull] public Animator bowPivotAnimator;

@@ -22,7 +22,7 @@ using UnityEngine.UI;
         public float meleeLungeForce = 100f, lungeAngle = 60f, rangeAngleTolerance = 5f, lungeRange = 25f, LungeTime = 0.3f;
         
         [FoldoutGroup("Debug")]
-        [SerializeField, ReadOnly] private float currentAccel;
+        [SerializeField, ReadOnly] public float currentAccel;
         [FoldoutGroup("Debug/Roll")]
         [SerializeField, ReadOnly] private bool canRoll;
         [FoldoutGroup("Debug/Roll")]
@@ -30,34 +30,23 @@ using UnityEngine.UI;
         [FoldoutGroup("Debug/Roll")]
         [SerializeField, ReadOnly] private Vector3 RollDirect;
         [FoldoutGroup("Debug/Striking")]
-        [SerializeField, ReadOnly] public float strikeMultiplier;
+        [SerializeField, ReadOnly] public float strikeMultiplier = 1.75f;
         [FoldoutGroup("Debug/Reverse Recall")]
         [SerializeField, ReadOnly] public float ReverseRecallMultiplier = 1;
-        
-        [FoldoutGroup("Setup")]
-        public UltimateJoystick JoystickPA;
-        [FoldoutGroup("Setup/Stamina")] public StaminaSystem staminaSystem;
-        
-        [FoldoutGroup("Debug")]
-        [ReadOnly] public Vector2 moveInput = Vector2.zero, moveBuffer;
-        [FoldoutGroup("Debug")]
-        public Vector2 joyStickInput;
-        [FoldoutGroup("Debug")]
-        public bool isJoystickInput;
-        
-        [FoldoutGroup("Setup/Save")]
-        public PlayerStats _stats;
-        
+
         private Vector3 rollDir;
-        private Vector3 calculateMove, moveDirection;
+        [HideInInspector] public Vector3 calculateMove, moveDirection;
         private Vector3 cameraForward, cameraRight;
         private Vector3 RecallDirect, lungeDirection;
         private Quaternion targetRotation, leftRayRotation, rightRayRotation;
         private Vector3 leftRayDirection, rightRayDirection;
         
+        private GameObject closestEnemy;
+        private float closestDistance, elapsedTime;
+        
         #region Calculate
 
-        void UpdateRollCDTimer()
+        public void UpdateRollCDTimer()
         {
             if (currentRollCD > 0)
                 currentRollCD -= Time.deltaTime;
@@ -72,46 +61,45 @@ using UnityEngine.UI;
         public async UniTaskVoid doRollingMove(Vector2 input, int staminaCost)
         {
             //prevent spam in the middle
-            if (!canRoll || !staminaSystem.HasEnoughStamina(staminaCost) ||
-                moveBuffer == Vector2.zero || !PlayerHealth.isAlive) return;
+            if (!canRoll || !pController.staminaSystem.HasEnoughStamina(staminaCost) ||
+                pController.moveBuffer == Vector2.zero || !PlayerHealth.isAlive) return;
 
             //add CD
-            AddRollCD(_stats.rollCD + _stats.rollTime);
+            AddRollCD(pController._stats.rollCD + pController._stats.rollTime);
             canRoll = false; //just want to save calculate so I place here, hehe
 
             //this lead to the Roll Apply
             rollDir = transform.forward.normalized;
             pController.currentState = PlayerState.Rolling;
-            pController._playerAnimController.DodgeAnim();
+            pController.playerAnimManager.DodgeAnim();
 
             pController._arrowController.isRecalling = false;
 
             //consume Stamina here
-            staminaSystem.Consume(staminaCost);
+            pController.staminaSystem.Consume(staminaCost);
 
             //roll done ? okay cool
-            await UniTask.Delay(TimeSpan.FromSeconds(_stats.rollTime));
+            await UniTask.Delay(TimeSpan.FromSeconds(pController._stats.rollTime));
             pController.currentState = PlayerState.Idle;
             //Might add some event here to activate particle or anything
         }
-
-
-        void RollApply()
+        
+        public void RollApply()
         {
             if (pController.currentState == PlayerState.Rolling)
             {
                 // Take from buffer
-                moveDirection = (cameraRight * moveBuffer.x + cameraForward * moveBuffer.y).normalized;
+                moveDirection = (cameraRight * pController.moveBuffer.x + cameraForward * pController.moveBuffer.y).normalized;
 
                 // Mix the directions
                 Vector3 ControlRoll = Vector3.Lerp(transform.forward.normalized, moveDirection, 0.2f).normalized;
-                Vector3 mixedDirection = Vector3.Lerp(rollDir, ControlRoll, _stats.controlRollDirect).normalized;
+                Vector3 mixedDirection = Vector3.Lerp(rollDir, ControlRoll, pController._stats.controlRollDirect).normalized;
 
                 // Implement Roll Logic here
                 RollDirect.x = mixedDirection.x;
                 RollDirect.z = mixedDirection.z;
 
-                PlayerRB.velocity = RollDirect.normalized * (_stats.rollSpeed * Time.fixedDeltaTime * 240);
+                PlayerRB.velocity = RollDirect.normalized * (pController._stats.rollSpeed * Time.fixedDeltaTime * 240);
             }
         }
 
@@ -120,16 +108,16 @@ using UnityEngine.UI;
             if (pController.currentState == PlayerState.Striking)
             {
                 // Take from buffer
-                moveDirection = (cameraRight * moveBuffer.x + cameraForward * moveBuffer.y).normalized;
+                moveDirection = (cameraRight * pController.moveBuffer.x + cameraForward * pController.moveBuffer.y).normalized;
 
                 // Mix the directions
-                Vector3 mixedDirection = Vector3.Lerp(transform.forward.normalized, moveDirection, _stats.controlRollDirect).normalized;
+                Vector3 mixedDirection = Vector3.Lerp(transform.forward.normalized, moveDirection, pController._stats.controlRollDirect).normalized;
 
                 // Implement Roll Logic here
                 RollDirect.x = mixedDirection.x;
                 RollDirect.z = mixedDirection.z;
 
-                PlayerRB.velocity = RollDirect.normalized * (_stats.rollSpeed * speedMultiplier * Time.fixedDeltaTime * 240);
+                PlayerRB.velocity = RollDirect.normalized * (pController._stats.rollSpeed * speedMultiplier * Time.fixedDeltaTime * 240);
             }
         }
 
@@ -150,7 +138,7 @@ using UnityEngine.UI;
                 pController.currentState == PlayerState.Recalling || pController.currentState == PlayerState.ReverseRecalling ||
                 pController.currentState == PlayerState.Striking || !PlayerHealth.isAlive) return;
 
-            if (isJoystickInput) input = joyStickInput;
+            if (pController.isJoystickInput) input = pController.joyStickInput;
 
             // Calculate camera forward direction
             cameraForward = Camera.main.transform.forward.normalized;
@@ -163,12 +151,12 @@ using UnityEngine.UI;
 
             // Move the Rigidbody
             if (pController.currentState != PlayerState.Rolling)
-                PlayerRB.AddForce(moveDirection * (Time.deltaTime * 240 * _stats.speed), ForceMode.VelocityChange);
+                PlayerRB.AddForce(moveDirection * (Time.deltaTime * 240 * pController._stats.speed), ForceMode.VelocityChange);
 
-            LimitSpeed(_stats.maxSpeed);
+            LimitSpeed(pController._stats.maxSpeed);
         }
 
-        void RotatePlayer(Vector3 moveDirection, float rotationSpeed)
+        public void RotatePlayer(Vector3 moveDirection, float rotationSpeed)
         {
             if (moveDirection == Vector3.zero) return;
             targetRotation = Quaternion.LookRotation(moveDirection);
@@ -177,15 +165,22 @@ using UnityEngine.UI;
             PlayerRB.rotation = Quaternion.Slerp(PlayerRB.rotation, targetRotation, rotationSpeed * Time.deltaTime);
         }
 
+        public void Knockback(Vector3 KnockDirect)
+        {
+            KnockDirect.y = 0;
+            PlayerRB.AddForce(KnockDirect.normalized * KnockDirect.magnitude, ForceMode.Impulse);
+        }
+
         #endregion
+        
         #region Special Move
 
         public void Roll()
         {
             if (blockInput) return;
             if (!PlayerHealth.isAlive) return;
-            if (pController.currentState == PlayerState.Rolling || moveBuffer == Vector2.zero) return;
-            doRollingMove(moveBuffer, _stats.staminaRollCost);
+            if (pController.currentState == PlayerState.Rolling || pController.moveBuffer == Vector2.zero) return;
+            doRollingMove(pController.moveBuffer, pController._stats.staminaRollCost);
         }
 
         public void ReverseRecall()
@@ -195,10 +190,80 @@ using UnityEngine.UI;
             PlayerRB.AddForce(RecallDirect.normalized * (ReverseRecallMultiplier * (pController._arrowController.MainArrow.recallSpeed * Time.fixedDeltaTime * 240)), ForceMode.Acceleration);
             LimitSpeed(pController._arrowController.MainArrow.MaxSpeed);
 
-            RotatePlayer(RecallDirect, _stats.rotationSpeed / 2);
+            RotatePlayer(RecallDirect, pController._stats.rotationSpeed / 2);
+        }
+        
+        
+        [Button]
+        public void MeleeLunge()
+        {
+            //Debug.Log("Lunge");
+            // Use OverlapSphere to detect all colliders within the radius
+            Collider[] hitColliders = Physics.OverlapSphere(PlayerRB.transform.position, lungeRange);
+
+            // Variable to track the closest enemy within the field of view
+            closestEnemy = null;
+            closestDistance = Mathf.Infinity;
+            lungeDirection = PlayerRB.transform.forward.normalized;  // Default to forward if no enemy is found
+
+            // Loop through all colliders detected by the OverlapSphere
+            foreach (Collider hitCollider in hitColliders)
+            {
+                GameObject hitObject = hitCollider.gameObject;
+
+                // Guard clause: If the hit object doesn't have the tag "Enemy", skip it
+                if (!hitObject.CompareTag("Enemy")) continue;
+
+                Vector3 directionToEnemy = (hitObject.transform.position - PlayerRB.transform.position).normalized;
+
+                // Calculate the angle between the player's forward direction and the direction to the enemy
+                float angleToEnemy = Vector3.Angle(PlayerRB.transform.forward, directionToEnemy);
+
+                // Guard clause: If the enemy is outside the cone of ±30 degrees, skip it
+                if (angleToEnemy > lungeAngle / 2 + rangeAngleTolerance) continue;
+
+                // Calculate the distance to the enemy
+                float distanceToEnemy = Vector3.Distance(PlayerRB.transform.position, hitObject.transform.position);
+
+                // Guard clause: If this enemy is farther than the closest found, skip it
+                if (distanceToEnemy >= closestDistance) continue;
+
+                // Update closest enemy and distance if this one is closer
+                closestEnemy = hitObject;
+                closestDistance = distanceToEnemy;
+
+                // Draw a line to this enemy for debug purposes
+                Debug.DrawLine(PlayerRB.transform.position, hitObject.transform.position, Color.red, 1f);
+            }
+
+            // Guard clause: If no enemy was found, just lunge forward
+            if (closestEnemy != null)
+            {
+                lungeDirection = (closestEnemy.transform.position - PlayerRB.transform.position).normalized;
+                lungeDirection.y = 0;
+            }
+
+            doMeleeLunge(LungeTime);
+        }
+
+        public async UniTaskVoid doMeleeLunge(float time)
+        {
+            elapsedTime = 0f;  // Tracks how much time has passed
+
+            while (elapsedTime < time)
+            {
+                PlayerRB.AddForce(lungeDirection * meleeLungeForce, ForceMode.Acceleration);
+                RotatePlayer(lungeDirection, pController._stats.rotationSpeed * 0.75f);
+
+                await UniTask.Yield(PlayerLoopTiming.FixedUpdate);
+                elapsedTime += Time.deltaTime;
+            }
+
+            //Debug.Log("Lunge Rotation Complete");
         }
 
         #endregion
+        
         
         private void OnDrawGizmos()
         {

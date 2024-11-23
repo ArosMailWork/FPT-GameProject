@@ -8,11 +8,10 @@ using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 
-public class ArrowController : MonoBehaviour
+public class ArrowController : MonoBehaviour, IWeapon
 {
     #region Variables
 
-    public PlayerAnimController _playerAnimController;
     public StatSliderUI _StatSliderUI;
 
     [FoldoutGroup("Stats")]
@@ -47,6 +46,7 @@ public class ArrowController : MonoBehaviour
 
     public static ArrowController Instance;
     private PlayerController _playerController;
+    [HideInInspector] public PlayerAnimManager playerAnimManager;
     private float calForce;
     #endregion
 
@@ -66,11 +66,11 @@ public class ArrowController : MonoBehaviour
     private void Start()
     {
         _playerController = PlayerController.Instance;
-        _playerAnimController = _playerController._playerAnimController;
+        playerAnimManager = _playerController.playerAnimManager;
 
         haveArrow = true;
         ShootSpriteUpdate();
-        _playerAnimController.UpdateHaveArrow(true);
+        playerAnimManager.UpdateHaveArrow(true);
     }
 
     private void Update()
@@ -113,7 +113,7 @@ public class ArrowController : MonoBehaviour
         if (!haveArrow || !_playerController.PlayerHealth.isAlive) return;
         ChargingInput = charge;
         
-        _playerAnimController.Draw(true, true);
+        playerAnimManager.Draw(true, true);
     }
     public void Recall(bool recall)
     {
@@ -187,7 +187,7 @@ public class ArrowController : MonoBehaviour
         ChargingInput = false;
         haveArrow = false;
         ShootSpriteUpdate();
-        _playerAnimController.UpdateHaveArrow(haveArrow);
+        playerAnimManager.UpdateHaveArrow(haveArrow);
         ShootArrow(MainArrow);
         if (IsSplitShot)
         {
@@ -198,7 +198,7 @@ public class ArrowController : MonoBehaviour
         }
 
         //wear
-        _playerAnimController.Draw(false, true);
+        playerAnimManager.Draw(false, true);
         currentChargedTime = 0;
         _StatSliderUI.UpdateToggle(false, 0.5f);
     }
@@ -251,7 +251,7 @@ public class ArrowController : MonoBehaviour
         if (recallBool)
         {
             _playerController.currentState = PlayerState.Recalling;
-            _playerAnimController.RecallAnimTrigger();
+            playerAnimManager.RecallAnimTrigger();
         }
         else 
             _playerController.currentState = PlayerState.Idle;

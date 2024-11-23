@@ -28,14 +28,14 @@ public class Skill_Active_Striking : ISkill
     private void Start()
     {
         if(_pc == null) _pc = PlayerController.Instance;
-        _pc.strikeMultiplier = strikingMultiplier;
+        _pc._playerMovementManager.strikeMultiplier = strikingMultiplier;
 
         TrailEffect(false);
     }
 
     private void OnValidate()
     {
-        if(_pc != null) _pc.strikeMultiplier = strikingMultiplier;
+        if(_pc != null) _pc._playerMovementManager.strikeMultiplier = strikingMultiplier;
     }
 
     public override void Activate()
