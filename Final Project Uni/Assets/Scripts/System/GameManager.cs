@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     [CanBeNull] public GameObject Player;
     [CanBeNull] public GameObject ManagerObj;
     [CanBeNull] public GenerationManager genManager;
+    [CanBeNull] public SceneLoader _sceneLoader;
     //Scene Address
     [FoldoutGroup("Scene Address")]
     public string Expedition;
@@ -40,7 +41,11 @@ public class GameManager : MonoBehaviour
     public void StartNewGame()
     {
         // Logic for starting a new game
-        SceneManager.LoadScene("Lobby");
+        
+        if(_sceneLoader != null)
+            _sceneLoader.LoadScene(1);
+        else
+            SceneManager.LoadScene("Lobby");
     }
 
     public void LoadGame()
@@ -64,7 +69,12 @@ public class GameManager : MonoBehaviour
     {
         fadeInAnim.Invoke();
         yield return new WaitForSeconds(1.5f);
-        SceneManager.LoadScene(Expedition);
+        
+        if(_sceneLoader != null)
+            _sceneLoader.LoadScene(2);
+        else
+            SceneManager.LoadScene(Expedition);
+        
         genManager.gameObject.SetActive(true);
         yield return new WaitForSeconds(1);
         fadeOutAnim.Invoke();
@@ -73,11 +83,30 @@ public class GameManager : MonoBehaviour
     {
         fadeInAnim.Invoke();
         yield return new WaitForSeconds(1);
-        SceneManager.LoadScene(Lobby);
+        
+        if(_sceneLoader != null)
+            _sceneLoader.LoadScene(1);
+        else
+            SceneManager.LoadScene(Lobby);
+        
         genManager.gameObject.SetActive(false);
         yield return new WaitForSeconds(0.5f);
         fadeOutAnim.Invoke();
 
+    }
+    IEnumerator LoadMenu()
+    {
+        fadeInAnim.Invoke();
+        yield return new WaitForSeconds(1.5f);
+        
+        if(_sceneLoader != null)
+            _sceneLoader.LoadScene(0);
+        else
+            SceneManager.LoadScene("UI Main Menu");
+        
+        genManager.gameObject.SetActive(true);
+        yield return new WaitForSeconds(1);
+        fadeOutAnim.Invoke();
     }
     public void StartExpedition()
     {
@@ -87,6 +116,11 @@ public class GameManager : MonoBehaviour
     public void StartLobby()
     {
         StartCoroutine(LoadLobby());
+    }
+    
+    public void QuitMenu()
+    {
+        StartCoroutine(LoadMenu());
     }
     #endregion
 }

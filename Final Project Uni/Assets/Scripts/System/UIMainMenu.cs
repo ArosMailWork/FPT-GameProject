@@ -22,6 +22,8 @@ namespace PA
         [SerializeField] private UIGraphicsMenu graphicsMenu;
         [SerializeField] private UISoundMenu soundMenu;
 
+        public SceneLoader _sceneLoader;
+
         private void Awake()
         {
             if (Instance == null)
@@ -55,7 +57,11 @@ namespace PA
         {           
             makeTransitionUI.MakeFadeTransition();            
             await UniTask.Delay(TimeSpan.FromSeconds(makeTransitionUI.duration));
-            SceneManager.LoadScene("TestGenMap");
+            
+            if(_sceneLoader != null)
+                _sceneLoader.LoadScene(1);
+            else
+                SceneManager.LoadScene("TestGenMap");
             
             await UniTask.Delay(TimeSpan.FromSeconds(makeTransitionUI.duration));
             makeTransitionUI.fadeBlackImage.GetComponent<CanvasGroup>().alpha = 1;
@@ -66,7 +72,11 @@ namespace PA
         {           
             makeTransitionUI.MakeFadeTransition();            
             await UniTask.Delay(TimeSpan.FromSeconds(makeTransitionUI.duration));
-            SceneManager.LoadScene("Lobby");
+            
+            if(_sceneLoader != null)
+                _sceneLoader.LoadScene(1);
+            else
+                SceneManager.LoadScene("Lobby");
             
             await UniTask.Delay(TimeSpan.FromSeconds(makeTransitionUI.duration));
             makeTransitionUI.fadeBlackImage.GetComponent<CanvasGroup>().alpha = 1;
