@@ -105,8 +105,9 @@
             PlayerController.Instance.UpdateUI(Gold.ToString(), (SoulCollected + PlayerController.Instance._stats.playerSoul).ToString());
 
             if(InputGold > 0) GoldRecord += Mathf.RoundToInt(InputGold);
+            else GoldRecord -= Mathf.RoundToInt(InputGold);
             if(SoulRecord > 0) SoulRecord += Mathf.RoundToInt(InputSoul);
-            
+
             ParticleManager.Instance.SpawnParticle("CoinReceive", PlayerController.Instance.transform.position, quaternion.identity);
         }
 

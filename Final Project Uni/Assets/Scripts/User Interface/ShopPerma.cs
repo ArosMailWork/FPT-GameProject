@@ -158,6 +158,8 @@ public class ShopPerma : MonoBehaviour
         };
 
         PlayerDataCRUD.SavePermanentStats(data);
+        AchievementManager.instance.AddAchievementProgress("Steroid", confirmedDamage);
+        AchievementManager.instance.AddAchievementProgress("Runner", confirmedSpeed);
 
         _stats.LoadSave();
         Debug.Log("Permanent upgrades confirmed and saved.");

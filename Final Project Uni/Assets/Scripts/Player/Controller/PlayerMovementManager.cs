@@ -215,7 +215,7 @@ using UnityEngine.UI;
         [Button]
         public void MeleeLunge()
         {
-            //Debug.Log("Lunge");
+            Debug.Log("Lunge");
             // Use OverlapSphere to detect all colliders within the radius
             Collider[] hitColliders = Physics.OverlapSphere(PlayerRB.transform.position, lungeRange);
 

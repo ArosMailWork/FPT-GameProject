@@ -15,8 +15,9 @@ GameObject:
   - component: {fileID: 7292983364257484978}
   - component: {fileID: 5377711182170064505}
   - component: {fileID: 2852628278908970254}
+  - component: {fileID: 4153449672244548503}
   m_Layer: 7
-  m_Name: Dialog Item
+  m_Name: Sign NPC
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -187,6 +188,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 4153449672244548503}
+        m_TargetAssemblyTypeName: AchievementUlts, Assembly-CSharp
+        m_MethodName: Add1
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Board Cutter
+          m_BoolArgument: 0
+        m_CallState: 2
   OnKnockback:
     m_PersistentCalls:
       m_Calls:
@@ -237,6 +250,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   FlashMaterial: {fileID: 2100000, guid: 73a5375836121b8448283f5da0c9ddee, type: 2}
   flashTime: 0.25
+--- !u!114 &4153449672244548503
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 168607984069502571}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41d4cb943cf894a4ebc153ce0db77658, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  viewObj: {fileID: 0}
+  AchievementEventList: []
 --- !u!1 &413557534163097931
 GameObject:
   m_ObjectHideFlags: 0
@@ -587,8 +614,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83498fa421189c94e90fdbc6d5b98f6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dialogues: []
   requireKnowledgeLevel: 0
-  text: HELLO WORLD
   fontSize: -1
   Mask: 0
 --- !u!1 &2700797103192574471
@@ -875,6 +902,7 @@ MonoBehaviour:
   alternateFont: {fileID: 11400000, guid: 62f15b8063ac4e24399014c2565b9a53, type: 2}
   imageMask: {fileID: 4503639860056015586}
   toggleScale: {fileID: 0}
+  DialogueNext: {fileID: 0}
 --- !u!1 &7949422399280132215
 GameObject:
   m_ObjectHideFlags: 0

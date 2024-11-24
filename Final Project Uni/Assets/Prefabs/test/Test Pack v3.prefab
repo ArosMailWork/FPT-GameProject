@@ -466,8 +466,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 64.21517, y: 0}
-  m_SizeDelta: {x: 60.1163, y: 50}
+  m_AnchoredPosition: {x: 61.291424, y: 0}
+  m_SizeDelta: {x: 85.914, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5612052852645885066
 CanvasRenderer:
@@ -1516,6 +1516,9 @@ MonoBehaviour:
   - {fileID: 6290405582025061759}
   - {fileID: 8952731242156728478}
   - {fileID: 8527169597705498881}
+  - {fileID: 546022164615854738}
+  - {fileID: 6006381652001497008}
+  - {fileID: 2068717922378414327}
 --- !u!1 &621895290987922325
 GameObject:
   m_ObjectHideFlags: 0
@@ -23125,8 +23128,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 39.115044, y: 0}
-  m_SizeDelta: {x: 60.1163, y: 50}
+  m_AnchoredPosition: {x: 54.013, y: 0}
+  m_SizeDelta: {x: 108.03, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5050005130992168880
 CanvasRenderer:
@@ -24936,6 +24939,9 @@ MonoBehaviour:
   CurrentVelocity: 0
   RecallDirect: {x: 0, y: 0, z: 0}
   currentHoverHeight: 0
+  IsMainArrow: 0
+  startRecallFlag: 0
+  offsetDegree: 15
   arrowRb: {fileID: 0}
   hitbox: {fileID: 6173802205020416321}
   _arrowController: {fileID: 0}
@@ -24952,9 +24958,11 @@ MonoBehaviour:
   HideEvent:
     m_PersistentCalls:
       m_Calls: []
-  offsetDegree: 15
-  IsMainArrow: 0
-  startRecallFlag: 0
+  RemoteRecoverEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  isExplodeOnRemote: 0
+  MiniExplode: {fileID: 0}
 --- !u!114 &6173802205020416321
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25553,6 +25561,9 @@ MonoBehaviour:
   CurrentVelocity: 0
   RecallDirect: {x: 0, y: 0, z: 0}
   currentHoverHeight: 0
+  IsMainArrow: 1
+  startRecallFlag: 0
+  offsetDegree: 0
   arrowRb: {fileID: 2506435144793728446}
   hitbox: {fileID: 6123833372231583965}
   _arrowController: {fileID: 0}
@@ -25605,9 +25616,11 @@ MonoBehaviour:
   HideEvent:
     m_PersistentCalls:
       m_Calls: []
-  offsetDegree: 0
-  IsMainArrow: 1
-  startRecallFlag: 0
+  RemoteRecoverEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  isExplodeOnRemote: 0
+  MiniExplode: {fileID: 0}
 --- !u!114 &6123833372231583965
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41596,6 +41609,9 @@ MonoBehaviour:
   CurrentVelocity: 0
   RecallDirect: {x: 0, y: 0, z: 0}
   currentHoverHeight: 0
+  IsMainArrow: 0
+  startRecallFlag: 0
+  offsetDegree: -15
   arrowRb: {fileID: 0}
   hitbox: {fileID: 7328969460272619473}
   _arrowController: {fileID: 0}
@@ -41612,9 +41628,11 @@ MonoBehaviour:
   HideEvent:
     m_PersistentCalls:
       m_Calls: []
-  offsetDegree: -15
-  IsMainArrow: 0
-  startRecallFlag: 0
+  RemoteRecoverEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  isExplodeOnRemote: 0
+  MiniExplode: {fileID: 0}
 --- !u!114 &7328969460272619473
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -64691,8 +64709,7 @@ MonoBehaviour:
   currentSkill: {fileID: 0}
   SoulRecover: 20
   _pc: {fileID: 1766675483051995058}
-  StartSkill:
-  - {fileID: 5543831279937719370, guid: 20bdd0b78e71ad54ba10b0d3a3e11e0a, type: 3}
+  StartSkill: []
   currentSkillUISprite: {fileID: 46930167723633426}
   CDOverlay: {fileID: 989022008919032536}
   SwitchButton: {fileID: 7848440257394057899}
@@ -81572,8 +81589,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 63.31516, y: 0}
-  m_SizeDelta: {x: 60.1163, y: 50}
+  m_AnchoredPosition: {x: 62.029213, y: 0}
+  m_SizeDelta: {x: 84.1206, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5066392498674166015
 CanvasRenderer:
@@ -109346,12 +109363,17 @@ MonoBehaviour:
   rangeAngleTolerance: 5
   lungeRange: 15
   LungeTime: 0.2125
+  isSonicDash: 0
+  SonicBoomPrefab: {fileID: 0}
   currentAccel: 0
   canRoll: 0
   currentRollCD: 0
   RollDirect: {x: 0, y: 0, z: 0}
   strikeMultiplier: 0
   ReverseRecallMultiplier: 1
+  StartDodge:
+    m_PersistentCalls:
+      m_Calls: []
   calculateMove: {x: 0, y: 0, z: 0}
   moveDirection: {x: 0, y: 0, z: 0}
 --- !u!114 &3065971099060943978
@@ -109416,6 +109438,7 @@ MonoBehaviour:
   RecallSprite: {fileID: 21300000, guid: 91445a1eeea4b9b449c2a9358431cd82, type: 3}
   IsSplitShot: 0
   IsPreciseArcher: 0
+  IsExplosionExpert: 0
   playerAnimManager: {fileID: 585268556335021191}
 --- !u!114 &8993129277533770346
 MonoBehaviour:
@@ -110030,8 +110053,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 40.01516, y: 0}
-  m_SizeDelta: {x: 60.1163, y: 50}
+  m_AnchoredPosition: {x: 50.618866, y: 0}
+  m_SizeDelta: {x: 107.923, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8664891010814047014
 CanvasRenderer:
@@ -125408,7 +125431,7 @@ PrefabInstance:
       objectReference: {fileID: 8517342403901688507}
     - target: {fileID: 1273238594637527656, guid: f6cf11909393cdf40b5541c2ed713796, type: 3}
       propertyPath: Gameplay.Array.size
-      value: 4
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1273238594637527656, guid: f6cf11909393cdf40b5541c2ed713796, type: 3}
       propertyPath: Gameplay.Array.data[0]
@@ -125426,6 +125449,14 @@ PrefabInstance:
       propertyPath: Gameplay.Array.data[3]
       value: 
       objectReference: {fileID: 2068717922378414327}
+    - target: {fileID: 1273238594637527656, guid: f6cf11909393cdf40b5541c2ed713796, type: 3}
+      propertyPath: Gameplay.Array.data[4]
+      value: 
+      objectReference: {fileID: 546022164615854738}
+    - target: {fileID: 1273238594637527656, guid: f6cf11909393cdf40b5541c2ed713796, type: 3}
+      propertyPath: Gameplay.Array.data[5]
+      value: 
+      objectReference: {fileID: 6006381652001497008}
     - target: {fileID: 1273238594637527656, guid: f6cf11909393cdf40b5541c2ed713796, type: 3}
       propertyPath: selectRandomSkillEvent
       value: 
@@ -125836,15 +125867,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4857515175859139575, guid: f6cf11909393cdf40b5541c2ed713796, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 60.1163
+      value: 90.0602
       objectReference: {fileID: 0}
     - target: {fileID: 4857515175859139575, guid: f6cf11909393cdf40b5541c2ed713796, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 50
+      value: 40.1883
       objectReference: {fileID: 0}
     - target: {fileID: 4857515175859139575, guid: f6cf11909393cdf40b5541c2ed713796, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 8.315114
+      value: 14.6732
+      objectReference: {fileID: 0}
+    - target: {fileID: 4857515175859139575, guid: f6cf11909393cdf40b5541c2ed713796, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 4.9059
+      objectReference: {fileID: 0}
+    - target: {fileID: 4888913637108763046, guid: f6cf11909393cdf40b5541c2ed713796, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 4105256988996498328}
+    - target: {fileID: 4888913637108763046, guid: f6cf11909393cdf40b5541c2ed713796, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ToggleUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 4888913637108763046, guid: f6cf11909393cdf40b5541c2ed713796, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: ToggleUIElements, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 5048078512879749450, guid: f6cf11909393cdf40b5541c2ed713796, type: 3}
       propertyPath: m_AnchorMax.y
@@ -126121,6 +126168,34 @@ PrefabInstance:
     - target: {fileID: 7704909426231913244, guid: f6cf11909393cdf40b5541c2ed713796, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: -11.585909
+      objectReference: {fileID: 0}
+    - target: {fileID: 7799534363657350084, guid: f6cf11909393cdf40b5541c2ed713796, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7799534363657350084, guid: f6cf11909393cdf40b5541c2ed713796, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7799534363657350084, guid: f6cf11909393cdf40b5541c2ed713796, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 4105256988996498328}
+    - target: {fileID: 7799534363657350084, guid: f6cf11909393cdf40b5541c2ed713796, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7799534363657350084, guid: f6cf11909393cdf40b5541c2ed713796, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: ToggleUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 7799534363657350084, guid: f6cf11909393cdf40b5541c2ed713796, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: ToggleUIElements, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 7799534363657350084, guid: f6cf11909393cdf40b5541c2ed713796, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_TargetAssemblyTypeName
+      value: PauseMenu, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 7826922001574682664, guid: f6cf11909393cdf40b5541c2ed713796, type: 3}
       propertyPath: m_AnchoredPosition.y

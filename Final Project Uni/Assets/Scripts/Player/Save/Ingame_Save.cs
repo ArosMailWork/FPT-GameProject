@@ -97,6 +97,11 @@ public class Ingame_Save : MonoBehaviour
             PlayerController.Instance.PlayerHealth.CopyFromData(playerHealth);
             PlayerController.Instance._stats.CopyFromData(Stats);
             PlayerController.Instance.PlayerProgressData.CopyFromData(runData);
+            
+            PlayerController.Instance.UpdateUI(runData.Gold.ToString(), 
+                (runData.SoulCollected + PlayerController.Instance._stats.playerSoul).ToString());
+
+            
 
             // Load skills
             foreach (var skill in SkillHolder.Instance.skillList)

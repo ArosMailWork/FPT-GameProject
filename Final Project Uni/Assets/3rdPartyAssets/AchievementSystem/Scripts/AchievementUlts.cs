@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Events;
@@ -12,13 +13,14 @@ public struct AchievementEvent
     public UnityEvent Event;
 }
 
-public class AchievementReceiver : MonoBehaviour
+public class AchievementUlts : MonoBehaviour
 {
-    [SerializeField] private GameObject viewObj;
+    [SerializeField, CanBeNull] private GameObject viewObj;
     public List<AchievementEvent> AchievementEventList;
 
     private void Start()
     {
+        if(viewObj != null)
         viewObj.SetActive(false);
     }
 
@@ -30,6 +32,11 @@ public class AchievementReceiver : MonoBehaviour
     public void UnlockSkill(string SkillID)
     {
         PlayerController.Instance.PlayerProgressData.UnlockSkill(SkillID);
+    }
+    
+    public void Add1(string Name)
+    {
+        AchievementManager.instance.AddAchievementProgress(Name, 1);
     }
 
     public void AwardSoul(int soulAmount)
