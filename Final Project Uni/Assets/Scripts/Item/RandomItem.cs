@@ -83,7 +83,7 @@ public class RandomItem : MonoBehaviour
             nonSkillItems.Clear();
 
             // Check if the item is skill-based and if the skill is unlocked
-            if (interactableItem.isSkillBuff)
+            if (interactableItem.isSkillBuff && interactableItem.Skill.GetComponent<ISkill>() != null)
             {
                 string skillID = interactableItem.Skill.GetComponent<ISkill>().Name;
                 if (IsSkillUnlocked(skillID))

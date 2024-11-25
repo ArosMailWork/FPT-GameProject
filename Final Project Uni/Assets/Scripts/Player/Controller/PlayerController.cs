@@ -217,6 +217,8 @@ public class PlayerController : MonoBehaviour
         _UIContainer.GameplayState();
         PlayerHealth.HealOverTime(RegenHP, 4);
         PlayerHealth.isAlive = true;
+        
+        PlayerHealth.OnRevive.Invoke();
     }
 
     #endregion

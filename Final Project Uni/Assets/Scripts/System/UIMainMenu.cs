@@ -58,9 +58,9 @@ namespace PA
             makeTransitionUI.MakeFadeTransition();            
             await UniTask.Delay(TimeSpan.FromSeconds(makeTransitionUI.duration));
             
-            if(_sceneLoader != null)
-                _sceneLoader.LoadScene(1);
-            else
+            //if(_sceneLoader != null)
+            //    _sceneLoader.LoadScene(2);
+            //else
                 SceneManager.LoadScene("TestGenMap");
             
             await UniTask.Delay(TimeSpan.FromSeconds(makeTransitionUI.duration));
