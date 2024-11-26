@@ -33,7 +33,7 @@ public class Health : MonoBehaviour
     [FoldoutGroup("Setup")]
     public bool fillOnStart = true;
     [FoldoutGroup("Setup/Event")]
-    public UnityEvent HpValueChange, HpReduce, OnDeath;
+    public UnityEvent HpValueChange, HpReduce, OnDeath, OnRevive;
     [FoldoutGroup("Setup/Event")]
     public UnityEvent<Vector3> OnKnockback;
     [FoldoutGroup("Setup/Event")]
@@ -197,7 +197,7 @@ public class Health : MonoBehaviour
     {
         Debug.Log("Received " + damage);
         currentHealth -= damage;
-        if (currentHealth <= 0) currentHealth = 0;
+        //if (currentHealth <= 0) currentHealth = -1;
         HpReduce.Invoke();
     }
     async UniTaskVoid DoT(int damage, float duration)

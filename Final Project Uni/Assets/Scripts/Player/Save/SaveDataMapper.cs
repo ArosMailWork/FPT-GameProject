@@ -33,8 +33,9 @@ public class HealthData
 public class PlayerRunData
 {
     public int KnowledgeLevel;
-    public int Gold;
+    public int Gold, GoldRecord;
     public int SoulCollected;
+    public float SoulRecord;
     public List<SkillUnlock> unlockedSkills = new List<SkillUnlock>();
     public List<InventoryItem> Inventory = new List<InventoryItem>();
     public List<RecipeUnlock> unlockedRecipes = new List<RecipeUnlock>();
@@ -72,24 +73,28 @@ public static class DataCopier
     }
 
     // Static method to copy data from PlayerRunData to PlayerData
-    public static void CopyFromData(this PlayerData target, PlayerRunData source)
+    public static void CopyFromData(this PlayerProgressData target, PlayerRunData source)
     {
         if (source == null || target == null) return;
 
         target.KnowledgeLevel = source.KnowledgeLevel;
         target.Gold = source.Gold;
         target.SoulCollected = source.SoulCollected;
+        target.GoldRecord = source.GoldRecord;
+        target.SoulRecord = source.SoulRecord;
 
         target.unlockedSkills = new List<SkillUnlock>(source.unlockedSkills);
         target.Inventory = new List<InventoryItem>(source.Inventory);
         target.unlockedRecipes = new List<RecipeUnlock>(source.unlockedRecipes);
 
         // Log Inventory items for debugging
+        /*
         Debug.Log("Loaded Inventory!!");
         foreach (var item in target.Inventory)
         {
-            Debug.Log(item.item.itemName + " " + item.amount);
+            //Debug.Log(item.item.itemName + " " + item.amount);
         }
+        */
     }
 }
 
@@ -144,7 +149,7 @@ public static class DataExtensions
     }
 
     // PlayerData
-    public static void CopyFrom(this PlayerData target, PlayerData source)
+    public static void CopyFrom(this PlayerProgressData target, PlayerProgressData source)
     {
         if (source == null) return;
         target.KnowledgeLevel = source.KnowledgeLevel;
@@ -165,7 +170,7 @@ public static class DataExtensions
     }
 
 
-    public static void UpdateFrom(this PlayerData target, PlayerData source)
+    public static void UpdateFrom(this PlayerProgressData target, PlayerProgressData source)
     {
         target.CopyFrom(source);
     }
@@ -205,7 +210,7 @@ public static class SaveDataMapper
     }
 
     // Map PlayerData to PlayerRunData
-    public static PlayerRunData ToData(this PlayerData source)
+    public static PlayerRunData ToData(this PlayerProgressData source)
     {
         return new PlayerRunData
         {
@@ -256,9 +261,9 @@ public static class SaveDataMapper
     }
 
     // Map PlayerRunData to PlayerData
-    public static PlayerData FromData(this PlayerRunData source)
+    public static PlayerProgressData FromData(this PlayerRunData source)
     {
-        var playerData = new PlayerData
+        var playerData = new PlayerProgressData
         {
             KnowledgeLevel = source.KnowledgeLevel,
             Gold = source.Gold,

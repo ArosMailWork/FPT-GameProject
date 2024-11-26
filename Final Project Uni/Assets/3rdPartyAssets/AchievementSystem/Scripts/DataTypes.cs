@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 /// <summary>
 /// Storesinformation related to a single achievement
@@ -29,6 +30,7 @@ public struct AchievementInfromation
     [SerializeField] public float NotificationFrequency;
     [Tooltip("A string which will be displayed with a progress achievement e.g. $, KM, Miles etc")]
     [SerializeField] public string ProgressSuffix;
+    [SerializeField] public UnityEvent CompleteEvent;
 }
 
 /// <summary>

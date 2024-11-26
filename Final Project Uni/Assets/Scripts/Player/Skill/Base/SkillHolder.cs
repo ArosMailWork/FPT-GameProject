@@ -62,43 +62,8 @@ public class SkillHolder : MonoBehaviour
         SetActiveSkill(currentActiveSkill);
     }
     
-    void Update()
-    {
-        UpdateCooldownUI();
-    }
-
-    [Button]
-    void SetActiveSkill(int slot)
-    {
-        if (slot >= 0 && slot < activeSkillList.Count)
-        {
-            currentActiveSkill = slot;
-            activeSkill = activeSkillList[slot];
-            currentSkill = activeSkill.GetComponent<ISkill>();
-            currentSkillUISprite.sprite = currentSkill.Icon;
-            
-            // Set initial cooldown values
-            currentCD = currentSkill.currentCD;
-            coolDownUI = (currentSkill.Cooldown > 0) ? Mathf.Clamp01(currentSkill.currentCD / currentSkill.Cooldown) : 0;
-        }
-    }
-
     #region Util
-    // Utility method for switching to the next active skill
-    public void NextSkill()
-    {
-        if (_pc.blockInput) return;
-        Debug.Log("next");
-        
-        if (currentActiveSkill + 1 < activeSkillList.Count)
-            currentActiveSkill += 1;
-        else
-            currentActiveSkill = 0;
-
-        SetActiveSkill(currentActiveSkill);
-    }
     
-
     [Button]
     public async void AddSkill(GameObject skillPrefab)
     {
@@ -109,7 +74,7 @@ public class SkillHolder : MonoBehaviour
         // Check if the skill already exists
         if (SkillIDList.Contains(skillID))
         {
-            PlayerController.Instance._playerData.SoulCollected += SoulRecover;
+            PlayerController.Instance.PlayerProgressData.SoulCollected += SoulRecover;
             Debug.Log("Skill already exists: " + skillID);
             return;
         }
@@ -157,7 +122,7 @@ public class SkillHolder : MonoBehaviour
         }
 
         // Retrieve the skill prefab from the SkillDatabase
-        GameObject skill = PlayerController.Instance._playerData.
+        GameObject skill = PlayerController.Instance.PlayerProgressData.
             skillDatabase.allSkills.Find(s => s.Skill_ID == skillID).skillPrefab;
 
         if (skill == null)
@@ -168,21 +133,17 @@ public class SkillHolder : MonoBehaviour
 
         AddSkill(skill);
     }
-
-
+    
     #endregion
 
+    
+    
+    void Update()
+    {
+        UpdateCooldownUI();
+    }
+    
     #region Input
-    public void ActivateSkill(InputAction.CallbackContext ctx)
-    {
-        ActivateSkill();
-    }
-
-    public void DeactivateSkill(InputAction.CallbackContext ctx)
-    {
-        DeactivateSkill();
-    }
-
     public void ActivateSkill()
     {
         if (activeSkill == null) return;
@@ -193,6 +154,36 @@ public class SkillHolder : MonoBehaviour
     {
         if (activeSkill == null) return;
         currentSkill.Deactivate();
+    }
+    
+    public void NextSkill()
+    {
+        if (_pc.blockInput) return;
+        Debug.Log("next");
+        
+        if (currentActiveSkill + 1 < activeSkillList.Count)
+            currentActiveSkill += 1;
+        else
+            currentActiveSkill = 0;
+
+        SetActiveSkill(currentActiveSkill);
+    }
+    
+    
+    [Button]
+    void SetActiveSkill(int slot)
+    {
+        if (slot >= 0 && slot < activeSkillList.Count)
+        {
+            currentActiveSkill = slot;
+            activeSkill = activeSkillList[slot];
+            currentSkill = activeSkill.GetComponent<ISkill>();
+            currentSkillUISprite.sprite = currentSkill.Icon;
+            
+            // Set initial cooldown values
+            currentCD = currentSkill.currentCD;
+            coolDownUI = (currentSkill.Cooldown > 0) ? Mathf.Clamp01(currentSkill.currentCD / currentSkill.Cooldown) : 0;
+        }
     }
     #endregion
 

@@ -7,5 +7,7 @@ public class PlayerTeleporter : MonoBehaviour
     void OnEnable()
     {
         PlayerController.Instance.PlayerRB.transform.position = transform.position;
+        
+        PlayerController.Instance.Revive(1, 0);
     }
 }

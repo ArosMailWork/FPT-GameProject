@@ -10,7 +10,7 @@ public class Skill_Active_ReverseRecall : ISkill
     private void Start()
     {
         if(_pc == null) _pc = PlayerController.Instance;
-        _pc.ReverseRecallMultiplier = ReverseRecallMultiplier;
+        _pc._playerMovementManager.ReverseRecallMultiplier = ReverseRecallMultiplier;
     }
     
     public override void Activate()

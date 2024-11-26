@@ -7,11 +7,11 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-public class ArrowController : MonoBehaviour
+
+public class ArrowController : MonoBehaviour, IWeapon
 {
     #region Variables
 
-    public PlayerAnimController _playerAnimController;
     public StatSliderUI _StatSliderUI;
 
     [FoldoutGroup("Stats")]
@@ -23,7 +23,7 @@ public class ArrowController : MonoBehaviour
     #region Debug and Setup
 
     [FoldoutGroup("Debug")]
-    public bool blockInput;
+    public bool blockInput, allowRecall = true;
     [FoldoutGroup("Debug")]
     public List<Arrow> arrowsList;
     [FoldoutGroup("Debug")]
@@ -43,9 +43,11 @@ public class ArrowController : MonoBehaviour
     [FoldoutGroup("Debug/UI")] public Sprite ShootSprite, RecallSprite;
     [FoldoutGroup("Debug/Buff")] public bool IsSplitShot = false;
     [FoldoutGroup("Debug/Buff")] public bool IsPreciseArcher = false;
+    [FoldoutGroup("Debug/Buff")] public bool IsExplosionExpert = false;
 
     public static ArrowController Instance;
     private PlayerController _playerController;
+    [HideInInspector] public PlayerAnimManager playerAnimManager;
     private float calForce;
     #endregion
 
@@ -65,11 +67,11 @@ public class ArrowController : MonoBehaviour
     private void Start()
     {
         _playerController = PlayerController.Instance;
-        _playerAnimController = _playerController._playerAnimController;
+        playerAnimManager = _playerController.playerAnimManager;
 
         haveArrow = true;
         ShootSpriteUpdate();
-        _playerAnimController.UpdateHaveArrow(true);
+        playerAnimManager.UpdateHaveArrow(true);
     }
 
     private void Update()
@@ -112,11 +114,11 @@ public class ArrowController : MonoBehaviour
         if (!haveArrow || !_playerController.PlayerHealth.isAlive) return;
         ChargingInput = charge;
         
-        _playerAnimController.Draw(true, true);
+        playerAnimManager.Draw(true, true);
     }
     public void Recall(bool recall)
     {
-        if (blockInput) return;
+        if (blockInput || !allowRecall) return;
         
         ShootButtonPressing = recall;
         if (haveArrow || !_playerController.PlayerHealth.isAlive) return;
@@ -143,6 +145,7 @@ public class ArrowController : MonoBehaviour
     }
     void ShootArrow(Arrow arrow)
     {
+        //Stat adjust
         if (IsPreciseArcher && (currentChargedTime / chargedTime) >= 0.75f)
             _playerController._stats.SetBuffATKMul(0.5f);
         else
@@ -185,7 +188,7 @@ public class ArrowController : MonoBehaviour
         ChargingInput = false;
         haveArrow = false;
         ShootSpriteUpdate();
-        _playerAnimController.UpdateHaveArrow(haveArrow);
+        playerAnimManager.UpdateHaveArrow(haveArrow);
         ShootArrow(MainArrow);
         if (IsSplitShot)
         {
@@ -196,7 +199,7 @@ public class ArrowController : MonoBehaviour
         }
 
         //wear
-        _playerAnimController.Draw(false, true);
+        playerAnimManager.Draw(false, true);
         currentChargedTime = 0;
         _StatSliderUI.UpdateToggle(false, 0.5f);
     }
@@ -249,7 +252,7 @@ public class ArrowController : MonoBehaviour
         if (recallBool)
         {
             _playerController.currentState = PlayerState.Recalling;
-            _playerAnimController.RecallAnimTrigger();
+            playerAnimManager.RecallAnimTrigger();
         }
         else 
             _playerController.currentState = PlayerState.Idle;
@@ -276,7 +279,7 @@ public class ArrowController : MonoBehaviour
         prefabParticleManager.PlayAssignedParticle("RecallingMainArrowVFX");
         foreach (var arrow in arrowsList)
         {
-            arrow.HideArrow();
+            arrow.HideArrow(true);
         }
 
         haveArrow = true;

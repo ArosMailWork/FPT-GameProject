@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
  
@@ -7,6 +8,7 @@ public class SceneLoader : MonoBehaviour
 {
     public GameObject LoaderUI;
     public Slider progressSlider;
+    public UnityEvent CompletedLoad;
  
     public void LoadScene(int index)
     {
@@ -29,7 +31,9 @@ public class SceneLoader : MonoBehaviour
             if (progress >= 0.9f)
             {
                 progressSlider.value = 1;
+                yield return new WaitForSeconds(0.75f);
                 asyncOperation.allowSceneActivation = true;
+                CompletedLoad?.Invoke(); 
             }
             yield return null;
         }

@@ -1,9 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class SelectRandomSkillEvent : MonoBehaviour
 {
@@ -21,9 +23,14 @@ public class SelectRandomSkillEvent : MonoBehaviour
     [FoldoutGroup("Event")]
     public UnityEvent OnSkillChoose;
 
-    PlayerData playerData;
+    PlayerProgressData _playerProgressData;
     
     #endregion
+
+    private void OnEnable()
+    {
+        PoolCreate();
+    }
 
     #region Methods
 
@@ -33,7 +40,7 @@ public class SelectRandomSkillEvent : MonoBehaviour
         // Clear the current SkillPool to refresh it with only unlocked skills
         SkillPool.Clear();
 
-        if (playerData == null) playerData = PlayerController.Instance._playerData;
+        if (_playerProgressData == null) _playerProgressData = PlayerController.Instance.PlayerProgressData;
 
         HashSet<GameObject> addedSkills = new HashSet<GameObject>(); // To prevent duplicates
 
@@ -45,7 +52,7 @@ public class SelectRandomSkillEvent : MonoBehaviour
         }
 
         // Add all default unlocked skills from the database if they are not already in SkillIDList
-        foreach (var skill in playerData.skillDatabase.allSkills)
+        foreach (var skill in _playerProgressData.skillDatabase.allSkills)
         {
             if (skill.defaultUnlocked && skill.skillPrefab != null && addedSkills.Add(skill.skillPrefab))
             {
@@ -59,12 +66,12 @@ public class SelectRandomSkillEvent : MonoBehaviour
         }
 
         // Add unlocked skills to SkillPool, ensuring uniqueness in SkillIDList and addedSkills
-        foreach (SkillUnlock skillUnlock in playerData.unlockedSkills)
+        foreach (SkillUnlock skillUnlock in _playerProgressData.unlockedSkills)
         {
             if (skillUnlock.isUnlocked)
             {
                 // Find the corresponding skillPrefab from skillDatabase using the Skill_ID
-                PlayerSkill playerSkill = playerData.skillDatabase.allSkills.Find(s => s.Skill_ID == skillUnlock.Skill.Skill_ID);
+                PlayerSkill playerSkill = _playerProgressData.skillDatabase.allSkills.Find(s => s.Skill_ID == skillUnlock.Skill.Skill_ID);
                 if (playerSkill.skillPrefab != null && addedSkills.Add(playerSkill.skillPrefab))
                 {
                     // Avoid adding skills already in the SkillIDList

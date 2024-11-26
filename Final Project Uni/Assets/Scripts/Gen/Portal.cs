@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 public class Portal : MonoBehaviour
@@ -9,6 +10,8 @@ public class Portal : MonoBehaviour
     {
         exManager = ExpeditionManager.Instance;
     }
+    
+    [Button]
     public void StartPortal()
     {
         exManager.ExitFloor();

@@ -15,12 +15,12 @@ public class RecipeUI : MonoBehaviour
     public GameObject SplitSpritePrefab; // Prefab for the plus sprite
 
     private string recipeID;
-    private CraftingTable craftingTable;
+    private CraftingController craftingTable;
 
     /// <summary>
     /// Initializes the Recipe UI element with recipe data.
     /// </summary>
-    public void SetRecipeUI(CraftingRecipe recipe, bool canCraft, CraftingTable table, bool unlocked)
+    public void SetRecipeUI(CraftingRecipe recipe, bool canCraft, CraftingController table, bool unlocked)
     {
         UnlockedSprite.SetActive(!unlocked);
         if(!unlocked) return;

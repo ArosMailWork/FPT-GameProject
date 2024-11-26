@@ -9,6 +9,7 @@ public class AchievementManagerEditor : Editor
 {
     AchievementManager MyTarget;
     int SelectedTab;
+    string searchQuery = ""; 
 
     #region Styles
     GUIStyle ManageBackground = new GUIStyle();
@@ -85,6 +86,13 @@ public class AchievementManagerEditor : Editor
 
     public void DrawAchievementList()
     {
+        // Search bar
+        GUILayout.BeginHorizontal();
+        GUILayout.Label("Search:", GUILayout.Width(50));
+        searchQuery = EditorGUILayout.TextField(searchQuery);
+        GUILayout.EndHorizontal();
+
+        // Button to toggle hiding all
         if (GUILayout.Button(HideAll ? "Show All" : "Hide All", GUILayout.Width(70)))
         {
             for (int i = 0; i < Hidden.Count; i++)
@@ -98,6 +106,16 @@ public class AchievementManagerEditor : Editor
 
         for (int i = 0; i < MyTarget.AchievementList.Count; i++)
         {
+            var achievement = MyTarget.AchievementList[i];
+
+            // Check if the achievement matches the search query
+            if (!string.IsNullOrEmpty(searchQuery) &&
+                !achievement.DisplayName.ToLower().Contains(searchQuery.ToLower()) &&
+                !achievement.Key.ToLower().Contains(searchQuery.ToLower()))
+            {
+                continue; // Skip if it doesn't match
+            }
+
             DrawAchievement(serializedObject.FindProperty("AchievementList").GetArrayElementAtIndex(i), i);
         }
 
@@ -115,7 +133,7 @@ public class AchievementManagerEditor : Editor
 
         CET.HorizontalLine();
         EditorGUILayout.PropertyField(serializedObject.FindProperty("UseFinalAchievement"));
-        GUILayout.Label("Define an achievement which will be unlocked once all other have been completed");
+        GUILayout.Label("Define an achievement which will be unlocked once all others have been completed");
         if (MyTarget.UseFinalAchievement)
         {
             EditorGUILayout.PropertyField(serializedObject.FindProperty("FinalAchievementKey"));
@@ -152,6 +170,7 @@ public class AchievementManagerEditor : Editor
                 EditorGUILayout.PropertyField(Achievement.FindPropertyRelative("NotificationFrequency"));
                 EditorGUILayout.PropertyField(Achievement.FindPropertyRelative("ProgressSuffix"));
             }
+            EditorGUILayout.PropertyField(Achievement.FindPropertyRelative("CompleteEvent"));
 
             GUILayout.EndVertical();
         }

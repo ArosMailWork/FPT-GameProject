@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Palmmedia.ReportGenerator.Core.Reporting.Builders;
 using UnityEngine;
 
 public class GenerationManager : MonoBehaviour
@@ -54,7 +53,11 @@ public class GenerationManager : MonoBehaviour
         BossRoom = biome.BossRoom;
         StartRoom = biome.startRoom;
         ExitRoom = biome.exitRoom;
+        
+        if(biome.skybox != null)
+        RenderSettings.skybox = biome.skybox;
 
+        ApplyDirectionalLightSettings(biome.lightSettings);
     }
     public void LoadFloorData(Floor newFloor)
     {
@@ -79,5 +82,36 @@ public class GenerationManager : MonoBehaviour
         ExitRoom = biome.exitRoom;
     }
 
+    public void ApplyDirectionalLightSettings(DirectionalLightSettings lightSettings)
+    {
+        // Find the Directional Light in the scene
+        Light directionalLight = FindDirectionalLight();
 
+        if (directionalLight == null)
+        {
+            Debug.LogWarning("No Directional Light found in the scene.");
+            return;
+        }
+
+        // Apply the settings
+        directionalLight.color = lightSettings.lightColor;
+        directionalLight.intensity = lightSettings.intensity;
+        directionalLight.transform.rotation = Quaternion.Euler(lightSettings.rotation);
+
+        Debug.Log($"Applied directional light settings from biome '{biome.biomeName}'.");
+    }
+    
+    private Light FindDirectionalLight()
+    {
+        Light[] lights = GameObject.FindObjectsOfType<Light>();
+        foreach (var light in lights)
+        {
+            if (light.type == LightType.Directional)
+            {
+                return light;
+            }
+        }
+
+        return null;
+    }
 }

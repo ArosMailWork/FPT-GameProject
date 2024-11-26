@@ -4,31 +4,60 @@ using JetBrains.Annotations;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-public class CraftingTable : MonoBehaviour
+public class CraftingController : MonoBehaviour
 {
     [CanBeNull] public Transform CraftedItemPlacement;
-    public CraftingTableUI craftingTableUI;
+    
+    public GameObject RecipeUIPrefab;
+    public Transform RecipeListContent;
+    [HideInInspector] public CraftingController craftingTable;
 
-    PlayerData _playerData;
-
-    private void Awake()
-    {
-        if(craftingTableUI != null)
-        craftingTableUI.craftingTable = this;
-    }
-
+    PlayerProgressData _playerProgressData;
+    private Vector3 pos;
+    
     private void Start()
     {
-        _playerData = PlayerController.Instance._playerData;
+        _playerProgressData = PlayerController.Instance.PlayerProgressData;
     }
+    public void OnEnable()
+    {
+        craftingTable.UpdateRecipeList();
+    }
+    
+    [Button("Update Recipe")]
+    public void UpdateRecipeList()
+    {
+        _playerProgressData = PlayerController.Instance.PlayerProgressData;
+        
+        // Clear existing UI elements
+        foreach (Transform child in RecipeListContent)
+        {
+            Destroy(child.gameObject);
+        }
 
+        // Get recipes and display each in the UI
+        foreach (var recipe in _playerProgressData.unlockedRecipes)
+        {
+            bool canCraft = CheckIfCanCraft(recipe.Recipe);
+            var recipeUIObj = Instantiate(RecipeUIPrefab, RecipeListContent);
+            RecipeUI recipeUI = recipeUIObj.GetComponent<RecipeUI>();
+
+            // Initialize the RecipeUI element
+            recipeUI.SetRecipeUI(recipe.Recipe, canCraft, craftingTable, _playerProgressData.IsRecipeUnlocked(recipe.Recipe.RecipeID));
+        }
+    }
+    
+    
+    //Hàm Logic
+    //kiểm tra túi đồ - công thức đã mở khóa 
+    //sau đó trừ bớt trong túi người chơi rồi spawn vật
     [Button]
     public void Crafting(string recipeID)
     {
-        if(_playerData == null) _playerData = PlayerController.Instance._playerData;
+        if(_playerProgressData == null) _playerProgressData = PlayerController.Instance.PlayerProgressData;
         
         // Find the recipe in the player's unlocked recipes
-        var recipe = _playerData.unlockedRecipes.Find(r => r.Recipe.RecipeID == recipeID && r.isUnlocked);
+        var recipe = _playerProgressData.unlockedRecipes.Find(r => r.Recipe.RecipeID == recipeID && r.isUnlocked);
         if (recipe == null)
         {
             Debug.Log("Recipe not found or is locked.");
@@ -41,7 +70,7 @@ public class CraftingTable : MonoBehaviour
         // Check if the player has the required items and amounts
         foreach (var inputItem in recipe.Recipe.input)
         {
-            var inventoryItem = _playerData.Inventory.Find(i => i.item.ID == inputItem.item.ID);
+            var inventoryItem = _playerProgressData.Inventory.Find(i => i.item.ID == inputItem.item.ID);
 
             // If the item is not found or the amount is insufficient
             if (inventoryItem == null || inventoryItem.amount < inputItem.amount)
@@ -64,22 +93,36 @@ public class CraftingTable : MonoBehaviour
         // If all items are available, deduct items from the inventory and spawn the output object
         foreach (var inputItem in recipe.Recipe.input)
         {
-            var inventoryItem = _playerData.Inventory.Find(i => i.item.ID == inputItem.item.ID);
+            var inventoryItem = _playerProgressData.Inventory.Find(i => i.item.ID == inputItem.item.ID);
             inventoryItem.amount -= inputItem.amount;
 
             // Remove item if amount reaches zero
             if (inventoryItem.amount <= 0)
-                _playerData.Inventory.Remove(inventoryItem);
+                _playerProgressData.Inventory.Remove(inventoryItem);
         }
 
-        Vector3 pos = transform.position;
-        if (CraftedItemPlacement != null) pos = CraftedItemPlacement.position;
         // Instantiate the crafted item at the specified location
+        pos = transform.position;
+        if (CraftedItemPlacement != null) pos = CraftedItemPlacement.position;
         Instantiate(recipe.Recipe.output, pos, Quaternion.identity);
 
         // Save the updated inventory to maintain persistence
-        _playerData.SaveClaimReward();
+        _playerProgressData.SaveClaimReward();
         
         Debug.Log($"Crafted {recipe.Recipe.output.name} successfully!");
+    }
+    
+    /// Checks if the player has enough materials for a given recipe.
+    private bool CheckIfCanCraft(CraftingRecipe recipe)
+    {
+        foreach (var inputItem in recipe.input)
+        {
+            var inventoryItem = _playerProgressData.Inventory.Find(i => i.item.ID == inputItem.item.ID);
+            if (inventoryItem == null || inventoryItem.amount < inputItem.amount)
+            {
+                return false;
+            }
+        }
+        return true;
     }
 }

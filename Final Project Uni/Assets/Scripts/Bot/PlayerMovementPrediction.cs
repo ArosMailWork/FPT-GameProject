@@ -25,7 +25,7 @@ public class PlayerMovementPrediction : MonoBehaviour
 
     private Queue<Vector3> historicalVelocities;
     private float lastPositionTime;
-    private int maxQueueSize;
+    private int maxQueueSize = 15;
 
     private void Awake()
     {

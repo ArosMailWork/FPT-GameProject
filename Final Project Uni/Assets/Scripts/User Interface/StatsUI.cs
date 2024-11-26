@@ -1,3 +1,4 @@
+using System;
 using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
@@ -39,7 +40,11 @@ public class StatsUI : MonoBehaviour
                     baseAtkText, bonusATKText,
                     levelText;
 
-    
+    private void OnEnable()
+    {
+        UpdateInfo();
+    }
+
     // Start is called before the first frame update
     [Button]
     public void UpdateInfo()

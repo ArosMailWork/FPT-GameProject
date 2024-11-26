@@ -17,6 +17,8 @@ public class ExpeditionReport : MonoBehaviour
     public int RoomDiscovered = 0;
     public int KnowledgeLevelCollected = 0, GoldCollected = 0, SoulCollected = 0;
     public int DamageDeal = 0, SignBreak = 0;
+
+    public int DieTimes = 0;
     //public List<string> Notif;
     public List<ReportElement> ReportElements;
 
@@ -35,6 +37,8 @@ public class ExpeditionReport : MonoBehaviour
         AchievementManager.instance.AddAchievementProgress("Overlord", BossDefeated);
         AchievementManager.instance.AddAchievementProgress("Chest Opener", ChestOpened);
         AchievementManager.instance.AddAchievementProgress("Trailblazer", RoomDiscovered);
-        AchievementManager.instance.AddAchievementProgress("Half of the Truth is not the Truth", SignBreak);
+        AchievementManager.instance.AddAchievementProgress("Board Cutter", SignBreak);
+        if(SignBreak > 0) AchievementManager.instance.Unlock("Half of the Truth is not the Truth");
+        AchievementManager.instance.AddAchievementProgress("No Pain No Gain", DieTimes);
     }
 }

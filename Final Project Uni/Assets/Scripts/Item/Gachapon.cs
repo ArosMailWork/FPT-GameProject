@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.WSA;
 
 public class Gachapon : MonoBehaviour
 {
@@ -33,8 +32,8 @@ public class Gachapon : MonoBehaviour
         }
 
         // Deduct the cost and increment gacha count
-        PlayerController.Instance._playerData.SoulCollected -= Cost;
-        PlayerController.Instance._playerData.SaveClaimReward();
+        PlayerController.Instance.PlayerProgressData.SoulCollected -= Cost;
+        PlayerController.Instance.PlayerProgressData.SaveClaimReward();
         GachaTime++;
 
         // Instantiate the gacha item at the specified position

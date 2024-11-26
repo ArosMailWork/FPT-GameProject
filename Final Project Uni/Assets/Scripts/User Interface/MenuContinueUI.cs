@@ -12,7 +12,7 @@ public class MenuContinueUI : MonoBehaviour
     public void Start()
     {
         _save = Ingame_Save.Instance;
-        Debug.Log(_save.haveFileLoad);
+        //Debug.Log(_save.haveFileLoad);
         gameObject.SetActive(_save.haveFileLoad);
     }
 }
