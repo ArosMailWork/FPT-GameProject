@@ -10,7 +10,6 @@ public class CraftingController : MonoBehaviour
     
     public GameObject RecipeUIPrefab;
     public Transform RecipeListContent;
-    [HideInInspector] public CraftingController craftingTable;
 
     PlayerProgressData _playerProgressData;
     private Vector3 pos;
@@ -21,7 +20,7 @@ public class CraftingController : MonoBehaviour
     }
     public void OnEnable()
     {
-        craftingTable.UpdateRecipeList();
+        UpdateRecipeList();
     }
     
     [Button("Update Recipe")]
@@ -43,7 +42,7 @@ public class CraftingController : MonoBehaviour
             RecipeUI recipeUI = recipeUIObj.GetComponent<RecipeUI>();
 
             // Initialize the RecipeUI element
-            recipeUI.SetRecipeUI(recipe.Recipe, canCraft, craftingTable, _playerProgressData.IsRecipeUnlocked(recipe.Recipe.RecipeID));
+            recipeUI.SetRecipeUI(recipe.Recipe, canCraft, this, _playerProgressData.IsRecipeUnlocked(recipe.Recipe.RecipeID));
         }
     }
     
