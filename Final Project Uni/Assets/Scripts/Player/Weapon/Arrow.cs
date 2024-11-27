@@ -145,7 +145,10 @@ public class Arrow : MonoBehaviour
     public void Recall()
     {
         RecallDirect = _playerController.transform.position - transform.position;
-        arrowRb.AddForce(RecallDirect.normalized * (recallSpeed * Time.fixedDeltaTime * 240), ForceMode.Acceleration);
+        //arrowRb.AddForce(RecallDirect.normalized * (recallSpeed * Time.fixedDeltaTime * 240), ForceMode.Acceleration);
+        
+        arrowRb.AddForce(RecallDirect.normalized * (recallSpeed * Time.deltaTime * 300f), ForceMode.Acceleration);
+
         LimitSpeed();
     }
 
