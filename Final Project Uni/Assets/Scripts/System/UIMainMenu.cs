@@ -76,7 +76,7 @@ namespace PA
             if(_sceneLoader != null)
                 _sceneLoader.LoadScene(1);
             else
-                SceneManager.LoadScene("Lobby");
+                SceneManager.LoadScene("Lobby Optimized");
             
             await UniTask.Delay(TimeSpan.FromSeconds(makeTransitionUI.duration));
             makeTransitionUI.fadeBlackImage.GetComponent<CanvasGroup>().alpha = 1;
