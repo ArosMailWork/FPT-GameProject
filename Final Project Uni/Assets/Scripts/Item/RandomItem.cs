@@ -21,7 +21,7 @@ public class RandomItem : MonoBehaviour
     private void Start()
     {
         _playerProgressData = PlayerController.Instance.PlayerProgressData; // Access player data for skill checks
-        Invoke(nameof(CreateAvailableItemsPool), 0.2f); // Delay to ensure PlayerData is initialized
+        Invoke(nameof(CreateAvailableItemsPool), 0.05f); // Delay to ensure PlayerData is initialized
     }
     
     [Button]
@@ -36,7 +36,6 @@ public class RandomItem : MonoBehaviour
         // Choose a random item from the available items pool
         int randomIndex = Random.Range(0, availableItemsPool.Count);
         GameObject selectedItem = availableItemsPool[randomIndex].item;
-
         // Save the current transform data
         Vector3 currentPosition = transform.position;
         Quaternion currentRotation = transform.rotation;
@@ -45,9 +44,11 @@ public class RandomItem : MonoBehaviour
         // Instantiate the selected item at the original position, rotation, and scale
         GameObject newItem = Instantiate(selectedItem, currentPosition, currentRotation);
         newItem.transform.localScale = currentScale;
+        newItem.GetComponentInChildren<InteractableItem>().isItemShop = false;
+
 
         // Destroy the current game object
-        Destroy(this.gameObject);
+        //Destroy(this.gameObject);
 
         // Remove the used item from the available pool to prevent duplicates
         availableItemsPool.RemoveAt(randomIndex);
@@ -106,4 +107,10 @@ public class RandomItem : MonoBehaviour
         // Check in PlayerData if the skill is unlocked
         return _playerProgressData.IsSkillUnlocked(skillID);
     }
+
+    public void SelfDestruct()
+    {
+        Destroy(gameObject);
+    }
+
 }

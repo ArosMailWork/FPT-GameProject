@@ -146,12 +146,25 @@ MonoBehaviour:
   ItemParent: {fileID: 0}
   interactButton: {fileID: 0}
   HideAfterUseUI: 0
+  dontShowUI: 0
   InteractEvent:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 276324418879057492}
         m_TargetAssemblyTypeName: RandomItem, Assembly-CSharp
         m_MethodName: RandomSwap
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 276324418879057492}
+        m_TargetAssemblyTypeName: RandomItem, Assembly-CSharp
+        m_MethodName: SelfDestruct
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

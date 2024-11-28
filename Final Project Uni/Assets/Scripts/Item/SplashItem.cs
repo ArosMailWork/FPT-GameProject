@@ -33,7 +33,7 @@ public class ChestOpeningEffect : MonoBehaviour
     [FoldoutGroup("Rarity")][Range(0f, 1f)] public float legendaryRate;
 
     [FoldoutGroup("Items")] public GameObject itemToSpawn; // List of items to burst out
-    [FoldoutGroup("Items")] public List<GameObject> items; // List of items to burst out
+    [FoldoutGroup("Items")] public List<GameObject> items = new List<GameObject>(); // List of items to burst out
 
     [FoldoutGroup("Coins")] public GameObject coinPrefabSmall; // Prefab for the first type of coin
     [FoldoutGroup("Coins")] public GameObject coinPrefabMedium; // Prefab for the second type of coin
@@ -60,21 +60,25 @@ public class ChestOpeningEffect : MonoBehaviour
 
     public void BurstItems()
     {
-        if (items.Count < 0 || isOpened) return;
-        foreach (GameObject item in items)
+        if (isOpened) return; 
+        if (items.Count > 0) 
         {
-            GameObject newItem = Instantiate(item, spawnPoint.position, Quaternion.identity);
-            newItem.SetActive(true);
-            Rigidbody rb = newItem.GetComponent<Rigidbody>();
-
-            if (rb != null)
+            foreach (GameObject item in items)
             {
-                float randomBurstForce = Random.Range(minBurstForce, maxBurstForce);
-                float randomUpForce = Random.Range(minUpForce, maxUpForce);
-                Vector3 force = Random.insideUnitSphere * randomBurstForce + Vector3.up * randomUpForce;
-                rb.AddForce(force, ForceMode.Impulse);
+                GameObject newItem = Instantiate(item, spawnPoint.position, Quaternion.identity);
+                newItem.SetActive(true);
+                Rigidbody rb = newItem.GetComponent<Rigidbody>();
+
+                if (rb != null)
+                {
+                    float randomBurstForce = Random.Range(minBurstForce, maxBurstForce);
+                    float randomUpForce = Random.Range(minUpForce, maxUpForce);
+                    Vector3 force = Random.insideUnitSphere * randomBurstForce + Vector3.up * randomUpForce;
+                    rb.AddForce(force, ForceMode.Impulse);
+                }
             }
         }
+        
         BurstCoins();
         isOpened = true;
     }

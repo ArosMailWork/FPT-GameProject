@@ -48,8 +48,13 @@ public class InteractableItem : MonoBehaviour
             ShopFail.Invoke();
             return;
         }
-        if (HideAfterUseUI && hasInteracted) return;
+        if (HideAfterUseUI && hasInteracted) 
+        {
+            Debug.Log(gameObject.name + " is stuck");
+            return;
+        }
 
+        Debug.Log(gameObject.name);
         InteractEvent.Invoke();
         PlayerController.Instance.PlayerProgressData.AddCurrency(-LastCost);
 
@@ -93,9 +98,12 @@ public class InteractableItem : MonoBehaviour
         if (!other.CompareTag("Player")) return;
 
         // Add the listener when entering the trigger range
-        interactButton.onClick.RemoveListener(OnInteract);
-        interactButton.onClick.AddListener(OnInteract);
-        
+        if (!hasInteracted)
+        {
+            interactButton.onClick.RemoveListener(OnInteract);
+            interactButton.onClick.AddListener(OnInteract);
+        }
+
         EnterTriggerRange.Invoke();
         ShowUIInteract(true);
     }
