@@ -45,7 +45,7 @@ public class PlayerController : MonoBehaviour
     [FoldoutGroup("Setup/UI")] 
     [CanBeNull] public NotifAnim notif;
     [FoldoutGroup("Setup/UI")] 
-    [CanBeNull] public TMP_Text GoldAmount, SoulAmount;
+    [CanBeNull] public List<TMP_Text> GoldAmount, SoulAmount;
     [FoldoutGroup("Setup/UI")]
     public UltimateJoystick JoystickPA;
     
@@ -244,8 +244,15 @@ public class PlayerController : MonoBehaviour
 
     public void UpdateUI(string Gold, string Soul)
     {
-        if (GoldAmount != null) GoldAmount.text = Gold;
-        if(SoulAmount != null) SoulAmount.text = Soul;
+        foreach (var goldText in GoldAmount)
+        {
+            if (goldText.text != null) goldText.text = Gold;
+        }
+
+        foreach (var soulText in SoulAmount)
+        {
+            if (soulText.text != null) soulText.text = Soul;
+        }
     }
 
     #endregion

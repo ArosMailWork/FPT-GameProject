@@ -6,7 +6,7 @@ SpriteAtlas:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: hehe
+  m_Name: Optimize
   m_EditorData:
     serializedVersion: 2
     textureSettings:
@@ -15,24 +15,36 @@ SpriteAtlas:
       compressionQuality: 50
       maxTextureSize: 2048
       textureCompression: 0
-      filterMode: 1
+      filterMode: 0
       generateMipMaps: 0
       readable: 0
       crunchedCompression: 0
       sRGB: 1
-    platformSettings: []
+    platformSettings:
+    - serializedVersion: 3
+      m_BuildTarget: DefaultTexturePlatform
+      m_MaxTextureSize: 8192
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: -1
+      m_TextureCompression: 2
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 0
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 0
+      m_IgnorePlatformSupport: 0
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
     packingSettings:
       serializedVersion: 2
       padding: 4
       blockOffset: 1
       allowAlphaSplitting: 0
       enableRotation: 1
-      enableTightPacking: 1
-      enableAlphaDilation: 0
+      enableTightPacking: 0
+      enableAlphaDilation: 1
     secondaryTextureSettings: {}
     variantMultiplier: 1
     packables:
-    - {fileID: -333360096, guid: d14d2f4e9d25f2c46ad4b6e0de55259b, type: 3}
     - {fileID: 21300000, guid: 765c1f075652d7c429d7ea036691f745, type: 3}
     - {fileID: 21300000, guid: 61ec63aff9a7290438a1c3423efbb95e, type: 3}
     - {fileID: 21300000, guid: 7b75539b675e0634cb81a573278fa9a0, type: 3}
@@ -54,10 +66,14 @@ SpriteAtlas:
     - {fileID: 21300000, guid: dbc4942b294791d4a8ba67a7a3b90b57, type: 3}
     - {fileID: -769776347, guid: bcb770d4ab2928b409afa4889f2408a2, type: 3}
     - {fileID: 21300000, guid: f728b782d4a108045accfa920e1196de, type: 3}
+    - {fileID: -333360096, guid: d14d2f4e9d25f2c46ad4b6e0de55259b, type: 3}
+    - {fileID: 2800000, guid: 24b24bda0b606774d8f132957054d0d4, type: 3}
+    - {fileID: 2800000, guid: 0592f210b03658845a47da049394db3c, type: 3}
     bindAsDefault: 1
     isAtlasV2: 0
     cachedData: {fileID: 0}
     packedSpriteRenderDataKeys:
+    - 0592f210b03658845a47da049394db3c: 21300000
     - adc125101cbb0804c9b8af7f3adb21d3: 21300000
     - bb08abf01a6c9444e96f5ad6f868b409: 21300000
     - f728b782d4a108045accfa920e1196de: 21300000
@@ -69,6 +85,7 @@ SpriteAtlas:
     - 36e1e0f5c2f8587439cd4531adf18c5c: 21300000
     - 156b47b6a2842e142bc19f3c93a70cd6: 21300000
     - 765c1f075652d7c429d7ea036691f745: 21300000
+    - 24b24bda0b606774d8f132957054d0d4: 21300000
     - dbc4942b294791d4a8ba67a7a3b90b57: 21300000
     - 7b75539b675e0634cb81a573278fa9a0: 21300000
     - d14d2f4e9d25f2c46ad4b6e0de55259b: 1875852047
@@ -82,6 +99,7 @@ SpriteAtlas:
     - f01269dfa20795d4da804a06f3d26449: 543939745
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
+  - {fileID: 21300000, guid: 0592f210b03658845a47da049394db3c, type: 3}
   - {fileID: 21300000, guid: adc125101cbb0804c9b8af7f3adb21d3, type: 3}
   - {fileID: 21300000, guid: bb08abf01a6c9444e96f5ad6f868b409, type: 3}
   - {fileID: 21300000, guid: f728b782d4a108045accfa920e1196de, type: 3}
@@ -93,6 +111,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 36e1e0f5c2f8587439cd4531adf18c5c, type: 3}
   - {fileID: 21300000, guid: 156b47b6a2842e142bc19f3c93a70cd6, type: 3}
   - {fileID: 21300000, guid: 765c1f075652d7c429d7ea036691f745, type: 3}
+  - {fileID: 21300000, guid: 24b24bda0b606774d8f132957054d0d4, type: 3}
   - {fileID: 21300000, guid: dbc4942b294791d4a8ba67a7a3b90b57, type: 3}
   - {fileID: 21300000, guid: 7b75539b675e0634cb81a573278fa9a0, type: 3}
   - {fileID: 1875852047, guid: d14d2f4e9d25f2c46ad4b6e0de55259b, type: 3}
@@ -105,6 +124,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 61ec63aff9a7290438a1c3423efbb95e, type: 3}
   - {fileID: 543939745, guid: f01269dfa20795d4da804a06f3d26449, type: 3}
   m_PackedSpriteNamesToIndex:
+  - UI In 2
   - border
   - 70112f338a8be85
   - Border
@@ -116,6 +136,7 @@ SpriteAtlas:
   - filled_horizontal
   - CircleUI
   - Slot3D
+  - UI Outside
   - SquareUi
   - UI Inside
   - RPG_Icon_Set_x4_223
@@ -128,5 +149,5 @@ SpriteAtlas:
   - mask dialog
   - coin4_16x16_0
   m_RenderDataMap: {}
-  m_Tag: hehe
+  m_Tag: Optimize
   m_IsVariant: 0

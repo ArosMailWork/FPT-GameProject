@@ -100,12 +100,21 @@ public class CreateAndPopulateAtlas : EditorWindow
     private void AddSpritesFromScene()
     {
         HashSet<Sprite> usedSprites = new HashSet<Sprite>();
+
+        // Collect sprites from SpriteRenderers
         foreach (GameObject obj in FindObjectsOfType<GameObject>())
         {
             var spriteRenderer = obj.GetComponent<SpriteRenderer>();
             if (spriteRenderer != null && spriteRenderer.sprite != null)
             {
                 usedSprites.Add(spriteRenderer.sprite);
+            }
+
+            // Collect sprites from UI Images
+            var image = obj.GetComponent<UnityEngine.UI.Image>();
+            if (image != null && image.sprite != null)
+            {
+                usedSprites.Add(image.sprite);
             }
         }
 
@@ -119,6 +128,7 @@ public class CreateAndPopulateAtlas : EditorWindow
 
         Debug.Log($"Collected {usedSprites.Count} sprites from the scene.");
     }
+
 
     private void CheckAndCreateAtlas()
     {

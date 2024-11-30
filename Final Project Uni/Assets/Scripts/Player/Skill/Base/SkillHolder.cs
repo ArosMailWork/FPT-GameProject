@@ -30,7 +30,7 @@ public class SkillHolder : MonoBehaviour
     [ReadOnly] public ISkill currentSkill;
 
     [FoldoutGroup("Setup")] 
-    public float SoulRecover = 20;
+    public float SoulRecover = 20, MaxSlot = 6;
     [FoldoutGroup("Setup")]
     public PlayerController _pc;
     [FoldoutGroup("Setup")]
@@ -72,7 +72,7 @@ public class SkillHolder : MonoBehaviour
         string skillOBJName = skillComponent.name;
 
         // Check if the skill already exists
-        if (SkillIDList.Contains(skillID))
+        if (SkillIDList.Contains(skillID) || skillList.Count >= MaxSlot)
         {
             PlayerController.Instance.PlayerProgressData.SoulCollected += SoulRecover;
             Debug.Log("Skill already exists: " + skillID);
@@ -136,8 +136,6 @@ public class SkillHolder : MonoBehaviour
     
     #endregion
 
-    
-    
     void Update()
     {
         UpdateCooldownUI();
