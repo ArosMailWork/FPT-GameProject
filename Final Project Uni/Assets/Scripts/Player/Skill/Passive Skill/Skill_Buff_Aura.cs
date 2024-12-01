@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Skill_Buff_Sonic : ISkill
+public class Skill_Buff_Aura : ISkill
 {
     void Start()
     {
@@ -13,6 +13,6 @@ public class Skill_Buff_Sonic : ISkill
     void SetToggle(bool toggle)
     {
         if(_pc == null) _pc = PlayerController.Instance;
-        _pc.isSonicDash = toggle;
+        _pc.haveAura = toggle;
     }
 }

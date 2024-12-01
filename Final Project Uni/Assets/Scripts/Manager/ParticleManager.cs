@@ -101,7 +101,7 @@ public class ParticleManager : SerializedMonoBehaviour
     {
         if (!particleDictionary.TryGetValue(particleName, out List<GameObject> particlePrefabs) || particlePrefabs == null || particlePrefabs.Count == 0)
         {
-            Debug.LogError($"Particle '{particleName}' not found or has no available prefabs.");
+            Debug.Log($"Particle '{particleName}' not found or has no available prefabs.");
             return;
         }
 
@@ -114,7 +114,29 @@ public class ParticleManager : SerializedMonoBehaviour
             }
             else
             {
-                Debug.LogError($"No ParticleSystem component found on prefab '{particlePrefab.name}' for '{particleName}'.");
+                Debug.Log($"No ParticleSystem component found on prefab '{particlePrefab.name}' for '{particleName}'.");
+            }
+        }
+    }
+    
+    public void StopAssignedParticle(string particleName)
+    {
+        if (!particleDictionary.TryGetValue(particleName, out List<GameObject> particlePrefabs) || particlePrefabs == null || particlePrefabs.Count == 0)
+        {
+            Debug.Log($"Particle '{particleName}' not found or has no available prefabs.");
+            return;
+        }
+
+        foreach (var particlePrefab in particlePrefabs)
+        {
+            var particleSystem = particlePrefab.GetComponent<ParticleSystem>();
+            if (particleSystem != null)
+            {
+                particleSystem.Stop();
+            }
+            else
+            {
+                Debug.Log($"No ParticleSystem component found on prefab '{particlePrefab.name}' for '{particleName}'.");
             }
         }
     }

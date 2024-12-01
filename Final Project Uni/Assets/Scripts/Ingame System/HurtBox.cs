@@ -155,12 +155,19 @@ public class HurtBox : MonoBehaviour
     }
     void HitTarget(Health targetHealth, Vector3? knockDir = null, HurtType hurtType = HurtType.Bullet)
     {
-        if (hurtType == HurtType.Trap && targetHealth.isTrapMaster)
+        if (hurtType == HurtType.Trap && targetHealth.isTrapMaster) return;
+        if (targetHealth.healthState == HealthState.Parry)
         {
-            //Debug.Log("yes ?");
-            return;
+            if (targetHealth.isPlayer)
+            {
+                validTargets.Clear();
+                validTargets.Add(InteractTarget.Enemy);
+            }
+
+            rb.velocity = -rb.velocity;
+            direction = -direction;
         }
-        
+
         //Debug.Log(knockDir);
         int Damage = Mathf.CeilToInt(BaseDamage * DamageMultiplier * MirageMultiplier);
 
