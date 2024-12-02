@@ -25,4 +25,14 @@ public class Skill_Buff_Athlete : ISkill
         
         _pc._stats.UpdateStats();
     }
+
+    public override void Deactivate()
+    {
+        _pc._stats.bonusControlRollDirect -= rollControl;
+        _pc._stats.bonusRollCD -= bonusRollCD;
+        _pc._stats.bonusSpeed -= bonusSpeed;
+        _pc._stats.bonusRegenRate -= bonusRegenRate;
+        
+        _pc._stats.UpdateStats();
+    }
 }

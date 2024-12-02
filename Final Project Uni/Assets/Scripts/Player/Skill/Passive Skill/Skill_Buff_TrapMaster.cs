@@ -15,4 +15,9 @@ public class Skill_Buff_TrapMaster : ISkill
         if(_pc == null) _pc = PlayerController.Instance;
         _pc.PlayerHealth.isTrapMaster = toggle;
     }
+    
+    public override void Deactivate()
+    {
+        SetToggle(false);
+    }
 }

@@ -15,4 +15,9 @@ public class Skill_Buff_Aura : ISkill
         if(_pc == null) _pc = PlayerController.Instance;
         _pc.haveAura = toggle;
     }
+    
+    public override void Deactivate()
+    {
+        SetToggle(false);
+    }
 }

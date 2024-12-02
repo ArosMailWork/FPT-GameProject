@@ -15,4 +15,9 @@ public class Skill_Buff_PreciseArcher : ISkill
         if(_pc == null) _pc = PlayerController.Instance;
         _pc._arrowController.IsPreciseArcher = toggle;
     }
+    
+    public override void Deactivate()
+    {
+        SetToggle(false);
+    }
 }
