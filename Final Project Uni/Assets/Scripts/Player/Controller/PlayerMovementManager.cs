@@ -23,8 +23,6 @@ using UnityEngine.UI;
         public float meleeLungeForce = 100f, lungeAngle = 60f, rangeAngleTolerance = 5f, lungeRange = 25f, LungeTime = 0.3f;
 
         [FoldoutGroup("Stats/Skill")] 
-        public bool isSonicDash;
-        [FoldoutGroup("Stats/Skill")] 
         public GameObject SonicBoomPrefab;
         
         [FoldoutGroup("Debug")]
@@ -40,9 +38,8 @@ using UnityEngine.UI;
         [FoldoutGroup("Debug/Reverse Recall")]
         [SerializeField, ReadOnly] public float ReverseRecallMultiplier = 1;
 
-        [FoldoutGroup("Setup Event")] 
+        [FoldoutGroup("Setup/Event")] 
         public UnityEvent StartDodge;
-        
 
         private Vector3 rollDir;
         [HideInInspector] public Vector3 calculateMove, moveDirection;
@@ -90,7 +87,20 @@ using UnityEngine.UI;
             pController.staminaSystem.Consume(staminaCost);
 
             //roll done ? okay cool
-            await UniTask.Delay(TimeSpan.FromSeconds(pController._stats.rollTime));
+            if (pController.haveAura)
+            {
+                pController.PlayerHealth.healthState = HealthState.Parry;
+                ParticleManager.Instance.PlayAssignedParticle("ParryAura");
+            }
+                
+            await UniTask.Delay(TimeSpan.FromSeconds(pController._stats.rollTime * 0.5f));
+            if (pController.haveAura)
+            {
+                pController.PlayerHealth.healthState = HealthState.Idle;
+                ParticleManager.Instance.StopAssignedParticle("ParryAura");
+            }
+            
+            await UniTask.Delay(TimeSpan.FromSeconds(pController._stats.rollTime * 0.5f));
             pController.currentState = PlayerState.Idle;
             //Might add some event here to activate particle or anything
         }
@@ -134,7 +144,7 @@ using UnityEngine.UI;
 
         public void SonicBoom()
         {
-            if(!isSonicDash) return;
+            if(!pController.isSonicDash) return;
 
             PoolManager.Instance.Spawn(SonicBoomPrefab, PlayerRB.transform.position, Quaternion.identity, 1.25f);
         }
@@ -154,7 +164,8 @@ using UnityEngine.UI;
         {
             if (pController.currentState == PlayerState.Stunning || pController.currentState == PlayerState.Rolling ||
                 pController.currentState == PlayerState.Recalling || pController.currentState == PlayerState.ReverseRecalling ||
-                pController.currentState == PlayerState.Striking || !PlayerHealth.isAlive) return;
+                pController.currentState == PlayerState.Striking || pController.currentState == PlayerState.Guard || 
+                !PlayerHealth.isAlive) return;
 
             if (pController.isJoystickInput) input = pController.joyStickInput;
 
@@ -195,8 +206,7 @@ using UnityEngine.UI;
 
         public void Roll()
         {
-            if (blockInput) return;
-            if (!PlayerHealth.isAlive) return;
+            if (!PlayerHealth.isAlive || blockInput || pController.currentState == PlayerState.Guard) return;
             if (pController.currentState == PlayerState.Rolling || pController.moveBuffer == Vector2.zero) return;
             doRollingMove(pController.moveBuffer, pController._stats.staminaRollCost);
         }

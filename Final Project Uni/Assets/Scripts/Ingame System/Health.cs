@@ -10,13 +10,15 @@ using UnityEngine.Events;
 [Serializable]
 public enum HealthState
 {
-    Idle, Invincible, Absorbtion, Survivor
+    Idle, Invincible, Absorbtion, Survivor, Parry, Def
 }
 
 public class Health : MonoBehaviour
 {
     #region Variables
 
+    [FoldoutGroup("Stats")] 
+    public bool isPlayer;
     [FoldoutGroup("Stats")]
     public HealthState healthState;
     [FoldoutGroup("Stats")]
@@ -42,6 +44,7 @@ public class Health : MonoBehaviour
     [FoldoutGroup("Debug")] public bool isAlive = true;
 
     //Calculate
+    private int Damage;
     public int currentHealth
     {
         get { return health; }
@@ -123,6 +126,15 @@ public class Health : MonoBehaviour
                 break;
             case HealthState.Survivor:
                 DealDamageSurvivor(damage);
+                break;
+            case HealthState.Parry:
+                DealDamage(0);
+                break;
+            case HealthState.Def:
+                damage = Mathf.RoundToInt(damage * 0.5f);
+                if (damage <= 1) damage = 0;
+                
+                DealDamage(damage);
                 break;
 
         }
@@ -221,6 +233,21 @@ public class Health : MonoBehaviour
             if (currentHealth <= 0) break; // Exit the loop if the character is dead
             await UniTask.Delay(TimeSpan.FromSeconds(timePerTick)); // Wait before the next tick
         }
+    }
+
+    public void Parry()
+    {
+        healthState = HealthState.Parry;
+    }
+    
+    public void DefState()
+    {
+        healthState = HealthState.Def;
+    }
+
+    public void IdleState()
+    {
+        healthState = HealthState.Idle;
     }
 
     #endregion

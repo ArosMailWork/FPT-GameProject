@@ -54,11 +54,6 @@ public class PlayerAnimManager : MonoBehaviour
     {
         playerAnimator.SetTrigger("RecallingStart");
     }
-    
-    public void StrikingAnim()
-    {
-        playerAnimator.SetTrigger("StrikingStart");
-    }
 
     public async UniTaskVoid DebuffStun(float time)
     {

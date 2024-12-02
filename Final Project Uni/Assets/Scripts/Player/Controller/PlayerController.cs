@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
 using Sirenix.OdinInspector;
@@ -12,7 +13,7 @@ using UnityEngine.UI;
 [Serializable]
 public enum PlayerState
 {
-    Idle, Running, Recalling, ReverseRecalling, Stunning, Rolling, Striking
+    Idle, Running, Recalling, ReverseRecalling, Stunning, Rolling, Striking, Guard
 }
 
 public class PlayerController : MonoBehaviour
@@ -23,6 +24,8 @@ public class PlayerController : MonoBehaviour
     public bool blockInput;
     [FoldoutGroup("Stats")]
     public Health PlayerHealth;
+    [FoldoutGroup("Stats/Skill")]
+    public bool isSonicDash, haveAura;
 
 
     [FoldoutGroup("Debug")] 
@@ -45,7 +48,7 @@ public class PlayerController : MonoBehaviour
     [FoldoutGroup("Setup/UI")] 
     [CanBeNull] public NotifAnim notif;
     [FoldoutGroup("Setup/UI")] 
-    [CanBeNull] public TMP_Text GoldAmount, SoulAmount;
+    [CanBeNull] public List<TMP_Text> GoldAmount, SoulAmount;
     [FoldoutGroup("Setup/UI")]
     public UltimateJoystick JoystickPA;
     
@@ -74,7 +77,7 @@ public class PlayerController : MonoBehaviour
     //Calculate
     private Quaternion targetRotation;
     private float closestDistance, elapsedTime;
-
+    
     #endregion
 
     #endregion
@@ -84,6 +87,7 @@ public class PlayerController : MonoBehaviour
     {
         if (Instance == null) Instance = this;
         if (PlayerHealth == null) PlayerHealth = GetComponent<Health>();
+        PlayerHealth.isPlayer = true;
         if (PlayerRB == null) PlayerRB = GetComponent<Rigidbody>();
         
         interactButton.gameObject.SetActive(false);
@@ -143,7 +147,8 @@ public class PlayerController : MonoBehaviour
 
     void UpdateAnimState()
     {
-        if (currentState == PlayerState.Stunning || currentState == PlayerState.Rolling || currentState == PlayerState.Striking) goto Skip;
+        if (currentState == PlayerState.Stunning || currentState == PlayerState.Rolling || 
+            currentState == PlayerState.Striking || currentState == PlayerState.Guard) goto Skip;
         if (currentState == PlayerState.ReverseRecalling) goto ReverseRecallFlag;
 
         currentState = PlayerState.Idle;
@@ -162,12 +167,7 @@ public class PlayerController : MonoBehaviour
     Skip:;
     }
 
-    public async UniTaskVoid GuardAnim()
-    {
-        playerAnimManager.GuardAnim(true);
-        await UniTask.Delay(TimeSpan.FromSeconds(_stats.guardTime));
-        playerAnimManager.GuardAnim(false);
-    }
+    
 
     public void MeleeAnim()
     {
@@ -244,8 +244,15 @@ public class PlayerController : MonoBehaviour
 
     public void UpdateUI(string Gold, string Soul)
     {
-        if (GoldAmount != null) GoldAmount.text = Gold;
-        if(SoulAmount != null) SoulAmount.text = Soul;
+        foreach (var goldText in GoldAmount)
+        {
+            if (goldText.text != null) goldText.text = Gold;
+        }
+
+        foreach (var soulText in SoulAmount)
+        {
+            if (soulText.text != null) soulText.text = Soul;
+        }
     }
 
     #endregion

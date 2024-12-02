@@ -21,7 +21,7 @@ public class StatsUI : MonoBehaviour
     [FoldoutGroup("Setup")]
     public GameObject DescriptionObj;
     [FoldoutGroup("Setup")]
-    public TMP_Text Description;
+    public TMP_Text Description, Type;
     [FoldoutGroup("Setup")]
     public Image DescriptionIcon;
     [FoldoutGroup("Player Stats")]
@@ -65,7 +65,7 @@ public class StatsUI : MonoBehaviour
                 if (skill != null)
                 {
                     skillIconUI[i].sprite = skill.Icon;
-                    skillBtn[i].onClick.AddListener(() => SetSkillDes(skill.Description, skill.Icon));
+                    skillBtn[i].onClick.AddListener(() => SetSkillDes(skill));
                 }
             }
         }
@@ -73,10 +73,11 @@ public class StatsUI : MonoBehaviour
         ShowStat();
     }
 
-    public void SetSkillDes(string des, Sprite skillIcon)
+    public void SetSkillDes(ISkill skill)
     {
-        DescriptionIcon.sprite = skillIcon;
-        Description.text = des;
+        DescriptionIcon.sprite = skill.Icon;
+        Description.text = skill.Description;
+        Type.text = skill.type.ToString();
         DescriptionObj.SetActive(true);
         this.gameObject.SetActive(false);
     }
