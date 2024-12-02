@@ -40,6 +40,7 @@ public class Skill_Active_ReverseRecall : ISkill
             _pc.currentState = PlayerState.Idle;
             _pc.PlayerRB.drag = _pc._stats.defaultDrag;
             _pc.PlayerRB.mass = _pc._stats.defaultMass;
+            currentCD = Cooldown;
         }
     }
 }

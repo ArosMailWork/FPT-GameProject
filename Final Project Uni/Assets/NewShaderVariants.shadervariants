@@ -28,10 +28,87 @@ ShaderVariantCollection:
       variants:
       - keywords: 
         passType: 0
-  - first: {fileID: 62, guid: 0000000000000000f000000000000000, type: 0}
+  - first: {fileID: 0}
+    second:
+      variants:
+      - keywords: SHADOWS_DEPTH
+        passType: 8
+  - first: {fileID: 0}
+    second:
+      variants:
+      - keywords: SHADOWS_DEPTH
+        passType: 8
+  - first: {fileID: 0}
+    second:
+      variants:
+      - keywords: SHADOWS_DEPTH
+        passType: 8
+  - first: {fileID: 0}
+    second:
+      variants:
+      - keywords: SHADOWS_DEPTH
+        passType: 8
+  - first: {fileID: 0}
+    second:
+      variants:
+      - keywords: SHADOWS_DEPTH
+        passType: 8
+  - first: {fileID: 0}
+    second:
+      variants:
+      - keywords: SHADOWS_DEPTH
+        passType: 8
+  - first: {fileID: 0}
+    second:
+      variants:
+      - keywords: SHADOWS_DEPTH
+        passType: 8
+  - first: {fileID: 0}
     second:
       variants:
       - keywords: 
+        passType: 0
+  - first: {fileID: 0}
+    second:
+      variants:
+      - keywords: 
+        passType: 0
+  - first: {fileID: 0}
+    second:
+      variants:
+      - keywords: 
+        passType: 0
+  - first: {fileID: 0}
+    second:
+      variants:
+      - keywords: 
+        passType: 0
+  - first: {fileID: 0}
+    second:
+      variants:
+      - keywords: 
+        passType: 0
+  - first: {fileID: 0}
+    second:
+      variants:
+      - keywords: 
+        passType: 0
+  - first: {fileID: 0}
+    second:
+      variants:
+      - keywords: 
+        passType: 0
+  - first: {fileID: 0}
+    second:
+      variants:
+      - keywords: 
+        passType: 0
+  - first: {fileID: 64, guid: 0000000000000000f000000000000000, type: 0}
+    second:
+      variants:
+      - keywords: SHADOWS_SINGLE_CASCADE SHADOWS_SPLIT_SPHERES
+        passType: 0
+      - keywords: SHADOWS_SPLIT_SPHERES
         passType: 0
   - first: {fileID: 10770, guid: 0000000000000000f000000000000000, type: 0}
     second:
@@ -39,8 +116,6 @@ ShaderVariantCollection:
       - keywords: 
         passType: 0
       - keywords: UNITY_UI_ALPHACLIP
-        passType: 0
-      - keywords: UNITY_UI_CLIP_RECT
         passType: 0
   - first: {fileID: 66, guid: 0000000000000000f000000000000000, type: 0}
     second:
@@ -50,14 +125,10 @@ ShaderVariantCollection:
   - first: {fileID: 45, guid: 0000000000000000f000000000000000, type: 0}
     second:
       variants:
-      - keywords: DIRECTIONAL LIGHTMAP_SHADOW_MIXING LIGHTPROBE_SH VERTEXLIGHT_ON
-        passType: 4
       - keywords: DIRECTIONAL LIGHTPROBE_SH
         passType: 4
-      - keywords: DIRECTIONAL
-        passType: 5
-      - keywords: POINT
-        passType: 5
+      - keywords: DIRECTIONAL LIGHTPROBE_SH SHADOWS_SCREEN
+        passType: 4
       - keywords: 
         passType: 8
       - keywords: SHADOWS_DEPTH
@@ -65,41 +136,31 @@ ShaderVariantCollection:
   - first: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
     second:
       variants:
-      - keywords: DIRECTIONAL DIRLIGHTMAP_COMBINED LIGHTMAP_ON LIGHTMAP_SHADOW_MIXING
-          SHADOWS_SHADOWMASK
+      - keywords: DIRECTIONAL DIRLIGHTMAP_COMBINED LIGHTMAP_ON SHADOWS_SCREEN SHADOWS_SHADOWMASK
         passType: 4
-      - keywords: DIRECTIONAL DIRLIGHTMAP_COMBINED LIGHTMAP_ON LIGHTMAP_SHADOW_MIXING
-          SHADOWS_SHADOWMASK _ALPHAPREMULTIPLY_ON
+      - keywords: DIRECTIONAL DIRLIGHTMAP_COMBINED LIGHTMAP_ON SHADOWS_SCREEN SHADOWS_SHADOWMASK
+          _EMISSION
         passType: 4
-      - keywords: DIRECTIONAL LIGHTMAP_SHADOW_MIXING LIGHTPROBE_SH
+      - keywords: DIRECTIONAL DIRLIGHTMAP_COMBINED LIGHTMAP_ON SHADOWS_SHADOWMASK
         passType: 4
-      - keywords: DIRECTIONAL LIGHTMAP_SHADOW_MIXING LIGHTPROBE_SH VERTEXLIGHT_ON
+      - keywords: DIRECTIONAL DIRLIGHTMAP_COMBINED LIGHTMAP_ON SHADOWS_SHADOWMASK
+          _EMISSION
         passType: 4
       - keywords: DIRECTIONAL LIGHTPROBE_SH
         passType: 4
-      - keywords: DIRECTIONAL LIGHTPROBE_SH VERTEXLIGHT_ON
-        passType: 4
-      - keywords: DIRECTIONAL LIGHTPROBE_SH VERTEXLIGHT_ON _ALPHAPREMULTIPLY_ON
-        passType: 4
-      - keywords: DIRECTIONAL LIGHTPROBE_SH _ALPHAPREMULTIPLY_ON
+      - keywords: DIRECTIONAL LIGHTPROBE_SH SHADOWS_SCREEN
         passType: 4
       - keywords: DIRECTIONAL LIGHTPROBE_SH _EMISSION
         passType: 4
+      - keywords: DIRLIGHTMAP_COMBINED LIGHTMAP_ON
+        passType: 4
+      - keywords: DIRLIGHTMAP_COMBINED LIGHTMAP_ON _EMISSION
+        passType: 4
       - keywords: DIRECTIONAL
-        passType: 5
-      - keywords: DIRECTIONAL _ALPHAPREMULTIPLY_ON
-        passType: 5
-      - keywords: POINT
-        passType: 5
-      - keywords: SPOT
-        passType: 5
-      - keywords: SPOT _ALPHAPREMULTIPLY_ON
         passType: 5
       - keywords: 
         passType: 8
       - keywords: SHADOWS_DEPTH
-        passType: 8
-      - keywords: _ALPHAPREMULTIPLY_ON
         passType: 8
   - first: {fileID: 6, guid: 0000000000000000f000000000000000, type: 0}
     second:
@@ -119,6 +180,8 @@ ShaderVariantCollection:
       - keywords: _ALPHABLEND_ON
         passType: 0
       - keywords: _ALPHABLEND_ON _FADING_ON
+        passType: 0
+      - keywords: _FADING_ON
         passType: 0
       - keywords: PROCEDURAL_INSTANCING_ON _ALPHABLEND_ON
         passType: 8
@@ -162,6 +225,11 @@ ShaderVariantCollection:
       variants:
       - keywords: 
         passType: 0
+  - first: {fileID: 4800000, guid: fe393ace9b354375a9cb14cdbbc28be4, type: 3}
+    second:
+      variants:
+      - keywords: 
+        passType: 0
   - first: {fileID: 4800000, guid: 68e6db2ebdc24f95958faec2be5558d6, type: 3}
     second:
       variants:
@@ -182,31 +250,33 @@ ShaderVariantCollection:
       variants:
       - keywords: BLOOM FINALPASS
         passType: 0
-      - keywords: FINALPASS
-        passType: 0
   - first: {fileID: 4800000, guid: 05003b8d472884946bf1b13621bd8fb0, type: 3}
     second:
       variants:
       - keywords: 
         passType: 0
-  - first: {fileID: 4800000, guid: 81232a43bbca8af4fb20f4221b29681f, type: 3}
+  - first: {fileID: 4800000, guid: c8b6a681c7b4e2e4785ffab093907f9e, type: 3}
     second:
       variants:
       - keywords: 
         passType: 0
+  - first: {fileID: 4800000, guid: 19dfbb09098c9584a83c956fbd6c5d79, type: 3}
+    second:
+      variants:
+      - keywords: 
+        passType: 13
   - first: {fileID: 4800000, guid: 5997ca0a321b899419617d40461648b5, type: 3}
     second:
       variants:
-      - keywords: DIRECTIONAL LIGHTMAP_SHADOW_MIXING LIGHTPROBE_SH
+      - keywords: DIRECTIONAL DIRLIGHTMAP_COMBINED LIGHTMAP_ON SHADOWS_SCREEN SHADOWS_SHADOWMASK
+        passType: 4
+      - keywords: DIRECTIONAL DIRLIGHTMAP_COMBINED LIGHTMAP_ON SHADOWS_SHADOWMASK
         passType: 4
       - keywords: DIRECTIONAL LIGHTPROBE_SH
         passType: 4
+      - keywords: DIRECTIONAL LIGHTPROBE_SH SHADOWS_SCREEN
+        passType: 4
   - first: {fileID: 4800000, guid: 37ce1ea1aca65c049a2dd42e2beeac24, type: 3}
-    second:
-      variants:
-      - keywords: 
-        passType: 0
-  - first: {fileID: 4800000, guid: 55fcd8cae15234dbeba59eb9603e7779, type: 3}
     second:
       variants:
       - keywords: 
@@ -216,29 +286,35 @@ ShaderVariantCollection:
       variants:
       - keywords: 
         passType: 4
+      - keywords: DIRECTIONAL
+        passType: 4
       - keywords: 
+        passType: 8
+      - keywords: SHADOWS_DEPTH
         passType: 8
   - first: {fileID: -6465566751694194690, guid: 140e926a87c4f824d9e6cf9e429c34d5, type: 3}
     second:
       variants:
-      - keywords: DIRECTIONAL LIGHTMAP_SHADOW_MIXING LIGHTPROBE_SH VERTEXLIGHT_ON
+      - keywords: DIRECTIONAL DIRLIGHTMAP_COMBINED LIGHTMAP_ON SHADOWS_SHADOWMASK
         passType: 4
-      - keywords: DIRECTIONAL
-        passType: 5
+      - keywords: DIRECTIONAL DIRLIGHTMAP_COMBINED LIGHTMAP_ON SHADOWS_SHADOWMASK
+          _ADDITIONAL_LIGHTS_VERTEX
+        passType: 4
       - keywords: 
         passType: 8
-  - first: {fileID: 4800000, guid: cb3288aaf46675340a4c9661ba953a84, type: 3}
+      - keywords: SHADOWS_DEPTH
+        passType: 8
+  - first: {fileID: 4800000, guid: 22285d01f175f8342bac4d2e89fe21d7, type: 3}
     second:
       variants:
-      - keywords: DIRECTIONAL LIGHTMAP_SHADOW_MIXING LIGHTPROBE_SH
-        passType: 4
-      - keywords: DIRECTIONAL LIGHTMAP_SHADOW_MIXING LIGHTPROBE_SH VERTEXLIGHT_ON
-        passType: 4
-      - keywords: POINT
-        passType: 5
-      - keywords: SPOT
-        passType: 5
-  - first: {fileID: 4800000, guid: 22285d01f175f8342bac4d2e89fe21d7, type: 3}
+      - keywords: 
+        passType: 0
+  - first: {fileID: 4800000, guid: bc65170c051b0724287a7f1636d87573, type: 3}
+    second:
+      variants:
+      - keywords: 
+        passType: 0
+  - first: {fileID: 4800000, guid: 96316acf0f537ae449a9a641fa00eefe, type: 3}
     second:
       variants:
       - keywords: 
