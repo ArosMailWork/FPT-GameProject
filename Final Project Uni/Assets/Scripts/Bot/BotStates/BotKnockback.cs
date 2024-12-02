@@ -89,6 +89,7 @@ public class BotKnockback : BotDisable
         await UniTask.Delay(250); // 250 ms
 
         // Reset physics settings
+        if(sm.bot.rg == null) return;
         sm.bot.rg.velocity = Vector3.zero;
         sm.bot.rg.angularVelocity = Vector3.zero;
         sm.bot.rg.useGravity = false;

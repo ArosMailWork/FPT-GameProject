@@ -34,6 +34,7 @@ public class NotifAnim : MonoBehaviour
     async UniTaskVoid Show(float timeDelay = 0)
     {
         await UniTask.Delay(TimeSpan.FromSeconds(timeDelay));
-        NotifTextAnimator.SetTrigger("Show");
+        if(NotifTextAnimator != null)
+            NotifTextAnimator.SetTrigger("Show");
     }
 }

@@ -30,7 +30,9 @@ public class BotProjectile : MonoBehaviour
         Vector3 forwardVelocity = transform.forward * speed;
         rb.velocity = new Vector3(forwardVelocity.x, 0, forwardVelocity.z);
         rb.transform.rotation = Quaternion.LookRotation(new Vector3(forwardVelocity.x, 0, forwardVelocity.z), Vector3.up);
-        Invoke(nameof(SelfDestruct), 10f);
+        
+        rb.gameObject.layer = LayerMask.NameToLayer("EnemyBullet");
+        //Invoke(nameof(SelfDestruct), 10f);
     }
 
     private void OnDisable()
