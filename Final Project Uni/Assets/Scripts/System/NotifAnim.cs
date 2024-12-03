@@ -16,24 +16,26 @@ public class NotifAnim : MonoBehaviour
     public void FloorNotif()
     {
         //Debug.Log("yay");
-        EditText((ExpeditionManager.Instance.currentWorldNumber + 1) + " - " + 
+        EditText((ExpeditionManager.Instance.currentWorldNumber + 1) + " - " +
                  (ExpeditionManager.Instance.currentFloorNumber + 1));
         Show(1);
     }
-    
+
     public void Notif(string input)
     {
         EditText(input);
         Show();
     }
-    
+
     void EditText(string input)
     {
         notifText.text = input;
     }
     async UniTaskVoid Show(float timeDelay = 0)
     {
+
         await UniTask.Delay(TimeSpan.FromSeconds(timeDelay));
-        NotifTextAnimator.SetTrigger("Show");
+        if (NotifTextAnimator != null)
+            NotifTextAnimator.SetTrigger("Show");
     }
 }

@@ -7,7 +7,7 @@ public class Player_Singleton : MonoBehaviour
 {
     public static Player_Singleton Instance;
 
-    private void Start()
+    private void Awake()
     {
         if (Instance == null) Instance = this;
         else Destroy(gameObject);

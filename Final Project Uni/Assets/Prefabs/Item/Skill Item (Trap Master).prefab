@@ -26,7 +26,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2300634445206451557}
-  m_LocalRotation: {x: 0, y: 0.95116436, z: -0.30868492, w: 0}
+  m_LocalRotation: {x: 0.0000000024052509, y: 0.9511645, z: -0.30868468, w: 0.0000000074114124}
   m_LocalPosition: {x: 0, y: 0, z: -13.3}
   m_LocalScale: {x: 11.49, y: 11.49, z: 11.49}
   m_ConstrainProportionsScale: 1
@@ -66,7 +66,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 986562692, guid: d14d2f4e9d25f2c46ad4b6e0de55259b, type: 3}
+  m_Sprite: {fileID: -488449714, guid: d14d2f4e9d25f2c46ad4b6e0de55259b, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -232,6 +232,7 @@ MonoBehaviour:
   ItemParent: {fileID: 3482879533164945080}
   interactButton: {fileID: 0}
   HideAfterUseUI: 0
+  dontShowUI: 0
   InteractEvent:
     m_PersistentCalls:
       m_Calls:
@@ -282,6 +283,7 @@ MonoBehaviour:
       m_Calls: []
   Cost: 100
   isItemShop: 0
+  LastCost: 0
 --- !u!114 &9002432407860162433
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -301,8 +303,10 @@ MonoBehaviour:
   Skill: {fileID: 5543831279937719370, guid: 856b855a3be5bdc4791fe4988863708d, type: 3}
   itemID: 
   itemAmount: 0
-  Gold: 0
-  Soul: 0
+  MinGold: 0
+  MaxGold: 0
+  MinSoul: 0
+  MaxSoul: 0
   isSkillBuff: 1
 --- !u!1 &3482879533164945080
 GameObject:

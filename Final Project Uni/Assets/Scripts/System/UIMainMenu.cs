@@ -1,4 +1,5 @@
 using System;
+using System.Xml.Serialization;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -24,6 +25,7 @@ namespace PA
 
         public SceneLoader _sceneLoader;
 
+
         private void Awake()
         {
             if (Instance == null)
@@ -35,6 +37,11 @@ namespace PA
             {
                 Destroy(gameObject);
             }
+        }
+
+        private void Start()
+        {
+            AudioManager.Instance.ChangeMusic("MainMenuBGM");
         }
 
         public void GeneralClick(GameObject newChild, GameObject oldChild)

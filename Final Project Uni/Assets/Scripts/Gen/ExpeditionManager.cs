@@ -152,6 +152,7 @@ public class ExpeditionManager : MonoBehaviour
     {
         List<Biome> biomes = currentWorld.biomePool;
         currentBiome = biomes[UnityEngine.Random.Range(0, biomes.Count)];
+        AudioManager.Instance.ChangeMusic(currentBiome.biomeName);
         gen.LoadBiomeData(currentBiome);
     }
     

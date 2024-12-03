@@ -125,7 +125,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8705552456009250022
 Transform:
   m_ObjectHideFlags: 0
@@ -263,7 +263,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &7901884459367878061
 Transform:
   m_ObjectHideFlags: 0
@@ -465,6 +465,9 @@ MonoBehaviour:
   Health: {fileID: 5936648946314413932}
   gun: []
   _animController: {fileID: 1509977853901578816}
+  ShootEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &1509977853901578816
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -496,7 +499,7 @@ NavMeshAgent:
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
-  m_Height: 4.61
+  m_Height: 0.77
   m_BaseOffset: 0.3
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
@@ -522,7 +525,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c9bc61935971ed74793c10d4cfe69367, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c9bc61935971ed74793c10d4cfe69367, type: 3}
       propertyPath: m_LocalPosition.y
@@ -582,27 +585,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -6119844613005587413, guid: c9bc61935971ed74793c10d4cfe69367, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: -0.000018551425
+      value: -0.00001855143
       objectReference: {fileID: 0}
     - target: {fileID: -6119844613005587413, guid: c9bc61935971ed74793c10d4cfe69367, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: -0.0000036424658
+      value: -0.0000036424667
       objectReference: {fileID: 0}
     - target: {fileID: -6119844613005587413, guid: c9bc61935971ed74793c10d4cfe69367, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 1.1793708e-12
+      value: 1.1793707e-12
       objectReference: {fileID: 0}
     - target: {fileID: -5503642572182094972, guid: c9bc61935971ed74793c10d4cfe69367, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 82.78707
+      value: -0.000015258788
       objectReference: {fileID: 0}
     - target: {fileID: -5503642572182094972, guid: c9bc61935971ed74793c10d4cfe69367, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 179.99994
+      value: 179.99998
       objectReference: {fileID: 0}
     - target: {fileID: -5503642572182094972, guid: c9bc61935971ed74793c10d4cfe69367, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 179.99995
+      value: -180
       objectReference: {fileID: 0}
     - target: {fileID: -5222585204147123575, guid: c9bc61935971ed74793c10d4cfe69367, type: 3}
       propertyPath: m_Layer
@@ -610,15 +613,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -4818884315493643114, guid: c9bc61935971ed74793c10d4cfe69367, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: -87.32834
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -4818884315493643114, guid: c9bc61935971ed74793c10d4cfe69367, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 2.602154e-13
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -4818884315493643114, guid: c9bc61935971ed74793c10d4cfe69367, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: -2.7264096e-13
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -4779042178565516165, guid: c9bc61935971ed74793c10d4cfe69367, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -650,15 +653,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -1207515168299292477, guid: c9bc61935971ed74793c10d4cfe69367, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: -1.5266664e-12
+      value: -1.2213329e-12
       objectReference: {fileID: 0}
     - target: {fileID: -1207515168299292477, guid: c9bc61935971ed74793c10d4cfe69367, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: 5.088888e-13
       objectReference: {fileID: 0}
     - target: {fileID: -1207515168299292477, guid: c9bc61935971ed74793c10d4cfe69367, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
+      value: -5.423808e-27
       objectReference: {fileID: 0}
     - target: {fileID: -343164972928779828, guid: c9bc61935971ed74793c10d4cfe69367, type: 3}
       propertyPath: m_Layer
@@ -678,15 +681,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 671701737713032608, guid: c9bc61935971ed74793c10d4cfe69367, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: -2.2660728
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 671701737713032608, guid: c9bc61935971ed74793c10d4cfe69367, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: -0.000012263565
+      value: -0.000013660378
       objectReference: {fileID: 0}
     - target: {fileID: 671701737713032608, guid: c9bc61935971ed74793c10d4cfe69367, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: -0.000005552153
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 800638028422675036, guid: c9bc61935971ed74793c10d4cfe69367, type: 3}
       propertyPath: m_Layer
@@ -706,15 +709,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2292677479034026233, guid: c9bc61935971ed74793c10d4cfe69367, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 82.78705
+      value: -0.000045776367
       objectReference: {fileID: 0}
     - target: {fileID: 2292677479034026233, guid: c9bc61935971ed74793c10d4cfe69367, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 179.99994
+      value: 179.99998
       objectReference: {fileID: 0}
     - target: {fileID: 2292677479034026233, guid: c9bc61935971ed74793c10d4cfe69367, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 179.99995
+      value: -180
       objectReference: {fileID: 0}
     - target: {fileID: 2829595439843944471, guid: c9bc61935971ed74793c10d4cfe69367, type: 3}
       propertyPath: m_Layer
@@ -722,15 +725,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3104308761091398566, guid: c9bc61935971ed74793c10d4cfe69367, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: -90
+      value: 0.000003914579
       objectReference: {fileID: 0}
     - target: {fileID: 3104308761091398566, guid: c9bc61935971ed74793c10d4cfe69367, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 89.99999
+      value: -0.000013527123
       objectReference: {fileID: 0}
     - target: {fileID: 3104308761091398566, guid: c9bc61935971ed74793c10d4cfe69367, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
+      value: 169.38152
       objectReference: {fileID: 0}
     - target: {fileID: 4034139962503862323, guid: c9bc61935971ed74793c10d4cfe69367, type: 3}
       propertyPath: m_Layer
@@ -754,15 +757,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7981172148951423471, guid: c9bc61935971ed74793c10d4cfe69367, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: -66.82494
+      value: 0.00000391458
       objectReference: {fileID: 0}
     - target: {fileID: 7981172148951423471, guid: c9bc61935971ed74793c10d4cfe69367, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 89.45184
+      value: 0.000013527119
       objectReference: {fileID: 0}
     - target: {fileID: 7981172148951423471, guid: c9bc61935971ed74793c10d4cfe69367, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 179.45169
+      value: -169.38152
       objectReference: {fileID: 0}
     - target: {fileID: 8538414911890382622, guid: c9bc61935971ed74793c10d4cfe69367, type: 3}
       propertyPath: m_Layer
@@ -878,6 +881,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3dcc7b43304a9d046a62b617c407873c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isPlayer: 0
   healthState: 0
   maxHealth: 12
   health: 0
@@ -903,6 +907,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
+        m_MethodName: PlaySoundEffect
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: HitSkeleton
+          m_BoolArgument: 0
+        m_CallState: 2
   OnDeath:
     m_PersistentCalls:
       m_Calls:
@@ -918,6 +934,21 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
+        m_MethodName: PlaySoundEffect
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: DeathSkeleton
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnRevive:
+    m_PersistentCalls:
+      m_Calls: []
   OnKnockback:
     m_PersistentCalls:
       m_Calls:
@@ -993,8 +1024,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serializationData:
-    SerializedFormat: 0
-    SerializedBytes: 0101080000006500760065006e0074004400690063002f000000000184000000530079007300740065006d002e0043006f006c006c0065006300740069006f006e0073002e00470065006e0065007200690063002e00440069006300740069006f006e00610072007900600032005b005b00530079007300740065006d002e0053007400720069006e0067002c0020006d00730063006f0072006c00690062005d002c005b0055006e0069007400790045006e00670069006e0065002e004500760065006e00740073002e0055006e006900740079004500760065006e0074002c00200055006e0069007400790045006e00670069006e0065002e0043006f00720065004d006f00640075006c0065005d005d002c0020006d00730063006f0072006c00690062000000000001010800000063006f006d00700061007200650072002f010000000159000000530079007300740065006d002e0043006f006c006c0065006300740069006f006e0073002e00470065006e0065007200690063002e00470065006e00650072006900630045007100750061006c0069007400790043006f006d0070006100720065007200600031005b005b00530079007300740065006d002e0053007400720069006e0067002c0020006d00730063006f0072006c00690062005d005d002c0020006d00730063006f0072006c00690062000100000005060300000000000000042e27010200000024006b000103000000440069006500010102000000240076002f02000000013500000055006e0069007400790045006e00670069006e0065002e004500760065006e00740073002e0055006e006900740079004500760065006e0074002c00200055006e0069007400790045006e00670069006e0065002e0043006f00720065004d006f00640075006c006500020000000101110000006d005f00500065007200730069007300740065006e007400430061006c006c0073002f03000000013e00000055006e0069007400790045006e00670069006e0065002e004500760065006e00740073002e00500065007200730069007300740065006e007400430061006c006c00470072006f00750070002c00200055006e0069007400790045006e00670069006e0065002e0043006f00720065004d006f00640075006c006500030000000101070000006d005f00430061006c006c0073002f040000000168000000530079007300740065006d002e0043006f006c006c0065006300740069006f006e0073002e00470065006e0065007200690063002e004c00690073007400600031005b005b0055006e0069007400790045006e00670069006e0065002e004500760065006e00740073002e00500065007200730069007300740065006e007400430061006c006c002c00200055006e0069007400790045006e00670069006e0065002e0043006f00720065004d006f00640075006c0065005d005d002c0020006d00730063006f0072006c006900620004000000060100000000000000022f05000000013900000055006e0069007400790045006e00670069006e0065002e004500760065006e00740073002e00500065007200730069007300740065006e007400430061006c006c002c00200055006e0069007400790045006e00670069006e0065002e0043006f00720065004d006f00640075006c006500050000000b01080000006d005f00540061007200670065007400000000002701180000006d005f0054006100720067006500740041007300730065006d0062006c00790054007900700065004e0061006d006500011800000042006f0074004d00610069006e002c00200041007300730065006d0062006c0079002d0043005300680061007200700027010c0000006d005f004d006500740068006f0064004e0061006d006500010400000044006500610064001d01060000006d005f004d006f0064006500010000000000000001010b0000006d005f0041007200670075006d0065006e00740073002f06000000013800000055006e0069007400790045006e00670069006e0065002e004500760065006e00740073002e0041007200670075006d0065006e007400430061006300680065002c00200055006e0069007400790045006e00670069006e0065002e0043006f00720065004d006f00640075006c006500060000000b01100000006d005f004f0062006a0065006300740041007200670075006d0065006e007400010000002701200000006d005f004f0062006a0065006300740041007200670075006d0065006e00740041007300730065006d0062006c00790054007900700065004e0061006d006500011f00000055006e0069007400790045006e00670069006e0065002e004f0062006a006500630074002c00200055006e0069007400790045006e00670069006e00650017010d0000006d005f0049006e00740041007200670075006d0065006e007400000000001f010f0000006d005f0046006c006f006100740041007200670075006d0065006e007400000000002701100000006d005f0053007400720069006e00670041007200670075006d0065006e00740001000000002b010e0000006d005f0042006f006f006c0041007200670075006d0065006e00740000051d010b0000006d005f00430061006c006c00530074006100740065000200000000000000050705050505042e27010200000024006b000106000000410074007400610063006b00010102000000240076003002000000070000000101110000006d005f00500065007200730069007300740065006e007400430061006c006c0073003003000000080000000101070000006d005f00430061006c006c0073003004000000090000000601000000000000000230050000000a0000000b01080000006d005f00540061007200670065007400020000002701180000006d005f0054006100720067006500740041007300730065006d0062006c00790054007900700065004e0061006d006500012300000055006e0069007400790045006e00670069006e0065002e00470061006d0065004f0062006a006500630074002c00200055006e0069007400790045006e00670069006e00650027010c0000006d005f004d006500740068006f0064004e0061006d00650001090000005300650074004100630074006900760065001d01060000006d005f004d006f0064006500060000000000000001010b0000006d005f0041007200670075006d0065006e007400730030060000000b0000000b01100000006d005f004f0062006a0065006300740041007200670075006d0065006e007400030000002701200000006d005f004f0062006a0065006300740041007200670075006d0065006e00740041007300730065006d0062006c00790054007900700065004e0061006d006500011f00000055006e0069007400790045006e00670069006e0065002e004f0062006a006500630074002c00200055006e0069007400790045006e00670069006e00650017010d0000006d005f0049006e00740041007200670075006d0065006e007400000000001f010f0000006d005f0046006c006f006100740041007200670075006d0065006e007400000000002701100000006d005f0053007400720069006e00670041007200670075006d0065006e00740001000000002b010e0000006d005f0042006f006f006c0041007200670075006d0065006e00740001051d010b0000006d005f00430061006c006c00530074006100740065000200000000000000050705050505042e27010200000024006b00010a000000530074006f007000410074007400610063006b000101020000002400760030020000000c0000000101110000006d005f00500065007200730069007300740065006e007400430061006c006c00730030030000000d0000000101070000006d005f00430061006c006c00730030040000000e0000000601000000000000000230050000000f0000000b01080000006d005f00540061007200670065007400020000002701180000006d005f0054006100720067006500740041007300730065006d0062006c00790054007900700065004e0061006d006500012300000055006e0069007400790045006e00670069006e0065002e00470061006d0065004f0062006a006500630074002c00200055006e0069007400790045006e00670069006e00650027010c0000006d005f004d006500740068006f0064004e0061006d00650001090000005300650074004100630074006900760065001d01060000006d005f004d006f0064006500060000000000000001010b0000006d005f0041007200670075006d0065006e00740073003006000000100000000b01100000006d005f004f0062006a0065006300740041007200670075006d0065006e007400040000002701200000006d005f004f0062006a0065006300740041007200670075006d0065006e00740041007300730065006d0062006c00790054007900700065004e0061006d006500011f00000055006e0069007400790045006e00670069006e0065002e004f0062006a006500630074002c00200055006e0069007400790045006e00670069006e00650017010d0000006d005f0049006e00740041007200670075006d0065006e007400000000001f010f0000006d005f0046006c006f006100740041007200670075006d0065006e007400000000002701100000006d005f0053007400720069006e00670041007200670075006d0065006e00740001000000002b010e0000006d005f0042006f006f006c0041007200670075006d0065006e00740000051d010b0000006d005f00430061006c006c005300740061007400650002000000000000000507050505050705
+    SerializedFormat: 2
+    SerializedBytes: 
     ReferencedUnityObjects:
     - {fileID: 3335922774275886219}
     - {fileID: 0}
@@ -1005,7 +1036,264 @@ MonoBehaviour:
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes: []
+    SerializationNodes:
+    - Name: eventDic
+      Entry: 7
+      Data: 0|System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[UnityEngine.Events.UnityEvent,
+        UnityEngine.CoreModule]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 1|System.Collections.Generic.GenericEqualityComparer`1[[System.String,
+        mscorlib]], mscorlib
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 3
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Die
+    - Name: $v
+      Entry: 7
+      Data: 2|UnityEngine.Events.UnityEvent, UnityEngine.CoreModule
+    - Name: m_PersistentCalls
+      Entry: 7
+      Data: 3|UnityEngine.Events.PersistentCallGroup, UnityEngine.CoreModule
+    - Name: m_Calls
+      Entry: 7
+      Data: 4|System.Collections.Generic.List`1[[UnityEngine.Events.PersistentCall,
+        UnityEngine.CoreModule]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 5|UnityEngine.Events.PersistentCall, UnityEngine.CoreModule
+    - Name: m_Target
+      Entry: 10
+      Data: 0
+    - Name: m_TargetAssemblyTypeName
+      Entry: 1
+      Data: BotMain, Assembly-CSharp
+    - Name: m_MethodName
+      Entry: 1
+      Data: Dead
+    - Name: m_Mode
+      Entry: 3
+      Data: 1
+    - Name: m_Arguments
+      Entry: 7
+      Data: 6|UnityEngine.Events.ArgumentCache, UnityEngine.CoreModule
+    - Name: m_ObjectArgument
+      Entry: 10
+      Data: 1
+    - Name: m_ObjectArgumentAssemblyTypeName
+      Entry: 1
+      Data: UnityEngine.Object, UnityEngine
+    - Name: m_IntArgument
+      Entry: 3
+      Data: 0
+    - Name: m_FloatArgument
+      Entry: 4
+      Data: 0
+    - Name: m_StringArgument
+      Entry: 1
+      Data: 
+    - Name: m_BoolArgument
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: m_CallState
+      Entry: 3
+      Data: 2
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Attack
+    - Name: $v
+      Entry: 7
+      Data: 7|UnityEngine.Events.UnityEvent, UnityEngine.CoreModule
+    - Name: m_PersistentCalls
+      Entry: 7
+      Data: 8|UnityEngine.Events.PersistentCallGroup, UnityEngine.CoreModule
+    - Name: m_Calls
+      Entry: 7
+      Data: 9|System.Collections.Generic.List`1[[UnityEngine.Events.PersistentCall,
+        UnityEngine.CoreModule]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 10|UnityEngine.Events.PersistentCall, UnityEngine.CoreModule
+    - Name: m_Target
+      Entry: 10
+      Data: 2
+    - Name: m_TargetAssemblyTypeName
+      Entry: 1
+      Data: UnityEngine.GameObject, UnityEngine
+    - Name: m_MethodName
+      Entry: 1
+      Data: SetActive
+    - Name: m_Mode
+      Entry: 3
+      Data: 6
+    - Name: m_Arguments
+      Entry: 7
+      Data: 11|UnityEngine.Events.ArgumentCache, UnityEngine.CoreModule
+    - Name: m_ObjectArgument
+      Entry: 10
+      Data: 3
+    - Name: m_ObjectArgumentAssemblyTypeName
+      Entry: 1
+      Data: UnityEngine.Object, UnityEngine
+    - Name: m_IntArgument
+      Entry: 3
+      Data: 0
+    - Name: m_FloatArgument
+      Entry: 4
+      Data: 0
+    - Name: m_StringArgument
+      Entry: 1
+      Data: 
+    - Name: m_BoolArgument
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: m_CallState
+      Entry: 3
+      Data: 2
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: StopAttack
+    - Name: $v
+      Entry: 7
+      Data: 12|UnityEngine.Events.UnityEvent, UnityEngine.CoreModule
+    - Name: m_PersistentCalls
+      Entry: 7
+      Data: 13|UnityEngine.Events.PersistentCallGroup, UnityEngine.CoreModule
+    - Name: m_Calls
+      Entry: 7
+      Data: 14|System.Collections.Generic.List`1[[UnityEngine.Events.PersistentCall,
+        UnityEngine.CoreModule]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 15|UnityEngine.Events.PersistentCall, UnityEngine.CoreModule
+    - Name: m_Target
+      Entry: 10
+      Data: 2
+    - Name: m_TargetAssemblyTypeName
+      Entry: 1
+      Data: UnityEngine.GameObject, UnityEngine
+    - Name: m_MethodName
+      Entry: 1
+      Data: SetActive
+    - Name: m_Mode
+      Entry: 3
+      Data: 6
+    - Name: m_Arguments
+      Entry: 7
+      Data: 16|UnityEngine.Events.ArgumentCache, UnityEngine.CoreModule
+    - Name: m_ObjectArgument
+      Entry: 10
+      Data: 4
+    - Name: m_ObjectArgumentAssemblyTypeName
+      Entry: 1
+      Data: UnityEngine.Object, UnityEngine
+    - Name: m_IntArgument
+      Entry: 3
+      Data: 0
+    - Name: m_FloatArgument
+      Entry: 4
+      Data: 0
+    - Name: m_StringArgument
+      Entry: 1
+      Data: 
+    - Name: m_BoolArgument
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: m_CallState
+      Entry: 3
+      Data: 2
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
 --- !u!136 &7511263553877129025
 CapsuleCollider:
   m_ObjectHideFlags: 0

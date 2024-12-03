@@ -2146,6 +2146,7 @@ MonoBehaviour:
   ItemParent: {fileID: 0}
   interactButton: {fileID: 0}
   HideAfterUseUI: 0
+  dontShowUI: 0
   InteractEvent:
     m_PersistentCalls:
       m_Calls:
@@ -2724,6 +2725,7 @@ MonoBehaviour:
   ItemParent: {fileID: 0}
   interactButton: {fileID: 0}
   HideAfterUseUI: 0
+  dontShowUI: 0
   InteractEvent:
     m_PersistentCalls:
       m_Calls:
@@ -5434,7 +5436,7 @@ AudioSource:
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -7535,7 +7537,7 @@ AudioSource:
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -17921,6 +17923,7 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 4f43797335188ad469b7f42bf2899449, type: 3}
     - {fileID: 8300000, guid: 3ef93e7c50b869a4a89b33bca185bd42, type: 3}
     - {fileID: 8300000, guid: c76ea3a0b5ee97b49a08dcef0a013b6a, type: 3}
+    - {fileID: 8300000, guid: 064116deb22e1694f91230973da276ea, type: 3}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -17971,7 +17974,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 12
-      Data: 2
+      Data: 3
     - Name: 
       Entry: 7
       Data: 
@@ -17993,6 +17996,18 @@ MonoBehaviour:
     - Name: $v
       Entry: 10
       Data: 2
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: LobbyBGM
+    - Name: $v
+      Entry: 10
+      Data: 3
     - Name: 
       Entry: 8
       Data: 
@@ -18061,6 +18076,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2119119808}
+  - component: {fileID: 2119119809}
   m_Layer: 0
   m_Name: Map
   m_TagString: Untagged
@@ -18090,6 +18106,20 @@ Transform:
   - {fileID: 7289944072024827305}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!114 &2119119809
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2119119807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc961c95f001c3b40ae786a3d545bdaf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BGMSave: 
+  BGMStart: LobbyBGM
 --- !u!23 &61959998318265299
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -18288,6 +18318,7 @@ MonoBehaviour:
   ItemParent: {fileID: 0}
   interactButton: {fileID: 0}
   HideAfterUseUI: 1
+  dontShowUI: 0
   InteractEvent:
     m_PersistentCalls:
       m_Calls:
@@ -18810,6 +18841,7 @@ MonoBehaviour:
   ItemParent: {fileID: 0}
   interactButton: {fileID: 0}
   HideAfterUseUI: 0
+  dontShowUI: 0
   InteractEvent:
     m_PersistentCalls:
       m_Calls:

@@ -207,6 +207,7 @@ MonoBehaviour:
   currState: 
   isAlive: 1
   distance: 0
+  BossSkill: {fileID: 0}
 --- !u!114 &4004114171866760815
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -237,6 +238,21 @@ MonoBehaviour:
   - {fileID: 6975556985535353251}
   - {fileID: 7573986252473110202}
   _animController: {fileID: 6609498681130430026}
+  ShootEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
+        m_MethodName: PlaySoundEffect
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: ShootSpider
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!54 &6036468495442058585
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1114,6 +1130,7 @@ MonoBehaviour:
   Activated: 1
   aimType: 3
   projectile: {fileID: 3324548520128070669, guid: 0605064c50fda5c4fa84e35176a8f3a7, type: 3}
+  muzzleFlash: []
   target: {fileID: 0}
   predictionFactor: 0.5
   projectileSpeed: 35
@@ -1165,6 +1182,7 @@ MonoBehaviour:
   Activated: 1
   aimType: 3
   projectile: {fileID: 3324548520128070669, guid: 0605064c50fda5c4fa84e35176a8f3a7, type: 3}
+  muzzleFlash: []
   target: {fileID: 0}
   predictionFactor: 0.5
   projectileSpeed: 35
@@ -1671,6 +1689,7 @@ MonoBehaviour:
   Activated: 1
   aimType: 3
   projectile: {fileID: 3324548520128070669, guid: 0605064c50fda5c4fa84e35176a8f3a7, type: 3}
+  muzzleFlash: []
   target: {fileID: 0}
   predictionFactor: 0.5
   projectileSpeed: 35
@@ -2191,6 +2210,7 @@ MonoBehaviour:
   Activated: 1
   aimType: 3
   projectile: {fileID: 3324548520128070669, guid: 0605064c50fda5c4fa84e35176a8f3a7, type: 3}
+  muzzleFlash: []
   target: {fileID: 0}
   predictionFactor: 0.5
   projectileSpeed: 35
@@ -2299,10 +2319,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3dcc7b43304a9d046a62b617c407873c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isPlayer: 0
   healthState: 0
   maxHealth: 9
   health: 0
   overHeal: 0
+  isTrapMaster: 0
   StatUI: {fileID: 0}
   fillOnStart: 1
   HpValueChange:
@@ -2323,19 +2345,31 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnDeath:
-    m_PersistentCalls:
-      m_Calls:
       - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: HitParticle, Assembly-CSharp
-        m_MethodName: PlayExplodeParticle
-        m_Mode: 1
+        m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
+        m_MethodName: PlaySoundEffect
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: HitSpider
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnDeath:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
+        m_MethodName: PlaySoundEffect
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: DeathSpider
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 2599205349479952492}
@@ -2350,6 +2384,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnRevive:
+    m_PersistentCalls:
+      m_Calls: []
   OnKnockback:
     m_PersistentCalls:
       m_Calls:
@@ -2377,6 +2414,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  CheckValue:
+    m_PersistentCalls:
+      m_Calls: []
   isAlive: 1
 --- !u!114 &6871427476159568478
 MonoBehaviour:

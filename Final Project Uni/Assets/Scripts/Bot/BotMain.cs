@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using JetBrains.Annotations;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class BotMain : MonoBehaviour
 {
@@ -31,6 +32,8 @@ public class BotMain : MonoBehaviour
     public List<BotGun> gun;
     [FoldoutGroup("Setup")]
     [CanBeNull] public BotAnimController _animController;
+    [FoldoutGroup("Setup")]
+    [CanBeNull] public UnityEvent ShootEvent;
 
     public void ResetCooldown()
     {
@@ -51,5 +54,11 @@ public class BotMain : MonoBehaviour
     {
         if(gun.Count <= 0) return;
         if(gun[gunSlot] != null && gun[gunSlot].target != null) gun[gunSlot].Fire();
+        ShootEvent.Invoke();
+    }
+
+    public void playSoundEffect(string soundEffect)
+    {
+        AudioManager.Instance.PlaySoundEffect(soundEffect);
     }
 }

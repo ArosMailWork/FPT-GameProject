@@ -14,6 +14,7 @@ public class FlashAttack : MonoBehaviour
     public float delay = 1;
     public float HitDuration = 0.5f;
     public float CamShakeAmount = 0.1f;
+    public string soundEffect;
 
     [CanBeNull] public GameObject Indicator;
 
@@ -57,4 +58,10 @@ public class FlashAttack : MonoBehaviour
         if(Indicator != null) 
             Indicator.SetActive(false);
     }
+
+    public void playSoundEffect(string soundEffect) 
+    {
+        AudioManager.Instance.PlaySoundEffect(soundEffect);
+    }
+
 }
