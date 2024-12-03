@@ -133,6 +133,20 @@ public class SkillHolder : MonoBehaviour
 
         AddSkill(skill);
     }
+
+    public void RemoveSkillSlot(int slot)
+    {
+        var skillComponent = skillList[slot].GetComponent<ISkill>();
+
+        if (skillComponent.type == SkillType.PASSIVE)
+        {
+            skillComponent.Deactivate();
+        }
+        else
+        {
+            //do remove active stuffs
+        }
+    }
     
     #endregion
 

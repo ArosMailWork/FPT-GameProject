@@ -17,5 +17,8 @@ public class Skill_Buff_Splitshot : ISkill
         _pc._arrowController.IsSplitShot = toggle;
     }
 
-
+    public override void Deactivate()
+    {
+        SetToggle(false);
+    }
 }

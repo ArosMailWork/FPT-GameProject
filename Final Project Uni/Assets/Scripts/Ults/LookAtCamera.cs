@@ -10,9 +10,7 @@ public class LookAtCamera : MonoBehaviour
     private void Start()
     {
         if (useMainCamera)
-        {
             targetCamera = Camera.main;
-        }
     }
 
     private void LateUpdate()
@@ -30,7 +28,8 @@ public class LookAtCamera : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("LookAtCamera: No target camera assigned!");
+            //Debug.LogWarning("LookAtCamera: No target camera assigned!");
+            targetCamera = Camera.main;
         }
     }
 }

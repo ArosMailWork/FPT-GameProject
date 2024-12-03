@@ -19,4 +19,9 @@ public class Skill_Buff_ExplosionExpert : ISkill
             if(arrow.IsMainArrow) arrow.ExplosionArrow();
         }
     }
+    
+    public override void Deactivate()
+    {
+        SetToggle(false);
+    }
 }

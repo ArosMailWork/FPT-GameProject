@@ -15,4 +15,9 @@ public class Skill_Buff_Sonic : ISkill
         if(_pc == null) _pc = PlayerController.Instance;
         _pc.isSonicDash = toggle;
     }
+    
+    public override void Deactivate()
+    {
+        SetToggle(false);
+    }
 }

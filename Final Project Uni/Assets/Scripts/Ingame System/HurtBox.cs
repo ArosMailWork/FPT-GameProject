@@ -162,6 +162,7 @@ public class HurtBox : MonoBehaviour
             {
                 validTargets.Clear();
                 validTargets.Add(InteractTarget.Enemy);
+                rb.gameObject.layer = LayerMask.NameToLayer("Melee");
             }
 
             rb.velocity = -rb.velocity;

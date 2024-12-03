@@ -20,5 +20,10 @@ public class Skill_Buff_TheForce : ISkill
         _pc._stats.UpdateStats();
     }
 
-    
+    public override void Deactivate()
+    {
+        if(_pc == null) _pc = PlayerController.Instance;
+        _pc._stats.bonusRecallSpeed -= bonusRecallSpeed;
+        _pc._stats.UpdateStats();
+    }
 }
