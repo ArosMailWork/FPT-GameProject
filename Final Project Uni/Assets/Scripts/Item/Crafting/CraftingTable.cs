@@ -11,7 +11,7 @@ public class CraftingController : MonoBehaviour
     public GameObject RecipeUIPrefab;
     public Transform RecipeListContent;
 
-    PlayerProgressData _playerProgressData;
+    PlayerProgressData _playerProgressData = null;
     private Vector3 pos;
     
     private void Start()
@@ -26,6 +26,7 @@ public class CraftingController : MonoBehaviour
     [Button("Update Recipe")]
     public void UpdateRecipeList()
     {
+        if(PlayerController.Instance == null) return;
         _playerProgressData = PlayerController.Instance.PlayerProgressData;
         
         // Clear existing UI elements

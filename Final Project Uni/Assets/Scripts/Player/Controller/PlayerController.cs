@@ -213,7 +213,7 @@ public class PlayerController : MonoBehaviour
     public void Revive(float InstantHPPercent = 0.25f, int RegenHP = 4)
     {
         playerAnimManager.DieAnim(false);
-        PlayerHealth.HealPercent(InstantHPPercent);
+        PlayerHealth.FullHeal(0.5f);
         _UIContainer.GameplayState();
         PlayerHealth.HealOverTime(RegenHP, 4);
         PlayerHealth.isAlive = true;
