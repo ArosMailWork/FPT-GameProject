@@ -170,7 +170,7 @@ public class Health : MonoBehaviour
     [Button]
     public void HealOverTime(int heal, float time)
     {
-        Debug.Log("Heal Over Time: " + heal + " in " + time + " secs");
+        //Debug.Log("Heal Over Time: " + heal + " in " + time + " secs");
         HoT(heal, time);
     }
     
@@ -184,7 +184,7 @@ public class Health : MonoBehaviour
     [Button]
     public void Knockback(Vector3 Dir, float knockForce = 10)
     {
-        //knockback Event
+        if (!isPlayer) Dir = -transform.forward.normalized;
         Dir.y = 0;
         OnKnockback.Invoke(Dir.normalized * knockForce);
     }

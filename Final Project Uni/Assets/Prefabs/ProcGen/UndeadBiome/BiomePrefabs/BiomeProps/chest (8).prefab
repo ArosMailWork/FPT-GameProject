@@ -27,13 +27,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1589324676720738278}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0.38252217, y: 0, z: 0, w: 0.9239463}
   m_LocalPosition: {x: -0.0045604706, y: 0.3900689, z: -0.3937149}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5605615488362015399}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 44.98, y: 0, z: 0}
 --- !u!33 &3916047666948955448
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -102,7 +102,7 @@ MeshCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
@@ -116,6 +116,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5605615488362015399}
+  - component: {fileID: 6622417768121859013}
+  - component: {fileID: 5490519554517902894}
+  - component: {fileID: 4039378569772099839}
   m_Layer: 0
   m_Name: chest (8)
   m_TagString: Untagged
@@ -131,15 +134,96 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6918921546994825692}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0.9805552, z: -0, w: -0.1962438}
+  m_LocalRotation: {x: 0, y: 0.9805548, z: -0, w: -0.19624558}
   m_LocalPosition: {x: 43.401005, y: -30.091003, z: 22.833023}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 4.5000005, y: 4.499999, z: 4.5000005}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 2662577619418275287}
   - {fileID: 1745586055381339179}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 202.635, z: 0}
+--- !u!95 &6622417768121859013
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6918921546994825692}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d35399117cfb7ab498e770f9907a4861, type: 2}
+  m_CullingMode: 1
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &5490519554517902894
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6918921546994825692}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cd058166a6c3544e8b9ce328180a3af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chestLid: {fileID: 6918921546994825692}
+  spawnPoint: {fileID: 0}
+  lidOpenAngle: 78
+  minBurstForce: 19.7
+  maxBurstForce: 20
+  burstRadius: 1
+  minUpForce: 30
+  maxUpForce: 35
+  rarity: 0
+  isRandomized: 1
+  minRarity: 0
+  maxRarity: 4
+  commonRate: 0.35
+  uncommonRate: 0.25
+  rareRate: 0.2
+  epicRate: 0.15
+  legendaryRate: 0.05
+  itemToSpawn: {fileID: 2313412115391769234, guid: 7385b57b419cc7f4baf0f32f63cc4d61, type: 3}
+  items: []
+  coinPrefabSmall: {fileID: 3516268508413389787, guid: f915f31186791fc4c8acc034eb78fd7f, type: 3}
+  coinPrefabMedium: {fileID: 3516268508413389787, guid: cfbd14804d3ac8a4eb43139b836705f3, type: 3}
+  coinPrefabBig: {fileID: 3516268508413389787, guid: 8919995c866cff74888a9fc9757128f9, type: 3}
+  minCoins: 5
+  maxCoins: 10
+  coinType1Rate: 0.712
+  coinType2Rate: 0.129
+  coinType3Rate: 0
+--- !u!65 &4039378569772099839
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6918921546994825692}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.82868266, y: 0.31293637, z: 0.72461927}
+  m_Center: {x: -0.027265945, y: 0.18561359, z: 0.0005584538}
 --- !u!1 &9002238976341316671
 GameObject:
   m_ObjectHideFlags: 0
@@ -243,7 +327,7 @@ MeshCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30

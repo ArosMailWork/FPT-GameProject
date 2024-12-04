@@ -29,6 +29,14 @@ public class ExpeditionReport : MonoBehaviour
         if (Instance == null) Instance = this;
     }
 
+    public void AddReportElement(string itemName, Sprite icon)
+    {
+        ReportElement reportElement = new ReportElement();
+        if(icon != null) reportElement.icon = icon;
+        reportElement.text = itemName;
+        ExpeditionReport.Instance.ReportElements.Add(reportElement);
+    }
+
     public void AchievementProgress()
     {
         AchievementManager.instance.AddAchievementProgress("Monster Hunter", EnemyDefeated);

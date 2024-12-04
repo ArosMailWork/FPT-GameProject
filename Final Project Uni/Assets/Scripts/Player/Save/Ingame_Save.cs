@@ -9,6 +9,7 @@ using UnityEngine.SceneManagement;
 [System.Serializable]
 public class Ingame_Save : MonoBehaviour
 {
+    public bool AutoRemoveProgressSave = true;
     // Fields changed to Data classes
     public PlayerStatsData Stats;
     public HealthData playerHealth;
@@ -121,13 +122,14 @@ public class Ingame_Save : MonoBehaviour
             ExpeditionManager.Instance.currentBiome = currentBiome;
             
             //Delete the save file after loading it so it can't be used again
+            if (AutoRemoveProgressSave)
             DestroySave();
 
             Debug.Log("Game Progress loaded successfully!");
         }
         else
         {
-            Debug.LogWarning("Save file not found!");
+            Debug.Log("Save file not found!");
         }
     }
 
@@ -141,7 +143,7 @@ public class Ingame_Save : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("No save file to delete.");
+            Debug.Log("No save file to delete.");
         }
     }
     

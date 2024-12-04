@@ -11,12 +11,12 @@ public class UIFadeSelfAnim : MonoBehaviour
     public float FadeInDuration = 0.5f, FadeOutDuration = 0.5f;
     public UnityEvent FadeInFin, FadeInFin2, FadeOutFin, FadeOutFin2;
 
-    public void doFadeIn(bool secondFin)
+    public void doFadeIn(bool secondFin = false)
     {
         _animator.SetTrigger("FadeIn");
         FadeInFinish(FadeInDuration, secondFin);
     }
-    public void doFadeOut(bool secondFin)
+    public void doFadeOut(bool secondFin = false)
     {
         _animator.SetTrigger("FadeOut");
         FadeOutFinish(FadeOutDuration, secondFin);

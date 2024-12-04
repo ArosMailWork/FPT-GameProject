@@ -98,7 +98,7 @@ public class GenerationManager : MonoBehaviour
         directionalLight.intensity = lightSettings.intensity;
         directionalLight.transform.rotation = Quaternion.Euler(lightSettings.rotation);
 
-        Debug.Log($"Applied directional light settings from biome '{biome.biomeName}'.");
+        //Debug.Log($"Applied directional light settings from biome '{biome.biomeName}'.");
     }
     
     private Light FindDirectionalLight()

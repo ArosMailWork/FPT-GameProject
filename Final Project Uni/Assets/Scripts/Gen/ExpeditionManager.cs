@@ -34,12 +34,12 @@ public class ExpeditionManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            Debug.Log("Set Singleton " + Instance);
+            //Debug.Log("Set Singleton " + Instance);
         }
 
         if (Ingame_Save.Instance.haveFileLoad)
         {
-            Debug.Log("Load " + Ingame_Save.Instance);
+            //Debug.Log("Load " + Ingame_Save.Instance);
             currentWorldNumber = Ingame_Save.Instance.World;
             currentFloorNumber = Ingame_Save.Instance.Floor;
         }
@@ -119,7 +119,7 @@ public class ExpeditionManager : MonoBehaviour
     }
     public void ExpeditionStart(int world, int floor)
     {
-        Debug.Log((currentWorldNumber + 1) + " " + (currentFloorNumber + 1));
+        //Debug.Log((currentWorldNumber + 1) + " " + (currentFloorNumber + 1));
         
         SetWorld(world);
         GenerateFloor(floor);
@@ -152,16 +152,22 @@ public class ExpeditionManager : MonoBehaviour
     {
         List<Biome> biomes = currentWorld.biomePool;
         currentBiome = biomes[UnityEngine.Random.Range(0, biomes.Count)];
-        AudioManager.Instance.ChangeMusic(currentBiome.biomeName);
         gen.LoadBiomeData(currentBiome);
     }
     
     [Button]
     public void SetFloorData(int floor)
     {
-        Debug.Log("Set Floor " + (floor + 1));
+        //Debug.Log("Set Floor " + (floor + 1));
         currFloor = floors[floor];
         gen.LoadFloorData(currFloor);
+    }
+
+
+    public void PlayBGMBiome()
+    {
+        Debug.Log("BGM " + currentBiome.biomeName);
+        AudioManager.Instance.ChangeMusic(currentBiome.biomeName);
     }
     #endregion
 

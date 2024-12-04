@@ -1,4 +1,5 @@
 using System.Collections;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
@@ -20,7 +21,7 @@ public class SceneLoader : MonoBehaviour
         progressSlider.value = 0;
         LoaderUI.SetActive(true);
  
-        AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(1);
+        AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(index);
         asyncOperation.allowSceneActivation = false;
         float progress = 0;
  
@@ -37,5 +38,19 @@ public class SceneLoader : MonoBehaviour
             }
             yield return null;
         }
+    }
+    
+    public void PlayBGMBiome()
+    {
+        doPlayBGMBiome();
+    }
+    
+    public async void doPlayBGMBiome()
+    {
+        // Wait until ExpeditionManager.Instance is assigned
+        await UniTask.WaitUntil(() => ExpeditionManager.Instance != null);
+
+        // Call PlayBGMBiome after ExpeditionManager is ready
+        ExpeditionManager.Instance.PlayBGMBiome();
     }
 }

@@ -15,25 +15,15 @@ public class AudioManager : SerializedMonoBehaviour
     [SerializeField] private Dictionary<string, AudioClip> backgroundMusicDict;
     [SerializeField] private AnimationCurve transitionCurve;
     [Range(0, 1)] public float volume;
+
+    public string playingBGM;
     #endregion
 
     #region Unity Method
     public void Awake()
     {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-    }
-
-    private void Start()
-    {
-        //SceneMusic(0); //test only
+        if (Instance != null) Destroy(gameObject);
+        else Instance = this;
     }
     #endregion
 
@@ -66,34 +56,36 @@ public class AudioManager : SerializedMonoBehaviour
 
     private async UniTask TransitionMusicAsync(string backgroundMusic)
     {
+        playingBGM = backgroundMusic;
         float time = 0f;
         float duration = 1f;
 
-        AudioClip newClip = await LoadAudioClipAsync(backgroundMusic);
-        if (newClip != null)
+        if (!backgroundMusicDict.TryGetValue(backgroundMusic, out var newClip))
         {
-            musicSource2.clip = newClip;
-            musicSource2.Play();
+            Debug.Log($"Background music for scene '{backgroundMusic}' not found in the dictionary!");
+            return;
         }
-        else
-        {
-            Debug.LogWarning($"Background music for scene '{backgroundMusic}' not found in the dictionary!");
-        }
+
+        musicSource2.clip = newClip;
+        musicSource2.volume = 0f;
+        musicSource2.Play();
 
         while (time < duration)
         {
-            time += Time.deltaTime;
-            float volumeTransition = transitionCurve.Evaluate(time);
+            time += Time.unscaledDeltaTime; // Use unscaledDeltaTime to handle scene loading disruptions
+            float volumeTransition = transitionCurve.Evaluate(time / duration); // Normalize time for transition
             musicSource.volume = (1 - volumeTransition) * volume;
             musicSource2.volume = volumeTransition * volume;
-            await UniTask.Yield();
+            await UniTask.Yield(); // Yield back to the main thread to avoid blocking
         }
 
-        AudioSource temp = musicSource;
-        musicSource = musicSource2;
-        musicSource2 = temp;
-        musicSource2.Stop();
+        await UniTask.Delay(TimeSpan.FromSeconds(0.2f));
+        // Complete the transition
+        musicSource.Stop();
+        musicSource.volume = volume; // Reset to default volume
+        (musicSource, musicSource2) = (musicSource2, musicSource); // Swap references
     }
+
 
     private async UniTask<AudioClip> LoadAudioClipAsync(string sceneNumber)
     {

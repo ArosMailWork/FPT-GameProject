@@ -12,7 +12,7 @@ public class Player_Singleton : MonoBehaviour
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
         
-        EnsureSingleAudioListener();
+        //EnsureSingleAudioListener();
     }
     
     private void OnEnable()

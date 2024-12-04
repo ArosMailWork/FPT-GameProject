@@ -63,6 +63,8 @@ public class PlayerController : MonoBehaviour
     [CanBeNull] public HitStop _hitStop;
     [FoldoutGroup("Setup")] 
     public StaminaSystem staminaSystem;
+    [FoldoutGroup("Setup")] 
+    public SeeThroughDetector xrayDetector;
 
     [FoldoutGroup("Setup/Save")]
     public PlayerProgressData PlayerProgressData;
@@ -85,10 +87,15 @@ public class PlayerController : MonoBehaviour
     #region Unity Methods
     private void Awake()
     {
-        if (Instance == null) Instance = this;
+        if (Instance == null)
+        {
+            Instance = this;
+            if (xrayDetector != null) xrayDetector.Activate = true;
+        }
         if (PlayerHealth == null) PlayerHealth = GetComponent<Health>();
         PlayerHealth.isPlayer = true;
         if (PlayerRB == null) PlayerRB = GetComponent<Rigidbody>();
+        
         
         interactButton.gameObject.SetActive(false);
     }

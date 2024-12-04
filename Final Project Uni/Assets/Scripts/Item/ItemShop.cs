@@ -63,13 +63,13 @@ public class ItemShop : MonoBehaviour
         for (int i = 0; i < ItemSellAmount; i++)
         {
             float randomChance = Random.Range(0f, 1f);
-            Debug.Log((randomChance <= SkillPercent) + " | " + skillItems.Count);
+            //Debug.Log((randomChance <= SkillPercent) + " | " + skillItems.Count);
             // 25% chance to add a skill item, otherwise add a non-skill item
             if (skillItems.Count > 0 && randomChance <= SkillPercent)
             {
                 int randomSkillIndex = Random.Range(0, skillItems.Count);
                 SellingItems.Add(skillItems[randomSkillIndex].item);
-                Debug.Log("add " + skillItems[randomSkillIndex].item);
+                //Debug.Log("add " + skillItems[randomSkillIndex].item);
             }
             else if (nonSkillItems.Count > 0)
             {

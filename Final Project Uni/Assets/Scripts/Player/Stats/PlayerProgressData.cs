@@ -151,6 +151,10 @@
             {
                 // Add a new item entry if it doesn't exist and the amount is positive
                 Inventory.Add(new InventoryItem { item = itemData, amount = finalAmount });
+
+                string notif = "Got" + itemData.name;
+                ExpeditionReport.Instance.AddReportElement(notif, itemData.icon);
+                
                 Debug.Log($"Added {amount} of {itemID} to inventory.");
             }
             else

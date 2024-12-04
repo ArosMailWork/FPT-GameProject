@@ -10,6 +10,8 @@ public class SeeThroughDetector : MonoBehaviour
 {
     [FoldoutGroup("Stats")]
     public float MaskTime = 0.5f, unMaskTime = 0.25f, seeThroughSize = 5, sphereRadius = 0.5f;
+    [FoldoutGroup("Stats")]
+    public bool Activate;
     [FoldoutGroup("Debug")]
     public bool hitting;
     [FoldoutGroup("Debug/Setup")]
@@ -25,6 +27,8 @@ public class SeeThroughDetector : MonoBehaviour
 
     void FixedUpdate()
     {
+        if(!Activate) return;
+        
         // Calculate the direction from the camera to the target
         direction = (target.transform.position - camera.transform.position).normalized;
         distance = Vector3.Distance(camera.transform.position, target.transform.position) - (sphereRadius * 2);
@@ -37,6 +41,12 @@ public class SeeThroughDetector : MonoBehaviour
 
     public async UniTaskVoid HitCheck(bool hitting)
     {
+        if (target == null)
+        {
+            Debug.LogWarning("Target has been destroyed. Aborting HitCheck.");
+            return;
+        }
+        
         if (hitting && !isGrowing)
         {
             if (!hit.collider.gameObject.CompareTag("StencilMask"))

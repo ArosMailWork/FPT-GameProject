@@ -18,25 +18,25 @@ public class UIContainer : MonoBehaviour
     [FoldoutGroup("UI Setup")]
     public List<GameObject> Gameplay;
     [FoldoutGroup("UI Setup")]
-    public GameObject SkillChoose, Inventory, Fade;
+    public GameObject SkillChoose, Inventory;
     [FoldoutGroup("UI Setup")]
     public Image FadeImage;
     
     public SelectRandomSkillEvent selectRandomSkillEvent;
-    public Animator FadeAnimator;
+    //public Animator FadeAnimator;
+    public UIFadeSelfAnim FadeAnimator;
 
     void OnEnable()
     {
         selectRandomSkillEvent = SkillChoose.GetComponent<SelectRandomSkillEvent>();
-        FadeAnimator.SetTrigger("FadeOut");
-        //GameplayState();
+        FadeAnimator.doFadeOut();
+
     }
     public void GameplayState()
     {
         CurrentUIState = UIState.Gameplay;
         
         SkillChoose.SetActive(false);
-        Fade.SetActive(false);
         Inventory.SetActive(false);
 
         foreach (var obj in Gameplay)
@@ -72,14 +72,7 @@ public class UIContainer : MonoBehaviour
             obj.SetActive(false);
         }
     }
-    public void FadeAnim()
-    {
-        Fade.SetActive(true);
-        foreach (var obj in Gameplay)
-        {
-            obj.SetActive(false);
-        }
-    }
+    
 
     public void SetColorFade(Color color = default)
     {
@@ -89,17 +82,27 @@ public class UIContainer : MonoBehaviour
         FadeImage.color = new Color(color.r, color.g, color.b, currentColor.a);
     }
 
-
+    public void FadeAnim()
+    {
+        foreach (var obj in Gameplay)
+        {
+            obj.SetActive(false);
+        }
+    }
 
     IEnumerator FadeInAnimation()
     {
+        Debug.Log("Fade In");
         FadeAnim();
-        FadeAnimator.SetTrigger("FadeIn");
-        yield return new WaitForSeconds(1f);
+        FadeAnimator.doFadeIn();
+        
+        yield return new WaitForSeconds(1.5f);
     }
     IEnumerator FadeOutAnimation()
     {
-        FadeAnimator.SetTrigger("FadeOut");
+        Debug.Log("Fade Out");
+        FadeAnim();
+        FadeAnimator.doFadeOut();
         yield return new WaitForSeconds(1.5f);
         
         if(CurrentUIState != UIState.Event)
@@ -109,9 +112,7 @@ public class UIContainer : MonoBehaviour
     [Button]
     public void FadeIn()
     {
-        //StartCoroutine(FadeInAnimation());
-        FadeAnim();
-        FadeAnimator.SetTrigger("FadeIn");
+        StartCoroutine(FadeInAnimation());
     }
 
 

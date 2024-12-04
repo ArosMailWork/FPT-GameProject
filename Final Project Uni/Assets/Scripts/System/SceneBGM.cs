@@ -5,7 +5,6 @@ using UnityEngine;
 public class SceneBGM : MonoBehaviour
 {
     public static SceneBGM instance;
-    public string BGMSave;
     public string BGMStart;
     void Start()
     {
@@ -15,6 +14,8 @@ public class SceneBGM : MonoBehaviour
 
     public void ChangeMusic(string BGM)
     {
-        AudioManager.Instance.ChangeMusic(BGMStart);
+        //Debug.Log(AudioManager.Instance.playingBGM);
+        if(AudioManager.Instance.playingBGM != BGM)
+            AudioManager.Instance.ChangeMusic(BGMStart);
     }
 }

@@ -15,9 +15,9 @@ namespace PA
         [SerializeField] private GameObject mainMenuPanel;
         [SerializeField] private Button newGameButton;
         [SerializeField] private Button optionButton;
-        [SerializeField] private Button quitGameButton;
 
         [Header("References")]
+        public UIFadeSelfAnim fadeUI;
         public MakeTransitionUI makeTransitionUI;
         [SerializeField] private UISettingsMenu settingsMenu;
         [SerializeField] private UIGraphicsMenu graphicsMenu;
@@ -61,14 +61,19 @@ namespace PA
         }
         
         public async void OnContinueClicked()
-        {           
-            makeTransitionUI.MakeFadeTransition();            
+        {
+            //makeTransitionUI.MakeFadeTransition();            
+            fadeUI.doFadeIn();
             await UniTask.Delay(TimeSpan.FromSeconds(makeTransitionUI.duration));
+
             
-            //if(_sceneLoader != null)
-            //    _sceneLoader.LoadScene(2);
-            //else
+            if(_sceneLoader != null)
+                _sceneLoader.LoadScene(2);
+            else
                 SceneManager.LoadScene("TestGenMap");
+            
+            
+            return;
             
             await UniTask.Delay(TimeSpan.FromSeconds(makeTransitionUI.duration));
             makeTransitionUI.fadeBlackImage.GetComponent<CanvasGroup>().alpha = 1;
@@ -77,13 +82,18 @@ namespace PA
 
         public async void OnNewGameClicked()
         {           
-            makeTransitionUI.MakeFadeTransition();            
+            //makeTransitionUI.MakeFadeTransition();            
+            fadeUI.doFadeIn();
             await UniTask.Delay(TimeSpan.FromSeconds(makeTransitionUI.duration));
+            
             
             if(_sceneLoader != null)
                 _sceneLoader.LoadScene(1);
             else
                 SceneManager.LoadScene("Lobby Optimized");
+            
+            
+            return;
             
             await UniTask.Delay(TimeSpan.FromSeconds(makeTransitionUI.duration));
             makeTransitionUI.fadeBlackImage.GetComponent<CanvasGroup>().alpha = 1;
