@@ -173,6 +173,11 @@ public class Health : MonoBehaviour
         Debug.Log("Heal Over Time: " + heal + " in " + time + " secs");
         HoT(heal, time);
     }
+    
+    public void FullHeal(float multiply = 1)
+    {
+        currentHealth = Mathf.RoundToInt(maxHealth * multiply);
+    }
 
 
     [FoldoutGroup("Event Test/Basic")]
@@ -235,14 +240,30 @@ public class Health : MonoBehaviour
         }
     }
 
-    public void Parry()
+    public void Parry(float timer = 0.1f)
     {
-        healthState = HealthState.Parry;
+        doParryState(timer);
     }
     
-    public void DefState()
+    async void doParryState(float timer)
+    {
+        healthState = HealthState.Parry;
+        await UniTask.Delay(TimeSpan.FromSeconds(timer));
+
+        if (healthState == HealthState.Parry) healthState = HealthState.Idle;
+    }
+    
+    public void DefState(float timer = 0.25f)
+    {
+        doDefState(timer);
+    }
+
+    async void doDefState(float timer)
     {
         healthState = HealthState.Def;
+        await UniTask.Delay(TimeSpan.FromSeconds(timer));
+
+        if (healthState == HealthState.Def) healthState = HealthState.Idle;
     }
 
     public void IdleState()
