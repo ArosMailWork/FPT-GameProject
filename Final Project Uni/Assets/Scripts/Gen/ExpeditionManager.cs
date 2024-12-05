@@ -140,6 +140,10 @@ public class ExpeditionManager : MonoBehaviour
         SetFloorData(floor);
         gen.Generate();
     }
+    public void Gen()
+    {
+        GenerateFloor(currentFloorNumber);
+    }
 
     void SetWorld(int worldIndex)
     {

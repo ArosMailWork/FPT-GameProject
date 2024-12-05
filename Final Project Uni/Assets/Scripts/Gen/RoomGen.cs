@@ -146,14 +146,10 @@ public class RoomGen : MonoBehaviour
         origin.room = StartRoom;
         origin.IsSpecialRoom = true;
         _grid[pointer.x, pointer.y] = origin;
-        Room EndRoom;
+        Room EndRoom = ExitRoom;
         if (IsBossRoom)
         {
             EndRoom = BossRoom[Random.Range(0, BossRoom.Count)];
-        }
-        else
-        {
-            EndRoom = ExitRoom;
         }
         for (int i = 1; i <= MainPathLength; i++)
         {
