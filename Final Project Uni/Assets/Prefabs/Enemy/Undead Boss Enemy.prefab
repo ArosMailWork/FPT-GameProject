@@ -311,10 +311,13 @@ MonoBehaviour:
   UseMovementPrediction: 0
   MovementPredictionThreshold: 0
   MovementPredictionTime: 1
-  rg: {fileID: 0}
+  rg: {fileID: 8049206655697617739}
   Health: {fileID: 7591624929319382969}
   gun: []
   _animController: {fileID: 5920145073599454971}
+  ShootEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!195 &6564691353743255339
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -3248,6 +3251,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3dcc7b43304a9d046a62b617c407873c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isPlayer: 0
   healthState: 0
   maxHealth: 20
   health: 0
@@ -3288,6 +3292,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnRevive:
+    m_PersistentCalls:
+      m_Calls: []
   OnKnockback:
     m_PersistentCalls:
       m_Calls:
@@ -3307,6 +3314,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   isAlive: 1
+  KnockDir: {x: 0, y: 0, z: 0}
 --- !u!114 &4798164858257732858
 MonoBehaviour:
   m_ObjectHideFlags: 0
