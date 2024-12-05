@@ -20,7 +20,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &599914496460012769
 Transform:
   m_ObjectHideFlags: 0
@@ -113,6 +113,9 @@ MonoBehaviour:
   Health: {fileID: 5375433241076702353}
   gun: []
   _animController: {fileID: 9034093347068682401}
+  ShootEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &9034093347068682401
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -410,6 +413,7 @@ MonoBehaviour:
   unMaskTime: 0.25
   seeThroughSize: 14
   sphereRadius: 2
+  Activate: 0
   hitting: 0
   camera: {fileID: 0}
   target: {fileID: 1895505506837602679}
@@ -645,6 +649,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3dcc7b43304a9d046a62b617c407873c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isPlayer: 0
   healthState: 0
   maxHealth: 12
   health: 0
@@ -685,6 +690,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnRevive:
+    m_PersistentCalls:
+      m_Calls: []
   OnKnockback:
     m_PersistentCalls:
       m_Calls:
@@ -716,6 +724,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   isAlive: 1
+  KnockDir: {x: 0, y: 0, z: 0}
 --- !u!114 &1950799033656219855
 MonoBehaviour:
   m_ObjectHideFlags: 0

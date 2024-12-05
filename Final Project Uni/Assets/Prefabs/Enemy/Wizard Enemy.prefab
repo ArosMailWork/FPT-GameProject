@@ -1039,8 +1039,8 @@ MonoBehaviour:
   UseMovementPrediction: 0
   MovementPredictionThreshold: 0
   MovementPredictionTime: 1
-  rg: {fileID: 0}
-  Health: {fileID: 0}
+  rg: {fileID: 1387222706497779243}
+  Health: {fileID: 2535650829541329949}
   gun:
   - {fileID: 1621419093957386442}
   - {fileID: 1136096680248831874}
@@ -1050,6 +1050,9 @@ MonoBehaviour:
   - {fileID: 1292657088143974213}
   - {fileID: 4248347603137384543}
   _animController: {fileID: 4712430017884131024}
+  ShootEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!54 &7942209043422986959
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1279,6 +1282,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3dcc7b43304a9d046a62b617c407873c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isPlayer: 0
   healthState: 0
   maxHealth: 5
   health: 0
@@ -1292,7 +1296,7 @@ MonoBehaviour:
   HpReduce:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 8401892897794694489}
         m_TargetAssemblyTypeName: DamageFlash, Assembly-CSharp
         m_MethodName: DoDamageFlash
         m_Mode: 1
@@ -1307,7 +1311,7 @@ MonoBehaviour:
   OnDeath:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1134930184221689453}
         m_TargetAssemblyTypeName: BotSM, Assembly-CSharp
         m_MethodName: GoDeath
         m_Mode: 1
@@ -1319,10 +1323,13 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnRevive:
+    m_PersistentCalls:
+      m_Calls: []
   OnKnockback:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 6332305832106910921}
         m_TargetAssemblyTypeName: HitParticle, Assembly-CSharp
         m_MethodName: SpawnKnockbackParticle
         m_Mode: 0
@@ -1334,7 +1341,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1134930184221689453}
         m_TargetAssemblyTypeName: BotSM, Assembly-CSharp
         m_MethodName: GoKnockback
         m_Mode: 0
@@ -1350,6 +1357,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   isAlive: 1
+  KnockDir: {x: 0, y: 0, z: 0}
 --- !u!136 &7528120470741060548
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1369,10 +1377,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.98
+  m_Radius: 1.29
   m_Height: 4.1
   m_Direction: 1
-  m_Center: {x: 0.000000021940615, y: 0.89999986, z: -0.10714928}
+  m_Center: {x: 0.000000021940615, y: 1.32, z: -0.10714928}
 --- !u!114 &1497774673638641665
 MonoBehaviour:
   m_ObjectHideFlags: 0

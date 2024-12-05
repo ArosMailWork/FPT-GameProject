@@ -280,6 +280,9 @@ MonoBehaviour:
   gun:
   - {fileID: 4797008441739539393}
   _animController: {fileID: 2286137087644117827}
+  ShootEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!54 &4547386913242769852
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -521,6 +524,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3dcc7b43304a9d046a62b617c407873c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isPlayer: 0
   healthState: 0
   maxHealth: 5
   health: 0
@@ -561,6 +565,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnRevive:
+    m_PersistentCalls:
+      m_Calls: []
   OnKnockback:
     m_PersistentCalls:
       m_Calls:
@@ -592,6 +599,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   isAlive: 1
+  KnockDir: {x: 0, y: 0, z: 0}
 --- !u!136 &5729398469089424055
 CapsuleCollider:
   m_ObjectHideFlags: 0
