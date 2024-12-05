@@ -42,9 +42,10 @@ public class ChestOpeningEffect : MonoBehaviour
     [FoldoutGroup("Coins")] public GameObject coinPrefabBig; // Prefab for the third type of coin
     [FoldoutGroup("Coins")] public int minCoins = 5; // Minimum number of coins to spawn
     [FoldoutGroup("Coins")] public int maxCoins = 10; // Maximum number of coins to spawn
-    [FoldoutGroup("Coins")][Range(0f, 1f)] public float coinType1Rate = 0.33f; // Spawn rate for coin type 1
-    [FoldoutGroup("Coins")][Range(0f, 1f)] public float coinType2Rate = 0.33f; // Spawn rate for coin type 2
-    [FoldoutGroup("Coins")][Range(0f, 1f)] public float coinType3Rate = 0.34f; // Spawn rate for coin type 3
+    [FoldoutGroup("Coins")] public bool isFixedCoinRate = false; 
+    [FoldoutGroup("Coins")][Range(0f, 1f)] public float coinType1Rate; // Spawn rate for coin type 1
+    [FoldoutGroup("Coins")][Range(0f, 1f)] public float coinType2Rate; // Spawn rate for coin type 2
+    [FoldoutGroup("Coins")][Range(0f, 1f)] public float coinType3Rate; // Spawn rate for coin type 3
 
 
 
@@ -114,15 +115,20 @@ public class ChestOpeningEffect : MonoBehaviour
 
         if (randomValue < coinType1Rate)
         {
+            Debug.Log("spawn coin small with: " + randomValue * 100 + "%");
             return coinPrefabSmall;
         }
         else if (randomValue < coinType1Rate + coinType2Rate)
         {
+            Debug.Log("spawn coin medium with: " + randomValue * 100 + "%");
             return coinPrefabMedium;
+
         }
         else
         {
+            Debug.Log("spawn coin big with: " + randomValue * 100 + "%");
             return coinPrefabBig;
+
         }
     }
 
@@ -158,6 +164,7 @@ public class ChestOpeningEffect : MonoBehaviour
             }
         }
 
+        if (isFixedCoinRate) return;
         switch (rarity)
         {
             case Rarity.Common:

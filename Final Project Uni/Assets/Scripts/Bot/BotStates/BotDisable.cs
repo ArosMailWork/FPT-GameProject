@@ -17,8 +17,8 @@ public class BotDisable : BaseState
         //sm.nav.updatePosition = false;
         //sm.nav.isStopped = true;
         sm.agent.enabled = false;
-        sm.bot.rg.useGravity = true;
-        sm.bot.rg.isKinematic = false;
+        //sm.bot.rg.useGravity = true;
+        //sm.bot.rg.isKinematic = false;
     }
     public override void Exit()
     {
