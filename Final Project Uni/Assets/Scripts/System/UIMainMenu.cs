@@ -105,10 +105,6 @@ namespace PA
             GeneralClick(settingsMenu.SettingsPanel, mainMenuPanel);
         }
 
-        public void OnQuitClicked()
-        {
-            GameManager.Instance.QuitGame();
-        }
 
         // Properties for accessing panels
         public GameObject MainMenuPanel => mainMenuPanel;

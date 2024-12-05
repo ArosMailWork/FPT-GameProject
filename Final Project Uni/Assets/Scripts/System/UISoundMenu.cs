@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,13 +14,13 @@ namespace PA
         [SerializeField] private TMP_Text musicVolumeTextSFX;
         [SerializeField] private Button backSoundSettingsButton;
 
-        private UIMainMenu mainMenu;
+        [CanBeNull] private UIMainMenu mainMenu;
         private MakeTransitionUI makeTransitionUI;
 
         private void Awake()
         {
             mainMenu = GetComponentInParent<UIMainMenu>();
-            makeTransitionUI = mainMenu.makeTransitionUI;
+            if (mainMenu != null) makeTransitionUI = mainMenu.makeTransitionUI;
         }
 
         private void Start()
@@ -43,6 +44,7 @@ namespace PA
 
         public void OnBackSoundSettingsClicked()
         {
+            if(mainMenu != null)
             mainMenu.GeneralClick(mainMenu.SettingsMenu.SettingsPanel, soundPanel);
         }
 

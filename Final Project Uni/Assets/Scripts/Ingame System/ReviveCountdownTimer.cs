@@ -105,9 +105,20 @@ public class ReviveCountdownTimer : MonoBehaviour
 
     public void Revive()
     {
-        AdsManager.Instance.Reward.AddListener(doRevive);
-        AdsManager.Instance.ShowRewardedVideo();
+        if (Application.platform == RuntimePlatform.Android || 
+            Application.platform == RuntimePlatform.IPhonePlayer)
+        {
+            // Show ads and wait for reward on mobile platforms
+            AdsManager.Instance.Reward.AddListener(doRevive);
+            AdsManager.Instance.ShowRewardedVideo();
+        }
+        else
+        {
+            // Directly call doRevive on non-mobile platforms (e.g., PC)
+            doRevive();
+        }
     }
+
     
     public void doRevive()
     {

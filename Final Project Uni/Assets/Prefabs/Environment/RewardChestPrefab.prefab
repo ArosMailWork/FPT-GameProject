@@ -186,6 +186,7 @@ MonoBehaviour:
   ItemParent: {fileID: 8091030897215873556}
   interactButton: {fileID: 0}
   HideAfterUseUI: 1
+  dontShowUI: 0
   InteractEvent:
     m_PersistentCalls:
       m_Calls:
@@ -201,7 +202,7 @@ MonoBehaviour:
           m_StringArgument: OpenChest
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 4183574460432077680}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: SplashItem, Assembly-CSharp
         m_MethodName: BurstItems
         m_Mode: 1
@@ -252,6 +253,10 @@ PrefabInstance:
     - target: {fileID: 1745586055381339179, guid: 841f9f2a4c9f9194f8781859eb2ae697, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 44.98
+      objectReference: {fileID: 0}
+    - target: {fileID: 5490519554517902894, guid: 841f9f2a4c9f9194f8781859eb2ae697, type: 3}
+      propertyPath: coinType3Rate
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5605615488362015399, guid: 841f9f2a4c9f9194f8781859eb2ae697, type: 3}
       propertyPath: m_LocalScale.x
@@ -320,9 +325,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6918921546994825692, guid: 841f9f2a4c9f9194f8781859eb2ae697, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1230434945923798348}
-    - targetCorrespondingSourceObject: {fileID: 6918921546994825692, guid: 841f9f2a4c9f9194f8781859eb2ae697, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 4183574460432077680}
   m_SourcePrefab: {fileID: 100100000, guid: 841f9f2a4c9f9194f8781859eb2ae697, type: 3}
 --- !u!4 &6132451200312253163 stripped
 Transform:
@@ -355,44 +357,3 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &4183574460432077680
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8706865502696589712}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0cd058166a6c3544e8b9ce328180a3af, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  chestLid: {fileID: 8706865502696589712}
-  spawnPoint: {fileID: 9068802670911830227}
-  lidOpenAngle: 78
-  minBurstForce: 19.7
-  maxBurstForce: 20
-  burstRadius: 1
-  minUpForce: 30
-  maxUpForce: 35
-  rarity: 0
-  isRandomized: 0
-  minRarity: 0
-  maxRarity: 0
-  commonRate: 0
-  uncommonRate: 0
-  rareRate: 0
-  epicRate: 0
-  legendaryRate: 0
-  itemToSpawn: {fileID: 0}
-  items:
-  - {fileID: 2313412115391769234, guid: 7385b57b419cc7f4baf0f32f63cc4d61, type: 3}
-  - {fileID: 2313412115391769234, guid: 7385b57b419cc7f4baf0f32f63cc4d61, type: 3}
-  coinPrefabSmall: {fileID: 0}
-  coinPrefabMedium: {fileID: 0}
-  coinPrefabBig: {fileID: 0}
-  minCoins: 5
-  maxCoins: 10
-  coinType1Rate: 0.541
-  coinType2Rate: 0.252
-  coinType3Rate: 0.128

@@ -42,6 +42,7 @@ public class Health : MonoBehaviour
     public UnityEvent<int, int> CheckValue;
 
     [FoldoutGroup("Debug")] public bool isAlive = true;
+    [FoldoutGroup("Debug")] public Vector3 KnockDir;
 
     //Calculate
     private int Damage;
@@ -50,16 +51,28 @@ public class Health : MonoBehaviour
         get { return health; }
         set
         {
+            int previousHealth = health; // Save the current health for comparison
             if (value > maxHealth)
             {
                 this.overHeal = value - maxHealth;
                 value = maxHealth;
             }
             this.health = value;
-            if (value <= 0 && isAlive) DeathEvent();
-            HPUpdate();
+        
+            // Call DeathEvent if the character is newly dead
+            if (value <= 0 && isAlive)
+            {
+                DeathEvent();
+            }
+        
+            // Force an update if health changes or if health is set to the same value
+            if (previousHealth != health || value == maxHealth) 
+            {
+                HPUpdate();
+            }
         }
-    } //use this
+    }
+    //use this
 
     #endregion
 
@@ -174,9 +187,12 @@ public class Health : MonoBehaviour
         HoT(heal, time);
     }
     
+    [Button]
     public void FullHeal(float multiply = 1)
     {
-        currentHealth = Mathf.RoundToInt(maxHealth * multiply);
+        int targetHealth = Mathf.RoundToInt(maxHealth * multiply);
+        //Debug.Log($"FullHeal: Setting health to {targetHealth} (maxHealth: {maxHealth}, multiply: {multiply})");
+        currentHealth = targetHealth; // Use the property to ensure proper behavior
     }
 
 
@@ -184,7 +200,7 @@ public class Health : MonoBehaviour
     [Button]
     public void Knockback(Vector3 Dir, float knockForce = 10)
     {
-        if (!isPlayer) Dir = -transform.forward.normalized;
+        if (!isPlayer && Dir == Vector3.zero) Dir = -transform.forward.normalized;
         Dir.y = 0;
         OnKnockback.Invoke(Dir.normalized * knockForce);
     }
@@ -212,7 +228,8 @@ public class Health : MonoBehaviour
     }
     void DealDamage(int damage)
     {
-        Debug.Log("Received " + damage);
+        if(!isAlive) return;
+        //Debug.Log("Received " + damage);
         currentHealth -= damage;
         //if (currentHealth <= 0) currentHealth = -1;
         HpReduce.Invoke();

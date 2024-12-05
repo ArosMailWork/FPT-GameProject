@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,13 +14,13 @@ namespace PA
         [SerializeField] private Toggle bloomToggle;
         [SerializeField] private Button backGraphicsSettingsButton;
 
-        private UIMainMenu mainMenu;
+        [CanBeNull] private UIMainMenu mainMenu;
         private MakeTransitionUI makeTransitionUI;
 
         private void Awake()
         {
             mainMenu = GetComponentInParent<UIMainMenu>();
-            makeTransitionUI = mainMenu.makeTransitionUI;
+            if (mainMenu != null) makeTransitionUI = mainMenu.makeTransitionUI;
         }
 
         private void Start()
@@ -37,6 +38,7 @@ namespace PA
 
         public void OnBackGraphicsSettingsClicked()
         {
+            if(mainMenu != null)
             mainMenu.GeneralClick(mainMenu.SettingsMenu.SettingsPanel, graphicsPanel);
         }
 
@@ -55,9 +57,9 @@ namespace PA
             GameSettings.Instance.isBloomEnabled = isOn;
         }
 
-        public void DropdownFPSChanged(int value)
+        public void DropdownFPSChanged()
         {
-            QualitySettings.SetFPS(value);
+            QualitySettings.SetFPS(fpsDropdown.value);
         }
 
         public GameObject GraphicsPanel => graphicsPanel;

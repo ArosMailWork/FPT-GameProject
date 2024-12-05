@@ -141,6 +141,7 @@ MonoBehaviour:
   ItemParent: {fileID: 2613780836743028748}
   interactButton: {fileID: 0}
   HideAfterUseUI: 0
+  dontShowUI: 0
   InteractEvent:
     m_PersistentCalls:
       m_Calls:
@@ -189,8 +190,9 @@ MonoBehaviour:
   ShopFail:
     m_PersistentCalls:
       m_Calls: []
-  Cost: 100
+  Cost: 200
   isItemShop: 0
+  LastCost: 0
 --- !u!114 &3016339411893096007
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -210,8 +212,10 @@ MonoBehaviour:
   Skill: {fileID: 5543831279937719370, guid: 1ff193fe72b4b6a419e99eef49a63d3e, type: 3}
   itemID: 
   itemAmount: 0
-  Gold: 0
-  Soul: 0
+  MinGold: 0
+  MaxGold: 0
+  MinSoul: 0
+  MaxSoul: 0
   isSkillBuff: 1
 --- !u!1 &2613780836743028748
 GameObject:

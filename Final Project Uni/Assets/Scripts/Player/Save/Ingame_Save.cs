@@ -121,6 +121,8 @@ public class Ingame_Save : MonoBehaviour
             ExpeditionManager.Instance.currentWorld = currentWorld;
             ExpeditionManager.Instance.currentBiome = currentBiome;
             
+            ExpeditionManager.Instance.PlayBGMBiome();
+            
             //Delete the save file after loading it so it can't be used again
             if (AutoRemoveProgressSave)
             DestroySave();
@@ -129,6 +131,7 @@ public class Ingame_Save : MonoBehaviour
         }
         else
         {
+            //ExpeditionManager.Instance.PlayBGMBiome();
             Debug.Log("Save file not found!");
         }
     }

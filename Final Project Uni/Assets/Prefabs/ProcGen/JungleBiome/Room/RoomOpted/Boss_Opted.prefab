@@ -21418,6 +21418,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4533542745601035636, guid: b75aee0d4b77d064aafea64cfa8695e7, type: 3}
+      propertyPath: enemyPool
+      value: 
+      objectReference: {fileID: 11400000, guid: dab4bb07a0bd3d64295d68538856a2a5, type: 2}
+    - target: {fileID: 4533542745601035636, guid: b75aee0d4b77d064aafea64cfa8695e7, type: 3}
       propertyPath: SpawnRadius
       value: 4.54
       objectReference: {fileID: 0}
@@ -21554,14 +21558,53 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 152782601703380635, guid: b0e2f98269a610247800b8748bd0f718, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2907417107889504814}
   m_SourcePrefab: {fileID: 100100000, guid: b0e2f98269a610247800b8748bd0f718, type: 3}
+--- !u!1 &985121488414463015 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 152782601703380635, guid: b0e2f98269a610247800b8748bd0f718, type: 3}
+  m_PrefabInstance: {fileID: 1131828685199868604}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2907417107889504814
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 985121488414463015}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AgentTypeID: -1372625422
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_GenerateLinks: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.16666667
+  m_MinRegionArea: 2
+  m_NavMeshData: {fileID: 23800000, guid: c4d9c45f72f3ffa4aa7b8b76b433deb3, type: 2}
+  m_BuildHeightMesh: 0
 --- !u!114 &4884782795641552517 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5512172998511623225, guid: b0e2f98269a610247800b8748bd0f718, type: 3}
   m_PrefabInstance: {fileID: 1131828685199868604}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 985121488414463015}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}

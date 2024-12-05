@@ -92,7 +92,7 @@ public class UIContainer : MonoBehaviour
 
     IEnumerator FadeInAnimation()
     {
-        Debug.Log("Fade In");
+        //Debug.Log("Fade In");
         FadeAnim();
         FadeAnimator.doFadeIn();
         
@@ -100,10 +100,10 @@ public class UIContainer : MonoBehaviour
     }
     IEnumerator FadeOutAnimation()
     {
-        Debug.Log("Fade Out");
+        //Debug.Log("Fade Out");
         FadeAnim();
         FadeAnimator.doFadeOut();
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(2f);
         
         if(CurrentUIState != UIState.Event)
         GameplayState();

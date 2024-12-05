@@ -40,7 +40,7 @@ public class ItemShop : MonoBehaviour
     private void Start()
     {
         _playerProgressData = PlayerController.Instance.PlayerProgressData;
-        Invoke(nameof(CreatePool), 0.5f);
+        //Invoke(nameof(CreatePool), 0.5f);
     }
     
     
@@ -132,8 +132,8 @@ public class ItemShop : MonoBehaviour
             
             if (item.isSkillBuff)
             {
+                if(item.Skill.GetComponent<ISkill>() == null) Debug.Log(itemObj.name);
                 string skillID = item.Skill.GetComponent<ISkill>().Name;
-                //Debug.Log(skillID);
 
                 if (IsSkillUnlockedForItem(skillID))
                     pool.Add(itemSelling);

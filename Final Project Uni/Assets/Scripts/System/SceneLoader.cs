@@ -48,7 +48,7 @@ public class SceneLoader : MonoBehaviour
     public async void doPlayBGMBiome()
     {
         // Wait until ExpeditionManager.Instance is assigned
-        await UniTask.WaitUntil(() => ExpeditionManager.Instance != null);
+        await UniTask.WaitUntil(() => ExpeditionManager.Instance.currentBiome != null);
 
         // Call PlayBGMBiome after ExpeditionManager is ready
         ExpeditionManager.Instance.PlayBGMBiome();

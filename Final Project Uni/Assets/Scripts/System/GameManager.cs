@@ -44,15 +44,6 @@ public class GameManager : MonoBehaviour
         // Logic for loading a saved game
     }
 
-    public void QuitGame()
-    {
-        #if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-        #else
-        Application.Quit();
-        #endif
-    }
-
     #region SceneLogic
 
     IEnumerator LoadExpedition()
@@ -74,9 +65,12 @@ public class GameManager : MonoBehaviour
     {
         fadeInAnim.Invoke();
         yield return new WaitForSeconds(1);
-        
+
         if (_sceneLoader != null)
+        {
+            _sceneLoader.gameObject.SetActive(true);
             _sceneLoader.LoadScene(1);
+        }
         else
             SceneManager.LoadScene(LobbyPath);
         
@@ -87,15 +81,17 @@ public class GameManager : MonoBehaviour
 
     IEnumerator LoadMenu()
     {
+        Debug.Log("quit check");
         fadeInAnim.Invoke();
         yield return new WaitForSeconds(1.5f);
         
+            
         if (_sceneLoader != null)
             _sceneLoader.LoadScene(0);
         else
             SceneManager.LoadScene("UI Main Menu");
         
-        genManager.gameObject.SetActive(true);
+        
         yield return new WaitForSeconds(1);
         fadeOutAnim.Invoke();
     }
@@ -113,6 +109,7 @@ public class GameManager : MonoBehaviour
 
     public void QuitMenu()
     {
+        //Debug.Log("quit check");
         StartCoroutine(LoadMenu());
     }
 

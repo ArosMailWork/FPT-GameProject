@@ -3259,10 +3259,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5739506892182189335}
     m_Modifications:
-    - target: {fileID: 2029539450154664765, guid: 5a581dfc377da824489f4facb5c90bc9, type: 3}
-      propertyPath: WaveCleared.m_PersistentCalls.m_Calls.Array.data[2].m_Target
-      value: 
-      objectReference: {fileID: 172675707270268793}
     - target: {fileID: 2917558764478707262, guid: 5a581dfc377da824489f4facb5c90bc9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -3303,10 +3299,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4556987734763743150, guid: 5a581dfc377da824489f4facb5c90bc9, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6664347162021423835, guid: 5a581dfc377da824489f4facb5c90bc9, type: 3}
       propertyPath: m_Name
       value: RoomTriggerBox
@@ -3314,77 +3306,13 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 4556987734763743150, guid: 5a581dfc377da824489f4facb5c90bc9, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 967871712386641578}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5a581dfc377da824489f4facb5c90bc9, type: 3}
---- !u!1 &172675707270268793 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4556987734763743150, guid: 5a581dfc377da824489f4facb5c90bc9, type: 3}
-  m_PrefabInstance: {fileID: 4420524477885489367}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &967871712386641578
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 172675707270268793}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc301be85340bc149a9276ed8ba89839, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  onChestLanded:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 5425167339351875646}
-        m_TargetAssemblyTypeName: UnityEngine.Animator, UnityEngine
-        m_MethodName: Play
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: OpenChest
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 6941868012579202562}
-        m_TargetAssemblyTypeName: ChestOpeningEffect, Assembly-CSharp
-        m_MethodName: BurstItems
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  delayTime: 2
 --- !u!4 &1523795205283387113 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2917558764478707262, guid: 5a581dfc377da824489f4facb5c90bc9, type: 3}
   m_PrefabInstance: {fileID: 4420524477885489367}
   m_PrefabAsset: {fileID: 0}
---- !u!95 &5425167339351875646 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 8508086280512733417, guid: 5a581dfc377da824489f4facb5c90bc9, type: 3}
-  m_PrefabInstance: {fileID: 4420524477885489367}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &6941868012579202562 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6705476918724429525, guid: 5a581dfc377da824489f4facb5c90bc9, type: 3}
-  m_PrefabInstance: {fileID: 4420524477885489367}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0cd058166a6c3544e8b9ce328180a3af, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &4964113878704189920
 PrefabInstance:
   m_ObjectHideFlags: 0

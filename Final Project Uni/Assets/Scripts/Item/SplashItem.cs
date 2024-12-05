@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEngine;
 using Sirenix.OdinInspector;
 public enum Rarity
@@ -15,6 +16,7 @@ public class ChestOpeningEffect : MonoBehaviour
     [FoldoutGroup("Chest Settings")] public GameObject chestLid; // Reference to the chest lid
     [FoldoutGroup("Chest Settings")] public Transform spawnPoint; // Where the items will spawn from
     [FoldoutGroup("Chest Settings")] public float lidOpenAngle = 90f; // How much the lid should open
+    [FoldoutGroup("Chest Settings"), CanBeNull] public Animator chestAnim; // How much the lid should open
 
     [FoldoutGroup("Burst Settings")] public float minBurstForce = 3f; // Minimum force applied to items
     [FoldoutGroup("Burst Settings")] public float maxBurstForce = 7f; // Maximum force applied to items
@@ -61,6 +63,9 @@ public class ChestOpeningEffect : MonoBehaviour
     public void BurstItems()
     {
         if (isOpened) return; 
+        
+        if(chestAnim != null) chestAnim.SetTrigger("Open");
+        
         if (items.Count > 0) 
         {
             foreach (GameObject item in items)

@@ -45,7 +45,7 @@ public class HurtBox : MonoBehaviour
     [FoldoutGroup("Debug")]
     public bool isProjectile;
     [FoldoutGroup("Debug")]
-    [SerializeField, ReadOnly] private Vector3 direction;
+    [SerializeField, ReadOnly] public Vector3 direction;
 
     // Track already hit objects
     [FoldoutGroup("Debug")]
@@ -186,5 +186,10 @@ public class HurtBox : MonoBehaviour
         KnockDir = Vector3.zero; // Reset knockback direction
 
         //Debug.Log("hitted");
+    }
+
+    public void PlaySFX(string SFX)
+    {
+        AudioManager.Instance.PlaySoundEffect(SFX);
     }
 }
