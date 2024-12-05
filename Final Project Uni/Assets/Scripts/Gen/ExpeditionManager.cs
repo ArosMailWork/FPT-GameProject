@@ -18,7 +18,7 @@ public class ExpeditionManager : MonoBehaviour
     public World currentWorld;
     [FoldoutGroup("Debug")]
     public Biome currentBiome;
-    [FoldoutGroup("Debug")] 
+    [FoldoutGroup("Debug")]
     public Floor currFloor;
     [FoldoutGroup("Expedition Number")]
     public int currentWorldNumber = 0;
@@ -37,18 +37,18 @@ public class ExpeditionManager : MonoBehaviour
             //Debug.Log("Set Singleton " + Instance);
         }
 
-        if (Ingame_Save.Instance.haveFileLoad)
-        {
-            //Debug.Log("Load " + Ingame_Save.Instance);
-            currentWorldNumber = Ingame_Save.Instance.World;
-            currentFloorNumber = Ingame_Save.Instance.Floor;
-        }
-        else
-        {
-            currentWorldNumber = 0;
-            currentFloorNumber = 0;
-        }
-        
+        // if (Ingame_Save.Instance.haveFileLoad)
+        // {
+        //     //Debug.Log("Load " + Ingame_Save.Instance);
+        //     currentWorldNumber = Ingame_Save.Instance.World;
+        //     currentFloorNumber = Ingame_Save.Instance.Floor;
+        // }
+        // else
+        // {
+        //     currentWorldNumber = 0;
+        //     currentFloorNumber = 0;
+        // }
+
         ExpeditionStart(currentWorldNumber, currentFloorNumber);
     }
 
@@ -69,7 +69,7 @@ public class ExpeditionManager : MonoBehaviour
     {
         LoadFloor();
     }
-    
+
     async void LoadFloor()
     {
         Debug.Log("try to Exit");
@@ -80,7 +80,7 @@ public class ExpeditionManager : MonoBehaviour
         GameManager.Instance.fadeOutAnim.Invoke();
     }
 
-    
+
     void doExitFloor()
     {
         PlayerController.Instance.PlayerProgressData.SaveClaimReward();
@@ -120,7 +120,7 @@ public class ExpeditionManager : MonoBehaviour
     public void ExpeditionStart(int world, int floor)
     {
         //Debug.Log((currentWorldNumber + 1) + " " + (currentFloorNumber + 1));
-        
+
         SetWorld(world);
         GenerateFloor(floor);
         OnExpeditionStart.Invoke();
@@ -154,7 +154,7 @@ public class ExpeditionManager : MonoBehaviour
         currentBiome = biomes[UnityEngine.Random.Range(0, biomes.Count)];
         gen.LoadBiomeData(currentBiome);
     }
-    
+
     [Button]
     public void SetFloorData(int floor)
     {

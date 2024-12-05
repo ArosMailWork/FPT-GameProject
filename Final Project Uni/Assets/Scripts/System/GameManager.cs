@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
     [CanBeNull] public GameObject ManagerObj;
     [CanBeNull] public GenerationManager genManager;
     [CanBeNull] public SceneLoader _sceneLoader;
-    
+
     // Scene Address (Using buttons for easier scene path selection)
     [FoldoutGroup("Scene Address")]
     [SerializeField] public string ExpeditionPath;
@@ -50,12 +50,12 @@ public class GameManager : MonoBehaviour
     {
         fadeInAnim.Invoke();
         yield return new WaitForSeconds(1.5f);
-        
-        if (_sceneLoader != null)
-            _sceneLoader.LoadScene(2);
-        else
-            SceneManager.LoadScene(ExpeditionPath);
-        
+
+        // if (_sceneLoader != null)
+        //     _sceneLoader.LoadScene(2);
+        // else
+        SceneManager.LoadScene(ExpeditionPath);
+
         genManager.gameObject.SetActive(true);
         yield return new WaitForSeconds(1);
         fadeOutAnim.Invoke();
@@ -73,7 +73,7 @@ public class GameManager : MonoBehaviour
         }
         else
             SceneManager.LoadScene(LobbyPath);
-        
+
         genManager.gameObject.SetActive(false);
         yield return new WaitForSeconds(0.5f);
         fadeOutAnim.Invoke();
@@ -84,14 +84,14 @@ public class GameManager : MonoBehaviour
         Debug.Log("quit check");
         fadeInAnim.Invoke();
         yield return new WaitForSeconds(1.5f);
-        
-            
+
+
         if (_sceneLoader != null)
             _sceneLoader.LoadScene(0);
         else
             SceneManager.LoadScene("UI Main Menu");
-        
-        
+
+
         yield return new WaitForSeconds(1);
         fadeOutAnim.Invoke();
     }
@@ -116,7 +116,7 @@ public class GameManager : MonoBehaviour
     #endregion
 
     // Editor-only methods to pick scene paths from file explorer
-    #if UNITY_EDITOR
+#if UNITY_EDITOR
     [Button("Choose Expedition Scene")]
     private void ChooseExpeditionScene()
     {
@@ -136,5 +136,5 @@ public class GameManager : MonoBehaviour
             LobbyPath = FileUtil.GetProjectRelativePath(LobbyPath);
         }
     }
-    #endif
+#endif
 }

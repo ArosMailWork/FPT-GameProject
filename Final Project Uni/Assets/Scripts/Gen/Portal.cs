@@ -9,14 +9,15 @@ public class Portal : MonoBehaviour
     public void Start()
     {
         exManager = ExpeditionManager.Instance;
+        //exManager = GameObject.Find("GenerationManager").GetComponent<ExpeditionManager>();
     }
-    
+
     [Button]
     public void StartPortal()
     {
         exManager.ExitFloor();
     }
-    
+
     public void ActivatePortal()
     {
         gameObject.SetActive(true);
