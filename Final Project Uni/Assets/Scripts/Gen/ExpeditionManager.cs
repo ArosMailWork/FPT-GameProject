@@ -34,14 +34,11 @@ public class ExpeditionManager : MonoBehaviour
         if (Instance == null) Instance = this;
     }
 
-    public void OnEnable()
+    private async void OnEnable()
     {
-        //if (Instance == null) Instance = this;
-        //LoadSave();
-
-        ExpeditionStart(currentWorldNumber, currentFloorNumber);
+        await WaitForSaveAndStartExpedition();
     }
-    
+
     public void LoadSave()
     {
         if (Ingame_Save.Instance.haveFileLoad)
@@ -56,6 +53,20 @@ public class ExpeditionManager : MonoBehaviour
             currentFloorNumber = 0;
         }
     }
+
+    private async UniTask WaitForSaveAndStartExpedition()
+    {
+        // Wait until Ingame_Save.Instance is not null
+        await UniTask.WaitUntil(() => Ingame_Save.Instance != null);
+
+        // Load save once instance is available
+        LoadSave();
+
+        // Start the expedition
+        ExpeditionStart(currentWorldNumber, currentFloorNumber);
+    }
+
+    
 
     #region Event
 
@@ -124,10 +135,6 @@ public class ExpeditionManager : MonoBehaviour
     }
     public void ExpeditionStart(int world, int floor)
     {
-        if (currentBiome == null || currentWorld == null) LoadSave(); 
-        
-        //Debug.Log((currentWorldNumber + 1) + " " + (currentFloorNumber + 1));
-
         SetWorld(world);
         GenerateFloor(floor);
         OnExpeditionStart.Invoke();

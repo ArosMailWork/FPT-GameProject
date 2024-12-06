@@ -196,6 +196,7 @@ public class PlayerStats : MonoBehaviour
         permaDamage_UpAmount = loadedData.DamageUpgradesData;
         permaStamina_UpAmount = loadedData.StaminaUpgradesData;
         
+        if(AchievementManager.instance != null)
         AchievementManager.instance.SetAchievementProgress("Smartie", knowledgeLevel);
 
         UpdatePermaPercent();
