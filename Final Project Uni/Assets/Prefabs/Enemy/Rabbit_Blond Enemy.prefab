@@ -1247,7 +1247,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 125d29469d328a947825f340a06475ea, type: 2}
+  - {fileID: 2100000, guid: c5661b1f27715c347b1ee27aa94a0c78, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1649,6 +1649,9 @@ MonoBehaviour:
   Health: {fileID: 3818491446695478834}
   gun: []
   _animController: {fileID: 4441085945959275968}
+  ShootEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!54 &7560465868115142536
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2042,6 +2045,7 @@ MonoBehaviour:
   unMaskTime: 0.25
   seeThroughSize: 14
   sphereRadius: 2
+  Activate: 0
   hitting: 0
   camera: {fileID: 0}
   target: {fileID: 5394204852192152099}
@@ -2296,6 +2300,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   isAlive: 1
+  KnockDir: {x: 0, y: 0, z: 0}
 --- !u!114 &2836373037878714403
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2343,7 +2348,7 @@ Animator:
   m_GameObject: {fileID: 5723740724096528494}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 22ea4c012ad5e2448aa9ae5cc6acad81, type: 2}
+  m_Controller: {fileID: 9100000, guid: a8b82fbc4e6b720488cdb32f0121ce62, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -3454,7 +3459,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 125d29469d328a947825f340a06475ea, type: 2}
+  - {fileID: 2100000, guid: c5661b1f27715c347b1ee27aa94a0c78, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3660,7 +3665,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 125d29469d328a947825f340a06475ea, type: 2}
+  - {fileID: 2100000, guid: c5661b1f27715c347b1ee27aa94a0c78, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
