@@ -210,6 +210,39 @@ public class PlayerStats : MonoBehaviour
         PermaStamina_Percent = 1f + (CalculateMultiplier(permaStamina_UpAmount));
     }
     
+    [Button]
+    public void ResetBonus()
+    {
+        // Reset bonus stats
+        bonusSpeed = 0;
+        bonusHealth = 0;
+        bonusRotationSpeed = 0;
+        bonusMaxSpeed = 0;
+
+        // Roll-related bonuses
+        bonusRollCD = 0;
+        bonusRollTime = 0;
+        bonusControlRollDirect = 0;
+
+        // Stamina-related bonuses
+        bonusMaxStamina = 0;
+        bonusRegenRate = 0;
+        bonusStaminaRollCost = 0;
+
+        // Arrow Controller bonuses
+        bonusChargedTime = 0;
+
+        // Arrow bonuses
+        bonusRicochetMultiplier = 0;
+        bonusDamage = 0;
+        bonusRecallSpeed = 0;
+        bonusDamageMultiplier = 0;
+
+        // Update stats to apply the reset
+        UpdateStats();
+    }
+
+    
     public float CalculateMultiplier(int amount)
     {
         return (Mathf.Pow(amount, 0.6f)) * 0.01f;

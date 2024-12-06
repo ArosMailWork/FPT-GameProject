@@ -29,27 +29,32 @@ public class ExpeditionManager : MonoBehaviour
 
     public static ExpeditionManager Instance;
 
+    private void Awake()
+    {
+        if (Instance == null) Instance = this;
+    }
+
     public void OnEnable()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-            //Debug.Log("Set Singleton " + Instance);
-        }
-
-        // if (Ingame_Save.Instance.haveFileLoad)
-        // {
-        //     //Debug.Log("Load " + Ingame_Save.Instance);
-        //     currentWorldNumber = Ingame_Save.Instance.World;
-        //     currentFloorNumber = Ingame_Save.Instance.Floor;
-        // }
-        // else
-        // {
-        //     currentWorldNumber = 0;
-        //     currentFloorNumber = 0;
-        // }
+        //if (Instance == null) Instance = this;
+        //LoadSave();
 
         ExpeditionStart(currentWorldNumber, currentFloorNumber);
+    }
+    
+    public void LoadSave()
+    {
+        if (Ingame_Save.Instance.haveFileLoad)
+        {
+            //Debug.Log("Load " + Ingame_Save.Instance);
+            currentWorldNumber = Ingame_Save.Instance.World;
+            currentFloorNumber = Ingame_Save.Instance.Floor;
+        }
+        else
+        {
+            currentWorldNumber = 0;
+            currentFloorNumber = 0;
+        }
     }
 
     #region Event
@@ -119,6 +124,8 @@ public class ExpeditionManager : MonoBehaviour
     }
     public void ExpeditionStart(int world, int floor)
     {
+        if (currentBiome == null || currentWorld == null) LoadSave(); 
+        
         //Debug.Log((currentWorldNumber + 1) + " " + (currentFloorNumber + 1));
 
         SetWorld(world);

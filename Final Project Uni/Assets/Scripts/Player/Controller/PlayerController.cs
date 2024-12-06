@@ -262,5 +262,22 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void ResetStat()
+    {
+        foreach (var skillobj in SkillHolder.Instance.skillList)
+        {
+            Destroy(skillobj);
+        }
+        
+        SkillHolder.Instance.skillList.Clear();
+        SkillHolder.Instance.SkillIDList.Clear();
+        SkillHolder.Instance.SkillOBJNameList.Clear();
+
+        _stats.ResetBonus();
+
+        isSonicDash = false;
+        haveAura = false;
+    }
+
     #endregion
 }

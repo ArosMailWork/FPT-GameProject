@@ -118,7 +118,7 @@ GameObject:
   - component: {fileID: 1062921337011357054}
   - component: {fileID: 7059675598992079222}
   - component: {fileID: 4552150288886389567}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -212,7 +212,7 @@ GameObject:
   - component: {fileID: 2432834300658042691}
   - component: {fileID: 4319733376792504997}
   - component: {fileID: 3470408512934684350}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Skill Item Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -338,6 +338,7 @@ MonoBehaviour:
   ItemParent: {fileID: 3236782565581453420}
   interactButton: {fileID: 0}
   HideAfterUseUI: 0
+  dontShowUI: 0
   InteractEvent:
     m_PersistentCalls:
       m_Calls:
@@ -383,6 +384,12 @@ MonoBehaviour:
   ExitTriggerRange:
     m_PersistentCalls:
       m_Calls: []
+  ShopFail:
+    m_PersistentCalls:
+      m_Calls: []
+  Cost: 100
+  isItemShop: 0
+  LastCost: 0
 --- !u!114 &3470408512934684350
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -402,5 +409,8 @@ MonoBehaviour:
   Skill: {fileID: 3204633484197432600, guid: 29cbe985972cbc542be680de78ee308c, type: 3}
   itemID: 
   itemAmount: 0
-  Gold: 0
-  Soul: 0
+  MinGold: 0
+  MaxGold: 0
+  MinSoul: 0
+  MaxSoul: 0
+  isSkillBuff: 0

@@ -8,6 +8,7 @@ public class PlayerTeleporter : MonoBehaviour
     {
         PlayerController.Instance.PlayerRB.transform.position = transform.position;
         
+        PlayerController.Instance.ResetStat();
         PlayerController.Instance.Revive(1, 0);
     }
 }

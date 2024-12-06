@@ -29,6 +29,7 @@ public class SelectRandomSkillEvent : MonoBehaviour
 
     private void OnEnable()
     {
+        ToggleAllButtons(true);
         PoolCreate();
     }
 
@@ -171,7 +172,15 @@ public class SelectRandomSkillEvent : MonoBehaviour
             selectedSlot = choice;
             AddSelectSkillFromSlot();
             OnSkillChoose.Invoke();
+            ToggleAllButtons(false);
         }
+    }
+    
+    public void ToggleAllButtons(bool toggle)
+    {
+        SkillSelectSlot1.interactable = toggle;
+        SkillSelectSlot2.interactable = toggle;
+        SkillSelectSlot3.interactable = toggle;
     }
 
     public void MoveFloor()
