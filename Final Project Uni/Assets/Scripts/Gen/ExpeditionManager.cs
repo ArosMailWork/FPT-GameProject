@@ -32,43 +32,41 @@ public class ExpeditionManager : MonoBehaviour
     private void Awake()
     {
         if (Instance == null) Instance = this;
-    }
-
-    private async void OnEnable()
-    {
-        await WaitForSaveAndStartExpedition();
+        else Destroy(gameObject);
     }
 
     public void LoadSave()
     {
         if (Ingame_Save.Instance.haveFileLoad)
         {
-            //Debug.Log("Load " + Ingame_Save.Instance);
+            Debug.Log("Load " + Ingame_Save.Instance);
             currentWorldNumber = Ingame_Save.Instance.World;
             currentFloorNumber = Ingame_Save.Instance.Floor;
             currentBiome = Ingame_Save.Instance.currentBiome;
             currentWorld = Ingame_Save.Instance.currentWorld;
         }
-        else
+    }
+
+    public void NewRun()
+    {
+        Debug.Log("new run");
+        ExpeditionStart(0, 0);
+    }
+
+    public async UniTask LoadProgress()
+    {
+        Debug.Log("load then run");
+        try
         {
-            currentWorldNumber = 0;
-            currentFloorNumber = 0;
+            await UniTask.WaitUntil(() => Ingame_Save.Instance != null);
+            LoadSave();
+            ExpeditionStart(currentWorldNumber, currentFloorNumber);
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError("Error in WaitForSaveAndStartExpedition: " + ex.Message);
         }
     }
-
-    private async UniTask WaitForSaveAndStartExpedition()
-    {
-        // Wait until Ingame_Save.Instance is not null
-        await UniTask.WaitUntil(() => Ingame_Save.Instance != null);
-
-        // Load save once instance is available
-        LoadSave();
-
-        // Start the expedition
-        ExpeditionStart(currentWorldNumber, currentFloorNumber);
-    }
-
-    
 
     #region Event
 

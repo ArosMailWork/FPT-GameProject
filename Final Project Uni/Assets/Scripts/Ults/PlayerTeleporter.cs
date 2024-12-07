@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class PlayerTeleporter : MonoBehaviour
 {
-    void Start()
+    void Awake()
     {
+        if(PlayerController.Instance == null) return;
         PlayerController.Instance.PlayerRB.transform.position = transform.position;
         
         PlayerController.Instance.ResetStat();

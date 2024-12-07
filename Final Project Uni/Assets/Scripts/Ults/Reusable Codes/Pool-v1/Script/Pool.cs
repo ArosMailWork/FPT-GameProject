@@ -75,7 +75,7 @@ public class Pool: MonoBehaviour
         obj.SetActive(true);
         
         //Despawn Setup here (TEST)
-        //doDespawn(obj, DespawnTime);
+        doDespawn(obj, DespawnTime);
         
         return obj;
     }

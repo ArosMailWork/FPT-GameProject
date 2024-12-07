@@ -7,12 +7,19 @@ public class Player_Singleton : MonoBehaviour
 {
     public static Player_Singleton Instance;
 
-    private void Awake()
+    private void Start()
     {
-        if (Instance == null) Instance = this;
-        else Destroy(gameObject);
-        
-        //EnsureSingleAudioListener();
+        if (Instance == null)
+        {
+            Debug.Log("yay");
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Debug.Log("kaboom");
+            Destroy(gameObject); // Destroy duplicate
+        }
     }
     
     private void OnEnable()

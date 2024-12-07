@@ -10,8 +10,20 @@ public class AdsManager : MonoBehaviour
     
     void Awake()
     {
-        if (Instance == null) Instance = this;
-        Gley.MobileAds.API.Initialize();
+#if UNITY_IOS || UNITY_ANDROID
+        if (Instance == null)
+        {
+            Instance = this;
+            Gley.MobileAds.API.Initialize();
+        }
+        else
+        {
+            Destroy(gameObject); // Ensure only one instance exists
+        }
+#else
+        Debug.LogWarning("AdsManager is disabled on platforms other than iOS or Android.");
+        Destroy(gameObject); // Remove this component on unsupported platforms
+#endif
     }
     
     public void ShowRewardedVideo()

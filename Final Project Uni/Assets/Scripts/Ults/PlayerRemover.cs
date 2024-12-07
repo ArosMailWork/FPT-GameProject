@@ -7,7 +7,7 @@ public class PlayerRemover : MonoBehaviour
 {
     void Start()
     {
-        RemovePlayer();
+        Invoke(nameof(RemovePlayer), 0.05f);
     }
     void RemovePlayer()
     {

@@ -21,8 +21,7 @@ public class PauseMenu : MonoBehaviour
 
     public void Quit()
     {
-        GameManager.Instance.fadeInAnim.Invoke();
-        SceneManager.LoadScene("UI Main Menu");
+        GameManager.Instance.QuitMenu();
     }
     
     public async void OnNewGameClicked()

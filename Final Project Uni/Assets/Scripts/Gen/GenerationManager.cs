@@ -25,8 +25,6 @@ public class GenerationManager : MonoBehaviour
 
     public void Start()
     {
-        //Generate();
-        //player.transform.position = Gen.s
         player = PlayerController.Instance.PlayerRB.gameObject;
 
     }

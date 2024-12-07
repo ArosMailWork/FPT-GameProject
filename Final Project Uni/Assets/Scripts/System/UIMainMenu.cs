@@ -61,24 +61,21 @@ namespace PA
         
         public async void OnContinueClicked()
         {
-            //makeTransitionUI.MakeFadeTransition();            
+            Debug.Log("continue");
+            
             fadeUI.doFadeIn();
             await UniTask.Delay(TimeSpan.FromSeconds(makeTransitionUI.duration));
-
             
             if(_sceneLoader != null)
                 _sceneLoader.LoadScene(2);
             else
                 SceneManager.LoadScene("TestGenMap");
             
+            gameObject.SetActive(false);
+            await UniTask.WaitUntil(() => ExpeditionManager.Instance != null);
+            ExpeditionManager.Instance.LoadProgress();
             
-            return;
-            
-            await UniTask.Delay(TimeSpan.FromSeconds(makeTransitionUI.duration));
-            makeTransitionUI.fadeBlackImage.GetComponent<CanvasGroup>().alpha = 1;
-            
-            Destroy(gameObject);
-            //gameObject.SetActive(false);
+            //Destroy(gameObject);
         }
 
         public async void OnNewGameClicked()

@@ -41,25 +41,24 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void LoadGame()
-    {
-        // Logic for loading a saved game
-    }
-
     #region SceneLogic
 
-    IEnumerator LoadExpedition()
+    async void LoadExpedition()
     {
         fadeInAnim.Invoke();
-        yield return new WaitForSeconds(1.5f);
+        await UniTask.Delay(TimeSpan.FromSeconds(1.5f));
 
-        // if (_sceneLoader != null)
-        //     _sceneLoader.LoadScene(2);
-        // else
-        SceneManager.LoadScene(ExpeditionPath);
+        if (_sceneLoader != null)
+            _sceneLoader.LoadScene(2);
+        else
+            SceneManager.LoadScene(ExpeditionPath);
 
-        genManager.gameObject.SetActive(true);
-        yield return new WaitForSeconds(1);
+        //genManager.gameObject.SetActive(true);
+        
+        await UniTask.WaitUntil(() => ExpeditionManager.Instance != null);
+        ExpeditionManager.Instance.NewRun();
+        
+        await UniTask.Delay(TimeSpan.FromSeconds(1f));
         fadeOutAnim.Invoke();
     }
 
@@ -106,8 +105,9 @@ public class GameManager : MonoBehaviour
 
     public void StartExpedition()
     {
-        PlayerController.Instance.PlayerProgressData.SaveClaimReward();
-        StartCoroutine(LoadExpedition());
+        Debug.Log("Starting new run...");
+        //PlayerController.Instance.PlayerProgressData.SaveClaimReward();
+        LoadExpedition();
     }
 
     public void StartLobby()

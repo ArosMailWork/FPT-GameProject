@@ -34,7 +34,7 @@ public class Portal : MonoBehaviour
 
     public void HubPortal()
     {
-        GameManager.Instance.changeColorTransition.Invoke(Color.gray);
+        //GameManager.Instance.changeColorTransition.Invoke(Color.gray);
         GameManager.Instance.StartExpedition();
     }
 }
