@@ -46,6 +46,8 @@ public class ExpeditionManager : MonoBehaviour
             //Debug.Log("Load " + Ingame_Save.Instance);
             currentWorldNumber = Ingame_Save.Instance.World;
             currentFloorNumber = Ingame_Save.Instance.Floor;
+            currentBiome = Ingame_Save.Instance.currentBiome;
+            currentWorld = Ingame_Save.Instance.currentWorld;
         }
         else
         {

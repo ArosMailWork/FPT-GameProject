@@ -9,14 +9,14 @@ public class PauseMenu : MonoBehaviour
 {
     public void PauseGame()
     {
-        Time.timeScale = 0f;
-        AudioListener.pause = true;
+        Time.timeScale = 0.00001f;
+        //AudioListener.pause = true;
     }
 
     public void ResumeGame()
     {
         Time.timeScale = 1;
-        AudioListener.pause = false;
+        //AudioListener.pause = false;
     }
 
     public void Quit()

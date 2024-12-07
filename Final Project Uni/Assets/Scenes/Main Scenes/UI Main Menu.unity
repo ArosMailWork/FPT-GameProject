@@ -1699,6 +1699,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 429319538}
+  - component: {fileID: 429319539}
   m_Layer: 0
   m_Name: CamHolder
   m_TagString: Untagged
@@ -1723,6 +1724,18 @@ Transform:
   - {fileID: 552773939}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 35.96, y: 220.478, z: 0}
+--- !u!114 &429319539
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 429319536}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16a8711daedeece4998455dfb1a2ef79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &443255062 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 745993322085157059, guid: ffb86b14873881c48802303fa621034c, type: 3}
@@ -3023,9 +3036,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 377430234}
   - {fileID: 1722397247}
   - {fileID: 1199098604}
-  - {fileID: 377430234}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &706503920
@@ -8064,7 +8077,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e2b922f832070647aafde73cc497e27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AutoRemoveProgressSave: 0
+  AutoRemoveProgressSave: 1
   Stats:
     playerSoul: 0
     knowledgeLevel: 0

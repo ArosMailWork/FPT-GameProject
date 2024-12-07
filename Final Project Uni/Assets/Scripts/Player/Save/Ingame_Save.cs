@@ -74,7 +74,6 @@ public class Ingame_Save : MonoBehaviour
     [Button]
     public async void Load()
     {
-
         // Read JSON file
         if (File.Exists(saveFilePath))
         {
@@ -116,16 +115,11 @@ public class Ingame_Save : MonoBehaviour
             // Expedition Load
             ExpeditionManager.Instance.currentWorld = currentWorld;
             ExpeditionManager.Instance.currentBiome = currentBiome;
-            ExpeditionManager.Instance.PlayBGMBiome();
-            
-            // Expedition Load
-            ExpeditionManager.Instance.currentWorld = currentWorld;
-            ExpeditionManager.Instance.currentBiome = currentBiome;
             
             ExpeditionManager.Instance.PlayBGMBiome();
             
             //Delete the save file after loading it so it can't be used again
-            if (AutoRemoveProgressSave)
+            //if (AutoRemoveProgressSave)
             DestroySave();
 
             Debug.Log("Game Progress loaded successfully!");

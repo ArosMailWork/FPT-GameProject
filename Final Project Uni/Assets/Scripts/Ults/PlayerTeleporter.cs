@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerTeleporter : MonoBehaviour
 {
-    void OnEnable()
+    void Start()
     {
         PlayerController.Instance.PlayerRB.transform.position = transform.position;
         

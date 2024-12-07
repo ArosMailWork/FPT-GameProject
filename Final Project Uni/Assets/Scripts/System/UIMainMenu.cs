@@ -31,7 +31,6 @@ namespace PA
             if (Instance == null)
             {
                 Instance = this;
-                DontDestroyOnLoad(gameObject);
             }
             else
             {
@@ -77,7 +76,9 @@ namespace PA
             
             await UniTask.Delay(TimeSpan.FromSeconds(makeTransitionUI.duration));
             makeTransitionUI.fadeBlackImage.GetComponent<CanvasGroup>().alpha = 1;
-            gameObject.SetActive(false);
+            
+            Destroy(gameObject);
+            //gameObject.SetActive(false);
         }
 
         public async void OnNewGameClicked()
@@ -97,7 +98,9 @@ namespace PA
             
             await UniTask.Delay(TimeSpan.FromSeconds(makeTransitionUI.duration));
             makeTransitionUI.fadeBlackImage.GetComponent<CanvasGroup>().alpha = 1;
-            gameObject.SetActive(false);
+            
+            Destroy(gameObject);
+            //gameObject.SetActive(false);
         }
 
         public void OnSettingsClicked()

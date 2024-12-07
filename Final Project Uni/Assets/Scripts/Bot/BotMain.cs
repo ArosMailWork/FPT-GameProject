@@ -44,7 +44,7 @@ public class BotMain : MonoBehaviour
         if (unitType == UnitType.BossPattern || unitType == UnitType.BossShooter) 
             ExpeditionReport.Instance.BossDefeated += 1;
         
-        Debug.Log("yes");
+        //Debug.Log("yes");
         if(ExpeditionReport.Instance != null) 
         ExpeditionReport.Instance.EnemyDefeated += 1;
         
