@@ -34,7 +34,7 @@ public class Ingame_Save : MonoBehaviour
     {
         if (Instance == null) Instance = this;
         
-        saveFilePath = Path.Combine(Application.dataPath, "ExpeditionSaveData.json");
+        saveFilePath = Path.Combine(Application.persistentDataPath, "ExpeditionSaveData.json");
         haveProgressSave_Debug = File.Exists(saveFilePath); // Check if save file exists at startup
     }
 

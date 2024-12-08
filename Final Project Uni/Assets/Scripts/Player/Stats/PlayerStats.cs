@@ -168,6 +168,7 @@ public class PlayerStats : MonoBehaviour
     public void UpdateStats()
     {
         //Stamina
+        if(_staminaSystem == null) _staminaSystem = _pc.staminaSystem;
         _staminaSystem.MaxStamina = maxStamina;
         _staminaSystem.RegenRate = regenRate;
 
