@@ -75,7 +75,9 @@ public class GameManager : MonoBehaviour
         else
             SceneManager.LoadScene(LobbyPath);
 
-        genManager.gameObject.SetActive(false);
+        //genManager.gameObject.SetActive(false);
+        genManager.Clear();
+        
         yield return new WaitForSeconds(0.5f);
         fadeOutAnim.Invoke();
     }
