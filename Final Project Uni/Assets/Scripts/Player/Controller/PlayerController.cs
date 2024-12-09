@@ -100,6 +100,11 @@ public class PlayerController : MonoBehaviour
         interactButton.gameObject.SetActive(false);
     }
 
+    private void Start()
+    {
+        if (Instance == null) Instance = this;
+    }
+
     private void FixedUpdate()
     {
         JoyStickInput();
