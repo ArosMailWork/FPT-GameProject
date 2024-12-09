@@ -25,7 +25,7 @@ public class InteractableItem : MonoBehaviour
 
 
     private bool hasInteracted = false;
-    [HideInInspector] public int LastCost;
+    [ReadOnly] public int LastCost;
 
     private void Start()
     {
@@ -46,6 +46,7 @@ public class InteractableItem : MonoBehaviour
         if (isItemShop && PlayerController.Instance.PlayerProgressData.Gold <= LastCost)
         {
             ShopFail.Invoke();
+            Debug.Log( "nah u poor af");
             return;
         }
         if (HideAfterUseUI && hasInteracted) 
@@ -54,8 +55,14 @@ public class InteractableItem : MonoBehaviour
             return;
         }
 
+        if (isItemShop) 
+        {
+            Debug.Log("buy cost: " + LastCost);
+            PlayerController.Instance.PlayerProgressData.AddCurrency(-LastCost);
+        }
+        
+        
         InteractEvent.Invoke();
-        if(isItemShop) PlayerController.Instance.PlayerProgressData.AddCurrency(-LastCost);
 
         if (HideAfterUseUI)
         {

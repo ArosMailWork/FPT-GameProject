@@ -99,17 +99,30 @@
         
         public void AddCurrency(float InputGold = 0, float InputSoul = 0)
         {
-            Gold += Mathf.RoundToInt(InputGold);
-            SoulCollected += Mathf.RoundToInt(InputSoul);
+            // Custom rounding logic
+            int roundedGold = InputGold < 0 ? Mathf.FloorToInt(InputGold) : Mathf.RoundToInt(InputGold);
+            int roundedSoul = InputSoul < 0 ? Mathf.FloorToInt(InputSoul) : Mathf.RoundToInt(InputSoul);
 
+            // Update currency values
+            Gold += roundedGold;
+            SoulCollected += roundedSoul;
+
+            // Update UI
             PlayerController.Instance.UpdateUI(Gold.ToString(), (SoulCollected + PlayerController.Instance._stats.playerSoul).ToString());
 
-            if(InputGold > 0) GoldRecord += Mathf.RoundToInt(InputGold);
-            else GoldRecord -= Mathf.RoundToInt(InputGold);
-            if(SoulRecord > 0) SoulRecord += Mathf.RoundToInt(InputSoul);
+            // Record Gold and Soul transactions
+            if (roundedGold > 0)
+                GoldRecord += roundedGold;
+            else
+                GoldRecord -= roundedGold; // To properly handle positive GoldRecord decrementing
 
+            if (roundedSoul > 0)
+                SoulRecord += roundedSoul;
+
+            // Spawn particle
             ParticleManager.Instance.SpawnParticle("CoinReceive", PlayerController.Instance.transform.position, quaternion.identity);
         }
+
 
         
         
