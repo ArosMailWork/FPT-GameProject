@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -29,11 +30,11 @@ public class Ingame_Save : MonoBehaviour
 
     public static Ingame_Save Instance;
 
-    private void OnEnable()
+    private void Awake()
     {
         if (Instance == null) Instance = this;
         
-        saveFilePath = Path.Combine(Application.dataPath, "ExpeditionSaveData.json");
+        saveFilePath = Path.Combine(Application.persistentDataPath, "ExpeditionSaveData.json");
         haveProgressSave_Debug = File.Exists(saveFilePath); // Check if save file exists at startup
     }
 
@@ -73,14 +74,6 @@ public class Ingame_Save : MonoBehaviour
     [Button]
     public async void Load()
     {
-        /*
-        if (!haveProgressSave_Debug)
-        {
-            Debug.LogWarning("No save data available to load.");
-            return;
-        }
-        */
-
         // Read JSON file
         if (File.Exists(saveFilePath))
         {
@@ -117,6 +110,8 @@ public class Ingame_Save : MonoBehaviour
                 SkillHolder.Instance.AddSkillWithID(skillID);
             }
 
+            await WaitUntilExpeditionManagerInitialized();
+
             // Expedition Load
             ExpeditionManager.Instance.currentWorld = currentWorld;
             ExpeditionManager.Instance.currentBiome = currentBiome;
@@ -124,7 +119,7 @@ public class Ingame_Save : MonoBehaviour
             ExpeditionManager.Instance.PlayBGMBiome();
             
             //Delete the save file after loading it so it can't be used again
-            if (AutoRemoveProgressSave)
+            //if (AutoRemoveProgressSave)
             DestroySave();
 
             Debug.Log("Game Progress loaded successfully!");
@@ -133,6 +128,14 @@ public class Ingame_Save : MonoBehaviour
         {
             //ExpeditionManager.Instance.PlayBGMBiome();
             Debug.Log("Save file not found!");
+        }
+    }
+    
+    private async Task WaitUntilExpeditionManagerInitialized()
+    {
+        while (ExpeditionManager.Instance == null)
+        {
+            await Task.Yield(); // Wait until the next frame
         }
     }
 

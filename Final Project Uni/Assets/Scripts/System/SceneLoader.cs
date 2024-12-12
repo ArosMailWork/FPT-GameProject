@@ -13,6 +13,7 @@ public class SceneLoader : MonoBehaviour
  
     public void LoadScene(int index)
     {
+        LoaderUI.SetActive(true);
         StartCoroutine(LoadScene_Coroutine(index));
     }
  

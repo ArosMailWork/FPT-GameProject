@@ -1,4 +1,6 @@
+using System;
 using System.Collections;
+using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
 using UnityEngine;
 using UnityEditor;
@@ -39,25 +41,24 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void LoadGame()
-    {
-        // Logic for loading a saved game
-    }
-
     #region SceneLogic
 
-    IEnumerator LoadExpedition()
+    async void LoadExpedition()
     {
         fadeInAnim.Invoke();
-        yield return new WaitForSeconds(1.5f);
+        await UniTask.Delay(TimeSpan.FromSeconds(1.5f));
 
-        // if (_sceneLoader != null)
-        //     _sceneLoader.LoadScene(2);
-        // else
-        SceneManager.LoadScene(ExpeditionPath);
+        if (_sceneLoader != null)
+            _sceneLoader.LoadScene(2);
+        else
+            SceneManager.LoadScene(ExpeditionPath);
 
-        genManager.gameObject.SetActive(true);
-        yield return new WaitForSeconds(1);
+        //genManager.gameObject.SetActive(true);
+        
+        await UniTask.WaitUntil(() => ExpeditionManager.Instance != null);
+        ExpeditionManager.Instance.NewRun();
+        
+        await UniTask.Delay(TimeSpan.FromSeconds(1f));
         fadeOutAnim.Invoke();
     }
 
@@ -79,27 +80,34 @@ public class GameManager : MonoBehaviour
         fadeOutAnim.Invoke();
     }
 
-    IEnumerator LoadMenu()
+    async void LoadMenu()
     {
-        Debug.Log("quit check");
         fadeInAnim.Invoke();
-        yield return new WaitForSeconds(1.5f);
 
+        await UniTask.Delay(TimeSpan.FromSeconds(1.5f));
+
+        Debug.Log("quit check");
 
         if (_sceneLoader != null)
+        {
+            Debug.Log("scene loader");
             _sceneLoader.LoadScene(0);
+        }
         else
+        {
+            Debug.Log("scene load direct");
             SceneManager.LoadScene("UI Main Menu");
+        }
 
-
-        yield return new WaitForSeconds(1);
+        await UniTask.Delay(TimeSpan.FromSeconds(1f));
         fadeOutAnim.Invoke();
     }
 
     public void StartExpedition()
     {
-        PlayerController.Instance.PlayerProgressData.SaveClaimReward();
-        StartCoroutine(LoadExpedition());
+        Debug.Log("Starting new run...");
+        //PlayerController.Instance.PlayerProgressData.SaveClaimReward();
+        LoadExpedition();
     }
 
     public void StartLobby()
@@ -110,7 +118,7 @@ public class GameManager : MonoBehaviour
     public void QuitMenu()
     {
         //Debug.Log("quit check");
-        StartCoroutine(LoadMenu());
+        LoadMenu();
     }
 
     #endregion

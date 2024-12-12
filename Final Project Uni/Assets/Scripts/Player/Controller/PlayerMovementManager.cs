@@ -38,7 +38,6 @@ using UnityEngine.UI;
         [FoldoutGroup("Debug/Reverse Recall")]
         [SerializeField, ReadOnly] public float ReverseRecallMultiplier = 1;
 
-        [FoldoutGroup("Setup/Event")] 
         public UnityEvent StartDodge;
 
         private Vector3 rollDir;

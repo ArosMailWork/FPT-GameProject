@@ -168,6 +168,7 @@ public class PlayerStats : MonoBehaviour
     public void UpdateStats()
     {
         //Stamina
+        if(_staminaSystem == null) _staminaSystem = _pc.staminaSystem;
         _staminaSystem.MaxStamina = maxStamina;
         _staminaSystem.RegenRate = regenRate;
 
@@ -196,6 +197,7 @@ public class PlayerStats : MonoBehaviour
         permaDamage_UpAmount = loadedData.DamageUpgradesData;
         permaStamina_UpAmount = loadedData.StaminaUpgradesData;
         
+        if(AchievementManager.instance != null)
         AchievementManager.instance.SetAchievementProgress("Smartie", knowledgeLevel);
 
         UpdatePermaPercent();
@@ -209,6 +211,39 @@ public class PlayerStats : MonoBehaviour
         PermaDamage_Percent = 1f + (CalculateMultiplier(permaDamage_UpAmount));
         PermaStamina_Percent = 1f + (CalculateMultiplier(permaStamina_UpAmount));
     }
+    
+    [Button]
+    public void ResetBonus()
+    {
+        // Reset bonus stats
+        bonusSpeed = 0;
+        bonusHealth = 0;
+        bonusRotationSpeed = 0;
+        bonusMaxSpeed = 0;
+
+        // Roll-related bonuses
+        bonusRollCD = 0;
+        bonusRollTime = 0;
+        bonusControlRollDirect = 0;
+
+        // Stamina-related bonuses
+        bonusMaxStamina = 0;
+        bonusRegenRate = 0;
+        bonusStaminaRollCost = 0;
+
+        // Arrow Controller bonuses
+        bonusChargedTime = 0;
+
+        // Arrow bonuses
+        bonusRicochetMultiplier = 0;
+        bonusDamage = 0;
+        bonusRecallSpeed = 0;
+        bonusDamageMultiplier = 0;
+
+        // Update stats to apply the reset
+        UpdateStats();
+    }
+
     
     public float CalculateMultiplier(int amount)
     {

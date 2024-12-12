@@ -204,6 +204,7 @@ GameObject:
   - component: {fileID: 6588909978362156132}
   - component: {fileID: 6564691353743255339}
   - component: {fileID: 1750686775555455361}
+  - component: {fileID: 3655553801310021655}
   m_Layer: 7
   m_Name: Undead Boss Enemy
   m_TagString: Enemy
@@ -366,6 +367,31 @@ MonoBehaviour:
   RNG: 0
   target: {fileID: 0}
   sm: {fileID: 0}
+--- !u!114 &3655553801310021655
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3501225884952012349}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 658f0d3242819a84ab5a883f6bf2753e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DropOneItemOnly: 0
+  itemDrops:
+  - itemPrefab: {fileID: 6143873460336820929, guid: c0f3ec038189d054ab795d67cab0d120, type: 3}
+    dropRate: 30
+  Level: 1
+  MinSoul: 15
+  MaxSoul: 25
+  soulDropRate: 100
+  MinGold: 0
+  MaxGold: 0
+  goldDropRate: 100
+  FixedOffset: {x: 0, y: 2, z: 0}
+  range: 2
 --- !u!1 &4694521910357534078
 GameObject:
   m_ObjectHideFlags: 0

@@ -38,6 +38,9 @@ public class PlayerAnimManager : MonoBehaviour
     {
         playerAnimator.SetBool("Die", die);
         if(die) playerAnimator.SetTrigger("DieTrigger");
+
+        if(die) ResetBow();
+        //UpdateHaveArrow(die);
     }
     
     [Button]
@@ -72,6 +75,12 @@ public class PlayerAnimManager : MonoBehaviour
     {
         bowAnimator.SetBool("haveArrow", haveArrow);
         bowPivotAnimator.SetBool("haveArrow", haveArrow);
+    }
+    
+    public void ResetBow()
+    {
+        bowAnimator.Rebind();
+        bowPivotAnimator.Rebind();
     }
     
     [Button]

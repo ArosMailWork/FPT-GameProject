@@ -54,9 +54,8 @@ public class InteractableItem : MonoBehaviour
             return;
         }
 
-        Debug.Log(gameObject.name);
         InteractEvent.Invoke();
-        PlayerController.Instance.PlayerProgressData.AddCurrency(-LastCost);
+        if(isItemShop) PlayerController.Instance.PlayerProgressData.AddCurrency(-LastCost);
 
         if (HideAfterUseUI)
         {

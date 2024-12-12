@@ -32,6 +32,7 @@ public class UIContainer : MonoBehaviour
         FadeAnimator.doFadeOut();
 
     }
+    [ButtonGroup("State")]
     public void GameplayState()
     {
         CurrentUIState = UIState.Gameplay;
@@ -44,6 +45,8 @@ public class UIContainer : MonoBehaviour
             obj.SetActive(true);
         }
     }
+    
+    [ButtonGroup("State")]
     public void InventoryState()
     {
         CurrentUIState = UIState.Inventory;
@@ -54,6 +57,8 @@ public class UIContainer : MonoBehaviour
         }
         Inventory.SetActive(true);
     }
+    
+    [ButtonGroup("State")]
     public void SkillChooseState()
     {
         CurrentUIState = UIState.Event;
@@ -86,7 +91,7 @@ public class UIContainer : MonoBehaviour
     {
         foreach (var obj in Gameplay)
         {
-            obj.SetActive(false);
+            obj.gameObject.SetActive(false);
         }
     }
 

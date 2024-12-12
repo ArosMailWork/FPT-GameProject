@@ -21,7 +21,7 @@ public class StatsUI : MonoBehaviour
     [FoldoutGroup("Setup")]
     public GameObject DescriptionObj;
     [FoldoutGroup("Setup")]
-    public TMP_Text Description, Type;
+    public TMP_Text Name, Description, Type;
     [FoldoutGroup("Setup")]
     public Image DescriptionIcon;
     [FoldoutGroup("Player Stats")]
@@ -76,6 +76,12 @@ public class StatsUI : MonoBehaviour
     public void SetSkillDes(ISkill skill)
     {
         DescriptionIcon.sprite = skill.Icon;
+        
+        Debug.Log(skill.Name);
+        
+        string formattedName = skill.Name.Replace("_", " ");
+        Name.text = formattedName;
+        
         Description.text = skill.Description;
         Type.text = skill.type.ToString();
         DescriptionObj.SetActive(true);

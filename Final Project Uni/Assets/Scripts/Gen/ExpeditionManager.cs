@@ -29,27 +29,43 @@ public class ExpeditionManager : MonoBehaviour
 
     public static ExpeditionManager Instance;
 
-    public void OnEnable()
+    private void Awake()
     {
-        if (Instance == null)
+        if (Instance == null) Instance = this;
+        else Destroy(gameObject);
+    }
+
+    public void LoadSave()
+    {
+        if (Ingame_Save.Instance.haveFileLoad)
         {
-            Instance = this;
-            //Debug.Log("Set Singleton " + Instance);
+            Debug.Log("Load " + Ingame_Save.Instance);
+            currentWorldNumber = Ingame_Save.Instance.World;
+            currentFloorNumber = Ingame_Save.Instance.Floor;
+            currentBiome = Ingame_Save.Instance.currentBiome;
+            currentWorld = Ingame_Save.Instance.currentWorld;
         }
+    }
 
-        // if (Ingame_Save.Instance.haveFileLoad)
-        // {
-        //     //Debug.Log("Load " + Ingame_Save.Instance);
-        //     currentWorldNumber = Ingame_Save.Instance.World;
-        //     currentFloorNumber = Ingame_Save.Instance.Floor;
-        // }
-        // else
-        // {
-        //     currentWorldNumber = 0;
-        //     currentFloorNumber = 0;
-        // }
+    public void NewRun()
+    {
+        Debug.Log("new run");
+        ExpeditionStart(0, 0);
+    }
 
-        ExpeditionStart(currentWorldNumber, currentFloorNumber);
+    public async UniTask LoadProgress()
+    {
+        Debug.Log("load then run");
+        try
+        {
+            await UniTask.WaitUntil(() => Ingame_Save.Instance != null);
+            LoadSave();
+            ExpeditionStart(currentWorldNumber, currentFloorNumber);
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError("Error in WaitForSaveAndStartExpedition: " + ex.Message);
+        }
     }
 
     #region Event
@@ -119,8 +135,6 @@ public class ExpeditionManager : MonoBehaviour
     }
     public void ExpeditionStart(int world, int floor)
     {
-        //Debug.Log((currentWorldNumber + 1) + " " + (currentFloorNumber + 1));
-
         SetWorld(world);
         GenerateFloor(floor);
         OnExpeditionStart.Invoke();

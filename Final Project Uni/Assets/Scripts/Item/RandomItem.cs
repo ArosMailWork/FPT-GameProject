@@ -45,8 +45,8 @@ public class RandomItem : MonoBehaviour
         GameObject newItem = Instantiate(selectedItem, currentPosition, currentRotation);
         newItem.transform.localScale = currentScale;
         newItem.GetComponentInChildren<InteractableItem>().isItemShop = false;
-        newItem.GetComponentInChildren<InteractableItem>().Cost = 0;
-
+        
+        Debug.Log(newItem.name);
 
         // Destroy the current game object
         //Destroy(this.gameObject);

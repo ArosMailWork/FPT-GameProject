@@ -43,8 +43,6 @@ public class Arrow : MonoBehaviour
     public HurtBox hitbox;
     [FoldoutGroup("Setup")]
     [ReadOnly] public ArrowController _arrowController;
-    [FoldoutGroup("Setup")]
-    [ReadOnly] public PlayerController _playerController;
     [FoldoutGroup("Setup/Events")]
     public UnityEvent StartRecallEvent, StopRecallEvent, RecoverEvent, HideEvent, RemoteRecoverEvent;
     [FoldoutGroup("Setup/Skill")] 
@@ -64,7 +62,6 @@ public class Arrow : MonoBehaviour
     private void Start()
     {
         _arrowController = ArrowController.Instance;
-        _playerController = PlayerController.Instance;
 
         RecoverEvent.Invoke();
         if (!IsMainArrow) hitbox.MirageMultiplier = 0.5f;
@@ -82,7 +79,7 @@ public class Arrow : MonoBehaviour
         // Ensure SetBuffATKMul(0) is called only once
         if (!startRecallFlag && !hasBuffBeenReset)
         {
-            _playerController._stats.SetBuffATKMul(0);
+            PlayerController.Instance._stats.SetBuffATKMul(0);
             hasBuffBeenReset = true; // Set the flag to true after the method is called
         }
 
@@ -144,7 +141,7 @@ public class Arrow : MonoBehaviour
 
     public void Recall()
     {
-        RecallDirect = _playerController.transform.position - transform.position;
+        RecallDirect = PlayerController.Instance.transform.position - transform.position;
         //arrowRb.AddForce(RecallDirect.normalized * (recallSpeed * Time.fixedDeltaTime * 240), ForceMode.Acceleration);
         
         arrowRb.AddForce(RecallDirect.normalized * (recallSpeed * Time.deltaTime * 300f), ForceMode.Acceleration);
@@ -170,7 +167,7 @@ public class Arrow : MonoBehaviour
         {
             if (IsMainArrow)
             {
-                _playerController.currentState = PlayerState.Idle;
+                PlayerController.Instance.currentState = PlayerState.Idle;
                 _arrowController.haveArrow = true;
                 _arrowController.ShootSpriteUpdate();
                 _arrowController.playerAnimManager.UpdateHaveArrow(true);
@@ -218,7 +215,7 @@ public class Arrow : MonoBehaviour
     public void ExplosionArrow()
     {
         if(isExplodeOnRemote) return;
-        _playerController.staminaSystem.Consume(10);
+        PlayerController.Instance.staminaSystem.Consume(10);
         if (MiniExplode != null)
             PoolManager.Instance.Spawn(MiniExplode, transform.position + Vector3.up, Quaternion.identity, 2f);
     }

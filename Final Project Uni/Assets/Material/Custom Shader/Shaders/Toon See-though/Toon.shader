@@ -34,6 +34,9 @@
 			Comp notequal
 		}
 		
+		// Shadow Casting Pass
+        UsePass "Legacy Shaders/VertexLit/SHADOWCASTER"
+		
 		Pass
 		{
 			// Setup our pass to use Forward rendering, and only receive

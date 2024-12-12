@@ -31,7 +31,6 @@ namespace PA
             if (Instance == null)
             {
                 Instance = this;
-                DontDestroyOnLoad(gameObject);
             }
             else
             {
@@ -62,22 +61,21 @@ namespace PA
         
         public async void OnContinueClicked()
         {
-            //makeTransitionUI.MakeFadeTransition();            
+            Debug.Log("continue");
+            
             fadeUI.doFadeIn();
             await UniTask.Delay(TimeSpan.FromSeconds(makeTransitionUI.duration));
-
             
             if(_sceneLoader != null)
                 _sceneLoader.LoadScene(2);
             else
                 SceneManager.LoadScene("TestGenMap");
             
-            
-            return;
-            
-            await UniTask.Delay(TimeSpan.FromSeconds(makeTransitionUI.duration));
-            makeTransitionUI.fadeBlackImage.GetComponent<CanvasGroup>().alpha = 1;
             gameObject.SetActive(false);
+            await UniTask.WaitUntil(() => ExpeditionManager.Instance != null);
+            ExpeditionManager.Instance.LoadProgress();
+            
+            //Destroy(gameObject);
         }
 
         public async void OnNewGameClicked()
@@ -97,7 +95,9 @@ namespace PA
             
             await UniTask.Delay(TimeSpan.FromSeconds(makeTransitionUI.duration));
             makeTransitionUI.fadeBlackImage.GetComponent<CanvasGroup>().alpha = 1;
-            gameObject.SetActive(false);
+            
+            Destroy(gameObject);
+            //gameObject.SetActive(false);
         }
 
         public void OnSettingsClicked()

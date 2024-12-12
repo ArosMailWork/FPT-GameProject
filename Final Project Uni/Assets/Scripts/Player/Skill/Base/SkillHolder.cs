@@ -48,6 +48,8 @@ public class SkillHolder : MonoBehaviour
         _pc = PlayerController.Instance;
 
         InitStartSkill();
+
+        SwitchButton.enabled = (activeSkillList.Count > 0);
     }
 
     void InitStartSkill()
@@ -170,6 +172,7 @@ public class SkillHolder : MonoBehaviour
     
     public void NextSkill()
     {
+        if(_pc == null) _pc = PlayerController.Instance;
         if (_pc.blockInput) return;
         Debug.Log("next");
         

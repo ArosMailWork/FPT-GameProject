@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public class GenerationManager : MonoBehaviour
@@ -25,18 +26,27 @@ public class GenerationManager : MonoBehaviour
 
     public void Start()
     {
-        //Generate();
-        //player.transform.position = Gen.s
         player = PlayerController.Instance.PlayerRB.gameObject;
 
     }
-    public void Generate()
+    public async void Generate()
     {
+        // Clear the generator and assign data
         Gen.Clear();
         AssignDataToRoomGen();
+
+        // Start the generation process
         Gen.Generate();
+
+        // Check if the player is null and assign it when PlayerController.Instance and PlayerRB are available
+        await UniTask.WaitUntil(() => PlayerController.Instance != null && PlayerController.Instance.PlayerRB != null);
+
+        if (player == null) player = PlayerController.Instance.PlayerRB.gameObject;
+        
+        // Set the player's position
         player.transform.position = Gen.spawn;
     }
+
 
 
     public void AssignDataToRoomGen()
