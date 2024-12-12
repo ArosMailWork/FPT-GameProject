@@ -121,6 +121,9 @@ MonoBehaviour:
   Health: {fileID: 3209076834201055492}
   gun: []
   _animController: {fileID: 1183742115577710319}
+  ShootEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!54 &5158283497665658361
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -387,6 +390,7 @@ MonoBehaviour:
   unMaskTime: 0.25
   seeThroughSize: 14
   sphereRadius: 2
+  Activate: 0
   hitting: 0
   camera: {fileID: 0}
   target: {fileID: 4642242421893392306}
@@ -897,6 +901,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3dcc7b43304a9d046a62b617c407873c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isPlayer: 0
   healthState: 0
   maxHealth: 5
   health: 0
@@ -920,6 +925,18 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 3658737092648905529, guid: 7203b8a9c786f2245b85c7f4d0c8562b, type: 3}
+        m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
+        m_MethodName: PlaySound
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Hit
           m_BoolArgument: 0
         m_CallState: 2
   OnDeath:
@@ -949,6 +966,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnRevive:
+    m_PersistentCalls:
+      m_Calls: []
   OnKnockback:
     m_PersistentCalls:
       m_Calls:
@@ -980,6 +1000,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   isAlive: 1
+  KnockDir: {x: 0, y: 0, z: 0}
 --- !u!114 &455605207973457101
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -197,7 +197,7 @@ public class ArrowController : MonoBehaviour, IWeapon
                 if(!arrow.IsMainArrow) ShootArrow(arrow);
             }
         }
-
+        AudioManager.Instance.PlaySound("ShootArrow");
         //wear
         playerAnimManager.Draw(false, true);
         currentChargedTime = 0;

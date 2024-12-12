@@ -29,15 +29,15 @@ public class SkillHolder : MonoBehaviour
     [FoldoutGroup("Current Active Skill")]
     [ReadOnly] public ISkill currentSkill;
 
-    [FoldoutGroup("Setup")] 
+    [FoldoutGroup("Setup")]
     public float SoulRecover = 20, MaxSlot = 6;
     [FoldoutGroup("Setup")]
     public PlayerController _pc;
     [FoldoutGroup("Setup")]
     public List<GameObject> StartSkill;
-    [FoldoutGroup("Setup")] 
+    [FoldoutGroup("Setup")]
     public Image currentSkillUISprite, CDOverlay;
-    [FoldoutGroup("Setup")] 
+    [FoldoutGroup("Setup")]
     [CanBeNull] public Button SwitchButton;
 
     public static SkillHolder Instance;
@@ -63,9 +63,9 @@ public class SkillHolder : MonoBehaviour
         // Set the initial active skill from the ActiveSkillList
         SetActiveSkill(currentActiveSkill);
     }
-    
+
     #region Util
-    
+
     [Button]
     public async void AddSkill(GameObject skillPrefab)
     {
@@ -149,19 +149,21 @@ public class SkillHolder : MonoBehaviour
             //do remove active stuffs
         }
     }
-    
+
     #endregion
 
     void Update()
     {
         UpdateCooldownUI();
     }
-    
+
     #region Input
     public void ActivateSkill()
     {
         if (activeSkill == null) return;
         currentSkill.Activate();
+        AudioManager.Instance.PlaySound("Click");
+
     }
 
     public void DeactivateSkill()
@@ -169,13 +171,13 @@ public class SkillHolder : MonoBehaviour
         if (activeSkill == null) return;
         currentSkill.Deactivate();
     }
-    
+
     public void NextSkill()
     {
-        if(_pc == null) _pc = PlayerController.Instance;
+        if (_pc == null) _pc = PlayerController.Instance;
         if (_pc.blockInput) return;
         Debug.Log("next");
-        
+
         if (currentActiveSkill + 1 < activeSkillList.Count)
             currentActiveSkill += 1;
         else
@@ -183,8 +185,8 @@ public class SkillHolder : MonoBehaviour
 
         SetActiveSkill(currentActiveSkill);
     }
-    
-    
+
+
     [Button]
     void SetActiveSkill(int slot)
     {
@@ -194,7 +196,7 @@ public class SkillHolder : MonoBehaviour
             activeSkill = activeSkillList[slot];
             currentSkill = activeSkill.GetComponent<ISkill>();
             currentSkillUISprite.sprite = currentSkill.Icon;
-            
+
             // Set initial cooldown values
             currentCD = currentSkill.currentCD;
             coolDownUI = (currentSkill.Cooldown > 0) ? Mathf.Clamp01(currentSkill.currentCD / currentSkill.Cooldown) : 0;
@@ -212,7 +214,7 @@ public class SkillHolder : MonoBehaviour
     {
         currentCD += addTime;
     }
-    
+
     private void UpdateCooldownUI()
     {
         if (currentSkill == null) return;
@@ -222,8 +224,8 @@ public class SkillHolder : MonoBehaviour
         coolDownUI = (currentSkill.Cooldown > 0) ? Mathf.Clamp01(currentSkill.currentCD / currentSkill.Cooldown) : 0;
 
         // update the UI image or any other visual indicator using coolDownUI here
-        if(CDOverlay != null)
-        CDOverlay.fillAmount = coolDownUI;
+        if (CDOverlay != null)
+            CDOverlay.fillAmount = coolDownUI;
     }
     #endregion
 }

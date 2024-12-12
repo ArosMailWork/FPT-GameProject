@@ -106,6 +106,7 @@ public class PlayerAnimManager : MonoBehaviour
         bowPivotAnimator.SetTrigger("Slash");
         await UniTask.Delay(TimeSpan.FromSeconds(.01f));
         bowPivotAnimator.ResetTrigger("Slash");
+
     }
 
     #endregion

@@ -179,6 +179,7 @@ public class Arrow : MonoBehaviour
                 if (_arrowController.IsSplitShot)
                     _arrowController.HideAllMirageArrow(MirageDelay);
                 currentArrowState = ArrowState.Idle;
+                AudioManager.Instance.PlaySound("RecallArrow");
             }
             HideArrow();
         }

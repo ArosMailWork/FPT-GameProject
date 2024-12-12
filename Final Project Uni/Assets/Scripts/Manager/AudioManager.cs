@@ -103,7 +103,7 @@ public class AudioManager : SerializedMonoBehaviour
     [Button]
     public void PlaySound(string soundName)
     {
-        PlaySoundEffect(soundName);
+        AudioManager.Instance.PlaySoundEffect(soundName);
     }
 
     [FoldoutGroup("Event Test")]
