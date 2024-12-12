@@ -487,7 +487,6 @@ GameObject:
   - component: {fileID: 7540247276713001838}
   - component: {fileID: 3513767538591930929}
   - component: {fileID: 7191081092992232323}
-  - component: {fileID: 6483813389784148848}
   m_Layer: 0
   m_Name: RewardChest
   m_TagString: Untagged
@@ -641,25 +640,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  delayTime: 2
---- !u!114 &6483813389784148848
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2652424630762516530}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc301be85340bc149a9276ed8ba89839, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  onChestLanded:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1047099819631275499}
-        m_TargetAssemblyTypeName: UnityEngine.Animator, UnityEngine
-        m_MethodName: Play
+      - m_Target: {fileID: 3658737092648905529, guid: 7203b8a9c786f2245b85c7f4d0c8562b, type: 3}
+        m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
+        m_MethodName: PlaySound
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -667,18 +650,6 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: OpenChest
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 3132505073971148353}
-        m_TargetAssemblyTypeName: ChestOpeningEffect, Assembly-CSharp
-        m_MethodName: BurstItems
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
   delayTime: 2
@@ -1368,11 +1339,11 @@ MonoBehaviour:
   coinPrefabMedium: {fileID: 3516268508413389787, guid: cfbd14804d3ac8a4eb43139b836705f3, type: 3}
   coinPrefabBig: {fileID: 3516268508413389787, guid: 8919995c866cff74888a9fc9757128f9, type: 3}
   minCoins: 20
-  maxCoins: 50
-  isFixedCoinRate: 0
-  coinType1Rate: 0.6
-  coinType2Rate: 0.3
-  coinType3Rate: 0.1
+  maxCoins: 22
+  isFixedCoinRate: 1
+  coinType1Rate: 0.7
+  coinType2Rate: 0.259
+  coinType3Rate: 0.036
 --- !u!1 &9172688012980958964
 GameObject:
   m_ObjectHideFlags: 0
