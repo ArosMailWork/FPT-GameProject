@@ -54,7 +54,13 @@ public class UIFadeSelfAnim : MonoBehaviour
     
     public void TogglePlayerUI(bool toggle)
     {
-        Debug.Log("nyaaaaa");
         ToggleUIElements.Instance.ToggleUISkip(toggle, 0);
+    }
+    
+    //Temp
+    public void ToggleRevPlayerUI(bool toggle)
+    {
+        Debug.Log("nyaaaaa");
+        ToggleUIElements.Instance.ToggleUI(toggle);
     }
 }
