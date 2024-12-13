@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.AI;
@@ -31,17 +32,18 @@ public class EnemySpawner : MonoBehaviour
     private void Start()
     {
         LoadEnemiesToSpawn();
-        Spawn(transform.position, SpawnRadius);
+        Spawn(transform.position, SpawnRadius).Forget();
     }
 
     [FoldoutGroup("Event Test")]
     [Button]
-    public void Spawn(Vector3 position, float spawnRadius)
+
+    public async UniTaskVoid Spawn(Vector3 position, float spawnRadius)
     {
         foreach (var enemy in enemiesToSpawn)
         {
             // Find a valid spawn position
-            spawnPosition = FindValidSpawnPosition(position, spawnRadius);
+            Vector3 spawnPosition = FindValidSpawnPosition(position, spawnRadius);
 
             // Check if a valid position was found
             if (spawnPosition == Vector3.zero)
@@ -49,11 +51,18 @@ public class EnemySpawner : MonoBehaviour
                 Debug.Log("No valid spawn position");
                 return;
             }
+
+            ParticleManager.Instance.SpawnParticle("SpawnVFX", new Vector3((spawnPosition.x ), (float)(spawnPosition.y + 0.2), spawnPosition.z), Quaternion.Euler(-90,0,0));
+
+            // Wait for 0.2 seconds
+            await UniTask.Delay(200);
+
             GameObject spawnedEnemy = Instantiate(enemy, spawnPosition, Quaternion.identity);
             spawnedEnemies.Add(spawnedEnemy);
             spawnedEnemy.AddComponent<EnemyDestructHandler>().OnDestroyed += HandleEnemyDestroyed;
         }
     }
+
 
     [FoldoutGroup("Event Test")]
     [Button]
