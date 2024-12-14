@@ -44,7 +44,6 @@ public class Skill_Active_Striking : ISkill
         {
             Debug.Log(Name + " Activated");
             Striking();
-            currentCD = Cooldown;
         }
     }
     
@@ -58,7 +57,8 @@ public class Skill_Active_Striking : ISkill
     {
         //prevent spam in the middle
         if (!_pc.staminaSystem.HasEnoughStamina(staminaCost) || _pc.moveBuffer == Vector2.zero) return;
-
+        
+        currentCD = Cooldown;
         _pc.currentState = PlayerState.Striking;
         //_playerAnimController.StrikingAnim();
         allowMark = true;

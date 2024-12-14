@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using Cysharp.Threading.Tasks;
+using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
@@ -9,8 +11,19 @@ public class SceneLoader : MonoBehaviour
 {
     public GameObject LoaderUI;
     public Slider progressSlider;
-    public UnityEvent CompletedLoad;
- 
+    [CanBeNull] public UIFadeSelfAnim FadeSelfAnim;
+    public UnityEvent CompletedLoad, BarFulled;
+
+    private void Awake()
+    {
+        if (FadeSelfAnim == null) FadeSelfAnim = GetComponent<UIFadeSelfAnim>();
+    }
+
+    private void OnEnable()
+    {
+        if (FadeSelfAnim != null) FadeSelfAnim.doFadeIn();
+    }
+
     public void LoadScene(int index)
     {
         LoaderUI.SetActive(true);
@@ -33,7 +46,9 @@ public class SceneLoader : MonoBehaviour
             if (progress >= 0.9f)
             {
                 progressSlider.value = 1;
-                yield return new WaitForSeconds(0.75f);
+                yield return new WaitForSeconds(0.25f);
+                BarFulled?.Invoke();
+                yield return new WaitForSeconds(0.5f);
                 asyncOperation.allowSceneActivation = true;
                 CompletedLoad?.Invoke(); 
             }

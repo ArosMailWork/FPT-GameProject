@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -29,9 +30,16 @@ public class UIContainer : MonoBehaviour
     void OnEnable()
     {
         selectRandomSkillEvent = SkillChoose.GetComponent<SelectRandomSkillEvent>();
-        FadeAnimator.doFadeOut();
 
+        StartFadeOut(0.5f);
     }
+
+    public async void StartFadeOut(float delay = 0)
+    {
+        await UniTask.Delay(TimeSpan.FromSeconds(delay));
+        FadeAnimator.doFadeOut();
+    }
+    
     [ButtonGroup("State")]
     public void GameplayState()
     {
@@ -107,7 +115,8 @@ public class UIContainer : MonoBehaviour
     {
         //Debug.Log("Fade Out");
         FadeAnim();
-        FadeAnimator.doFadeOut();
+        StartFadeOut(0.5f);
+        //FadeAnimator.doFadeOut();
         yield return new WaitForSeconds(2f);
         
         if(CurrentUIState != UIState.Event)

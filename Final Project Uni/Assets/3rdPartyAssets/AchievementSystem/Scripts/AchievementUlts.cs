@@ -34,6 +34,11 @@ public class AchievementUlts : MonoBehaviour
         PlayerController.Instance.PlayerProgressData.UnlockSkill(SkillID);
     }
     
+    public void UnlockRecipe(string RecipeID)
+    {
+        PlayerController.Instance.PlayerProgressData.UnlockRecipe(RecipeID);
+    }
+    
     public void Add1(string Name)
     {
         AchievementManager.instance.AddAchievementProgress(Name, 1);

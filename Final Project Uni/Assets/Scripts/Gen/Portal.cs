@@ -36,5 +36,6 @@ public class Portal : MonoBehaviour
     {
         //GameManager.Instance.changeColorTransition.Invoke(Color.gray);
         GameManager.Instance.StartExpedition();
+        PlayerController.Instance._UIContainer.FadeIn();
     }
 }

@@ -532,7 +532,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 10
+  m_SortingOrder: 9
   m_TargetDisplay: 0
 --- !u!114 &3482003786166697777
 MonoBehaviour:
@@ -551,7 +551,7 @@ MonoBehaviour:
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 0.5
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -776,7 +776,7 @@ RectTransform:
   m_Father: {fileID: 3663900972974905875}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0.89579356}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -2194,7 +2194,7 @@ MonoBehaviour:
   AchievedSound: {fileID: 8300000, guid: 3400fb2a60564af4db6cc1c28c188006, type: 3}
   ProgressMadeSound: {fileID: 8300000, guid: 9492b32862561624aa75d621f48074c5, type: 3}
   States:
-  - Progress: 9
+  - Progress: 0
     LastProgressUpdate: 0
     Achieved: 0
   - Progress: 0
@@ -2237,9 +2237,9 @@ MonoBehaviour:
   - Key: Runner
     DisplayName: Runner
     Description: Upgrade SPD 20 times
-    LockedIcon: {fileID: 21300000, guid: eaf6b4fc727cf034ebd1f72705fb4162, type: 3}
+    LockedIcon: {fileID: 21300000, guid: 24d0082db3d21fb4bb8470bb70b2b0ca, type: 3}
     LockOverlay: 0
-    AchievedIcon: {fileID: 21300000, guid: c44233c69e3ab144299a378bc9a4f01c, type: 3}
+    AchievedIcon: {fileID: 21300000, guid: 2f8c16b6d54459740a9ab4682aeb0907, type: 3}
     Spoiler: 0
     Progression: 1
     ProgressGoal: 20
@@ -2247,18 +2247,30 @@ MonoBehaviour:
     ProgressSuffix: 
     CompleteEvent:
       m_PersistentCalls:
-        m_Calls: []
+        m_Calls:
+        - m_Target: {fileID: 1923895835}
+          m_TargetAssemblyTypeName: AchievementUlts, Assembly-CSharp
+          m_MethodName: UnlockRecipe
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: Athlete_Crafting
+            m_BoolArgument: 0
+          m_CallState: 2
   - Key: Smartie
     DisplayName: Who Smartie Smartie ?
     Description: Time to reveal some lores
-    LockedIcon: {fileID: 21300000, guid: 0a42b67822a79da4bb9d89e8e94aa013, type: 3}
+    LockedIcon: {fileID: 21300000, guid: 24d0082db3d21fb4bb8470bb70b2b0ca, type: 3}
     LockOverlay: 0
-    AchievedIcon: {fileID: 21300000, guid: f33e1fd63528e464c87a303b9239eb81, type: 3}
+    AchievedIcon: {fileID: 21300000, guid: b2de34857836eab45980da89942c7351, type: 3}
     Spoiler: 0
     Progression: 1
     ProgressGoal: 100
     NotificationFrequency: 25
-    ProgressSuffix: Knowledge Level
+    ProgressSuffix: ' Knowledge Level'
     CompleteEvent:
       m_PersistentCalls:
         m_Calls: []
@@ -2281,7 +2293,7 @@ MonoBehaviour:
     Description: Re:Zero ?
     LockedIcon: {fileID: 21300000, guid: 24d0082db3d21fb4bb8470bb70b2b0ca, type: 3}
     LockOverlay: 1
-    AchievedIcon: {fileID: 21300000, guid: 5c00ee8e0ff0af840a0b185b1d89698a, type: 3}
+    AchievedIcon: {fileID: 21300000, guid: a7d2c079cd299ef47a997ba09b5cc285, type: 3}
     Spoiler: 0
     Progression: 1
     ProgressGoal: 100
@@ -2289,13 +2301,37 @@ MonoBehaviour:
     ProgressSuffix: Die Time
     CompleteEvent:
       m_PersistentCalls:
-        m_Calls: []
+        m_Calls:
+        - m_Target: {fileID: 1923895835}
+          m_TargetAssemblyTypeName: AchievementUlts, Assembly-CSharp
+          m_MethodName: UnlockRecipe
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: Explosion_Expert_Crafting
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 1923895835}
+          m_TargetAssemblyTypeName: AchievementUlts, Assembly-CSharp
+          m_MethodName: UnlockRecipe
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: Absorb_Crafting
+            m_BoolArgument: 0
+          m_CallState: 2
   - Key: Board Cutter
     DisplayName: Board Cutter
     Description: How did u got this one ?
     LockedIcon: {fileID: 21300000, guid: 24d0082db3d21fb4bb8470bb70b2b0ca, type: 3}
     LockOverlay: 0
-    AchievedIcon: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+    AchievedIcon: {fileID: 21300000, guid: 1712c9f139b6d144da4996e132ec6b3d, type: 3}
     Spoiler: 1
     Progression: 1
     ProgressGoal: 50
@@ -2309,7 +2345,7 @@ MonoBehaviour:
     Description: Complete All Other Achevements
     LockedIcon: {fileID: 21300000, guid: 24d0082db3d21fb4bb8470bb70b2b0ca, type: 3}
     LockOverlay: 1
-    AchievedIcon: {fileID: 21300000, guid: 03bf8e5b765702646955a781f14f77dc, type: 3}
+    AchievedIcon: {fileID: 21300000, guid: fdac885a16822514a86b8e174b2f52bf, type: 3}
     Spoiler: 0
     Progression: 0
     ProgressGoal: 4
@@ -2321,23 +2357,35 @@ MonoBehaviour:
   - Key: Steroid
     DisplayName: Steroid
     Description: Upgrade ATK stats 100 times
-    LockedIcon: {fileID: 0}
+    LockedIcon: {fileID: 21300000, guid: 24d0082db3d21fb4bb8470bb70b2b0ca, type: 3}
     LockOverlay: 1
-    AchievedIcon: {fileID: 0}
+    AchievedIcon: {fileID: 21300000, guid: 1ff90ef47bdda5f49b75605828edfac8, type: 3}
     Spoiler: 0
-    Progression: 0
-    ProgressGoal: 0
-    NotificationFrequency: 0
+    Progression: 1
+    ProgressGoal: 100
+    NotificationFrequency: 25
     ProgressSuffix: 
     CompleteEvent:
       m_PersistentCalls:
-        m_Calls: []
+        m_Calls:
+        - m_Target: {fileID: 1923895835}
+          m_TargetAssemblyTypeName: AchievementUlts, Assembly-CSharp
+          m_MethodName: UnlockRecipe
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: Sonic_Crafting
+            m_BoolArgument: 0
+          m_CallState: 2
   - Key: Monster Hunter
     DisplayName: Monster Hunter
     Description: Not a Start for a novice
-    LockedIcon: {fileID: 0}
+    LockedIcon: {fileID: 21300000, guid: 24d0082db3d21fb4bb8470bb70b2b0ca, type: 3}
     LockOverlay: 0
-    AchievedIcon: {fileID: 0}
+    AchievedIcon: {fileID: 21300000, guid: b24d4a6d33b75014f947fd0eb50a0fce, type: 3}
     Spoiler: 0
     Progression: 1
     ProgressGoal: 100
@@ -2349,9 +2397,9 @@ MonoBehaviour:
   - Key: Monster Slayer
     DisplayName: Monster Slayer
     Description: U became a professinal now
-    LockedIcon: {fileID: 0}
+    LockedIcon: {fileID: 21300000, guid: 24d0082db3d21fb4bb8470bb70b2b0ca, type: 3}
     LockOverlay: 1
-    AchievedIcon: {fileID: 0}
+    AchievedIcon: {fileID: 21300000, guid: 8d9197e7a84312945b4ff5ff6797a3c8, type: 3}
     Spoiler: 0
     Progression: 1
     ProgressGoal: 1000
@@ -2363,9 +2411,9 @@ MonoBehaviour:
   - Key: Monster Nightmare
     DisplayName: Monster Nightmare
     Description: WTF, how ?
-    LockedIcon: {fileID: 0}
+    LockedIcon: {fileID: 21300000, guid: 24d0082db3d21fb4bb8470bb70b2b0ca, type: 3}
     LockOverlay: 0
-    AchievedIcon: {fileID: 0}
+    AchievedIcon: {fileID: 21300000, guid: b39cf90607c78904db62d4d71d9384a5, type: 3}
     Spoiler: 0
     Progression: 1
     ProgressGoal: 5000
@@ -2377,9 +2425,9 @@ MonoBehaviour:
   - Key: Overlord
     DisplayName: Overlord
     Description: who the Boss now ?
-    LockedIcon: {fileID: 0}
+    LockedIcon: {fileID: 21300000, guid: 24d0082db3d21fb4bb8470bb70b2b0ca, type: 3}
     LockOverlay: 0
-    AchievedIcon: {fileID: 0}
+    AchievedIcon: {fileID: 21300000, guid: 0179709e3ac0c8a4a8af1b815992a569, type: 3}
     Spoiler: 0
     Progression: 1
     ProgressGoal: 20
@@ -2387,13 +2435,25 @@ MonoBehaviour:
     ProgressSuffix: 
     CompleteEvent:
       m_PersistentCalls:
-        m_Calls: []
+        m_Calls:
+        - m_Target: {fileID: 1923895835}
+          m_TargetAssemblyTypeName: AchievementUlts, Assembly-CSharp
+          m_MethodName: UnlockRecipe
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: Split_Shot_Crafting
+            m_BoolArgument: 0
+          m_CallState: 2
   - Key: The Book
     DisplayName: Im The Book Now
     Description: Talk with The Guide 100 Times
-    LockedIcon: {fileID: 0}
+    LockedIcon: {fileID: 21300000, guid: 24d0082db3d21fb4bb8470bb70b2b0ca, type: 3}
     LockOverlay: 0
-    AchievedIcon: {fileID: 0}
+    AchievedIcon: {fileID: 21300000, guid: 41897cbe860941b40963ec772fc7bf2d, type: 3}
     Spoiler: 0
     Progression: 1
     ProgressGoal: 100
@@ -2401,13 +2461,25 @@ MonoBehaviour:
     ProgressSuffix: 
     CompleteEvent:
       m_PersistentCalls:
-        m_Calls: []
+        m_Calls:
+        - m_Target: {fileID: 1923895835}
+          m_TargetAssemblyTypeName: AchievementUlts, Assembly-CSharp
+          m_MethodName: UnlockRecipe
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: The_Force_Crafting
+            m_BoolArgument: 0
+          m_CallState: 2
   - Key: Half of the Truth is not the Truth
     DisplayName: Half of the Truth is not the Truth
     Description: Bread ? Truth ? hmmmmmmm
-    LockedIcon: {fileID: 0}
+    LockedIcon: {fileID: 21300000, guid: 24d0082db3d21fb4bb8470bb70b2b0ca, type: 3}
     LockOverlay: 0
-    AchievedIcon: {fileID: 0}
+    AchievedIcon: {fileID: 21300000, guid: f4fee311230815d48a68fa191de85d48, type: 3}
     Spoiler: 0
     Progression: 0
     ProgressGoal: 0
@@ -2842,7 +2914,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -70.49376}
+  m_AnchoredPosition: {x: 0, y: -0.000015258789}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3662129694703449671

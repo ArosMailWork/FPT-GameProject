@@ -8,7 +8,7 @@ public class AchievementUICaller : MonoBehaviour
     public void ToggleWindow()
     {
         if(_achievenmentListIngame == null)
-            _achievenmentListIngame = AchievementManager.instance.GetComponent<AchievenmentListIngame>();
+            _achievenmentListIngame = AchievementManager.instance.GetComponentInChildren<AchievenmentListIngame>();
         
         _achievenmentListIngame.ToggleWindow();
     }

@@ -75,7 +75,9 @@ public class GameManager : MonoBehaviour
         else
             SceneManager.LoadScene(LobbyPath);
 
-        genManager.gameObject.SetActive(false);
+        //genManager.gameObject.SetActive(false);
+        genManager.Clear();
+        
         yield return new WaitForSeconds(0.5f);
         fadeOutAnim.Invoke();
     }
@@ -99,7 +101,7 @@ public class GameManager : MonoBehaviour
             SceneManager.LoadScene("UI Main Menu");
         }
 
-        await UniTask.Delay(TimeSpan.FromSeconds(1f));
+        await UniTask.Delay(TimeSpan.FromSeconds(1.5f));
         fadeOutAnim.Invoke();
     }
 
@@ -117,7 +119,7 @@ public class GameManager : MonoBehaviour
 
     public void QuitMenu()
     {
-        //Debug.Log("quit check");
+        //Debug.Log("fade in plz ?");
         LoadMenu();
     }
 

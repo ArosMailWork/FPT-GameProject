@@ -13,11 +13,13 @@ public class UIFadeSelfAnim : MonoBehaviour
 
     public void doFadeIn(bool secondFin = false)
     {
+        Debug.Log("FadeIn");
         _animator.SetTrigger("FadeIn");
         FadeInFinish(FadeInDuration, secondFin);
     }
     public void doFadeOut(bool secondFin = false)
     {
+        Debug.Log("FadeOut");
         _animator.SetTrigger("FadeOut");
         FadeOutFinish(FadeOutDuration, secondFin);
     }

@@ -115,18 +115,18 @@ public class ChestOpeningEffect : MonoBehaviour
 
         if (randomValue < coinType1Rate)
         {
-            Debug.Log("spawn coin small with: " + randomValue * 100 + "%");
+            //Debug.Log("spawn coin small with: " + randomValue * 100 + "%");
             return coinPrefabSmall;
         }
         else if (randomValue < coinType1Rate + coinType2Rate)
         {
-            Debug.Log("spawn coin medium with: " + randomValue * 100 + "%");
+            //Debug.Log("spawn coin medium with: " + randomValue * 100 + "%");
             return coinPrefabMedium;
 
         }
         else
         {
-            Debug.Log("spawn coin big with: " + randomValue * 100 + "%");
+            //Debug.Log("spawn coin big with: " + randomValue * 100 + "%");
             return coinPrefabBig;
 
         }

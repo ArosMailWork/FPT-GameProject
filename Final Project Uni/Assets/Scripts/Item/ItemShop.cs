@@ -54,7 +54,7 @@ public class ItemShop : MonoBehaviour
     [Button]
     public void SetSellingItems()
     {
-        SellingItems.Clear();  // Clear previous items
+        SellingItems.Clear(); // Clear previous items
 
         // Separate skill and non-skill items
         nonSkillItems = AvailableShopPool.Where(item => !item.isSkill).ToList();
@@ -63,13 +63,14 @@ public class ItemShop : MonoBehaviour
         for (int i = 0; i < ItemSellAmount; i++)
         {
             float randomChance = Random.Range(0f, 1f);
-            //Debug.Log((randomChance <= SkillPercent) + " | " + skillItems.Count);
-            // 25% chance to add a skill item, otherwise add a non-skill item
+
             if (skillItems.Count > 0 && randomChance <= SkillPercent)
             {
                 int randomSkillIndex = Random.Range(0, skillItems.Count);
-                SellingItems.Add(skillItems[randomSkillIndex].item);
-                //Debug.Log("add " + skillItems[randomSkillIndex].item);
+                var selectedItem = skillItems[randomSkillIndex];
+                SellingItems.Add(selectedItem.item);
+
+                AdjustDuplicateCost(selectedItem.item);
             }
             else if (nonSkillItems.Count > 0)
             {
@@ -77,16 +78,10 @@ public class ItemShop : MonoBehaviour
                 var selectedItem = nonSkillItems[randomNonSkillIndex];
                 SellingItems.Add(selectedItem.item);
 
-                // Adjust cost for duplicates by increasing by 50% of the original cost for each duplicate
-                var interactableItem = selectedItem.item.GetComponentInChildren<InteractableItem>();
-                if (interactableItem != null)
-                {
-                    int duplicateCount = SellingItems.Count(x => x == selectedItem.item) - 1; // Count duplicates after the first instance
-                    interactableItem.LastCost = interactableItem.Cost + (int)(interactableItem.Cost * 0.5f * duplicateCount);
-                }
+                AdjustDuplicateCost(selectedItem.item);
             }
-            
-            // Enable isItemShop for each selected item
+
+            // Enable `isItemShop` for each selected item
             foreach (var item in SellingItems)
             {
                 var interactableItem = item.GetComponentInChildren<InteractableItem>();
@@ -96,6 +91,18 @@ public class ItemShop : MonoBehaviour
         }
 
         SetItemToPlace();
+    }
+
+    // Adjust cost for duplicate items or skills
+    private void AdjustDuplicateCost(GameObject item)
+    {
+        var interactableItem = item.GetComponentInChildren<InteractableItem>();
+        if (interactableItem != null)
+        {
+            int duplicateCount = SellingItems.Count(x => x == item) - 1; // Exclude the first instance
+            interactableItem.LastCost = interactableItem.Cost + (int)(interactableItem.Cost * 0.5f * duplicateCount);
+            Debug.Log(interactableItem.Cost + " Last Cost: " + interactableItem.LastCost + " | " + duplicateCount);
+        }
     }
 
     void SetItemToPlace()

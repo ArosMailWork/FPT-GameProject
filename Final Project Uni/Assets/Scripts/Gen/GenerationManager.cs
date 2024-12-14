@@ -47,6 +47,10 @@ public class GenerationManager : MonoBehaviour
         player.transform.position = Gen.spawn;
     }
 
+    public void Clear()
+    {
+        Gen.Clear();
+    }
 
 
     public void AssignDataToRoomGen()
@@ -55,6 +59,7 @@ public class GenerationManager : MonoBehaviour
     }
     public void LoadBiomeData(Biome biome)
     {
+        this.biome = biome;
         BiomeName = biome.biomeName;
         GridSize = biome.GridSize;
         GenericRoom = biome.GenericRoom;

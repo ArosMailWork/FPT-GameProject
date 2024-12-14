@@ -11,6 +11,8 @@ public class DamageFlash : MonoBehaviour
     [SerializeField] public Material FlashMaterial;
 
     [SerializeField] public float flashTime = 0.25f;
+    
+    public List<GameObject> skippedObjects = new List<GameObject>();
 
     private SkinnedMeshRenderer[] _meshSkinnedRenderers;
     private MeshRenderer[] _meshRenderers;
@@ -21,14 +23,17 @@ public class DamageFlash : MonoBehaviour
     //[SerializeField, CanBeNull] private HitStop _hitStop;
 
     #endregion
-
     
     #region UnityMethods
 
     private void Awake()
     {
-        _meshSkinnedRenderers = GetComponentsInChildren<SkinnedMeshRenderer>();
-        _meshRenderers = GetComponentsInChildren<MeshRenderer>();
+        _meshSkinnedRenderers = GetComponentsInChildren<SkinnedMeshRenderer>(true);
+        _meshRenderers = GetComponentsInChildren<MeshRenderer>(true);
+
+        // Filter out renderers from skipped objects
+        _meshSkinnedRenderers = FilterSkippedObjects(_meshSkinnedRenderers);
+        _meshRenderers = FilterSkippedObjects(_meshRenderers);
 
         Init();
     }
@@ -128,5 +133,18 @@ public class DamageFlash : MonoBehaviour
         //if(_hitStop != null) _hitStop.Stop();
     }
 
+    private T[] FilterSkippedObjects<T>(T[] renderers) where T : Renderer
+    {
+        List<T> filteredList = new List<T>();
+        foreach (T renderer in renderers)
+        {
+            if (!skippedObjects.Contains(renderer.gameObject))
+            {
+                filteredList.Add(renderer);
+            }
+        }
+        return filteredList.ToArray();
+    }
+    
     #endregion
 }
