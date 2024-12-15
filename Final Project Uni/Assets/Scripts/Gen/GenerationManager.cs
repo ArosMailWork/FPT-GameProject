@@ -32,6 +32,8 @@ public class GenerationManager : MonoBehaviour
     public async void Generate()
     {
         // Clear the generator and assign data
+        
+        player.transform.position = new Vector3(0,-500,0);
         Gen.Clear();
         AssignDataToRoomGen();
 

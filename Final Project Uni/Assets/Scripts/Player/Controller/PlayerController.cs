@@ -277,6 +277,8 @@ public class PlayerController : MonoBehaviour
         SkillHolder.Instance.skillList.Clear();
         SkillHolder.Instance.SkillIDList.Clear();
         SkillHolder.Instance.SkillOBJNameList.Clear();
+        if (SkillHolder.Instance.currentSkillUISprite != null) 
+            SkillHolder.Instance.currentSkillUISprite.sprite = null;
 
         _stats.ResetBonus();
 
