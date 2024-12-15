@@ -48,6 +48,7 @@
 
         private void Start()
         {
+            
             LoadPlayerData();
         }
 
@@ -261,6 +262,7 @@
                 //Update Currency 
                 PlayerController.Instance.UpdateUI(Gold.ToString(), (SoulCollected + PlayerController.Instance._stats.playerSoul).ToString());
                 
+                
                 // Load inventory data
                 foreach (var savedItem in saveData.Inventory)
                 {
@@ -322,6 +324,9 @@
                 InitializeSkillsFromDatabase();
                 InitializeRecipesFromDatabase();
             }
+            
+            if(PlayerController.Instance == null)
+            PlayerController.Instance.PlayerProgressData = this;
         }
 
 

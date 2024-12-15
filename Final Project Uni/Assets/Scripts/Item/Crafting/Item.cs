@@ -73,6 +73,8 @@ public class Item : MonoBehaviour
         float goldAmount = UnityEngine.Random.Range(MinGold, MaxGold);
         float soulAmount = UnityEngine.Random.Range(MinSoul, MaxSoul);
 
+        if (PlayerController.Instance.PlayerProgressData == null)
+            PlayerController.Instance.PlayerProgressData = Player_Singleton.Instance.GetComponentInChildren<PlayerProgressData>();
         if (goldAmount > 0 || soulAmount > 0)
         {
             PlayerController.Instance.PlayerProgressData.AddCurrency(goldAmount, soulAmount);
