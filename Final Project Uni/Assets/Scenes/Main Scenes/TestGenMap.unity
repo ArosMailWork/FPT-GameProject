@@ -198,6 +198,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 141042248}
   m_CullTransparentMesh: 1
+--- !u!114 &282427560 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 821813476702798318, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
+  m_PrefabInstance: {fileID: 637976546}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 637976552}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3dcc7b43304a9d046a62b617c407873c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &301057111
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -546,15 +557,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5456568609180617362, guid: 9bb42fcb2ed809a4facd760edc3b431d, type: 3}
       propertyPath: worlds.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5456568609180617362, guid: 9bb42fcb2ed809a4facd760edc3b431d, type: 3}
       propertyPath: worlds.Array.data[1]
       value: 
       objectReference: {fileID: 11400000, guid: e3114490afd187a41b421d07381d431f, type: 2}
     - target: {fileID: 5456568609180617362, guid: 9bb42fcb2ed809a4facd760edc3b431d, type: 3}
+      propertyPath: worlds.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 26239faca2fb2f04fa803fb85b9cad92, type: 2}
+    - target: {fileID: 5456568609180617362, guid: 9bb42fcb2ed809a4facd760edc3b431d, type: 3}
       propertyPath: OnFloorExit.m_PersistentCalls.m_Calls.Array.size
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5456568609180617362, guid: 9bb42fcb2ed809a4facd760edc3b431d, type: 3}
       propertyPath: OnWorldExit.m_PersistentCalls.m_Calls.Array.size
@@ -567,6 +582,10 @@ PrefabInstance:
     - target: {fileID: 5456568609180617362, guid: 9bb42fcb2ed809a4facd760edc3b431d, type: 3}
       propertyPath: OnExpeditionStart.m_PersistentCalls.m_Calls.Array.size
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5456568609180617362, guid: 9bb42fcb2ed809a4facd760edc3b431d, type: 3}
+      propertyPath: OnFloorExit.m_PersistentCalls.m_Calls.Array.data[3].m_Mode
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5456568609180617362, guid: 9bb42fcb2ed809a4facd760edc3b431d, type: 3}
       propertyPath: OnWorldExit.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
@@ -589,6 +608,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 709848473}
     - target: {fileID: 5456568609180617362, guid: 9bb42fcb2ed809a4facd760edc3b431d, type: 3}
+      propertyPath: OnFloorExit.m_PersistentCalls.m_Calls.Array.data[3].m_Target
+      value: 
+      objectReference: {fileID: 282427560}
+    - target: {fileID: 5456568609180617362, guid: 9bb42fcb2ed809a4facd760edc3b431d, type: 3}
       propertyPath: OnWorldExit.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 370162374}
@@ -609,6 +632,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5456568609180617362, guid: 9bb42fcb2ed809a4facd760edc3b431d, type: 3}
+      propertyPath: OnFloorExit.m_PersistentCalls.m_Calls.Array.data[3].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5456568609180617362, guid: 9bb42fcb2ed809a4facd760edc3b431d, type: 3}
       propertyPath: OnWorldExit.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
       objectReference: {fileID: 0}
@@ -619,6 +646,10 @@ PrefabInstance:
     - target: {fileID: 5456568609180617362, guid: 9bb42fcb2ed809a4facd760edc3b431d, type: 3}
       propertyPath: OnFloorExit.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
       value: Save
+      objectReference: {fileID: 0}
+    - target: {fileID: 5456568609180617362, guid: 9bb42fcb2ed809a4facd760edc3b431d, type: 3}
+      propertyPath: OnFloorExit.m_PersistentCalls.m_Calls.Array.data[3].m_MethodName
+      value: FullHeal
       objectReference: {fileID: 0}
     - target: {fileID: 5456568609180617362, guid: 9bb42fcb2ed809a4facd760edc3b431d, type: 3}
       propertyPath: OnWorldExit.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
@@ -665,12 +696,20 @@ PrefabInstance:
       value: Ingame_Save, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 5456568609180617362, guid: 9bb42fcb2ed809a4facd760edc3b431d, type: 3}
+      propertyPath: OnFloorExit.m_PersistentCalls.m_Calls.Array.data[3].m_TargetAssemblyTypeName
+      value: Health, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5456568609180617362, guid: 9bb42fcb2ed809a4facd760edc3b431d, type: 3}
       propertyPath: OnWorldExit.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: ExpeditionManager, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 5456568609180617362, guid: 9bb42fcb2ed809a4facd760edc3b431d, type: 3}
       propertyPath: OnWorldExit.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
       value: Ingame_Save, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5456568609180617362, guid: 9bb42fcb2ed809a4facd760edc3b431d, type: 3}
+      propertyPath: OnFloorExit.m_PersistentCalls.m_Calls.Array.data[3].m_Arguments.m_FloatArgument
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5456568609180617362, guid: 9bb42fcb2ed809a4facd760edc3b431d, type: 3}
       propertyPath: OnExpeditionExit.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
@@ -682,6 +721,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5456568609180617362, guid: 9bb42fcb2ed809a4facd760edc3b431d, type: 3}
       propertyPath: OnFloorExit.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 5456568609180617362, guid: 9bb42fcb2ed809a4facd760edc3b431d, type: 3}
+      propertyPath: OnFloorExit.m_PersistentCalls.m_Calls.Array.data[3].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 5456568609180617362, guid: 9bb42fcb2ed809a4facd760edc3b431d, type: 3}
@@ -740,6 +783,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3142ba6b25a76ec40bde175e602fd0a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &537389988 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6711575905062282631, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
+  m_PrefabInstance: {fileID: 637976546}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &537389989 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4485425231564049215, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
+  m_PrefabInstance: {fileID: 637976546}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &537389990 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1213797697196117917, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
+  m_PrefabInstance: {fileID: 637976546}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &637976546
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -754,7 +812,7 @@ PrefabInstance:
       objectReference: {fileID: 245403840057983425, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
     - target: {fileID: 245403840057983425, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
       propertyPath: serializationData.PrefabModifications.Array.size
-      value: 2
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 245403840057983425, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
       propertyPath: serializationData.PrefabModifications.Array.data[0]
@@ -762,75 +820,55 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 245403840057983425, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
       propertyPath: serializationData.PrefabModifications.Array.data[1]
-      value: '"path":"particleDictionary.{\"SlashEffect\"}.[0]","value":$eref:1'
+      value: '"path":"particleDictionary.{\"BotExplode\"}.[0]","value":$eref:1'
       objectReference: {fileID: 0}
     - target: {fileID: 245403840057983425, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
-      propertyPath: serializationData.ReferencedUnityObjects.Array.size
-      value: 9
+      propertyPath: serializationData.PrefabModifications.Array.data[2]
+      value: '"path":"particleDictionary.{\"CoinReceive\"}.[0]","value":$eref:2'
       objectReference: {fileID: 0}
     - target: {fileID: 245403840057983425, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
-      propertyPath: serializationData.ReferencedUnityObjects.Array.data[3]
-      value: 
-      objectReference: {fileID: 637976549}
-    - target: {fileID: 245403840057983425, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
-      propertyPath: serializationData.ReferencedUnityObjects.Array.data[4]
-      value: 
-      objectReference: {fileID: 151458, guid: 03dfeff0afe9122418bab1774a66566e, type: 3}
-    - target: {fileID: 245403840057983425, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
-      propertyPath: serializationData.ReferencedUnityObjects.Array.data[5]
-      value: 
-      objectReference: {fileID: 2313298502064121608, guid: 3ef7368567c844844810eb3301b3d55f, type: 3}
-    - target: {fileID: 245403840057983425, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
-      propertyPath: serializationData.ReferencedUnityObjects.Array.data[6]
-      value: 
-      objectReference: {fileID: 145256, guid: 7b117ab47ae99e74fbb811d488c1eb17, type: 3}
-    - target: {fileID: 245403840057983425, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
-      propertyPath: serializationData.ReferencedUnityObjects.Array.data[7]
-      value: 
-      objectReference: {fileID: 637976551}
-    - target: {fileID: 245403840057983425, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
-      propertyPath: serializationData.ReferencedUnityObjects.Array.data[8]
-      value: 
-      objectReference: {fileID: 171722, guid: fcfd3fe9fa229af42a93783d9673ceee, type: 3}
-    - target: {fileID: 245403840057983425, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
-      propertyPath: serializationData.SerializationNodes.Array.data[33].Data
-      value: 3
+      propertyPath: serializationData.PrefabModifications.Array.data[3]
+      value: '"path":"particleDictionary.{\"HitEffect\"}.[0]","value":$eref:3'
       objectReference: {fileID: 0}
     - target: {fileID: 245403840057983425, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
-      propertyPath: serializationData.SerializationNodes.Array.data[41].Data
-      value: 4
+      propertyPath: serializationData.PrefabModifications.Array.data[4]
+      value: '"path":"particleDictionary.{\"ItemBuff_Skill\"}.[0]","value":$eref:4'
       objectReference: {fileID: 0}
     - target: {fileID: 245403840057983425, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
-      propertyPath: serializationData.SerializationNodes.Array.data[49].Data
-      value: 5
+      propertyPath: serializationData.PrefabModifications.Array.data[5]
+      value: '"path":"particleDictionary.{\"ItemBuff_Stat\"}.[0]","value":$eref:5'
       objectReference: {fileID: 0}
     - target: {fileID: 245403840057983425, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
-      propertyPath: serializationData.SerializationNodes.Array.data[57].Data
-      value: 6
+      propertyPath: serializationData.PrefabModifications.Array.data[6]
+      value: '"path":"particleDictionary.{\"ParryAura\"}.[0]","value":$eref:4'
       objectReference: {fileID: 0}
     - target: {fileID: 245403840057983425, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
-      propertyPath: serializationData.SerializationNodes.Array.data[65].Data
-      value: 7
+      propertyPath: serializationData.PrefabModifications.Array.data[7]
+      value: '"path":"particleDictionary.{\"RecallingMainArrowVFX\"}.[0]","value":$eref:6'
       objectReference: {fileID: 0}
     - target: {fileID: 245403840057983425, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
-      propertyPath: serializationData.SerializationNodes.Array.data[73].Data
-      value: 4
+      propertyPath: serializationData.PrefabModifications.Array.data[8]
+      value: '"path":"particleDictionary.{\"RecallingVFX\"}.[0]","value":$eref:7'
       objectReference: {fileID: 0}
     - target: {fileID: 245403840057983425, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
-      propertyPath: serializationData.SerializationNodes.Array.data[81].Data
-      value: 7
+      propertyPath: serializationData.PrefabModifications.Array.data[9]
+      value: '"path":"particleDictionary.{\"RRecallingVFX\"}.[0]","value":$eref:8'
       objectReference: {fileID: 0}
     - target: {fileID: 245403840057983425, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
-      propertyPath: serializationData.SerializationNodes.Array.data[89].Data
-      value: 8
+      propertyPath: serializationData.PrefabModifications.Array.data[10]
+      value: '"path":"particleDictionary.{\"RRecallingVFX\"}.[1]","value":$eref:6'
       objectReference: {fileID: 0}
     - target: {fileID: 245403840057983425, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
-      propertyPath: serializationData.SerializationNodes.Array.data[97].Data
-      value: 9
+      propertyPath: serializationData.PrefabModifications.Array.data[11]
+      value: '"path":"particleDictionary.{\"SlashEffect\"}.[0]","value":$eref:5'
+      objectReference: {fileID: 0}
+    - target: {fileID: 245403840057983425, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
+      propertyPath: serializationData.PrefabModifications.Array.data[12]
+      value: '"path":"particleDictionary.{\"SpawnVFX\"}.[0]","value":$eref:9'
       objectReference: {fileID: 0}
     - target: {fileID: 245403840057983425, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
       propertyPath: serializationData.PrefabModificationsReferencedUnityObjects.Array.size
-      value: 2
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 245403840057983425, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
       propertyPath: serializationData.PrefabModificationsReferencedUnityObjects.Array.data[0]
@@ -839,7 +877,39 @@ PrefabInstance:
     - target: {fileID: 245403840057983425, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
       propertyPath: serializationData.PrefabModificationsReferencedUnityObjects.Array.data[1]
       value: 
+      objectReference: {fileID: 2313298502064121608, guid: 3ef7368567c844844810eb3301b3d55f, type: 3}
+    - target: {fileID: 245403840057983425, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
+      propertyPath: serializationData.PrefabModificationsReferencedUnityObjects.Array.data[2]
+      value: 
+      objectReference: {fileID: 145256, guid: 7b117ab47ae99e74fbb811d488c1eb17, type: 3}
+    - target: {fileID: 245403840057983425, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
+      propertyPath: serializationData.PrefabModificationsReferencedUnityObjects.Array.data[3]
+      value: 
+      objectReference: {fileID: 151458, guid: 03dfeff0afe9122418bab1774a66566e, type: 3}
+    - target: {fileID: 245403840057983425, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
+      propertyPath: serializationData.PrefabModificationsReferencedUnityObjects.Array.data[4]
+      value: 
+      objectReference: {fileID: 637976551}
+    - target: {fileID: 245403840057983425, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
+      propertyPath: serializationData.PrefabModificationsReferencedUnityObjects.Array.data[5]
+      value: 
       objectReference: {fileID: 637976549}
+    - target: {fileID: 245403840057983425, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
+      propertyPath: serializationData.PrefabModificationsReferencedUnityObjects.Array.data[6]
+      value: 
+      objectReference: {fileID: 537389988}
+    - target: {fileID: 245403840057983425, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
+      propertyPath: serializationData.PrefabModificationsReferencedUnityObjects.Array.data[7]
+      value: 
+      objectReference: {fileID: 537389989}
+    - target: {fileID: 245403840057983425, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
+      propertyPath: serializationData.PrefabModificationsReferencedUnityObjects.Array.data[8]
+      value: 
+      objectReference: {fileID: 537389990}
+    - target: {fileID: 245403840057983425, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
+      propertyPath: serializationData.PrefabModificationsReferencedUnityObjects.Array.data[9]
+      value: 
+      objectReference: {fileID: 171722, guid: fcfd3fe9fa229af42a93783d9673ceee, type: 3}
     - target: {fileID: 385083722118829290, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
