@@ -52,7 +52,10 @@ public class EnemySpawner : MonoBehaviour
                 return;
             }
 
-            ParticleManager.Instance.SpawnParticle("SpawnVFX", new Vector3((spawnPosition.x ), (float)(spawnPosition.y + 0.2), spawnPosition.z), Quaternion.Euler(-90,0,0));
+            ParticleManager.Instance.SpawnParticle("SpawnVFX", 
+                new Vector3((spawnPosition.x ), 
+                    (float)(spawnPosition.y + 0.2), spawnPosition.z), 
+                Quaternion.Euler(-90,0,0));
 
             // Wait for 0.2 seconds
             await UniTask.Delay(200);

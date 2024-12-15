@@ -222,7 +222,7 @@ public class PlayerController : MonoBehaviour
         PlayerHealth.isAlive = false;
     }
 
-    public void Revive(float InstantHPPercent = 0.25f, int RegenHP = 4)
+    public void Revive(float InstantHPPercent = 0.25f, int RegenHP = 40)
     {
         playerAnimManager.DieAnim(false);
         PlayerHealth.FullHeal(0.5f);
