@@ -40,6 +40,8 @@ public class SkillHolder : MonoBehaviour
     [FoldoutGroup("Setup")]
     [CanBeNull] public Button SwitchButton;
 
+    [FoldoutGroup("Setup")] public Sprite defaultUISprite;
+
     public static SkillHolder Instance;
 
     void Awake()

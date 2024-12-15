@@ -222,10 +222,10 @@ public class PlayerController : MonoBehaviour
         PlayerHealth.isAlive = false;
     }
 
-    public void Revive(float InstantHPPercent = 0.25f, int RegenHP = 40)
+    public void Revive(float InstantHPPercent = 0.5f, int RegenHP = 40)
     {
         playerAnimManager.DieAnim(false);
-        PlayerHealth.FullHeal(0.5f);
+        PlayerHealth.FullHeal(InstantHPPercent);
         _UIContainer.GameplayState();
         PlayerHealth.HealOverTime(RegenHP, 4);
         PlayerHealth.isAlive = true;
@@ -278,7 +278,7 @@ public class PlayerController : MonoBehaviour
         SkillHolder.Instance.SkillIDList.Clear();
         SkillHolder.Instance.SkillOBJNameList.Clear();
         if (SkillHolder.Instance.currentSkillUISprite != null) 
-            SkillHolder.Instance.currentSkillUISprite.sprite = null;
+            SkillHolder.Instance.currentSkillUISprite.sprite = SkillHolder.Instance.defaultUISprite;
 
         _stats.ResetBonus();
 

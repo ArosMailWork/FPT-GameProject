@@ -215,7 +215,7 @@ public class Arrow : MonoBehaviour
 
     public void ExplosionArrow()
     {
-        if(isExplodeOnRemote) return;
+        if(!isExplodeOnRemote) return;
         PlayerController.Instance.staminaSystem.Consume(10);
         if (MiniExplode != null)
             PoolManager.Instance.Spawn(MiniExplode, transform.position + Vector3.up, Quaternion.identity, 2f);
