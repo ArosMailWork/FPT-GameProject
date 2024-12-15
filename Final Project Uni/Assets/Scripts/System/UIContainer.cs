@@ -15,15 +15,13 @@ public enum UIState
 public class UIContainer : MonoBehaviour
 {
     public UIState CurrentUIState;
-    
-    [FoldoutGroup("UI Setup")]
-    public List<GameObject> Gameplay;
-    [FoldoutGroup("UI Setup")]
-    public GameObject SkillChoose, Inventory;
-    [FoldoutGroup("UI Setup")]
-    public Image FadeImage;
-    
+
+    [FoldoutGroup("UI Setup")] public List<GameObject> Gameplay;
+    [FoldoutGroup("UI Setup")] public GameObject SkillChoose, Inventory;
+    [FoldoutGroup("UI Setup")] public Image FadeImage;
+
     public SelectRandomSkillEvent selectRandomSkillEvent;
+
     //public Animator FadeAnimator;
     public UIFadeSelfAnim FadeAnimator;
 
@@ -39,12 +37,12 @@ public class UIContainer : MonoBehaviour
         await UniTask.Delay(TimeSpan.FromSeconds(delay));
         FadeAnimator.doFadeOut();
     }
-    
+
     [ButtonGroup("State")]
     public void GameplayState()
     {
         CurrentUIState = UIState.Gameplay;
-        
+
         SkillChoose.SetActive(false);
         Inventory.SetActive(false);
 
@@ -53,31 +51,34 @@ public class UIContainer : MonoBehaviour
             obj.SetActive(true);
         }
     }
-    
+
     [ButtonGroup("State")]
     public void InventoryState()
     {
         CurrentUIState = UIState.Inventory;
-        
+
         foreach (var obj in Gameplay)
         {
             obj.SetActive(false);
         }
+
         Inventory.SetActive(true);
     }
-    
+
     [ButtonGroup("State")]
     public void SkillChooseState()
     {
         CurrentUIState = UIState.Event;
-        
+
         SkillChoose.SetActive(true);
         foreach (var obj in Gameplay)
         {
             obj.SetActive(false);
         }
+
         selectRandomSkillEvent.SkillSelectStart();
     }
+
     public void TransitionState()
     {
         foreach (var obj in Gameplay)
@@ -85,12 +86,12 @@ public class UIContainer : MonoBehaviour
             obj.SetActive(false);
         }
     }
-    
+
 
     public void SetColorFade(Color color = default)
     {
         if (color == default) color = Color.black; // Set default to black if not provided
-    
+
         Color currentColor = FadeImage.color;
         FadeImage.color = new Color(color.r, color.g, color.b, currentColor.a);
     }
@@ -108,9 +109,10 @@ public class UIContainer : MonoBehaviour
         //Debug.Log("Fade In");
         FadeAnim();
         FadeAnimator.doFadeIn();
-        
+
         yield return new WaitForSeconds(1.5f);
     }
+
     IEnumerator FadeOutAnimation()
     {
         //Debug.Log("Fade Out");
@@ -118,9 +120,9 @@ public class UIContainer : MonoBehaviour
         StartFadeOut(0.5f);
         //FadeAnimator.doFadeOut();
         yield return new WaitForSeconds(2f);
-        
-        if(CurrentUIState != UIState.Event)
-        GameplayState();
+
+        if (CurrentUIState != UIState.Event)
+            GameplayState();
     }
 
     [Button]
@@ -134,5 +136,11 @@ public class UIContainer : MonoBehaviour
     public void FadeOut()
     {
         StartCoroutine(FadeOutAnimation());
+    }
+
+    //Temp
+    public void LoadLobby()
+    {
+        GameManager.Instance.StartLobby();
     }
 }
