@@ -16,7 +16,7 @@ public class Skill_Buff_ExplosionExpert : ISkill
         
         foreach (var arrow in _pc._arrowController.arrowsList)
         {
-            if(arrow.IsMainArrow) arrow.ExplosionArrow();
+            if(arrow.IsMainArrow) arrow.isExplodeOnRemote = true;
         }
     }
     

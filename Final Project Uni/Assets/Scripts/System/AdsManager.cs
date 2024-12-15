@@ -7,6 +7,7 @@ public class AdsManager : MonoBehaviour
 {
     public static AdsManager Instance;
     public UnityEvent Reward;
+
     
     void Awake()
     {

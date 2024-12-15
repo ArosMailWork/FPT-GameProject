@@ -105,8 +105,8 @@ public class ReviveCountdownTimer : MonoBehaviour
 
     public void Revive()
     {
-        if (Application.platform == RuntimePlatform.Android || 
-            Application.platform == RuntimePlatform.IPhonePlayer)
+        if ((Application.platform == RuntimePlatform.Android || Application.platform == RuntimePlatform.IPhonePlayer)
+            && Gley.MobileAds.API.CanShowAds())
         {
             // Show ads and wait for reward on mobile platforms
             AdsManager.Instance.Reward.AddListener(doRevive);
