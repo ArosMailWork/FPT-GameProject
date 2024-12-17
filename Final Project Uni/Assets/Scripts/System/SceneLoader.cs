@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
@@ -13,10 +14,16 @@ public class SceneLoader : MonoBehaviour
     public Slider progressSlider;
     [CanBeNull] public UIFadeSelfAnim FadeSelfAnim;
     public UnityEvent CompletedLoad, BarFulled;
+    public bool doRemoveInstance;
 
     private void Awake()
     {
         if (FadeSelfAnim == null) FadeSelfAnim = GetComponent<UIFadeSelfAnim>();
+    }
+
+    private void Start()
+    {
+        if(Manager_Singleton.Instance != null && doRemoveInstance) Destroy(Manager_Singleton.Instance.gameObject);
     }
 
     private void OnEnable()

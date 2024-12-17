@@ -122,13 +122,11 @@ public class PlayerStats : MonoBehaviour
     #endregion
 
     [SerializeField, ReadOnly] private PlayerController _pc;
-    private StaminaSystem _staminaSystem;
     private ArrowController _arrowController;
     
     private void Start()
     {
         _pc = PlayerController.Instance;
-        _staminaSystem = _pc.staminaSystem;
         _arrowController = _pc._arrowController;
         defaultDrag = _pc.PlayerRB.drag;
         defaultMass = _pc.PlayerRB.mass;
@@ -168,9 +166,8 @@ public class PlayerStats : MonoBehaviour
     public void UpdateStats()
     {
         //Stamina
-        if(_staminaSystem == null) _staminaSystem = _pc.staminaSystem;
-        _staminaSystem.MaxStamina = maxStamina;
-        _staminaSystem.RegenRate = regenRate;
+        _pc.staminaSystem.MaxStamina = maxStamina;
+        _pc.staminaSystem.RegenRate = regenRate;
 
         //Arrow Controller
         _arrowController.chargedTime = ChargedTime;

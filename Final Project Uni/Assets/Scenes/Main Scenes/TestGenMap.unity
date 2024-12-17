@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.010927301, g: 0.0035229956, b: 0.088474706, a: 1}
+  m_IndirectSpecularColor: {r: 0.010855535, g: 0.0034694045, b: 0.08836944, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -893,6 +893,14 @@ PrefabInstance:
       propertyPath: serializationData.Prefab
       value: 
       objectReference: {fileID: 447597212470285656, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
+    - target: {fileID: 1168522014923235348, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
+      propertyPath: WarningObjectUI
+      value: 
+      objectReference: {fileID: 1870189729}
+    - target: {fileID: 1388413037981834033, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
+      propertyPath: defaultMaxHealth
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 3547151362967053558, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
       propertyPath: m_LocalPosition.x
       value: -14.42
@@ -1331,8 +1339,8 @@ MonoBehaviour:
   fadeInAnim:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 637976553}
-        m_TargetAssemblyTypeName: UIContainer, Assembly-CSharp
+      - m_Target: {fileID: 709848474}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
         m_MethodName: FadeIn
         m_Mode: 1
         m_Arguments:
@@ -1346,8 +1354,8 @@ MonoBehaviour:
   fadeOutAnim:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 637976553}
-        m_TargetAssemblyTypeName: UIContainer, Assembly-CSharp
+      - m_Target: {fileID: 709848474}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
         m_MethodName: FadeOut
         m_Mode: 1
         m_Arguments:
@@ -1932,6 +1940,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  doRemoveInstance: 0
 --- !u!114 &1776035049
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1983,6 +1992,11 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!1 &1870189729 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6196579782542199592, guid: e5656500e233b344d9b50934c2339cc9, type: 3}
+  m_PrefabInstance: {fileID: 637976546}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1971489585
 GameObject:
   m_ObjectHideFlags: 0

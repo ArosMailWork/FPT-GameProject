@@ -32,6 +32,11 @@ public class UIContainer : MonoBehaviour
         StartFadeOut(0.5f);
     }
 
+    private void Start()
+    {
+        FadeAnimator = Manager_Singleton.Instance.GetComponentInChildren<UIFadeSelfAnim>();
+    }
+
     public async void StartFadeOut(float delay = 0)
     {
         await UniTask.Delay(TimeSpan.FromSeconds(delay));
@@ -106,7 +111,7 @@ public class UIContainer : MonoBehaviour
 
     IEnumerator FadeInAnimation()
     {
-        //Debug.Log("Fade In");
+        Debug.Log("Fade In");
         FadeAnim();
         FadeAnimator.doFadeIn();
 
@@ -115,7 +120,7 @@ public class UIContainer : MonoBehaviour
 
     IEnumerator FadeOutAnimation()
     {
-        //Debug.Log("Fade Out");
+        Debug.Log("Fade Out");
         FadeAnim();
         StartFadeOut(0.5f);
         //FadeAnimator.doFadeOut();

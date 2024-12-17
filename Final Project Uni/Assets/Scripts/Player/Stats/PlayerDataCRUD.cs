@@ -7,6 +7,7 @@ public static class PlayerDataCRUD
     private static readonly string PlayerDataSavePath = Path.Combine(Application.persistentDataPath, "player_data.json");
     private static readonly string SavePath = Path.Combine(Application.persistentDataPath, "player_perma_stats.json");
     
+    
     public static void SavePlayerData(PlayerDataSave data)
     {
         // Serialize the PlayerDataSave object to JSON

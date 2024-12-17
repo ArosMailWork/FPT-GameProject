@@ -7,6 +7,9 @@ using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
+    public bool isConfirmed;
+    public GameObject WarningObjectUI;
+    
     public void PauseGame()
     {
         Time.timeScale = 0.00001f;
@@ -19,6 +22,20 @@ public class PauseMenu : MonoBehaviour
         //AudioListener.pause = false;
     }
 
+    public void ShowWarning()
+    {
+        if (!Ingame_Save.Instance.haveFileLoad && !isConfirmed)
+        {
+            WarningObjectUI.SetActive(true);
+            isConfirmed = true;
+            return;
+        }
+        else
+        {
+            Quit();
+        }
+    }
+    
     public void Quit()
     {
         GameManager.Instance.QuitMenu();

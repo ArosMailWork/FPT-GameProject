@@ -88,6 +88,8 @@ public class RoomGen : MonoBehaviour
         foreach (Node n in origin.nodes)
         {
             n.ConnectedPos = CheckConnectedDirection(n.currentPos, sideOffsets);
+            
+            if(n.room == null) Debug.Log(n.Name + " " + n.room + " " + n.room.Prefab);
             GameObject g = GameObject.Instantiate(n.room.Prefab, new Vector3(n.currentPos.x * GridSize, 0f, n.currentPos.y * GridSize), Quaternion.identity);
             g.GetComponent<RoomController>().SetConnector(n.ConnectedPos);
             g.transform.SetParent(this.transform);

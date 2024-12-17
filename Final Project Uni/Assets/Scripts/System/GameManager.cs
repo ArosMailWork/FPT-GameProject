@@ -146,5 +146,15 @@ public class GameManager : MonoBehaviour
             LobbyPath = FileUtil.GetProjectRelativePath(LobbyPath);
         }
     }
+
+    public void FadeIn()
+    {
+        PlayerController.Instance._UIContainer.FadeIn();
+    }
+
+    public void FadeOut()
+    {
+        PlayerController.Instance._UIContainer.FadeOut();
+    }
 #endif
 }

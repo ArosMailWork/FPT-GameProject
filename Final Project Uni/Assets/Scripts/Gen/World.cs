@@ -8,7 +8,6 @@ using UnityEngine;
 public class World : ScriptableObject
 {
     public string worldName;
-    public int numberOfFloor = 3;
     public int SideRoomChance = 5;
     public int MainPathLength = 5;
     public int difficulty = 1;

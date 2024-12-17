@@ -329,6 +329,11 @@
             PlayerController.Instance.PlayerProgressData = this;
         }
 
+        [Button]
+        public void CheckFileSave()
+        {
+            Debug.Log("File Save Status: " + Ingame_Save.Instance.haveFileLoad);
+        }
 
         #endregion
         
